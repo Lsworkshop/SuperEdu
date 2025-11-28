@@ -1,18 +1,24 @@
-export async function onRequestPost({ request, env }) {
-  try {
-    const { firstName, lastName, email } = await request.json();
+export async function onRequestPost(context) {
+  const { request, env } = context;
 
-    if (!firstName || !lastName || !email) {
-      return new Response(JSON.stringify({ success: false, message: "Missing fields" }), { status: 400 });
+  try {
+    const data = await request.json();
+    const { email } = data;
+
+    if (!email) {
+      return new Response(JSON.stringify({ error: "Missing email" }), { status: 400 });
     }
 
     await env.DB.prepare(
-      `INSERT INTO ReferralUsers (firstName, lastName, email, createdAt)
-       VALUES (?, ?, ?, ?)`
-    ).bind(firstName, lastName, email, new Date().toISOString()).run();
+      `INSERT INTO unlocks (email, created_at)
+       VALUES (?, datetime('now'))`
+    )
+      .bind(email)
+      .run();
 
-    return new Response(JSON.stringify({ success: true }), { headers: { "Content-Type": "application/json" }});
+    return Response.json({ success: true });
+
   } catch (err) {
-    return new Response(JSON.stringify({ success: false, message: err.message }), { status: 500 });
+    return new Response(JSON.stringify({ error: err.message }), { status: 500 });
   }
 }
