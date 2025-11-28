@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Thank You — SuperEdu</title>
+<style>
+  body{margin:0;font-family:Inter,Arial;background:#FAF5E9;color:#333}
+  .wrap{max-width:900px;margin:80px auto;padding:16px;text-align:center}
+  .card{background:#fff;padding:28px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.06)}
+  h1{color:#2C9C47}
+  p{color:#666}
+  .btn{display:inline-block;margin-top:16px;padding:10px 14px;background:#2C9C47;color:#fff;border-radius:8px;text-decoration:none}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1 data-en="Thank you — Application received" data-zh="感谢，您的申请已收到">Thank you — Application received</h1>
+      <p data-en="We have received your request. A member of SuperEdu Team will contact you shortly." data-zh="我们已收到您的申请。SuperEdu 团队会尽快与您联系。">We have received your request. A member of SuperEdu Team will contact you shortly.</p>
+      <a class="btn" href="/" data-en="Return to Home" data-zh="返回首页">Return to Home</a>
+    </div>
+  </div>
+
+<script>
+const LANG_KEY = 'superedu-lang';
+let lang = localStorage.getItem(LANG_KEY) || 'en';
+function setLang(l){
+  lang = l; localStorage.setItem(LANG_KEY,l);
+  document.querySelectorAll('[data-en]').forEach(el=> el.innerText = (l==='en'? el.getAttribute('data-en') : el.getAttribute('data-zh')));
+}
+setLang(lang);
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!-- admin.html — Admin / Data Import (V0.1)
+  IMPORTANT: Protect this page with Cloudflare Access (Zero Trust) so only your account can open it.
+  In Cloudflare: Access → Applications → Protect URL path (e.g. /admin.html) and allow your email.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — SuperEdu (V0.1)</title>
+  <meta name="version" content="V0.1" />
+  <style>
+    body{font-family:Inter,Arial;background:#FFF9EF;color:#444;padding:18px}
+    .wrap{max-width:900px;margin:18px auto}
+    .card{background:#fff;padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.04)}
+    h1{margin:0}
+    input[type=file]{margin-top:12px}
+    button{background:#4BB85F;color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer}
+    .note{color:#666;margin-top:8px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Admin / Data Import</h1>
+      <p class="note">This page should be protected by Cloudflare Access. Only authorized admins should see it.</p>
+
+      <h3 style="margin-top:16px">Upload CSV</h3>
+      <p class="note">CSV format: firstName,lastName,email,phone,ref,notes</p>
+      <input type="file" id="csvFile" accept=".csv" />
+      <div style="margin-top:10px">
+        <button id="doUpload">Upload to Worker</button>
+      </div>
+      <p id="uploadResult" class="note"></p>
+
+      <hr style="margin:16px 0" />
+      <h3>External Import API</h3>
+      <p class="note">Partners should POST JSON to:</p>
+      <code style="display:block;padding:8px;background:#f7f7f7;border-radius:6px;margin-top:8px">https://YOUR-WORKER-URL/external/import</code>
+      <p class="note">Replace YOUR-WORKER-URL with your deployed Worker. Use token-based authentication.</p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('doUpload').addEventListener('click', async ()=>{
+      const f = document.getElementById('csvFile').files[0];
+      const resEl = document.getElementById('uploadResult');
+      if(!f){ resEl.innerText = 'Please select a CSV file.'; return; }
+      resEl.innerText = 'Uploading...';
+      const fd = new FormData(); fd.append('file', f);
+      try{
+        const r = await fetch('https://YOUR-WORKER-URL/import',{ method:'POST', body: fd });
+        const j = await r.json();
+        resEl.innerText = j.message || 'Upload OK';
+      }catch(err){
+        console.error(err);
+        resEl.innerText = 'Upload failed';
+      }
+    });
+  </script>
+</body>
+</html>
