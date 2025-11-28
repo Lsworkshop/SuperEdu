@@ -1,25 +1,18 @@
-// apply.js
-import { appendRow } from "./lib_google.js";
-
-export async function onRequestPost({ request }) {
+export async function onRequestPost({ request, env }) {
   try {
-    const data = await request.json();
-    const { firstName, lastName, email, service } = data;
+    const { firstName, lastName, email, service } = await request.json();
 
     if (!firstName || !lastName || !email || !service) {
       return new Response(JSON.stringify({ success: false, message: "Missing fields" }), { status: 400 });
     }
 
-    await appendRow("SuperEdu_Applications", [firstName, lastName, email, service, new Date().toISOString()]);
+    await env.DB.prepare(
+      `INSERT INTO Applications (firstName, lastName, email, service, createdAt)
+       VALUES (?, ?, ?, ?, ?)`
+    ).bind(firstName, lastName, email, service, new Date().toISOString()).run();
 
-    return new Response(JSON.stringify({ success: true, message: "Application submitted successfully" }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" }
-    });
+    return new Response(JSON.stringify({ success: true }), { headers: { "Content-Type": "application/json" }});
   } catch (err) {
-    return new Response(JSON.stringify({ success: false, message: err.message }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" }
-    });
+    return new Response(JSON.stringify({ success: false, message: err.message }), { status: 500 });
   }
 }
