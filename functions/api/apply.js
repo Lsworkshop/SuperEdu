@@ -12,6 +12,11 @@ export async function onRequestPost({ request, env }) {
       notes
     } = data;
 
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        return new Response(JSON.stringify({ error: "Invalid email format" }), { status: 400 });
+    }
+
     if (!firstName || !lastName || !email || !services) {
       return new Response(JSON.stringify({
         success: false,

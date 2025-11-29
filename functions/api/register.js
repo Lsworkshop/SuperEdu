@@ -4,6 +4,11 @@ export async function onRequestPost({ request, env }) {
 
     const { firstName, lastName, email, referralCode } = data;
 
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        return new Response(JSON.stringify({ error: "Invalid email format" }), { status: 400 });
+    }
+
     if (!firstName || !lastName || !email) {
       return new Response(JSON.stringify({ error: "Missing required fields." }), {
         status: 400,

@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SuperEdu — LSFinova Education Club</title>
   <meta name="description" content="SuperEdu (超能教育) — college planning, FAFSA, college funds, and children's education resources" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/android-chrome-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/assets/android-chrome-512.png">
+
   <style>
     /* LSFinova brand color system (original brightness restored) */
     :root{
@@ -288,6 +295,19 @@ setActiveLang(lang);
 /* Register form (unchanged behaviour, posts to your worker when set) */
 document.getElementById('registerForm').addEventListener('submit', async function(e){
   e.preventDefault();
+
+    const lang = document.documentElement.lang || 'en';
+    const email = document.getElementById('email').value.trim();
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(email)) {
+        alert(lang === 'zh' ? "请输入有效的邮箱地址" : "Please enter a valid email address");
+        return;
+    }
+
+    // ⬆️ 所有 Email 验证要放在这里（在发送请求之前）
+
+
   const status = document.getElementById('regStatus');
   status.innerText = (localStorage.getItem(LANG_KEY) === 'zh') ? '提交中...' : 'Submitting...';
   const payload = {
@@ -310,16 +330,32 @@ document.getElementById('registerForm').addEventListener('submit', async functio
   }
 });
 
-/* Quick Unlock logic: submit minimal info to /api/unlock then show Enter button */
+/* Unlock logic: submit minimal info to /api/unlock then show Enter button */
 document.getElementById('unlockBtn').addEventListener('click', async function(){
+
+    const lang = document.documentElement.lang || 'en';
+    const email = document.getElementById('quickemail').value.trim();
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(quickemail)) {
+        alert(lang === 'zh' ? "请输入有效的邮箱地址" : "Please enter a valid email address");
+        return;
+    }
+
+    // ⬆️ 所有 Email 验证要放在这里（在发送请求之前）
+
+
   const f = document.getElementById('quickFirst').value.trim();
   const l = document.getElementById('quickLast').value.trim();
   const e = document.getElementById('quickEmail').value.trim();
+
+
+
   const st = document.getElementById('unlockStatus');
   if(!f || !l || !e){ st.innerText = (localStorage.getItem(LANG_KEY) === 'zh') ? '请填写姓名与邮箱' : 'Please fill first name, last name and email'; return; }
   st.innerText = (localStorage.getItem(LANG_KEY) === 'zh') ? '提交中...' : 'Submitting...';
   try{
-    const payload = { firstName:f, lastName:l, email:e, source:'quick_unlock', lang: localStorage.getItem(LANG_KEY)||'en', created_at: new Date().toISOString() };
+    const payload = { firstName:f, lastName:l, email:e, source:'unlock', lang: localStorage.getItem(LANG_KEY)||'en', created_at: new Date().toISOString() };
     const res = await fetch('/api/unlock', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
     const j = await res.json();
     st.innerText = j.message || ((payload.lang === 'zh') ? '已解锁，点击进入教育中心' : 'Unlocked — click to enter Education Center');
