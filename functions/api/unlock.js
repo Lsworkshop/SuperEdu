@@ -1,24 +1,29 @@
-export async function onRequestPost(context) {
-  const { request, env } = context;
-
+export async function onRequestPost({ request, env }) {
   try {
     const data = await request.json();
-    const { email } = data;
+    const { firstName, lastName, email } = data;
 
-    if (!email) {
-      return new Response(JSON.stringify({ error: "Missing email" }), { status: 400 });
+    if (!firstName || !lastName || !email) {
+      return new Response(JSON.stringify({ success: false, message: "Missing fields" }), {
+        status: 400
+      });
     }
 
+    // 写入 D1
     await env.DB.prepare(
-      `INSERT INTO unlocks (email, created_at)
-       VALUES (?, datetime('now'))`
+      `INSERT INTO unlocks (first_Name, last_Name, email, created_At)
+       VALUES (?, ?, ?, datetime('now'))`
     )
-      .bind(email)
+      .bind(firstName, lastName, email)
       .run();
 
-    return Response.json({ success: true });
+    return new Response(JSON.stringify({ success: true }), {
+      headers: { "Content-Type": "application/json" }
+    });
 
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 500 });
+    return new Response(JSON.stringify({ success: false, message: err.message }), {
+      status: 500
+    });
   }
 }

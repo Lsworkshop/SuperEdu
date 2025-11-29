@@ -1,29 +1,48 @@
-export async function onRequestPost(context) {
-  const { request, env } = context;
-
+export async function onRequestPost({ request, env }) {
   try {
     const data = await request.json();
 
     const {
-      firstName, lastName, email, service,
-      message
+      firstName,
+      lastName,
+      email,
+      phone,
+      country,
+      services,
+      notes
     } = data;
 
-    if (!firstName || !lastName || !email || !service) {
-      return new Response(JSON.stringify({ error: "Missing fields" }), { status: 400 });
+    if (!firstName || !lastName || !email || !services) {
+      return new Response(JSON.stringify({
+        success: false,
+        message: "Missing fields"
+      }), { status: 400 });
     }
 
     await env.DB.prepare(
-      `INSERT INTO applications 
-       (first_name, last_name, email, service, message, created_at)
-       VALUES (?, ?, ?, ?, ?, datetime('now'))`
+      `INSERT INTO applications
+       (first_Name, last_Name, email, phone, country, services, notes, created_At)
+       VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'))`
     )
-      .bind(firstName, lastName, email, service, message || "")
+      .bind(
+        firstName,
+        lastName,
+        email,
+        phone || "",
+        country || "",
+        JSON.stringify(services),
+        notes || ""
+      )
       .run();
 
-    return Response.json({ success: true });
+    return new Response(JSON.stringify({ success: true }), {
+      headers: { "Content-Type": "application/json" }
+    });
 
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 500 });
+    return new Response(JSON.stringify({
+      success: false,
+      message: err.message
+    }), { status: 500 });
   }
 }
