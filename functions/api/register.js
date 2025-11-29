@@ -1,25 +1,30 @@
-export async function onRequestPost(context) {
-  const { request, env } = context;
-
+export async function onRequestPost({ request, env }) {
   try {
     const data = await request.json();
 
-    const { firstName, lastName, email } = data;
+    const { firstName, lastName, email, referralCode } = data;
 
     if (!firstName || !lastName || !email) {
-      return new Response(JSON.stringify({ error: "Missing fields" }), { status: 400 });
+      return new Response(JSON.stringify({ error: "Missing required fields." }), {
+        status: 400,
+      });
     }
 
-    await env.DB.prepare(
-      `INSERT INTO users (first_name, last_name, email, created_at)
-       VALUES (?, ?, ?, datetime('now'))`
-    )
-      .bind(firstName, lastName, email)
-      .run();
+    const now = new Date().toISOString();
 
-    return Response.json({ success: true });
+    // 插入 D1 数据库
+    await env.DB.prepare(
+      `INSERT INTO users (firstName, lastName, email, referralCode, createdAt)
+       VALUES (?, ?, ?, ?, ?)`
+    )
+    .bind(firstName, lastName, email, referralCode || null, now)
+    .run();
+
+    return new Response(JSON.stringify({ success: true }), { status: 200 });
 
   } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), { status: 500 });
+    return new Response(JSON.stringify({ error: err.message }), {
+      status: 500
+    });
   }
 }
