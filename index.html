@@ -334,45 +334,73 @@ document.getElementById('registerForm').addEventListener('submit', async functio
 document.getElementById('unlockBtn').addEventListener('click', async function(){
 
     const lang = document.documentElement.lang || 'en';
-    const email = document.getElementById('quickemail').value.trim();
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!emailPattern.test(quickemail)) {
-        alert(lang === 'zh' ? "请输入有效的邮箱地址" : "Please enter a valid email address");
+    const f = document.getElementById('quickFirst').value.trim();
+    const l = document.getElementById('quickLast').value.trim();
+    const email = document.getElementById('quickEmail').value.trim(); // ← 统一 email
+
+    const st = document.getElementById('unlockStatus');
+
+    // empty fields check
+    if (!f || !l || !email){
+        st.innerText = (localStorage.getItem(LANG_KEY) === 'zh')
+            ? '请填写姓名与邮箱'
+            : 'Please fill first name, last name and email';
         return;
     }
 
-    // ⬆️ 所有 Email 验证要放在这里（在发送请求之前）
+    // email format check
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        alert(lang === 'zh'
+            ? "请输入有效的邮箱地址"
+            : "Please enter a valid email address");
+        return;
+    }
 
+    st.innerText = (lang === 'zh') ? '提交中...' : 'Submitting...';
 
-  const f = document.getElementById('quickFirst').value.trim();
-  const l = document.getElementById('quickLast').value.trim();
-  const e = document.getElementById('quickEmail').value.trim();
+    try{
+        const payload = {
+            firstName: f,
+            lastName: l,
+            email,
+            source: 'unlock',
+            lang: localStorage.getItem(LANG_KEY) || 'en',
+            created_at: new Date().toISOString()
+        };
 
+        const res = await fetch('/api/unlock', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify(payload)
+        });
 
+        const j = await res.json();
 
-  const st = document.getElementById('unlockStatus');
-  if(!f || !l || !e){ st.innerText = (localStorage.getItem(LANG_KEY) === 'zh') ? '请填写姓名与邮箱' : 'Please fill first name, last name and email'; return; }
-  st.innerText = (localStorage.getItem(LANG_KEY) === 'zh') ? '提交中...' : 'Submitting...';
-  try{
-    const payload = { firstName:f, lastName:l, email:e, source:'unlock', lang: localStorage.getItem(LANG_KEY)||'en', created_at: new Date().toISOString() };
-    const res = await fetch('/api/unlock', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
-    const j = await res.json();
-    st.innerText = j.message || ((payload.lang === 'zh') ? '已解锁，点击进入教育中心' : 'Unlocked — click to enter Education Center');
-    // show Enter Education Center button
-    document.getElementById('enterEduBtn').style.display = 'inline-block';
-    // store simple token (for education center access)
-    localStorage.setItem('edu_unlocked_token', JSON.stringify({email:e,ts:Date.now()}));
-  }catch(err){
-    console.error(err);
-    st.innerText = (localStorage.getItem(LANG_KEY) === 'zh') ? '提交失败' : 'Submission failed';
-  }
+        st.innerText = j.message || (payload.lang === 'zh'
+            ? '已解锁，点击进入教育中心'
+            : 'Unlocked — click to enter Education Center');
+
+        // show enter button
+        document.getElementById('enterEduBtn').style.display = 'inline-block';
+
+        // simple token
+        localStorage.setItem('edu_unlocked_token',
+            JSON.stringify({email, ts: Date.now()}));
+        
+    }catch(err){
+        console.error(err);
+        st.innerText = (lang === 'zh') ? '提交失败' : 'Submission failed';
+    }
 });
 
 /* Enter Education Center */
 document.getElementById('enterEduBtn').addEventListener('click', function(){
   window.open('/education.html','_blank');
 });
+
+
 </script>
 
 </body>
