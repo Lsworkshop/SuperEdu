@@ -294,7 +294,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
     firstName: document.getElementById('firstName').value.trim(),
     lastName: document.getElementById('lastName').value.trim(),
     email: document.getElementById('email').value.trim(),
-    ref: document.getElementById('ref').value.trim(),
+    referralCode: document.getElementById('ref').value.trim(),
     source: 'index_register',
     lang: localStorage.getItem(LANG_KEY) || 'en',
     created_at: new Date().toISOString()
@@ -310,7 +310,7 @@ document.getElementById('registerForm').addEventListener('submit', async functio
   }
 });
 
-/* Quick Unlock logic: submit minimal info to /api/quick-unlock then show Enter button */
+/* Quick Unlock logic: submit minimal info to /api/unlock then show Enter button */
 document.getElementById('unlockBtn').addEventListener('click', async function(){
   const f = document.getElementById('quickFirst').value.trim();
   const l = document.getElementById('quickLast').value.trim();
@@ -320,7 +320,7 @@ document.getElementById('unlockBtn').addEventListener('click', async function(){
   st.innerText = (localStorage.getItem(LANG_KEY) === 'zh') ? '提交中...' : 'Submitting...';
   try{
     const payload = { firstName:f, lastName:l, email:e, source:'quick_unlock', lang: localStorage.getItem(LANG_KEY)||'en', created_at: new Date().toISOString() };
-    const res = await fetch('/api/quick-unlock', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+    const res = await fetch('/api/unlock', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
     const j = await res.json();
     st.innerText = j.message || ((payload.lang === 'zh') ? '已解锁，点击进入教育中心' : 'Unlocked — click to enter Education Center');
     // show Enter Education Center button
