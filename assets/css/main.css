@@ -27,6 +27,7 @@ nav{
   backdrop-filter:blur(14px);
   background:rgba(255,255,255,0.75);
   border-bottom:1px solid #e5e5e5;
+  margin-right: 20px;   /* ← 新增，让按钮离右侧远一点 */
 }
 
 .nav-left{
@@ -79,6 +80,7 @@ nav{
   padding:10px;
   border-radius:10px;
   transition:0.3s;
+  margin-right: 12px;   /* ← 让汉堡菜单远离右边 */
 }
 .hamburger span{
   width:26px;
@@ -193,7 +195,7 @@ footer a:hover{ color:#fff; }
 /* MOBILE IMPROVEMENTS */
 @media(max-width:900px){
 
-  nav{ padding:12px 20px; }
+  nav{ padding:12px 24px; }
 
   /* hamburger not too close to edge */
   .nav-right{ gap:16px; }
@@ -203,19 +205,27 @@ footer a:hover{ color:#fff; }
   }
 
   /* center menu in mobile */
+
+@media(max-width:900px){
   .nav-middle{
     display:none;
     flex-direction:column;
-    gap:22px;
+    gap:20px;
+
     position:absolute;
-    top:70px; right:12px;
-    background:white;
-    width:230px;
+    top:70px;
+    right:20px;         /* ← 从右侧留出更宽边距 */
+    width:240px;        /* ← 稍微加宽菜单 */
     padding:24px;
+    background:white;
     border-radius:14px;
-    box-shadow:0 10px 24px #0002;
+    box-shadow:0 12px 28px #0003;
     animation:drop .25s ease-out;
+
   }
+}
+
+     
 
   @keyframes drop{
     from{ opacity:0; transform:translateY(-6px);}
@@ -226,6 +236,7 @@ footer a:hover{ color:#fff; }
     grid-template-columns:1fr;
     text-align:center;
     padding:160px 20px 100px;
+    padding-top: 160px;  /* ← 下移避免顶端菜单遮挡 */
   }
 
   .services-grid{
