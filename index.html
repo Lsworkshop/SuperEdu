@@ -3,267 +3,154 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SuperEdu — LSFinova Education Club</title>
-  <meta name="description" content="SuperEdu (超能教育) — college planning, FAFSA, college funds, and children's education resources" />
+  <title>SuperEdu — Smarter Education Planning</title>
+  <meta name="description" content="SuperEdu — education planning, FAFSA guidance, college funding, and family education resources." />
 
-  <!-- icons (place these files under /assets/img or /assets/icons as you prefer) -->
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16.png">
+  <!-- Icons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/android-chrome-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/android-chrome-512.png">
+  <link rel="icon" href="/assets/icons/favicon.ico">
 
-  <!-- main css -->
+  <!-- Main CSS -->
   <link rel="stylesheet" href="/assets/css/main.css">
-
-  <!-- small inline critical CSS to avoid FOUC for header height -->
-  <style>
-    :root { --logo-height:36px; }
-    header .logo img{height:var(--logo-height); width:auto; display:block;}
-  </style>
 </head>
+
 <body>
-  <!-- top navigation -->
-  <header class="hero">
-    <div class="nav-bar container">
-      <div class="nav-left">
-        <a class="brand" href="/">
-          <div class="logo"><img src="/assets/img/superedu-logo.png" alt="SuperEdu logo" /></div>
-          <div class="brand-text">
-            <div class="brand-title" data-en="SuperEdu — LSFinova Education Club" data-zh="超能教育 — LSFinova 教育俱乐部">SuperEdu — LSFinova Education Club</div>
-            <div class="brand-sub" data-en="Global education • College planning • Financial literacy" data-zh="全球教育 • 升学规划 • 家庭财商">Global education • College planning • Financial literacy</div>
-          </div>
-        </a>
-      </div>
 
-      <div class="nav-right">
-        <button id="langToggle" aria-label="Toggle language">EN / 中文</button>
-        <button id="hamburger" class="hamburger" aria-label="Menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-left">
+    <img src="/assets/img/superedu-logo.png" class="logo" alt="SuperEdu Logo">
+    <span class="brand-name">SuperEdu</span>
+  </div>
+
+  <div class="nav-middle" id="navMenu">
+    <a href="#home" data-en="Home" data-zh="首页">Home</a>
+    <a href="#services" data-en="Services" data-zh="服务">Services</a>
+    <a href="#education" data-en="Education Center" data-zh="教育中心">Education Center</a>
+    <a href="#resources" data-en="Resources" data-zh="资源">Resources</a>
+    <a href="#contact" data-en="Contact" data-zh="联系">Contact</a>
+  </div>
+
+  <div class="nav-right">
+    <button id="langToggle" class="lang-btn">中文</button>
+    <div id="hamburger" class="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-text">
+    <h1 data-en="Smarter Education Planning for Every Family" data-zh="为每个家庭提供更聪明的教育规划">
+      Smarter Education Planning for Every Family
+    </h1>
+
+    <p class="sub" data-en="FAFSA, college funding, and personalized education tools — built to help families succeed."
+       data-zh="从FAFSA到大学资金规划，我们为您的家庭提供个性化、可靠的教育支持。">
+      FAFSA, college funding, and personalized education tools — built to help families succeed.
+    </p>
+
+    <div class="hero-buttons">
+      <a href="/register.html" class="btn primary" data-en="Register / Join" data-zh="注册 / 加入">
+        Register / Join
+      </a>
+      <a href="/unlock.html" class="btn outline" data-en="Unlock → Education" data-zh="解锁 → 教育中心">
+        Unlock → Education
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-graphic"></div>
+</section>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <h2 class="section-title" data-en="Our Services" data-zh="我们的服务">Our Services</h2>
+  <p class="section-sub" data-en="Click any service to learn more" data-zh="点击任意服务以了解详情">
+    Click any service to learn more
+  </p>
+
+  <div class="services-grid" id="servicesGrid"></div>
+</section>
+
+<!-- EDUCATION CENTER -->
+<section class="section" id="education">
+  <div class="edu-panel">
+    <h2 data-en="Education Center" data-zh="教育中心">Education Center</h2>
+    <p data-en="Unlock personalized learning modules, resources, and guides."
+       data-zh="解锁个性化学习模块、教育资源与指导。">
+      Unlock personalized learning modules, resources, and guides.
+    </p>
+    <button class="btn white" onclick="enterEduCenter()" data-en="Enter" data-zh="进入">Enter</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-grid">
+    <div>
+      <h3>SuperEdu</h3>
+      <a href="#services">Services</a>
+      <a href="/register.html">Register</a>
+      <a href="/unlock.html">Unlock</a>
+      <a href="/apply.html">Apply</a>
     </div>
 
-    <!-- mobile menu slide-down -->
-    <nav id="mobileMenu" class="mobile-menu" aria-hidden="true">
-      <a href="/apply.html" class="nav-link" data-en="Apply" data-zh="服务申请">Apply</a>
-      <a href="#registration" class="nav-link" data-en="Register" data-zh="注册">Register</a>
-      <a href="#unlock" class="nav-link" data-en="Education Center" data-zh="教育中心">Education Center</a>
-      <a href="/education.html" class="nav-link" data-en="Education Center (locked)" data-zh="教育中心（需解锁）">Education Center</a>
-      <a href="#resources" class="nav-link" data-en="Resources" data-zh="资源">Resources</a>
-    </nav>
-  </header>
-
-  <main class="container main-grid">
-    <!-- left column -->
-    <section class="content">
-      <!-- HERO CTA -->
-      <section class="card hero-cta">
-        <h1 class="headline" data-en="Plan your child's future with confidence" data-zh="与我们一起为孩子规划未来">Plan your child's future with confidence</h1>
-        <p class="lead" data-en="College planning, FAFSA/CSS guidance, scholarships, funds & trusts — tailored for global Chinese families." data-zh="为全球华人家庭提供定制化的大学规划、助学金辅导、奖学金申请与教育基金服务。">College planning, FAFSA/CSS guidance, scholarships, funds & trusts — tailored for global Chinese families.</p>
-
-        <div class="cta-row">
-          <a class="btn primary" href="/apply.html" data-en="Apply for Services" data-zh="填写服务申请表">Apply for Services</a>
-          <a class="btn ghost" href="https://lsfinova.com/zoom" target="_blank" rel="noopener" data-en="Join Webinar (Main Page)" data-zh="参加讲座（主页面）">Join Webinar</a>
-          <a class="btn ghost" href="https://us02web.zoom.us/meeting/register/OTK5r59URLODa2eWFv5b0A" target="_blank" rel="noopener" data-en="Quick Register for Webinar" data-zh="快速注册链接">Quick Register</a>
-        </div>
-      </section>
-
-      <!-- Services grid (click opens service page) -->
-      <section class="card services" id="services">
-        <h2 class="section-title" data-en="Our Services — What We Provide" data-zh="主要服务内容 — 我们能提供的服务">Our Services — What We Provide</h2>
-        <p class="muted" data-en="We currently provide the following services. Click any item to read more." data-zh="我们目前提供以下服务。点击任一项了解更多。">We currently provide the following services. Click any item to read more.</p>
-
-        <div class="services-grid">
-          <a class="service-card" href="/services/service-1.html" data-en="1. U.S. Education & Comparative Analysis" data-zh="1. 美国教育体系与比较分析">
-            <strong>1. U.S. Education & Comparative Analysis</strong>
-            <div class="small muted">Macro analysis of U.S. K12 and higher education vs. mainland China.</div>
-          </a>
-
-          <a class="service-card" href="/services/service-2.html" data-en="2. College Application Strategy & Planning" data-zh="2. 大学申请策略与规划">
-            <strong>2. College Application Strategy & Planning</strong>
-            <div class="small muted">End-to-end application planning: platforms, materials, timeline, major selection.</div>
-          </a>
-
-          <a class="service-card" href="/services/service-3.html" data-en="3. Pre-College Profile Development (AP/Summer Programs)" data-zh="3. 大学前背景打造（AP/夏校）">
-            <strong>3. Pre-College Profile Development (AP/Summer Programs)</strong>
-            <div class="small muted">Course & activity planning to build competitive academic & extracurricular profiles.</div>
-          </a>
-
-          <a class="service-card" href="/services/service-4.html" data-en="4. Financial Aid (FAFSA/CSS) — One-on-One" data-zh="4. 助学金（FAFSA/CSS）一对一辅导">
-            <strong>4. Financial Aid (FAFSA/CSS) — One-on-One</strong>
-            <div class="small muted">Detailed guidance on FAFSA/CSS, grants, loans and institutional aid processes.</div>
-          </a>
-
-          <a class="service-card" href="/services/service-5.html" data-en="5. Scholarship Application Support" data-zh="5. 奖学金申请辅导">
-            <strong>5. Scholarship Application Support</strong>
-            <div class="small muted">Merit and need-based scholarship strategy & application assistance.</div>
-          </a>
-
-          <a class="service-card" href="/services/service-6.html" data-en="6. Family & Long-term Education Planning" data-zh="6. 家庭与长期教育规划">
-            <strong>6. Family & Long-term Education Planning</strong>
-            <div class="small muted">Holistic planning across K12 → college to maximize outcomes and aid.</div>
-          </a>
-
-          <a class="service-card" href="/services/service-7.html" data-en="7. Education Savings & Tax (ESA / 529)" data-zh="7. 教育储蓄与税务（ESA / 529）">
-            <strong>7. Education Savings & Tax (ESA / 529)</strong>
-            <div class="small muted">Account selection, tax strategies and cross-jurisdiction considerations.</div>
-          </a>
-
-          <a class="service-card" href="/services/service-8.html" data-en="8. College Fund Design & Financial Strategy" data-zh="8. 大学基金设计与资金策略">
-            <strong>8. College Fund Design & Financial Strategy</strong>
-            <div class="small muted">Long-term funding strategies, portfolio design and risk management.</div>
-          </a>
-
-          <a class="service-card" href="/services/service-9.html" data-en="9. Family Foundation / 501(c)(3) Setup" data-zh="9. 家庭基金会 / 501(c)(3) 设立辅导">
-            <strong>9. Family Foundation / 501(c)(3) Setup</strong>
-            <div class="small muted">Compliance, governance and establishment support for charitable structures.</div>
-          </a>
-
-          <a class="service-card" href="/services/service-10.html" data-en="10. Education + Wealth & Trust Planning" data-zh="10. 教育与财富信托规划">
-            <strong>10. Education + Wealth & Trust Planning</strong>
-            <div class="small muted">Trust design and intergenerational planning that aligns education & wealth goals.</div>
-          </a>
-        </div>
-      </section>
-
-      <!-- About -->
-      <section class="card" id="about">
-        <h2 class="section-title" data-en="About SuperEdu" data-zh="关于 超能教育">About SuperEdu</h2>
-        <p class="muted" data-en="SuperEdu provides guidance for Chinese families worldwide on US education, college admissions, financial aid (FAFSA/CSS), and college fund planning." data-zh="超能教育为全球华人家庭提供关于美国教育、大学申请、助学金（FAFSA/CSS）与大学基金规划的咨询与服务。">SuperEdu provides guidance for Chinese families worldwide on US education, college admissions, financial aid (FAFSA/CSS), and college fund planning.</p>
-      </section>
-
-      <!-- Webinar -->
-      <section class="card">
-        <h2 class="section-title" data-en="Upcoming Webinar" data-zh="近期讲座">Upcoming Webinar</h2>
-        <p class="muted" data-en="Join our live webinar for FAFSA essentials and college funding strategies. Seats are limited — register to reserve a spot." data-zh="参加我们的 FAFSA 实务与大学资助策略讲座。名额有限，请注册保留席位。">Join our live webinar for FAFSA essentials and college funding strategies. Seats are limited — register to reserve a spot.</p>
-        <div class="cta-row">
-          <a class="link-pill" href="https://lsfinova.com/zoom" target="_blank" rel="noopener" data-en="Join Webinar (Main Page)" data-zh="参加讲座（主页面）">Join Webinar (Main Page)</a>
-          <a class="link-pill" href="https://us02web.zoom.us/meeting/register/OTK5r59URLODa2eWFv5b0A" target="_blank" rel="noopener" data-en="Quick Register for Webinar" data-zh="快速注册链接">Quick Register for Webinar</a>
-        </div>
-      </section>
-
-      <!-- quick resources -->
-      <section class="card" id="resources" style="margin-top:18px;">
-        <h2 class="section-title" data-en="Quick Resources" data-zh="重要链接">Quick Resources</h2>
-        <div class="links-list">
-          <a class="link-pill" href="http://lsfinova.com/aid" target="_blank" rel="noopener" data-en="LSFinova Aid Calculator" data-zh="LSFinova 助学金计算器">LSFinova Aid Calculator</a>
-          <a class="link-pill" href="https://studentaid.gov" target="_blank" rel="noopener" data-en="FAFSA — studentaid.gov" data-zh="FAFSA — 官方网站">FAFSA — studentaid.gov</a>
-          <a class="link-pill" href="https://cssprofile.collegeboard.org/" target="_blank" rel="noopener" data-en="CSS Profile" data-zh="CSS Profile">CSS Profile</a>
-          <a class="link-pill" href="https://www.usnews.com/best-colleges/rankings/national-universities" target="_blank" rel="noopener" data-en="US News — College Rankings" data-zh="US News — 大学排名">US News — College Rankings</a>
-        </div>
-      </section>
-    </section>
-
-    <!-- right column (aside) -->
-    <aside class="aside">
-      <div id="registration" class="card">
-        <h2 class="section-title" data-en="Club Registration" data-zh="俱乐部注册">Club Registration</h2>
-        <p class="muted" data-en="Sign up with your details. Referral code is optional." data-zh="输入您的信息注册。推荐码为可选项。">Sign up with your details. Referral code is optional.</p>
-
-        <form id="registerForm" class="form">
-          <label for="rFirst" data-en="First name" data-zh="名">First name</label>
-          <input id="rFirst" name="firstName" required />
-
-          <label for="rLast" data-en="Last name" data-zh="姓">Last name</label>
-          <input id="rLast" name="lastName" required />
-
-          <label for="rEmail" data-en="Email" data-zh="邮箱">Email</label>
-          <input id="rEmail" name="email" type="email" required />
-
-          <label for="rRef" data-en="Referral code (optional)" data-zh="推荐码（可选）">Referral code (optional)</label>
-          <input id="rRef" name="referralCode" />
-
-          <button type="submit" class="btn primary" id="registerBtn" data-en="Join the Club" data-zh="加入俱乐部">Join the Club</button>
-          <p id="regStatus" class="small"></p>
-        </form>
-      </div>
-
-      <div id="unlock" class="card" style="margin-top:16px;">
-        <h3 class="section-title" data-en="Quick Unlock — Education Center" data-zh="快速解锁 — 教育中心">Quick Unlock — Education Center</h3>
-        <p class="muted" data-en="Submit name & email to get free consult chance and unlock Education Center access." data-zh="提交姓名与邮箱可获得免费咨询机会并解锁教育中心访问权限。">Submit name & email to get free consult chance and unlock Education Center access.</p>
-
-        <input id="uFirst" placeholder="e.g. John / 例如：小明" />
-        <input id="uLast" placeholder="e.g. Smith / 例如：张" />
-        <input id="uEmail" placeholder="your@email.com / 您的邮箱" />
-
-        <div style="display:flex;gap:8px;margin-top:8px;">
-          <button class="btn primary" id="unlockBtn" data-en="Unlock Content / 解锁内容" data-zh="解锁内容">Unlock Content</button>
-          <button class="btn ghost" id="enterEduBtn" style="display:none;" data-en="Enter Education Center" data-zh="进入教育中心">Enter Education Center</button>
-        </div>
-        <div class="unlock-hint" id="unlockHint" data-en="Submitting your name & email also gives you a free consultation opportunity!" data-zh="提交姓名与邮箱还可获得一次免费的咨询机会！">Submitting your name & email also gives you a free consultation opportunity!</div>
-        <p id="unlockStatus" class="small"></p>
-      </div>
-
-      <div class="card" style="margin-top:16px;">
-        <h4 data-en="Contact" data-zh="联系我们">Contact</h4>
-        <p class="small" data-en="Email: team@lsfinova.com" data-zh="邮箱：team@lsfinova.com">Email: team@lsfinova.com</p>
-      </div>
-    </aside>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <div>&copy; 2025 SuperEdu Club — LSFinova Management Platform</div>
+    <div>
+      <h3 data-en="Education" data-zh="教育">Education</h3>
+      <a href="#education">Education Center</a>
+      <a href="#resources">Resources</a>
     </div>
-  </footer>
 
-  <!-- scripts -->
-  <script src="/assets/js/utils.js"></script>
-  <script src="/assets/js/menu.js"></script>
-  <script src="/assets/js/lang.js"></script>
+    <div>
+      <h3 data-en="Contact" data-zh="联系">Contact</h3>
+      <a>Email: support@superedu.us</a>
+    </div>
 
-  <!-- inline page-specific logic -->
-  <script>
-    // Register form submit
-    document.getElementById('registerForm').addEventListener('submit', async function(e){
-      e.preventDefault();
-      const lang = window.supereduLang || 'en';
-      const first = document.getElementById('rFirst').value.trim();
-      const last = document.getElementById('rLast').value.trim();
-      const email = document.getElementById('rEmail').value.trim();
-      const ref = document.getElementById('rRef').value.trim();
-      const status = document.getElementById('regStatus');
-      if(!first || !last || !email){ status.innerText = lang==='zh'?'请填写必填项':'Please fill required fields'; return; }
-      if(!supereduValidateEmail(email)){ alert(lang==='zh'?'请输入有效的邮箱地址':'Please enter a valid email'); return;}
-      status.innerText = lang==='zh'?'提交中...':'Submitting...';
+    <div>
+      <h3 data-en="Legal" data-zh="法律">Legal</h3>
+      <a>Privacy Policy</a>
+      <a>Terms of Use</a>
+    </div>
+  </div>
 
-      const payload = { firstName:first, lastName:last, email, referralCode:ref, source:'index' };
-      try{
-        const res = await fetch('/api/register', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
-        const j = await res.json();
-        status.innerText = j.message || (lang==='zh'?'注册成功':'Registered');
-      }catch(err){
-        console.error(err); status.innerText = lang==='zh'?'提交失败':'Submission failed';
-      }
-    });
+  <div class="copy">© 2025 SuperEdu by LSFinova. All rights reserved.</div>
+</footer>
 
-    // Unlock logic
-    document.getElementById('unlockBtn').addEventListener('click', async function(){
-      const lang = window.supereduLang || 'en';
-      const first = document.getElementById('uFirst').value.trim();
-      const last = document.getElementById('uLast').value.trim();
-      const email = document.getElementById('uEmail').value.trim();
-      const status = document.getElementById('unlockStatus');
-      if(!first || !last || !email){ status.innerText = lang==='zh'?'请填写姓名与邮箱':'Please fill first name, last name and email'; return; }
-      if(!supereduValidateEmail(email)){ alert(lang==='zh'?'请输入有效的邮箱地址':'Please enter a valid email'); return;}
-      status.innerText = lang==='zh'?'提交中...':'Submitting...';
-      try{
-        const payload = { firstName:first, lastName:last, email, source:'quick_unlock' };
-        const res = await fetch('/api/unlock', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
-        const j = await res.json();
-        status.innerText = j.message || (lang==='zh'?'已解锁，点击进入教育中心':'Unlocked — click to enter Education Center');
-        document.getElementById('enterEduBtn').style.display = 'inline-block';
-        localStorage.setItem('edu_unlocked_token', JSON.stringify({email, ts:Date.now()}));
-      }catch(err){
-        console.error(err); status.innerText = lang==='zh'?'提交失败':'Submission failed';
-      }
-    });
+<!-- JS -->
+<script src="/assets/js/lang.js"></script>
+<script src="/assets/js/menu.js"></script>
 
-    // Enter Education Center
-    document.getElementById('enterEduBtn').addEventListener('click', function(){
-      // optional: you can perform token check here before opening
-      window.open('/education.html','_blank');
-    });
+<script>
+/* Load Services List */
+const services = [
+  "FAFSA Guidance","College Planning","529 Plan Setup","CSS Profile","Financial Aid Review",
+  "College Essays","Scholarships","Career Path","AP/IB Consulting","Parent Strategy"
+];
 
-  </script>
+document.getElementById("servicesGrid").innerHTML =
+  services.map((s,i)=>`
+    <div class="service-card" onclick="location='/services/service-${i+1}.html'">
+      <div class='icon'>📘</div>${s}
+    </div>
+  `).join("");
+
+/* Education Center Access Check */
+function enterEduCenter(){
+  const token = JSON.parse(localStorage.getItem("edu_unlocked_token") || "null");
+  if(!token){
+    alert(document.documentElement.lang==="zh" ? "请先解锁教育中心" : "Please unlock access first.");
+    location="/unlock.html";
+    return;
+  }
+  location="/education.html";
+}
+</script>
+
 </body>
 </html>
