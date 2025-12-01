@@ -3,381 +3,294 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SuperEdu — Smarter Education Planning</title>
+  <title>SuperEdu — Smarter Education Planning (V1.0)</title>
   <meta name="description" content="SuperEdu — education planning, FAFSA guidance, college funding, and family education resources." />
 
-  <!-- Icons -->
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="/assets/android-chrome-192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="/assets/android-chrome-512.png">
-  <link rel="icon" href="/assets/favicon.ico">
+  <!-- Icons (ensure these files exist under assets/icons/) -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+  <link rel="icon" href="/assets/icons/favicon.ico">
 
-  <style>
-    /* -------------------------
-       Theme (keep original color but tidy spacing)
-       ------------------------- */
-    :root{
-      --brand-gold: #D8B04C;
-      --brand-green: #2C9C47;
-      --accent-darkgreen: #1E7033;
-      --muted-silver: #BDC3C7;
-      --bg-soft: #FAF5E9;
-      --text: #222;
-      --card: #ffffff;
-      --radius: 12px;
-      --max-width: 1200px;
-      --nav-height: 64px;
-    }
+  <!-- main CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css?v=1.0">
 
-    *{box-sizing:border-box}
-    html,body{height:100%; margin:0; padding:0; font-family:Inter, "Segoe UI", Roboto, Arial, sans-serif; -webkit-font-smoothing:antialiased; color:var(--text); background:var(--bg-soft);}
-
-    /* -------------------------
-       NAV: left logo | center menu | right controls
-       key change: menu is centered, language button sits in right block but visually nearer center
-       ------------------------- */
-    nav{
-      position:fixed; top:0; left:0; right:0;
-      height:var(--nav-height);
-      display:flex; align-items:center; gap:16px;
-      padding:10px 20px;
-      z-index:120;
-      background:rgba(255,255,255,0.65);
-      backdrop-filter: blur(6px);
-      border-bottom:1px solid rgba(0,0,0,0.04);
-    }
-
-    /* left area (logo) */
-    .nav-left{display:flex; align-items:center; gap:12px; min-width:160px;}
-    .logo-img{height:36px; width:auto; border-radius:8px; background:rgba(255,255,255,0.9); padding:4px;}
-    /* move text slightly up to align visually with logo */
-    .brand-text{font-weight:700; font-size:18px; transform: translateY(-4px); color:var(--accent-darkgreen);}
-
-    /* center menu: flex:1 and centered content */
-    .nav-center{flex:1; display:flex; justify-content:center; align-items:center;}
-    .menu{display:flex; gap:18px; align-items:center; font-weight:600;}
-    .menu a{color:var(--text); text-decoration:none; padding:8px 6px; border-radius:8px;}
-    .menu a:hover{color:var(--brand-green); background:rgba(44,156,71,0.06);}
-
-    /* right controls */
-    .nav-right{display:flex; align-items:center; gap:12px; min-width:160px; justify-content:flex-end;}
-    .lang-btn{
-      background:#fff;border:1px solid rgba(0,0,0,0.08); padding:8px 10px; border-radius:10px; cursor:pointer; font-weight:600;
-      /* visually closer to center by giving negative right margin on desktop */
-      margin-right: 8px;
-    }
-
-    /* hamburger / mobile control */
-    .hamburger{
-      display:none; cursor:pointer; width:40px; height:40px; align-items:center; justify-content:center; border-radius:8px;
-      border:1px solid rgba(0,0,0,0.06); background:transparent;
-    }
-
-    /* -------------------------
-       HERO
-       ------------------------- */
-    .hero{
-      padding: calc(var(--nav-height) + 80px) 20px 60px;
-      max-width:var(--max-width); margin:0 auto;
-      display:grid; grid-template-columns: 1fr 460px; gap:28px; align-items:center;
-    }
-    @media(max-width:980px){ .hero{ grid-template-columns:1fr; padding-top:140px; } }
-
-    .hero-left{padding-right:6px;}
-    .hero-title{font-size:40px; line-height:1.08; margin:0; font-weight:800; color:var(--accent-darkgreen);}
-    .hero-desc{margin-top:12px; color:#5b5b5b; font-size:16px}
-    .hero-buttons{display:flex; gap:12px; margin-top:18px; flex-wrap:wrap;}
-    .btn{padding:12px 18px; border-radius:12px; cursor:pointer; font-weight:700; border:0}
-    .btn-primary{background:linear-gradient(90deg,var(--brand-gold),#f0c85f); color:#111;}
-    .btn-outline{background:transparent;border:2px solid var(--accent-darkgreen); color:var(--accent-darkgreen)}
-    /* prevent split of label "Unlock → Education" */
-    .btn-no-wrap{white-space:nowrap}
-
-    .hero-right{
-      background: linear-gradient(180deg, rgba(216,176,76,0.12), rgba(44,156,71,0.06));
-      border-radius:18px; padding:22px; height:100%;
-      display:flex; align-items:center; justify-content:center;
-    }
-    .hero-graphic{width:100%; height:260px; border-radius:12px; background:linear-gradient(45deg,#fff,#FAF5E9); box-shadow: 0 14px 36px rgba(0,0,0,0.06);}
-
-    /* -------------------------
-       SECTION blocks: reduce vertical spacing (was too large)
-       ------------------------- */
-    .section{max-width:var(--max-width); margin:28px auto; padding:28px 20px;}
-    .section-title{font-size:22px;color:var(--accent-darkgreen);margin:0 0 10px;font-weight:800;}
-    .section-sub{color:var(--muted-silver); margin:0 0 12px;}
-
-    /* services grid (responsive) */
-    .services{display:grid; grid-template-columns:repeat(2,1fr); gap:12px;}
-    @media(min-width:980px){ .services{grid-template-columns:repeat(4,1fr);} }
-    .service-card{background:var(--card); padding:14px; border-radius:12px; border:1px solid rgba(0,0,0,0.03); cursor:pointer; transition:all .18s}
-    .service-card:hover{transform:translateY(-6px); box-shadow:0 8px 26px rgba(0,0,0,0.06)}
-
-    /* tools row */
-    .tools{display:flex; gap:12px; flex-wrap:wrap; margin-top:12px}
-    .tool-card{background:var(--card); padding:16px; border-radius:12px; min-width:180px; border:1px solid rgba(0,0,0,0.03); cursor:pointer}
-
-    /* edu panel smaller */
-    .edu-panel{padding:28px; border-radius:12px; background:linear-gradient(90deg, rgba(216,176,76,0.14), rgba(44,156,71,0.06)); color:var(--accent-darkgreen); text-align:center}
-
-    /* footer */
-    footer{margin-top:28px; padding:28px 20px; color:#666; background:transparent}
-
-    /* -------------------------
-       MOBILE ADJUSTMENTS (key fixes)
-       - hamburger visible, menu hidden
-       - hamburger and lang button positioned with internal padding (not glued to right edge)
-       - reduce paddings, reduce vertical gaps
-       ------------------------- */
-    @media(max-width:900px){
-      nav{padding:8px 16px}
-      .nav-left{min-width:100px}
-      .brand-text{transform:translateY(-2px); font-size:16px}
-      .menu{display:none}
-      .hamburger{display:flex}
-      .nav-right{gap:8px}
-      .lang-btn{padding:8px 10px; font-size:14px}
-      .hero-right{order:2; margin-top:10px}
-      .hero{padding-top:calc(var(--nav-height) + 40px)}
-      .hero-graphic{height:180px}
-      .section{padding:18px 14px; margin:18px auto}
-      .service-card{padding:12px}
-      .tools{gap:10px}
-      /* mobile menu panel */
-      .mobile-menu{
-        position:fixed; top:var(--nav-height); right:12px; width:260px; max-width:80%;
-        background: #fff; border-radius:12px; box-shadow:0 22px 48px rgba(0,0,0,0.12);
-        padding:14px; display:none; z-index:220;
-      }
-      .mobile-menu a{display:block; padding:8px 6px; border-radius:8px}
-    }
-
-    /* small helpers */
-    .muted{color:var(--muted-silver); font-size:14px}
-  </style>
+  <!-- Page meta / version -->
+  <meta name="generator" content="SuperEdu V1.0">
 </head>
 <body>
 
   <!-- NAV -->
-  <nav>
-    <div class="nav-left">
-      <img src="/assets/img/superedu-logo.png" alt="SuperEdu" class="logo-img">
-      <div class="brand-text">SuperEdu</div>
-    </div>
+  <header class="site-nav" id="siteNav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a class="brand" href="/">
+          <img src="/assets/img/superedu-logo.png" alt="SuperEdu" class="brand-logo">
+          <span class="brand-title" data-en="SuperEdu" data-zh="超能教育">SuperEdu</span>
+        </a>
+      </div>
 
-    <div class="nav-center">
-      <div class="menu" role="navigation" aria-label="Main menu">
-        <a href="#home" data-en="Home" data-zh="首页">Home</a>
-        <a href="#services" data-en="Services" data-zh="服务">Services</a>
-        <a href="#education" data-en="Education Center" data-zh="教育中心">Education Center</a>
-        <a href="#resources" data-en="Resources" data-zh="资源">Resources</a>
-        <a href="#contact" data-en="Contact" data-zh="联系">Contact</a>
+      <nav class="nav-center" id="mainMenu" aria-label="Main navigation">
+        <a href="#home" class="nav-link" data-en="Home" data-zh="首页">Home</a>
+        <a href="#services" class="nav-link" data-en="Services" data-zh="服务">Services</a>
+        <a href="#education" class="nav-link" data-en="Education Center" data-zh="教育中心">Education Center</a>
+        <a href="#resources" class="nav-link" data-en="Resources" data-zh="资源">Resources</a>
+        <a href="#contact" class="nav-link" data-en="Contact" data-zh="联系">Contact</a>
+      </nav>
+
+      <div class="nav-right">
+        <button id="langToggle" class="lang-toggle" aria-pressed="false">中文</button>
+        <button id="hamburger" class="hamburger" aria-label="Open menu">
+          <span class="hamburger-box"><span></span><span></span><span></span></span>
+        </button>
       </div>
     </div>
 
-    <div class="nav-right">
-      <button class="lang-btn" id="langToggle">中文</button>
-      <button class="hamburger" id="hamburgerBtn" aria-label="menu">
-        <!-- simple 3-line icon -->
-        <svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="18" height="2" rx="1" fill="#222"/><rect y="6" width="18" height="2" rx="1" fill="#222"/><rect y="12" width="18" height="2" rx="1" fill="#222"/></svg>
-      </button>
+    <!-- Mobile popover -->
+    <div id="mobilePanel" class="mobile-panel" aria-hidden="true">
+      <div class="mobile-links">
+        <a href="#home" onclick="menu.toggleMobile()"><span data-en="Home" data-zh="首页">Home</span></a>
+        <a href="#services" onclick="menu.toggleMobile()"><span data-en="Services" data-zh="服务">Services</span></a>
+        <a href="#education" onclick="menu.toggleMobile()"><span data-en="Education Center" data-zh="教育中心">Education Center</span></a>
+        <a href="#resources" onclick="menu.toggleMobile()"><span data-en="Resources" data-zh="资源">Resources</span></a>
+        <a href="#contact" onclick="menu.toggleMobile()"><span data-en="Contact" data-zh="联系">Contact</span></a>
+        <div class="mobile-cta">
+          <a class="btn-ghost" href="/register.html" onclick="menu.toggleMobile()" data-en="Register" data-zh="注册">Register</a>
+          <a class="btn-primary" href="/unlock.html" onclick="menu.toggleMobile()" data-en="Unlock" data-zh="解锁">Unlock</a>
+        </div>
+      </div>
     </div>
-
-    <!-- mobile menu panel -->
-    <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
-      <a href="#home" onclick="toggleMobileMenu()">Home</a>
-      <a href="#services" onclick="toggleMobileMenu()">Services</a>
-      <a href="#education" onclick="toggleMobileMenu()">Education Center</a>
-      <a href="#resources" onclick="toggleMobileMenu()">Resources</a>
-      <a href="#contact" onclick="toggleMobileMenu()">Contact</a>
-      <div style="margin-top:10px"><a href="/register.html">Register</a></div>
-    </div>
-  </nav>
+  </header>
 
   <!-- HERO -->
-  <section class="hero" id="home">
-    <div class="hero-left">
-      <h1 class="hero-title" data-en="Smarter Education Planning for Every Family" data-zh="为每个家庭提供更聪明的教育规划">
-        Smarter Education Planning for Every Family
-      </h1>
-      <p class="hero-desc" data-en="FAFSA, college funding, and personalized education tools — built to help families succeed."
-         data-zh="从 FAFSA 到大学资金规划，我们为您的家庭提供个性化、可靠的教育支持。">
-        FAFSA, college funding, and personalized education tools — built to help families succeed.
-      </p>
+  <main id="mainContent">
+    <section class="hero" id="home">
+      <div class="hero-left">
+        <h1 class="hero-title" data-en="Smarter Education Planning for Every Family" data-zh="为每个家庭提供更聪明的教育规划">
+          Smarter Education Planning for Every Family
+        </h1>
+        <p class="hero-sub" data-en="FAFSA, college funding, and personalized education tools — built to help families succeed." data-zh="从 FAFSA 到大学资金规划，我们为家庭提供个性化的教育支持。">
+          FAFSA, college funding, and personalized education tools — built to help families succeed.
+        </p>
 
-      <div class="hero-buttons">
-        <button class="btn btn-primary" onclick="window.location='/register.html'">
-          <span data-en="Register / Join" data-zh="注册 / 加入">Register / Join</span>
-        </button>
+        <div class="hero-actions">
+          <a class="btn-primary" href="/register.html" id="ctaRegister"><span data-en="Register / Join" data-zh="注册 / 加入">Register / Join</span></a>
+          <a class="btn-outline btn-no-wrap" href="/unlock.html" id="ctaUnlock"><span data-en="Unlock → Education" data-zh="解锁 → 教育中心">Unlock → Education</span></a>
+          <a class="btn-ghost" href="/apply.html" id="ctaApply"><span data-en="Apply for Services" data-zh="填写服务申请表">Apply for Services</span></a>
+        </div>
 
-        <!-- KEEP AS ONE LINE; use nowrap class -->
-        <button class="btn btn-outline btn-no-wrap" onclick="window.location='/unlock.html'">
-          <span data-en="Unlock → Education" data-zh="解锁 → 教育中心">Unlock → Education</span>
-        </button>
+        <div class="hero-note" id="heroNote" data-en="Submit name & email via Quick Unlock to get a free consultation opportunity." data-zh="通过快速解锁提交姓名和邮箱，可获得一次免费咨询机会。">
+          Submit name & email via Quick Unlock to get a free consultation opportunity.
+        </div>
       </div>
-    </div>
 
-    <div class="hero-right">
-      <div class="hero-graphic" aria-hidden></div>
-    </div>
-  </section>
-
-  <!-- SERVICES -->
-  <section class="section" id="services">
-    <h2 class="section-title" data-en="Our Services — What We Provide" data-zh="我们的服务 — 我们能提供">Our Services — What We Provide</h2>
-    <p class="section-sub" data-en="Click any service to learn more" data-zh="点击任意服务以了解详情">Click any service to learn more</p>
-
-    <div class="services" id="servicesGrid">
-      <!-- will be populated by JS -->
-    </div>
-    <div style="margin-top:12px" class="tools">
-      <div class="tool-card" onclick="window.location='/apply.html'">
-        <div class="tool-title" data-en="Apply for Services" data-zh="填写服务申请表">Apply for Services</div>
+      <div class="hero-right" aria-hidden="true">
+        <!-- decorative graphic or SVG placeholder -->
+        <div class="hero-visual"></div>
       </div>
-      <div class="tool-card" onclick="window.location='/register.html'">
-        <div class="tool-title" data-en="Register" data-zh="注册">Register</div>
-      </div>
-      <div class="tool-card" onclick="window.location='/unlock.html'">
-        <div class="tool-title" data-en="Unlock Access" data-zh="解锁访问">Unlock Access</div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- EDUCATION (entry panel) -->
-  <section class="section" id="education">
-    <div class="edu-panel">
-      <h3 data-en="Education Center" data-zh="教育中心">Education Center</h3>
-      <p data-en="Unlock personalized learning modules, resources, and guides." data-zh="解锁个性化学习模块、教育资源与指导。">Unlock personalized learning modules, resources, and guides.</p>
-      <div style="margin-top:12px">
-        <button class="btn btn-primary" onclick="enterEduCenter()" id="eduEnterBtn">
-          <span data-en="Enter Education Center" data-zh="进入教育中心">Enter Education Center</span>
-        </button>
-      </div>
-    </div>
-  </section>
+    <!-- SERVICES -->
+    <section class="section" id="services" aria-labelledby="servicesTitle">
+      <h2 id="servicesTitle" class="section-title" data-en="Our Services — What We Provide" data-zh="我们的服务 — 我们能提供">Our Services — What We Provide</h2>
+      <p class="section-sub" data-en="Click any item to read the full service page." data-zh="点击任一项进入完整服务页面。">Click any item to read the full service page.</p>
 
-  <!-- RESOURCES (compact) -->
-  <section class="section" id="resources">
-    <h4 class="section-title" data-en="Quick Resources" data-zh="重要链接">Quick Resources</h4>
-    <p class="muted" data-en="Practical links for FAFSA, CSS, rankings and our tools." data-zh="FAFSA、CSS、排名与工具等实用链接。">Practical links for FAFSA, CSS, rankings and our tools.</p>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
-      <a class="link-pill" href="http://lsfinova.com/aid" target="_blank">LSFinova Aid Calculator</a>
-      <a class="link-pill" href="https://studentaid.gov" target="_blank">FAFSA — studentaid.gov</a>
-      <a class="link-pill" href="https://cssprofile.collegeboard.org/" target="_blank">CSS Profile</a>
-      <a class="link-pill" href="https://www.usnews.com/best-colleges/rankings/national-universities" target="_blank">US News — Rankings</a>
-    </div>
-  </section>
+      <div class="services-grid" id="servicesGrid" role="list">
+        <!-- JS will populate 10 service cards -->
+      </div>
+
+      <div class="section-cta">
+        <a class="link-primary" href="/apply.html" data-en="Apply for Services" data-zh="填写服务申请表">Apply for Services</a>
+      </div>
+    </section>
+
+    <!-- EDUCATION (entry only) -->
+    <section class="section" id="education" aria-labelledby="eduTitle">
+      <h2 id="eduTitle" class="section-title" data-en="Education Center" data-zh="教育中心">Education Center</h2>
+      <p class="section-sub" data-en="Unlock access to the Knowledge Center after Quick Unlock or Registration." data-zh="先通过快速解锁或注册以获取知识中心访问权限。">Unlock access to the Knowledge Center after Quick Unlock or Registration.</p>
+
+      <div class="edu-panel">
+        <p class="edu-desc" data-en="Unlock personalized modules, guides and curated resources." data-zh="解锁个性化模块、指南和精选资源。">Unlock personalized modules, guides and curated resources.</p>
+        <div class="edu-actions">
+          <button class="btn-primary" id="enterEduBtn" onclick="menu.enterEdu()">Enter Education Center</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESOURCES -->
+    <section class="section" id="resources">
+      <h3 class="section-title" data-en="Quick Resources" data-zh="重要链接">Quick Resources</h3>
+      <div class="links-row">
+        <a class="link-pill" href="http://lsfinova.com/aid" target="_blank" rel="noopener" data-en="LSFinova Aid Calculator" data-zh="LSFinova 助学金计算器">LSFinova Aid Calculator</a>
+        <a class="link-pill" href="https://studentaid.gov" target="_blank" rel="noopener" data-en="FAFSA — studentaid.gov" data-zh="FAFSA — 官方网站">FAFSA — studentaid.gov</a>
+        <a class="link-pill" href="https://cssprofile.collegeboard.org/" target="_blank" rel="noopener" data-en="CSS Profile" data-zh="CSS Profile">CSS Profile</a>
+        <a class="link-pill" href="https://www.usnews.com/best-colleges/rankings/national-universities" target="_blank" rel="noopener" data-en="US News — Rankings" data-zh="US News — 大学排名">US News — Rankings</a>
+      </div>
+    </section>
+
+    <!-- CONTACT / QUICK UNLOCK (right column functions were moved to inline section) -->
+    <section class="section" id="contact">
+      <div class="contact-grid">
+        <div class="card contact-card">
+          <h4 data-en="Club Registration" data-zh="俱乐部注册">Club Registration</h4>
+          <p class="muted" data-en="Sign up with name & email. Referral code optional." data-zh="输入姓名与邮箱注册，推荐码可选。">Sign up with name & email. Referral code optional.</p>
+          <form id="registerForm" class="form-compact" autocomplete="off">
+            <label for="rFirst" data-en="First name" data-zh="名">First name</label>
+            <input id="rFirst" name="firstName" required />
+            <label for="rLast" data-en="Last name" data-zh="姓">Last name</label>
+            <input id="rLast" name="lastName" required />
+            <label for="rEmail" data-en="Email" data-zh="邮箱">Email</label>
+            <input id="rEmail" name="email" type="email" required />
+            <label for="rRef" data-en="Referral code (optional)" data-zh="推荐码（可选）">Referral code (optional)</label>
+            <input id="rRef" name="ref" />
+            <div class="form-actions">
+              <button type="submit" class="btn-primary" id="registerSubmit" data-en="Join the Club" data-zh="加入俱乐部">Join the Club</button>
+              <div id="regMsg" class="muted small"></div>
+            </div>
+          </form>
+        </div>
+
+        <div class="card contact-card">
+          <h4 data-en="Quick Unlock — Education Center" data-zh="快速解锁 — 教育中心">Quick Unlock — Education Center</h4>
+          <p class="muted" data-en="Only name & email are required to quickly unlock preview access." data-zh="仅需姓名与邮箱即可快速解锁预览访问。">Only name & email are required to quickly unlock preview access.</p>
+
+          <div class="quick-unlock">
+            <input id="qFirst" placeholder="First / 名" />
+            <input id="qLast" placeholder="Last / 姓" />
+            <input id="qEmail" placeholder="Email / 邮箱" />
+            <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
+              <button class="btn-primary" id="unlockSubmit">Unlock Content</button>
+              <button class="btn-ghost" id="enterBtn" style="display:none">Enter Education Center</button>
+            </div>
+            <div id="unlockMsg" class="muted small" style="margin-top:8px"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
 
   <!-- FOOTER -->
-  <footer>
-    <div style="max-width:var(--max-width); margin:0 auto; display:flex; gap:20px; flex-wrap:wrap; justify-content:space-between;">
-      <div>
-        <strong>SuperEdu</strong><br>
-        <span class="muted">© 2025 SuperEdu — LSFinova</span>
+  <footer id="siteFooter">
+    <div class="footer-inner">
+      <div class="f-col">
+        <img src="/assets/img/superedu-logo.png" alt="SuperEdu" class="footer-logo">
+        <div class="muted small">© 2025 SuperEdu — LSFinova</div>
       </div>
-      <div>
-        <a href="/register.html">Register</a> • <a href="/apply.html">Apply</a> • <a href="/unlock.html">Unlock</a>
+      <div class="f-col">
+        <strong data-en="Explore" data-zh="探索">Explore</strong>
+        <a href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+        <a href="/education.html" data-en="Education Center" data-zh="教育中心">Education Center</a>
+      </div>
+      <div class="f-col">
+        <strong data-en="Contact" data-zh="联系">Contact</strong>
+        <div class="muted small">team@lsfinova.com</div>
       </div>
     </div>
   </footer>
 
-<script>
-/* =====================
-   Language handling
-   ===================== */
-let currentLang = localStorage.getItem('superedu-lang') || 'en';
-const langToggleBtn = document.getElementById('langToggle');
+  <!-- modules -->
+  <script src="/assets/js/lang.js?v=1.0"></script>
+  <script src="/assets/js/menu.js?v=1.0"></script>
 
-function applyLang(){
-  document.querySelectorAll('[data-en]').forEach(el=>{
-    const en = el.getAttribute('data-en'), zh = el.getAttribute('data-zh');
-    if(!en && !zh) return;
-    el.innerText = currentLang === 'en' ? (en||zh) : (zh||en);
-  });
-  langToggleBtn.innerText = currentLang === 'en' ? '中文' : 'EN';
-  document.documentElement.lang = currentLang;
-  // update services grid labels (they are generated from JS)
-  renderServices();
-}
-langToggleBtn.addEventListener('click', ()=>{
-  currentLang = (currentLang === 'en') ? 'zh' : 'en';
-  localStorage.setItem('superedu-lang', currentLang);
-  applyLang();
-});
+  <!-- inline init to populate services and wire up forms (uses menu and lang modules) -->
+  <script>
+    // label version
+    window.__SUPEREDU_VERSION = 'V1.0';
 
-/* =====================
-   Services grid population (10 items)
-   Keep wording stable so other pages can link
-   ===================== */
-const servicesList = [
-  {id:'s1', en:'U.S. Education & Comparative Analysis', zh:'美国教育体系与比较分析'},
-  {id:'s2', en:'College Application Strategy & Planning', zh:'大学申请策略与规划'},
-  {id:'s3', en:'Pre-College Profile Development (AP/Summer Programs)', zh:'大学前背景打造（AP/夏校）'},
-  {id:'s4', en:'Financial Aid (FAFSA/CSS) — One-on-One', zh:'助学金（FAFSA/CSS）一对一辅导'},
-  {id:'s5', en:'Scholarship Application Support', zh:'奖学金申请辅导'},
-  {id:'s6', en:'Family & Long-term Education Planning', zh:'家庭与长期教育规划'},
-  {id:'s7', en:'Education Savings & Tax (ESA / 529)', zh:'教育储蓄与税务（ESA / 529）'},
-  {id:'s8', en:'College Fund Design & Financial Strategy', zh:'大学基金设计与资金策略'},
-  {id:'s9', en:'Family Foundation / 501(c)(3) Setup', zh:'家庭基金会 / 501(c)(3) 设立辅导'},
-  {id:'s10', en:'Education + Wealth & Trust Planning', zh:'教育与财富信托规划'}
-];
+    // services list (10 items) - wording kept exact for service pages
+    const SERVICES = [
+      {id:'1', en:'U.S. Education & Comparative Analysis', zh:'美国教育体系与比较分析'},
+      {id:'2', en:'College Application Strategy & Planning', zh:'大学申请策略与规划'},
+      {id:'3', en:'Pre-College Profile Development (AP/Summer Programs)', zh:'大学前背景打造（AP/夏校）'},
+      {id:'4', en:'Financial Aid (FAFSA/CSS) — One-on-One', zh:'助学金（FAFSA/CSS）一对一辅导'},
+      {id:'5', en:'Scholarship Application Support', zh:'奖学金申请辅导'},
+      {id:'6', en:'Family & Long-term Education Planning', zh:'家庭与长期教育规划'},
+      {id:'7', en:'Education Savings & Tax (ESA / 529)', zh:'教育储蓄与税务（ESA / 529）'},
+      {id:'8', en:'College Fund Design & Financial Strategy', zh:'大学基金设计与资金策略'},
+      {id:'9', en:'Family Foundation / 501(c)(3) Setup', zh:'家庭基金会 / 501(c)(3) 设立辅导'},
+      {id:'10', en:'Education + Wealth & Trust Planning', zh:'教育与财富信托规划'}
+    ];
 
-function renderServices(){
-  const wrap = document.getElementById('servicesGrid');
-  wrap.innerHTML = '';
-  servicesList.forEach((s, idx)=>{
-    const title = currentLang === 'en' ? s.en : s.zh;
-    const el = document.createElement('div');
-    el.className = 'service-card';
-    el.innerHTML = `<div style="font-size:18px;font-weight:700;margin-bottom:8px;">${idx+1}. ${title}</div>
-                    <div class="muted" style="font-size:13px;">${currentLang==='en' ? 'Click to read more' : '点击查看详情'}</div>`;
-    el.addEventListener('click', ()=> window.location = `/services/service-${idx+1}.html`);
-    wrap.appendChild(el);
-  });
-}
+    // render services grid (language-aware)
+    function renderServicesGrid(){
+      const wrap = document.getElementById('servicesGrid');
+      wrap.innerHTML = '';
+      const lang = langModule.getLang();
+      SERVICES.forEach(s=>{
+        const card = document.createElement('article');
+        card.className = 'service-card';
+        card.tabIndex = 0;
+        const title = lang === 'en' ? s.en : s.zh;
+        card.innerHTML = `<div class="svc-index">${s.id}.</div><div class="svc-title">${title}</div>`;
+        card.addEventListener('click', ()=> window.location = `/services/service-${s.id}.html`);
+        card.addEventListener('keypress', (e)=> { if(e.key === 'Enter') window.location = `/services/service-${s.id}.html`; });
+        wrap.appendChild(card);
+      });
+    }
 
-applyLang(); // render initially
+    // initial render
+    renderServicesGrid();
+    langModule.onChange(renderServicesGrid);
 
-/* =====================
-   Mobile menu toggle
-   ===================== */
-const hamburgerBtn = document.getElementById('hamburgerBtn');
-const mobileMenu = document.getElementById('mobileMenu');
-function toggleMobileMenu(){
-  const isOpen = mobileMenu.style.display === 'block';
-  mobileMenu.style.display = isOpen ? 'none' : 'block';
-  mobileMenu.setAttribute('aria-hidden', isOpen ? 'true' : 'false');
-}
-hamburgerBtn.addEventListener('click', toggleMobileMenu);
-document.addEventListener('click', (e)=>{
-  if(!mobileMenu.contains(e.target) && !hamburgerBtn.contains(e.target)) {
-    mobileMenu.style.display = 'none';
-  }
-});
+    // REGISTER form client validation + submit (posts to /api/register)
+    document.getElementById('registerForm').addEventListener('submit', async function(e){
+      e.preventDefault();
+      const msg = document.getElementById('regMsg');
+      msg.textContent = langModule.t('Submitting...','提交中...');
+      const payload = {
+        firstName: document.getElementById('rFirst').value.trim(),
+        lastName: document.getElementById('rLast').value.trim(),
+        email: document.getElementById('rEmail').value.trim(),
+        referralCode: document.getElementById('rRef').value.trim(),
+        created_at: new Date().toISOString()
+      };
+      if(!menu.validateEmail(payload.email)){
+        msg.textContent = langModule.t('Please enter a valid email','请输入有效邮箱');
+        return;
+      }
+      try{
+        const res = await fetch('/api/register', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+        const j = await res.json();
+        msg.textContent = j.message || langModule.t('Registered','注册成功');
+      }catch(err){
+        console.error(err);
+        msg.textContent = langModule.t('Submission failed','提交失败');
+      }
+    });
 
-/* =====================
-   Education Center access check
-   (expects an unlock token stored by unlock flow)
-   ===================== */
-function enterEduCenter(){
-  const token = JSON.parse(localStorage.getItem('edu_unlocked_token') || 'null');
-  if(!token){
-    alert(currentLang === 'zh' ? "请先解锁教育中心" : "Please unlock access first.");
-    window.location='/unlock.html';
-    return;
-  }
-  window.location='/education.html';
-}
+    // QUICK UNLOCK
+    document.getElementById('unlockSubmit').addEventListener('click', async function(){
+      const msg = document.getElementById('unlockMsg');
+      const f = document.getElementById('qFirst').value.trim();
+      const l = document.getElementById('qLast').value.trim();
+      const e = document.getElementById('qEmail').value.trim();
+      if(!f || !l || !e){ msg.textContent = langModule.t('Please fill first name, last name and email','请填写姓名与邮箱'); return; }
+      if(!menu.validateEmail(e)){ msg.textContent = langModule.t('Please enter a valid email','请输入有效邮箱'); return; }
+      msg.textContent = langModule.t('Submitting...','提交中...');
+      const payload = { firstName:f, lastName:l, email:e, created_at:new Date().toISOString(), source:'quick_unlock' };
+      try{
+        const res = await fetch('/api/unlock', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+        const j = await res.json();
+        msg.textContent = j.message || langModule.t('Unlocked — click Enter','已解锁，点击进入');
+        // enable Enter button
+        document.getElementById('enterBtn').style.display = 'inline-block';
+        // store simple token
+        localStorage.setItem('edu_unlocked_token', JSON.stringify({email:e,ts:Date.now()}));
+      }catch(err){
+        console.error(err);
+        msg.textContent = langModule.t('Submission failed','提交失败');
+      }
+    });
 
-/* =====================
-   Accessibility: close mobile menu on resize > mobile
-   ===================== */
-window.addEventListener('resize', ()=> {
-  if(window.innerWidth > 900) mobileMenu.style.display = 'none';
-});
-</script>
+    // Enter Edu button (in quick unlock card)
+    document.getElementById('enterBtn').addEventListener('click', ()=> menu.enterEdu());
 
+    // ensure the "Enter Education Center" main button uses same check
+    document.getElementById('enterEduBtn').addEventListener('click', ()=> menu.enterEdu());
+
+    // expose small utilities (optional)
+    window.SUPEREDU = { renderServicesGrid };
+  </script>
 </body>
 </html>
