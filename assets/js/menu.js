@@ -1,76 +1,54 @@
-/* assets/js/menu.js
-   Navigation & utilities module for SuperEdu V1.0
-   Exposes `menu` global with:
-     - toggleMobile()
-     - enterEdu()
-     - validateEmail(email)
-*/
-(function(global){
-  const mobileBtn = document.getElementById('hamburger');
-  const mobilePanel = document.getElementById('mobilePanel') || document.getElementById('mobilePanel');
-  let mobileOpen = false;
+// menu.js — hamburger, nav scroll behavior, mobile menu
+(function(){
+  const nav = document.getElementById('topNav');
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const maxTransparent = 60; // px scrolled when nav becomes solid
 
-  function toggleMobile(){
-    const panel = document.getElementById('mobilePanel');
-    if(!panel) return;
-    mobileOpen = !mobileOpen;
-    panel.style.display = mobileOpen ? 'block' : 'none';
-    panel.setAttribute('aria-hidden', !mobileOpen);
-  }
-
-  if(mobileBtn){
-    mobileBtn.addEventListener('click', (e)=>{ e.stopPropagation(); toggleMobile(); });
-    // close when clicking outside
-    document.addEventListener('click', (e)=>{
-      const panel = document.getElementById('mobilePanel');
-      if(!panel) return;
-      if(mobileOpen && !panel.contains(e.target) && !mobileBtn.contains(e.target)){
-        toggleMobile();
-      }
-    });
-    // close on ESC
-    document.addEventListener('keydown', (ev)=>{
-      if(ev.key === 'Escape' && mobileOpen){ toggleMobile(); }
+  // toggle mobile menu
+  if(hamburger){
+    hamburger.addEventListener('click', function(){
+      const open = mobileMenu.getAttribute('aria-hidden') === 'false';
+      mobileMenu.setAttribute('aria-hidden', open ? 'true' : 'false');
+      mobileMenu.style.display = open ? 'none':'block';
+      // animate hamburger (simple)
+      hamburger.classList.toggle('open', !open);
     });
   }
 
-  // simple email validator (used on front-end)
-  function validateEmail(email){
-    if(!email || typeof email !== 'string') return false;
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email.trim());
-  }
+  // close mobile menu on link click
+  mobileMenu && mobileMenu.querySelectorAll('a').forEach(a=>{
+    a.addEventListener('click', ()=> { mobileMenu.setAttribute('aria-hidden','true'); mobileMenu.style.display='none'; hamburger.classList.remove('open'); });
+  });
 
-  // Education center access check
-  function enterEdu(){
-    try{
-      const token = JSON.parse(localStorage.getItem('edu_unlocked_token') || 'null');
-      const lang = (window.langModule && window.langModule.getLang && window.langModule.getLang()) || 'en';
-      if(!token){
-        alert(lang === 'en' ? 'Please unlock access first.' : '请先解锁教育中心');
-        window.location = '/unlock.html';
-        return;
-      }
-      // token exists => open education center
-      window.location = '/education.html';
-    }catch(e){
-      console.error(e);
-      window.location = '/unlock.html';
+  // nav scroll behavior: transparent → solid
+  function onScroll(){
+    const y = window.scrollY || window.pageYOffset;
+    if(y > maxTransparent) {
+      nav.classList.remove('nav--transparent'); nav.classList.add('nav--solid');
+    } else {
+      nav.classList.add('nav--transparent'); nav.classList.remove('nav--solid');
     }
   }
+  window.addEventListener('scroll', onScroll);
+  onScroll();
 
-  // scroll behaviour: shrink nav on scroll
-  function initScrollNav(){
-    const nav = document.getElementById('siteNav');
-    if(!nav) return;
-    const shrinkAt = 20;
-    window.addEventListener('scroll', ()=>{
-      if(window.scrollY > shrinkAt) nav.classList.add('nav-scrolled');
-      else nav.classList.remove('nav-scrolled');
-    });
+  // Improve mobile hamburger touch area & position: adjust padding on small screens
+  function adjustForMobile(){
+    if(window.innerWidth <= 720){
+      // ensure hamburger isn't too close to edge by padding body via nav inner (CSS already handles but this ensures)
+      document.querySelector('.nav-inner').style.padding = '12px 18px';
+    } else {
+      document.querySelector('.nav-inner').style.padding = '14px 20px';
+    }
   }
-  document.addEventListener('DOMContentLoaded', initScrollNav);
+  window.addEventListener('resize', adjustForMobile);
+  adjustForMobile();
 
-  // expose
-  global.menu = { toggleMobile, enterEdu, validateEmail };
-})(window);
+  // small tweak: align brand text vertically (if needed)
+  const brandText = document.querySelector('.brand-text');
+  if(brandText){
+    // keep slightly lifted to visually match logo height
+    brandText.style.transform = 'translateY(-2px)';
+  }
+})();
