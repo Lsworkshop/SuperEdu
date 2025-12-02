@@ -1,54 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SuperEdu — Smart College Planning</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SuperEdu — Smarter Education Planning</title>
+  <meta name="description" content="SuperEdu — education planning, FAFSA guidance, college funding, and family education resources." />
 
-<!-- main css -->
-<link rel="stylesheet" href="main.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/android-chrome-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/android-chrome-512.png">
+  <link rel="icon" href="/assets/icons/favicon.ico">
 
+  <link rel="stylesheet" href="/assets/css/main.css">
 </head>
+
 <body>
 
-<!-- ====================== NAV ======================= -->
-<nav id="topNav" class="nav--transparent">
+<!-- NAV -->
+<nav id="topNav" class="nav--initial">  <!-- 默认半透明；滚动后透明度增加 -->
   <div class="nav-inner">
 
     <div class="brand">
-      <img src="assets/logo.png" class="logo-img" alt="logo">
-      <div class="brand-text">SuperEdu</div>
+      <img src="/assets/img/superedu-logo.png" alt="SuperEdu" class="logo-img" />
+      <span class="brand-text">SuperEdu</span>
     </div>
 
-    <div class="menu">
-      <a href="#hero"
-         data-en="Home"
-         data-zh="首页">Home</a>
-
-      <a href="#services"
-         data-en="Services"
-         data-zh="服务内容">Services</a>
-
-      <a href="#tools"
-         data-en="Tools"
-         data-zh="工具">Tools</a>
-
-      <a href="#resources"
-         data-en="Resources"
-         data-zh="资源链接">Resources</a>
-
-      <a href="#contact"
-         data-en="Contact"
-         data-zh="联系我们">Contact</a>
+    <div class="menu" id="menu">
+      <a href="#home" data-en="Home" data-zh="首页">Home</a>
+      <a href="#services" data-en="Services" data-zh="服务">Services</a>
+      <a href="#education" data-en="Education Center" data-zh="教育中心">Education Center</a>
+      <a href="#resources" data-en="Resources" data-zh="资源">Resources</a>
+      <a href="#contact" data-en="Contact" data-zh="联系">Contact</a>
     </div>
 
     <div class="nav-right">
-      <button id="langToggle"
-              class="lang-toggle"
-              data-en="中文"
-              data-zh="EN">中文</button>
+      <button id="langToggle" class="lang-toggle" aria-label="Language toggle"
+        data-en="中文" data-zh="EN">中文</button>
 
-      <button id="hamburger" class="hamburger">
+      <button id="hamburger" class="hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -57,419 +48,439 @@
 
   <!-- mobile slide menu -->
   <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+    <a href="#home" data-en="Home" data-zh="首页">Home</a>
+    <a href="#services" data-en="Services" data-zh="服务">Services</a>
+    <a href="#education" data-en="Education Center" data-zh="教育中心">Education Center</a>
+    <a href="#resources" data-en="Resources" data-zh="资源">Resources</a>
+    <a href="#contact" data-en="Contact" data-zh="联系">Contact</a>
 
-      <a href="#hero"
-         data-en="Home"
-         data-zh="首页">Home</a>
+    <div class="mobile-actions">
+      <button class="btn btn-ghost" id="mobileRegister"
+        data-en="Register / Join" data-zh="注册 / 加入">Register / Join</button>
 
-      <a href="#services"
-         data-en="Services"
-         data-zh="服务内容">Services</a>
-
-      <a href="#tools"
-         data-en="Tools"
-         data-zh="工具">Tools</a>
-
-      <a href="#resources"
-         data-en="Resources"
-         data-zh="资源链接">Resources</a>
-
-      <a href="#contact"
-         data-en="Contact"
-         data-zh="联系我们">Contact</a>
-
-      <div class="mobile-actions">
-        <button data-en="Get Started"
-                data-zh="开始使用"
-                class="btn btn-primary">Get Started</button>
-      </div>
-
+      <button class="btn" id="mobileUnlock"
+        data-en="Unlock Education" data-zh="快速解锁">Unlock Education</button>
+    </div>
   </div>
 </nav>
 
-
-<!-- ====================== HERO ======================= -->
-<section id="hero" class="hero">
-
+<!-- HERO -->
+<header id="home" class="hero">
   <div class="hero-left">
-
     <h1 class="hero-title"
-        data-en="Unlock Your Education Future"
-        data-zh="开启你的教育未来">Unlock Your Education Future</h1>
+        data-en="Smarter Education Planning for Every Family"
+        data-zh="为每个家庭提供更聪明的教育规划">
+      Smarter Education Planning for Every Family
+    </h1>
 
     <p class="hero-desc"
-       data-en="Smart college planning, financial aid guidance, and personalized tools for students & families."
-       data-zh="为学生和家庭提供智能大学规划、助学金指导与个性化工具。">
-       Smart college planning, financial aid guidance, and personalized tools for students & families.
+       data-en="FAFSA, college funding, and personalized education tools — built to help families succeed."
+       data-zh="从 FAFSA 到大学资金规划，我们为家庭提供个性化、可执行的教育与资助方案。">
+      FAFSA, college funding, and personalized education tools — built to help families succeed.
     </p>
 
     <div class="hero-ctas">
-      <a href="#services"
-         class="btn btn-primary"
-         data-en="Explore Services"
-         data-zh="查看服务">Explore Services</a>
+      <button class="btn btn-primary" id="ctaRegister"
+        data-en="Register / Join" data-zh="注册 / 加入">Register / Join</button>
 
-      <a href="#tools"
-         class="btn btn-outline"
-         data-en="Use Tools"
-         data-zh="使用工具">Use Tools</a>
+      <button class="btn btn-outline" id="ctaUnlock"
+        data-en="Quick Unlock → Education"
+        data-zh="快速解锁 → 教育中心">
+        Quick Unlock → Education
+      </button>
 
-      <a href="#contact"
-         class="btn btn-link"
-         data-en="Contact Us"
-         data-zh="联系我们">Contact Us</a>
+      <a class="btn btn-link" href="/apply.html" id="ctaApply"
+        data-en="Apply for Services" data-zh="申请服务">
+        Apply for Services
+      </a>
     </div>
 
     <div class="hero-subitems">
-      <div class="sub-link"
-           data-en="Financial Aid Experts"
-           data-zh="助学金专家">Financial Aid Experts</div>
+      <a href="https://lsfinova.com/zoom" target="_blank" rel="noopener"
+         class="sub-link"
+         data-en="Join Webinar (Main Page)" data-zh="进入讲座（主页面）">
+         Join Webinar (Main Page)
+      </a>
 
-      <div class="sub-link"
-           data-en="College Planning System"
-           data-zh="大学规划系统">College Planning System</div>
+      <a href="https://us02web.zoom.us/meeting/register/OTK5r59URLODa2eWFv5b0A"
+         target="_blank" rel="noopener" class="sub-link"
+         data-en="Quick Register for Webinar" data-zh="快速注册讲座">
+         Quick Register for Webinar
+      </a>
     </div>
-
   </div>
 
-  <div class="hero-right">
-    <div class="hero-graphic"></div>
+  <div class="hero-right" aria-hidden="true">
+    <div class="hero-graphic" role="img" aria-label="Education graphic"></div>
   </div>
+</header>
 
-</section>
-
-
-<!-- ====================== SERVICES ======================= -->
-<section id="services" class="section">
+<!-- SERVICES -->
+<section id="services" class="services">
   <h2 class="section-title"
       data-en="Our Services"
-      data-zh="我们的服务">Our Services</h2>
+      data-zh="我们的服务">
+      Our Services
+  </h2>
 
-  <p class="section-sub"
-     data-en="Professional guidance to optimize your college and financial aid path."
-     data-zh="专业指导，帮助您优化大学申请与助学金路径。">
-     Professional guidance to optimize your college and financial aid path.
+  <p class="section-desc"
+     data-en="Comprehensive support for families, students, and education planning."
+     data-zh="为家庭、学生和教育规划提供全面支持。">
+     Comprehensive support for families, students, and education planning.
   </p>
 
   <div class="services-grid">
 
     <!-- 1 -->
     <div class="service-card">
-      <h3 data-en="FAFSA Filing" data-zh="FAFSA 填写">FAFSA Filing</h3>
-      <div class="desc"
-           data-en="Full FAFSA support to avoid mistakes and maximize eligibility."
-           data-zh="完整 FAFSA 协助，避免错误并最大化资格。">
-        Full FAFSA support to avoid mistakes and maximize eligibility.
-      </div>
-      <a class="apply-cta"
-         data-en="Get Help"
-         data-zh="获取协助">Get Help</a>
+      <div class="icon icon-1"></div>
+      <h3 data-en="FAFSA Guidance" data-zh="FAFSA 申请指导">FAFSA Guidance</h3>
+      <p data-en="Step-by-step help completing FAFSA and maximizing aid eligibility."
+         data-zh="提供逐步指导，帮助完成 FAFSA 并最大化资助资格。">
+         Step-by-step help completing FAFSA and maximizing aid eligibility.
+      </p>
     </div>
 
     <!-- 2 -->
     <div class="service-card">
-      <h3 data-en="CSS Profile"
-          data-zh="CSS Profile">CSS Profile</h3>
-      <div class="desc"
-           data-en="Specialized handling of CSS Profile for elite colleges."
-           data-zh="针对名校的 CSS Profile 专业处理。">
-        Specialized handling of CSS Profile for elite colleges.
-      </div>
-      <a class="apply-cta"
-         data-en="Start Now"
-         data-zh="立即开始">Start Now</a>
+      <div class="icon icon-2"></div>
+      <h3 data-en="CSS Profile Support" data-zh="CSS Profile 指导">CSS Profile Support</h3>
+      <p data-en="Support for complex institutional financial aid forms."
+         data-zh="为复杂的学校机构资助申请提供协助。">
+         Support for complex institutional financial aid forms.
+      </p>
     </div>
 
     <!-- 3 -->
     <div class="service-card">
-      <h3 data-en="College List Strategy"
-          data-zh="大学名单策略">College List Strategy</h3>
-      <div class="desc"
-           data-en="Optimized school selection based on academics & financial outcomes."
-           data-zh="基于学术与经济结果优化学校选择。">
-        Optimized school selection based on academics & financial outcomes.
-      </div>
-      <a class="apply-cta"
-         data-en="Learn More"
-         data-zh="了解更多">Learn More</a>
+      <div class="icon icon-3"></div>
+      <h3 data-en="College Funding Plan" data-zh="大学资金规划">College Funding Plan</h3>
+      <p data-en="Strategic planning to reduce college costs and increase affordability."
+         data-zh="制定策略以降低大学成本，提高经济可负担性。">
+         Strategic planning to reduce college costs and increase affordability.
+      </p>
     </div>
 
     <!-- 4 -->
     <div class="service-card">
-      <h3 data-en="Appeal Support"
-          data-zh="助学金申诉服务">Appeal Support</h3>
-      <div class="desc"
-           data-en="Professional help crafting award appeal letters to increase aid."
-           data-zh="专业协助撰写助学金申诉信，提高资助。">
-        Professional help crafting award appeal letters to increase aid.
-      </div>
-      <a class="apply-cta"
-         data-en="Improve Aid"
-         data-zh="提升资助">Improve Aid</a>
+      <div class="icon icon-4"></div>
+      <h3 data-en="Financial Wellness" data-zh="家庭财务健康">Financial Wellness</h3>
+      <p data-en="Tools and insights that help families make strong financial decisions."
+         data-zh="提供工具与洞察，协助家庭做出更稳健的财务决策。">
+         Tools and insights that help families make strong financial decisions.
+      </p>
     </div>
 
     <!-- 5 -->
     <div class="service-card">
-      <h3 data-en="Scholarship Search"
-          data-zh="奖学金搜索">Scholarship Search</h3>
-      <div class="desc"
-           data-en="Personalized scholarship matching to reduce cost."
-           data-zh="个性化奖学金匹配，减少大学花费。">
-        Personalized scholarship matching to reduce cost.
-      </div>
-      <a class="apply-cta"
-         data-en="Find Scholarships"
-         data-zh="查找奖学金">Find Scholarships</a>
+      <div class="icon icon-5"></div>
+      <h3 data-en="Scholarship Search" data-zh="奖学金搜索">Scholarship Search</h3>
+      <p data-en="Smart matching to find scholarship opportunities you may qualify for."
+         data-zh="智能匹配可能符合条件的奖学金机会。">
+         Smart matching to find scholarship opportunities you may qualify for.
+      </p>
     </div>
 
     <!-- 6 -->
     <div class="service-card">
-      <h3 data-en="Financial Planning"
-          data-zh="家庭财务规划">Financial Planning</h3>
-      <div class="desc"
-           data-en="Plan college funding smartly with expert guidance."
-           data-zh="智能规划大学资金，让家庭更轻松。">
-        Plan college funding smartly with expert guidance.
-      </div>
-      <a class="apply-cta"
-         data-en="Plan Better"
-         data-zh="优化规划">Plan Better</a>
+      <div class="icon icon-6"></div>
+      <h3 data-en="Document Review" data-zh="文件审核">Document Review</h3>
+      <p data-en="Professional review of education-related financial documents."
+         data-zh="专业审核教育相关的财务与申请文件。">
+         Professional review of education-related financial documents.
+      </p>
     </div>
 
     <!-- 7 -->
     <div class="service-card">
-      <h3 data-en="Merit Strategy"
-          data-zh="优秀奖策略">Merit Strategy</h3>
-      <div class="desc"
-           data-en="Maximize merit-based awards with targeted positioning."
-           data-zh="通过精准定位最大化优秀奖。">
-        Maximize merit-based awards with targeted positioning.
-      </div>
-      <a class="apply-cta"
-         data-en="Optimize Awards"
-         data-zh="优化奖项">Optimize Awards</a>
+      <div class="icon icon-7"></div>
+      <h3 data-en="Application Strategy" data-zh="申请策略">Application Strategy</h3>
+      <p data-en="Guidance for maximizing admission and aid outcomes."
+         data-zh="提供策略以提升录取与资助成功率。">
+         Guidance for maximizing admission and aid outcomes.
+      </p>
     </div>
 
     <!-- 8 -->
     <div class="service-card">
-      <h3 data-en="Application Review"
-          data-zh="申请材料审阅">Application Review</h3>
-      <div class="desc"
-           data-en="Expert review of your college applications."
-           data-zh="专家审阅你的大学申请材料。">
-        Expert review of your college applications.
-      </div>
-      <a class="apply-cta"
-         data-en="Review Now"
-         data-zh="立即审阅">Review Now</a>
+      <div class="icon icon-8"></div>
+      <h3 data-en="Appeal Assistance" data-zh="资助申诉协助">Appeal Assistance</h3>
+      <p data-en="Support for drafting college financial aid appeal letters."
+         data-zh="协助撰写大学资助申诉信，提升成功率。">
+         Support for drafting college financial aid appeal letters.
+      </p>
     </div>
 
     <!-- 9 -->
     <div class="service-card">
-      <h3 data-en="ED/EA Strategy"
-          data-zh="提前申请策略">ED/EA Strategy</h3>
-      <div class="desc"
-           data-en="Smart timing decisions for Early Decision & Early Action."
-           data-zh="科学判断 ED/EA 提前申请的最佳时机。">
-        Smart timing decisions for Early Decision & Early Action.
-      </div>
-      <a class="apply-cta"
-         data-en="Optimize Timing"
-         data-zh="优化申请时机">Optimize Timing</a>
+      <div class="icon icon-9"></div>
+      <h3 data-en="Education Center Access" data-zh="教育中心访问">Education Center Access</h3>
+      <p data-en="Full access to education tools, calculators, and planning content."
+         data-zh="访问教育工具、计算器、规划内容等全套资源。">
+         Full access to education tools, calculators, and planning content.
+      </p>
     </div>
 
     <!-- 10 -->
     <div class="service-card">
-      <h3 data-en="Award Comparison"
-          data-zh="助学金比较">Award Comparison</h3>
-      <div class="desc"
-           data-en="Side-by-side comparison of award letters to choose better offers."
-           data-zh="对比奖助金文件，选择最佳方案。">
-        Side-by-side comparison of award letters to choose better offers.
-      </div>
-      <a class="apply-cta"
-         data-en="Compare Awards"
-         data-zh="对比资助">Compare Awards</a>
+      <div class="icon icon-10"></div>
+      <h3 data-en="Family Coaching" data-zh="家庭教育辅导">Family Coaching</h3>
+      <p data-en="Personalized coaching for families planning multi-year education paths."
+         data-zh="为制定长期教育路径的家庭提供个性化辅导。">
+         Personalized coaching for families planning multi-year education paths.
+      </p>
     </div>
 
-    <!-- 11 (新增) -->
-    <div class="service-card">
-      <h3 data-en="College Real Estate Investment"
-          data-zh="大学周边房地产投资服务">
-          College Real Estate Investment
+    <!-- 11 — NEW -->
+    <div class="service-card highlight">
+      <div class="icon icon-11"></div>
+      <h3 data-en="Student Success Tracking"
+          data-zh="学生进度追踪">
+          Student Success Tracking
       </h3>
-      <div class="desc"
-           data-en="Helping families invest in properties near campus — ensuring quality living & strong investment returns."
-           data-zh="协助家庭投资大学周边房地产，确保孩子优质居住并获得最佳投资回报。">
-        Helping families invest in properties near campus — ensuring quality living & strong investment returns.
-      </div>
-      <a class="apply-cta"
-         data-en="Learn More"
-         data-zh="了解更多">Learn More</a>
+      <p data-en="Track academic progress, milestones, and college-readiness indicators."
+         data-zh="追踪学生的学习进度、学术里程碑与升学准备指数。">
+         Track academic progress, milestones, and college-readiness indicators.
+      </p>
     </div>
 
   </div>
 </section>
 
-
-<!-- ====================== TOOLS (原结构完整保留) ======================= -->
-<section id="tools" class="section">
-
+<!-- EDUCATION CENTER -->
+<section id="education" class="education">
   <h2 class="section-title"
-      data-en="Tools"
-      data-zh="工具">Tools</h2>
+      data-en="Education Center"
+      data-zh="教育中心">Education Center</h2>
 
-  <p class="section-sub"
-     data-en="Quick calculators and forms to assist your planning."
-     data-zh="快速计算器与工具，辅助您的规划。">
-     Quick calculators and forms to assist your planning.
+  <p class="section-desc"
+     data-en="A locked resource hub with calculators, tools, and premium content."
+     data-zh="一个包含计算器、工具和高级内容的加锁资源中心。">
+     A locked resource hub with calculators, tools, and premium content.
   </p>
 
-  <div class="tools-wrap">
-
-    <!-- 注册卡片 -->
-    <div class="card wide registration-card">
-      <h3 data-en="Quick Registration"
-          data-zh="快速注册">Quick Registration</h3>
-
-      <label data-en="Full Name"
-             data-zh="姓名">Full Name</label>
-      <input id="regName" type="text"
-             data-en="Enter your name"
-             data-zh="请输入姓名">
-
-      <label data-en="Email"
-             data-zh="邮箱">Email</label>
-      <input id="regEmail" type="email"
-             data-en="Enter your email"
-             data-zh="请输入邮箱">
-
-      <div class="form-actions">
-        <button class="btn btn-primary"
-                data-en="Register"
-                data-zh="注册">Register</button>
-      </div>
-    </div>
-
-    <!-- Quick Unlock -->
-    <div class="card quick-unlock-vertical">
-      <h3 data-en="Unlock Education"
-          data-zh="教育解锁">Unlock Education</h3>
-      <input id="unlockPhone" type="tel"
-             data-en="Phone Number"
-             data-zh="电话号码">
-      <button class="btn btn-primary"
-              data-en="Unlock"
-              data-zh="解锁">Unlock</button>
-    </div>
-
-    <!-- Aid Calculator -->
-    <div class="card">
-      <h3 data-en="Aid Calculator"
-          data-zh="助学金计算器">Aid Calculator</h3>
-      <p data-en="Estimate your expected aid quickly."
-         data-zh="快速估算您可能获得的助学金。">
-         Estimate your expected aid quickly.
-      </p>
-      <button class="btn btn-outline"
-              data-en="Start"
-              data-zh="开始">Start</button>
-    </div>
-
+  <!-- LOCKED BUTTON -->
+  <div class="center-btn">
+    <button class="btn locked"
+            data-en="Enter Education Center (Locked)"
+            data-zh="进入教育中心（已加锁）">
+            Enter Education Center (Locked)
+    </button>
   </div>
 </section>
 
 
-<!-- ====================== RESOURCES ======================= -->
-<section id="resources" class="section">
+
+<!-- QUICK UNLOCK (VERTICAL) -->
+<section id="quick-unlock" class="quick-unlock">
+  <h2 class="section-title"
+      data-en="Quick Unlock — Education Center"
+      data-zh="快速解锁 — 教育中心">
+      Quick Unlock — Education Center
+  </h2>
+
+  <div class="unlock-card">
+    <h3 data-en="Unlock Your Access"
+        data-zh="解锁您的访问权限">
+        Unlock Your Access
+    </h3>
+    <p data-en="Verify your basic information to unlock the Education Center."
+       data-zh="验证您的基本信息即可解锁教育中心。">
+       Verify your basic information to unlock the Education Center.
+    </p>
+
+    <form id="unlockForm">
+      <input type="text" placeholder="Name"
+             data-en-ph="Name"
+             data-zh-ph="姓名">
+
+      <input type="email" placeholder="Email"
+             data-en-ph="Email"
+             data-zh-ph="邮箱">
+
+      <button class="btn primary"
+              data-en="Unlock Now"
+              data-zh="立即解锁">
+              Unlock Now
+      </button>
+    </form>
+  </div>
+</section>
+
+
+
+<!-- ABOUT SUPEREDU -->
+<section id="about" class="about">
+  <h2 class="section-title"
+      data-en="About SuperEdu"
+      data-zh="关于 SuperEdu">
+      About SuperEdu
+  </h2>
+
+  <p class="section-desc"
+     data-en="SuperEdu provides guidance for Chinese families worldwide on US education, college admissions, financial aid (FAFSA/CSS), and college fund planning."
+     data-zh="SuperEdu 为全球华人家庭提供美国教育、大学申请、经济资助（FAFSA/CSS）与大学基金规划指导。">
+     SuperEdu provides guidance for Chinese families worldwide on US education, college admissions, financial aid (FAFSA/CSS), and college fund planning.
+  </p>
+</section>
+
+
+
+<!-- UPCOMING WEBINAR -->
+<section id="webinar" class="webinar">
+  <h2 class="section-title"
+      data-en="Upcoming Webinar"
+      data-zh="即将举行的讲座">
+      Upcoming Webinar
+  </h2>
+
+  <p class="section-desc"
+     data-en="Join our live webinar for FAFSA essentials and college funding strategies. Seats are limited — register now."
+     data-zh="参与我们的直播讲座，了解 FAFSA 基础与大学资金策略。名额有限 — 请即刻注册。">
+     Join our live webinar for FAFSA essentials and college funding strategies. Seats are limited — register now.
+  </p>
+
+  <div class="webinar-cta">
+    <button class="btn primary"
+            data-en="Join Webinar (Main Page)"
+            data-zh="加入讲座（主页面）">
+            Join Webinar (Main Page)
+    </button>
+
+    <button class="btn secondary"
+            data-en="Quick Register for Webinar"
+            data-zh="快速注册讲座">
+            Quick Register for Webinar
+    </button>
+  </div>
+</section>
+
+
+
+<!-- QUICK RESOURCES -->
+<section id="resources" class="resources">
   <h2 class="section-title"
       data-en="Quick Resources"
-      data-zh="快速资源">Quick Resources</h2>
+      data-zh="快速资源">
+      Quick Resources
+  </h2>
 
-  <p class="section-sub"
+  <p class="section-desc"
      data-en="Practical links for FAFSA, CSS Profile, college rankings and our Aid Calculator."
-     data-zh="FAFSA、CSS Profile、大学排名与助学金计算器的实用链接。">
+     data-zh="实用链接：FAFSA、CSS Profile、大学排名与我们的资助计算器。">
      Practical links for FAFSA, CSS Profile, college rankings and our Aid Calculator.
   </p>
 
-  <div class="resources-grid">
-    <a href="#" class="resource-pill"
-       data-en="LSFinova Aid Calculator"
-       data-zh="LSFinova 助学金计算器">
-       LSFinova Aid Calculator</a>
-
-    <a href="https://studentaid.gov" class="resource-pill"
-       data-en="FAFSA — studentaid.gov"
-       data-zh="FAFSA — 官方网站">
-       FAFSA — studentaid.gov</a>
-
-    <a href="#" class="resource-pill"
-       data-en="CSS Profile"
-       data-zh="CSS Profile">
-       CSS Profile</a>
-
-    <a href="#" class="resource-pill"
-       data-en="U.S. News — College Rankings"
-       data-zh="U.S. News — 大学排名">
-       U.S. News — College Rankings</a>
-  </div>
+  <ul class="resource-list">
+    <li>
+      <a href="#" target="_blank"
+         data-en="LSFinova Aid Calculator"
+         data-zh="LSFinova 资助计算器">
+         LSFinova Aid Calculator
+      </a>
+    </li>
+    <li>
+      <a href="https://studentaid.gov" target="_blank"
+         data-en="FAFSA — studentaid.gov"
+         data-zh="FAFSA — 官方网站">
+         FAFSA — studentaid.gov
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_blank"
+         data-en="CSS Profile"
+         data-zh="CSS Profile">
+         CSS Profile
+      </a>
+    </li>
+    <li>
+      <a href="https://www.usnews.com/best-colleges" target="_blank"
+         data-en="US News — College Rankings"
+         data-zh="US News — 大学排名">
+         US News — College Rankings
+      </a>
+    </li>
+  </ul>
 </section>
 
 
-<!-- ====================== CONTACT ======================= -->
-<section id="contact" class="section">
-  <h2 class="section-title"
-      data-en="Contact Us"
-      data-zh="联系我们">Contact Us</h2>
 
-  <p class="section-sub"
-     data-en="We are here to help you navigate your college journey."
-     data-zh="我们随时准备帮助您完成大学规划。">
-     We are here to help you navigate your college journey.
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <h2 class="section-title"
+      data-en="Contact"
+      data-zh="联系我们">
+      Contact
+  </h2>
+
+  <p class="contact-info">
+    <strong>Email：</strong> info@superedu.us<br>
+    <strong>Phone：</strong> 1 (916) 793-0676 (Text Only)<br>
+    <strong>Wechat：</strong> Leon_Song_PhD
   </p>
 
-  <div class="card wide">
-    <h3 data-en="Send Message"
-        data-zh="发送消息">Send Message</h3>
-
-    <label data-en="Your Message"
-           data-zh="您的消息">Your Message</label>
-    <textarea id="msgContent"
-              rows="5"
-              data-en="Type your message..."
-              data-zh="请输入您的消息..."></textarea>
-
-    <div class="form-actions">
-      <button class="btn btn-primary"
-              data-en="Send"
-              data-zh="发送">Send</button>
-    </div>
-  </div>
-
 </section>
 
-
-<!-- ====================== FOOTER ======================= -->
-<footer>
+<!-- FOOTER -->
+<footer class="footer">
   <div class="footer-inner">
 
     <div class="footer-col">
       <h4 data-en="SuperEdu"
-          data-zh="SuperEdu">SuperEdu</h4>
-      <p data-en="Smart college planning for families."
-         data-zh="为家庭提供智能大学规划服务。">
-         Smart college planning for families.
+          data-zh="SuperEdu">
+          SuperEdu
+      </h4>
+      <p data-en="Your global partner for US education strategy."
+         data-zh="您的美国教育策略全球伙伴。">
+         Your global partner for US education strategy.
       </p>
     </div>
 
     <div class="footer-col">
-      <h4 data-en="Links"
-          data-zh="链接">Links</h4>
-      <a href="#hero">Home</a><br>
-      <a href="#services">Services</a><br>
-      <a href="#tools">Tools</a><br>
-      <a href="#resources">Resources</a><br>
-      <a href="#contact">Contact</a>
+      <h4 data-en="Navigation"
+          data-zh="导航">
+          Navigation
+      </h4>
+      <ul class="footer-links">
+        <li><a href="#hero" data-en="Home" data-zh="首页">Home</a></li>
+        <li><a href="#services" data-en="Services" data-zh="服务">Services</a></li>
+        <li><a href="#education" data-en="Education Center" data-zh="教育中心">Education Center</a></li>
+        <li><a href="#webinar" data-en="Webinar" data-zh="讲座">Webinar</a></li>
+        <li><a href="#contact" data-en="Contact" data-zh="联系">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4 data-en="Resources"
+          data-zh="资源">
+          Resources
+      </h4>
+      <ul class="footer-links">
+        <li><a href="#" data-en="Aid Calculator" data-zh="资助计算器">Aid Calculator</a></li>
+        <li><a href="https://studentaid.gov" target="_blank"
+               data-en="FAFSA Official Site"
+               data-zh="FAFSA 官方网站">
+               FAFSA Official Site
+        </a></li>
+        <li><a href="#" target="_blank" data-en="CSS Profile" data-zh="CSS Profile">CSS Profile</a></li>
+        <li><a href="https://www.usnews.com/best-colleges" target="_blank"
+               data-en="College Rankings"
+               data-zh="大学排名">
+               College Rankings
+        </a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4 data-en="Contact"
+          data-zh="联系我们">
+          Contact
+      </h4>
+      <p>
+        Email: info@superedu.us<br>
+        Phone: 1 (916) 793-0676<br>
+        WeChat: Leon_Song_PhD
+      </p>
     </div>
 
   </div>
@@ -480,10 +491,10 @@
 </footer>
 
 
-<!-- scripts -->
+
+<!-- JS: language toggler + menu scripts -->
 <script src="lang.js"></script>
 <script src="menu.js"></script>
 
 </body>
 </html>
-
