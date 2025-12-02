@@ -1,100 +1,305 @@
-/* assets/css/main.css
-   SuperEdu V1.0 -- Tech-Modern (responsive)
-*/
+/* ================================
+   SuperEdu — main.css V1.0
+   科技风蓝紫渐变 4B89FF → 6E4BFF
+   ================================ */
 
-/* Reset / base */
-:root{
-  --brand-gold:#D8B04C;
-  --brand-green:#2C9C47;
-  --accent:#1E7033;
-  --bg:#FAF5E9;
-  --muted:#7B7B7B;
-  --text:#1f2933;
-  --card:#fff;
-  --radius:12px;
-}
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;padding:0;font-family:Inter, "Segoe UI", Roboto, Arial, sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
-a{text-decoration:none;color:inherit}
-
-/* Header / Nav */
-.site-nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,0.72);backdrop-filter:blur(6px);border-bottom:1px solid rgba(0,0,0,0.04);z-index:140}
-.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:10px 20px;gap:12px}
-.brand{display:flex;align-items:center;gap:12px}
-.brand-logo{height:36px;width:auto;border-radius:8px;padding:4px;background:rgba(255,255,255,0.9)}
-.brand-title{font-weight:700;color:var(--accent);transform:translateY(-3px);font-size:18px}
-
-/* center menu */
-.nav-center{display:flex;gap:16px;align-items:center;justify-content:center;flex:1}
-.nav-link{padding:8px 10px;font-weight:600;border-radius:8px;color:var(--text);transition:all .14s}
-.nav-link:hover{color:var(--brand-green);background:rgba(44,156,71,0.06)}
-
-/* right */
-.nav-right{display:flex;align-items:center;gap:8px}
-.lang-toggle{background:#fff;border:1px solid rgba(0,0,0,0.06);padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700}
-.hamburger{display:none;border:0;background:transparent;padding:6px;border-radius:8px}
-.hamburger .hamburger-box span{display:block;height:2px;background:#222;margin:4px 0;border-radius:2px;width:18px}
-
-/* mobile panel */
-.mobile-panel{display:none;position:fixed;top:64px;right:12px;background:#fff;border-radius:12px;padding:12px;width:260px;box-shadow:0 14px 40px rgba(0,0,0,0.12);z-index:160}
-.mobile-panel a{display:block;padding:8px;border-radius:8px;color:var(--text)}
-
-/* hero */
-.hero{max-width:1200px;margin:calc(64px + 60px) auto 20px;padding:20px;display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center}
-@media(max-width:980px){.hero{grid-template-columns:1fr;padding-top:110px}}
-.hero-title{font-size:40px;line-height:1.06;margin:0;color:var(--accent);font-weight:800}
-.hero-sub{margin-top:12px;color:var(--muted);font-size:15px}
-.hero-actions{display:flex;gap:12px;margin-top:18px;flex-wrap:wrap}
-.btn-primary{background:linear-gradient(90deg,var(--brand-gold),#f0c85f);padding:12px 18px;border-radius:12px;font-weight:800;border:0;cursor:pointer;color:#111}
-.btn-outline{background:transparent;padding:10px 16px;border-radius:12px;border:2px solid var(--accent);font-weight:700;color:var(--accent)}
-.btn-ghost{background:#fff;padding:10px 14px;border-radius:12px;border:1px solid rgba(0,0,0,0.06);font-weight:700}
-.btn-no-wrap{white-space:nowrap}
-.hero-note{margin-top:14px;color:#5b5b5b;font-size:13px}
-
-/* hero visual */
-.hero-right{background:linear-gradient(180deg, rgba(216,176,76,0.10), rgba(44,156,71,0.04));border-radius:16px;padding:20px;display:flex;align-items:center;justify-content:center}
-.hero-visual{width:100%;height:260px;border-radius:12px;background:linear-gradient(135deg,#fff,#FAF5E9);box-shadow:0 18px 36px rgba(0,0,0,0.06)}
-@media(max-width:980px){.hero-visual{height:180px}}
-
-/* sections */
-.section{max-width:1200px;margin:18px auto;padding:18px 20px}
-.section-title{font-size:22px;color:var(--accent);font-weight:800;margin:0 0 8px}
-.section-sub{color:var(--muted);margin:0 0 12px}
-
-/* services grid */
-.services-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-@media(min-width:980px){.services-grid{grid-template-columns:repeat(4,1fr)}}
-.service-card{background:var(--card);padding:14px;border-radius:12px;border:1px solid rgba(0,0,0,0.03);cursor:pointer;transition:all .16s}
-.service-card:hover{transform:translateY(-6px);box-shadow:0 10px 32px rgba(0,0,0,0.06)}
-
-/* cards layout for contact + unlock */
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media(max-width:900px){.contact-grid{grid-template-columns:1fr}}
-.card{background:var(--card);padding:14px;border-radius:12px;border:1px solid rgba(0,0,0,0.04)}
-.contact-card h4{margin-top:0}
-.form-compact input{width:100%;padding:10px;border-radius:8px;border:1px solid #ececec;margin-top:8px}
-.form-actions{margin-top:10px;display:flex;gap:8px;align-items:center}
-
-/* edu panel */
-.edu-panel{padding:18px;border-radius:12px;background:linear-gradient(90deg, rgba(216,176,76,0.08), rgba(44,156,71,0.04));text-align:center}
-.links-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-.link-pill{display:inline-block;padding:10px 12px;border-radius:10px;border:1px solid rgba(0,0,0,0.04);background:linear-gradient(180deg,#fff,#FAF5E9);color:var(--accent);font-weight:700}
-
-/* footer */
-footer{padding:20px;background:transparent;color:var(--muted)}
-.footer-inner{max-width:1200px;margin:0 auto;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-.footer-logo{height:44px}
-
-/* small helpers */
-.muted{color:var(--muted)}
-.small{font-size:13px;color:var(--muted)}
-
-/* responsive adjustments */
-@media(max-width:700px){
-  .nav-center{display:none}
-  .hamburger{display:block}
-  .mobile-panel{display:none}
+/* --------- RESET --------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* subtle focus styles */
-a:focus, button:focus, input:focus{outline:3px solid rgba(34,197,94,0.12);outline-offset:2px}
+body {
+    font-family: "Inter", "Microsoft YaHei", sans-serif;
+    color: #222;
+    background: #ffffff;
+    line-height: 1.6;
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* ================================
+   1.  TOP NAVIGATION
+================================ */
+
+nav {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    padding: 14px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    /* 默认半透明 */
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(6px);
+    transition: all 0.35s ease;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+/* 滚动后更透明 + 更明显的科技质感 */
+nav.scrolled {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    padding: 10px 60px;
+}
+
+/* LOGO + 文字 */
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-area img {
+    height: 42px;
+}
+
+.logo-text {
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: -3px; /* 微调垂直对齐 */
+}
+
+/* --------- Desktop Menu --------- */
+.menu {
+    display: flex;
+    gap: 32px;
+}
+
+.menu a {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* --------- Language Switch --------- */
+.lang-switch {
+    margin-left: 30px;
+}
+
+.lang-btn {
+    padding: 6px 16px;
+    border-radius: 16px;
+    border: 1px solid #4B89FF;
+    background: white;
+    color: #4B89FF;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.lang-btn:hover {
+    background: #4B89FF;
+    color: #fff;
+}
+
+/* --------- Mobile Menu Button --------- */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    width: 26px;
+    height: 3px;
+    background: #333;
+    border-radius: 4px;
+}
+
+/* ================================
+   2.  HERO SECTION
+================================ */
+
+.hero {
+    padding: 180px 60px 140px;
+    background: linear-gradient(135deg, #4B89FF, #6E4BFF);
+    color: #fff;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 52px;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 20px;
+    max-width: 760px;
+    margin: auto;
+    opacity: 0.9;
+}
+
+/* CTA 按钮组 */
+.cta-group {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.btn {
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.btn-gradient {
+    background: linear-gradient(135deg, #4B89FF, #6E4BFF);
+    color: #fff;
+}
+
+.btn-gradient:hover {
+    opacity: 0.85;
+}
+
+.btn-outline {
+    border: 2px solid #fff;
+    color: #fff;
+}
+
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* ================================
+   3. SECTIONS LAYOUT
+================================ */
+
+.section {
+    padding: 120px 60px;
+}
+
+.section h2 {
+    font-size: 36px;
+    font-weight: 800;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+/* ================================
+   4. SERVICE GRID
+================================ */
+
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+
+.service-card {
+    background: linear-gradient(180deg, #ffffff, #f4f8ff);
+    border-radius: 18px;
+    padding: 32px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    transition: 0.3s;
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+}
+
+.service-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+/* ================================
+   5. RESOURCE LINKS
+================================ */
+
+.resources {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    max-width: 700px;
+    margin: auto;
+}
+
+.resource-item {
+    padding: 16px 22px;
+    background: #f7faff;
+    border-radius: 14px;
+    border: 1px solid #e6edff;
+    font-size: 17px;
+}
+
+/* ================================
+   6. FOOTER
+================================ */
+
+footer {
+    padding: 50px 60px;
+    background: #111;
+    color: #eee;
+    text-align: center;
+}
+
+footer a {
+    color: #6E4BFF;
+}
+
+/* ================================
+   7. MOBILE RESPONSIVE
+================================ */
+
+@media (max-width: 960px) {
+
+    nav {
+        padding: 14px 24px;
+    }
+
+    nav.scrolled {
+        padding: 8px 24px;
+    }
+
+    .menu {
+        display: none;
+        position: absolute;
+        right: 24px;
+        top: 72px;
+        flex-direction: column;
+        gap: 16px;
+        padding: 20px;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(8px);
+        border-radius: 16px;
+    }
+
+    .menu.show {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .hero {
+        padding: 160px 24px 100px;
+    }
+
+    .cta-group {
+        flex-direction: column;
+    }
+
+    .service-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .resources {
+        grid-template-columns: 1fr;
+    }
+
+    .section {
+        padding: 80px 24px;
+    }
+}

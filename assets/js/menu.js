@@ -1,76 +1,83 @@
-/* assets/js/menu.js
-   Navigation & utilities module for SuperEdu V1.0
-   Exposes `menu` global with:
-     - toggleMobile()
-     - enterEdu()
-     - validateEmail(email)
-*/
-(function(global){
-  const mobileBtn = document.getElementById('hamburger');
-  const mobilePanel = document.getElementById('mobilePanel') || document.getElementById('mobilePanel');
-  let mobileOpen = false;
+/* ======================================================
+   SuperEdu — menu.js V1.0
+   1) 导航栏：默认半透明 → 滚动后更透明 + 模糊增强
+   2) 移动端：汉堡菜单展开/收起
+   3) 与 main.css 完整对应
+   ====================================================== */
 
-  function toggleMobile(){
-    const panel = document.getElementById('mobilePanel');
-    if(!panel) return;
-    mobileOpen = !mobileOpen;
-    panel.style.display = mobileOpen ? 'block' : 'none';
-    panel.setAttribute('aria-hidden', !mobileOpen);
-  }
+(function () {
 
-  if(mobileBtn){
-    mobileBtn.addEventListener('click', (e)=>{ e.stopPropagation(); toggleMobile(); });
-    // close when clicking outside
-    document.addEventListener('click', (e)=>{
-      const panel = document.getElementById('mobilePanel');
-      if(!panel) return;
-      if(mobileOpen && !panel.contains(e.target) && !mobileBtn.contains(e.target)){
-        toggleMobile();
-      }
-    });
-    // close on ESC
-    document.addEventListener('keydown', (ev)=>{
-      if(ev.key === 'Escape' && mobileOpen){ toggleMobile(); }
-    });
-  }
+    const nav = document.getElementById("topNav");
+    const hamburger = document.getElementById("hamburger");
+    const mobileMenu = document.getElementById("mobileMenu");
 
-  // simple email validator (used on front-end)
-  function validateEmail(email){
-    if(!email || typeof email !== 'string') return false;
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email.trim());
-  }
+    /* ===============================
+       1. 导航栏滚动行为
+       默认：半透明
+       滚动：更透明 + 增强模糊
+       =============================== */
+    function updateNav() {
+        const y = window.scrollY;
 
-  // Education center access check
-  function enterEdu(){
-    try{
-      const token = JSON.parse(localStorage.getItem('edu_unlocked_token') || 'null');
-      const lang = (window.langModule && window.langModule.getLang && window.langModule.getLang()) || 'en';
-      if(!token){
-        alert(lang === 'en' ? 'Please unlock access first.' : '请先解锁教育中心');
-        window.location = '/unlock.html';
-        return;
-      }
-      // token exists => open education center
-      window.location = '/education.html';
-    }catch(e){
-      console.error(e);
-      window.location = '/unlock.html';
+        if (y > 40) {
+            nav.classList.remove("nav--half");
+            nav.classList.add("nav--more-transparent");
+        } else {
+            nav.classList.add("nav--half");
+            nav.classList.remove("nav--more-transparent");
+        }
     }
-  }
 
-  // scroll behaviour: shrink nav on scroll
-  function initScrollNav(){
-    const nav = document.getElementById('siteNav');
-    if(!nav) return;
-    const shrinkAt = 20;
-    window.addEventListener('scroll', ()=>{
-      if(window.scrollY > shrinkAt) nav.classList.add('nav-scrolled');
-      else nav.classList.remove('nav-scrolled');
-    });
-  }
-  document.addEventListener('DOMContentLoaded', initScrollNav);
+    window.addEventListener("scroll", updateNav);
+    updateNav();
 
-  // expose
-  global.menu = { toggleMobile, enterEdu, validateEmail };
-})(window);
+
+
+    /* ===============================
+       2. 移动端汉堡菜单
+       =============================== */
+
+    if (hamburger) {
+        hamburger.addEventListener("click", () => {
+            const isOpen = mobileMenu.classList.contains("open");
+
+            if (isOpen) {
+                mobileMenu.classList.remove("open");
+                mobileMenu.style.display = "none";
+                hamburger.classList.remove("active");
+            } else {
+                mobileMenu.classList.add("open");
+                mobileMenu.style.display = "block";
+                hamburger.classList.add("active");
+            }
+        });
+    }
+
+    /* 点击菜单项后关闭 mobile menu */
+    if (mobileMenu) {
+        mobileMenu.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", () => {
+                mobileMenu.classList.remove("open");
+                mobileMenu.style.display = "none";
+                hamburger.classList.remove("active");
+            });
+        });
+    }
+
+
+    /* ===============================
+       3. 可选的小优化：调整小屏按钮触控面积
+       =============================== */
+    function adjustPadding() {
+        if (window.innerWidth <= 720) {
+            nav.style.padding = "10px 14px";
+        } else {
+            nav.style.padding = "14px 20px";
+        }
+    }
+
+    window.addEventListener("resize", adjustPadding);
+    adjustPadding();
+
+
+})();
