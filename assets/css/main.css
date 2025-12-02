@@ -1,112 +1,305 @@
-/* main.css — SuperEdu modern tech style (blue→purple gradient) */
-:root{
-  --brand-1:#4B89FF;
-  --brand-2:#6E4BFF;
-  --grad: linear-gradient(135deg,var(--brand-1) 0%,var(--brand-2) 100%);
-  --bg:#F7F9FF;
-  --muted:#6B7280;
-  --text:#0A0A0A;
-  --card:#ffffff;
-  --glass: rgba(255,255,255,0.65);
-  --radius:14px;
-  --maxw:1200px;
+/* ================================
+   SuperEdu — main.css V1.0
+   科技风蓝紫渐变 4B89FF → 6E4BFF
+   ================================ */
+
+/* --------- RESET --------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Reset basics */
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;padding:0;font-family:Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased}
-a{color:inherit;text-decoration:none}
-
-/* NAV */
-nav#topNav{position:fixed;top:0;left:0;width:100%;z-index:60;transition:all .25s ease}
-nav#topNav.nav--transparent{background:transparent;border-bottom:0}
-nav#topNav.nav--solid{background:rgba(255,255,255,0.96);border-bottom:1px solid #e6eaf3;box-shadow:0 6px 18px rgba(20,30,60,0.04);backdrop-filter: blur(6px)}
-nav .nav-inner{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
-.brand{display:flex;align-items:center;gap:12px}
-.logo-img{height:36px;width:auto;border-radius:8px;padding:4px;background:#fff}
-.brand-text{font-weight:700;color:var(--brand-2);font-size:18px;line-height:1;transform:translateY(-2px)} /* lift text a bit to align with logo */
-
-.menu{display:flex;gap:8px;align-items:center}
-.menu a{padding:6px 12px;border-radius:8px;font-weight:600;color:#222;transition:all .15s}
-.menu a:hover{color:var(--brand-1);transform:translateY(-1px)}
-.nav-right{display:flex;align-items:center;gap:12px}
-.lang-toggle{padding:8px 12px;border-radius:10px;border:1px solid rgba(0,0,0,0.08);background:#fff;cursor:pointer}
-.hamburger{display:none;background:none;border:0;padding:6px;cursor:pointer}
-.hamburger span{display:block;width:22px;height:2px;background:#222;margin:4px 0;border-radius:2px;transition:all .2s}
-
-/* mobile menu (slide) */
-.mobile-menu{display:none;max-width:var(--maxw);margin:0 auto;padding:10px 20px;}
-
-/* HERO */
-.hero{max-width:var(--maxw);margin:0 auto;padding:140px 20px 80px;display:grid;grid-template-columns:1fr 460px;gap:36px;align-items:center}
-.hero-left{}
-.hero-title{font-size:44px;line-height:1.08;margin:0 0 12px;font-weight:800}
-.hero-desc{color:var(--muted);margin:0 0 18px;font-size:16px;max-width:640px}
-.hero-ctas{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-.btn{cursor:pointer;border-radius:12px;padding:12px 18px;font-weight:700;transition:all .15s;display:inline-block}
-.btn-primary{background:var(--grad);color:#fff;border:0;box-shadow:0 8px 28px rgba(75,137,255,0.14)}
-.btn-outline{background:transparent;border:2px solid var(--brand-1);color:var(--brand-1)}
-.btn-link{background:transparent;border:0;color:var(--brand-2);font-weight:700}
-.hero-subitems{margin-top:14px;display:flex;gap:12px;flex-wrap:wrap}
-.sub-link{color:var(--muted);font-weight:600}
-
-/* hero graphic */
-.hero-right .hero-graphic{height:320px;border-radius:22px;background:var(--grad);box-shadow:0 18px 60px rgba(75,137,255,0.12)}
-
-/* SECTIONS */
-.section{max-width:var(--maxw);margin:60px auto;padding:40px 20px}
-.section-title{font-size:30px;font-weight:800;color:var(--brand-2);text-align:center;margin:0}
-.section-sub{text-align:center;color:var(--muted);margin-top:8px;margin-bottom:28px}
-
-/* services grid (larger cards, stacked gradient) */
-.services-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:20px}
-.service-card{background:linear-gradient(180deg,#fff,#FAF5E9);border-radius:12px;padding:18px;border:1px solid rgba(10,10,10,0.03);box-shadow:0 8px 24px rgba(9,30,66,0.04);transition:all .18s}
-.service-card h3{margin:0 0 8px;font-size:18px;color:var(--brand-2)}
-.service-card .desc{color:var(--muted);line-height:1.45;margin-bottom:12px}
-.apply-cta{display:inline-block;padding:8px 12px;border-radius:10px;background:var(--brand-1);color:#fff;font-weight:700}
-
-/* tools area: three columns -> stacked on mobile */
-.tools-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.card{background:var(--card);padding:18px;border-radius:12px;border:1px solid rgba(0,0,0,0.04);box-shadow:0 6px 18px rgba(0,0,0,0.03)}
-.card.wide{grid-column:1/-1}
-.registration-card label{display:block;font-size:13px;margin-top:10px}
-.registration-card input{width:100%;padding:10px;border-radius:8px;border:1px solid #e8e8e8;margin-top:6px}
-.form-actions{display:flex;gap:12px;align-items:center;margin-top:12px}
-.form-status{font-size:13px;color:var(--muted)}
-
-/* quick unlock vertical */
-.quick-unlock-vertical input{width:100%;padding:10px;border-radius:8px;border:1px solid #e8e8e8;margin-top:8px}
-
-/* resources */
-.resources-grid{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
-.resource-pill{padding:10px 14px;border-radius:10px;background:linear-gradient(180deg,#fff,#FAF5E9);border:1px solid rgba(0,0,0,0.04);color:var(--brand-2);font-weight:700}
-
-/* footer */
-footer{background:#0f1724;color:#cbd5e1;padding:40px 20px;margin-top:40px}
-.footer-inner{max-width:var(--maxw);margin:0 auto;display:flex;gap:36px;flex-wrap:wrap}
-.footer-col{flex:1;min-width:160px}
-.footer-col h4{color:#fff;margin:0 0 8px}
-.footer-copy{text-align:center;color:#94a3b8;margin-top:20px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.02)}
-
-/* responsive */
-@media(max-width:1024px){
-  .hero{grid-template-columns:1fr 360px;padding:100px 20px 60px}
-  .services-grid{grid-template-columns:1fr}
-  .tools-wrap{grid-template-columns:1fr}
-}
-@media(max-width:720px){
-  .menu{display:none}
-  .hamburger{display:block}
-  .hero{grid-template-columns:1fr;padding:110px 16px 40px}
-  .brand-text{display:inline-block}
-  .hero-title{font-size:28px}
-  .hero-right{display:none}
-  .services-grid{grid-template-columns:1fr}
-  .footer-inner{flex-direction:column}
-  .mobile-menu{display:block}
-  .mobile-menu a{display:block;padding:10px 0;border-bottom:1px solid rgba(0,0,0,0.03)}
-  .mobile-actions{padding:12px 0;display:flex;gap:12px;flex-direction:column}
+body {
+    font-family: "Inter", "Microsoft YaHei", sans-serif;
+    color: #222;
+    background: #ffffff;
+    line-height: 1.6;
 }
 
-/* small niceties */
-.btn:active{transform:translateY(1px)}
+a { text-decoration: none; color: inherit; }
+
+/* ================================
+   1.  TOP NAVIGATION
+================================ */
+
+nav {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    padding: 14px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    /* 默认半透明 */
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(6px);
+    transition: all 0.35s ease;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+/* 滚动后更透明 + 更明显的科技质感 */
+nav.scrolled {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    padding: 10px 60px;
+}
+
+/* LOGO + 文字 */
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-area img {
+    height: 42px;
+}
+
+.logo-text {
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: -3px; /* 微调垂直对齐 */
+}
+
+/* --------- Desktop Menu --------- */
+.menu {
+    display: flex;
+    gap: 32px;
+}
+
+.menu a {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* --------- Language Switch --------- */
+.lang-switch {
+    margin-left: 30px;
+}
+
+.lang-btn {
+    padding: 6px 16px;
+    border-radius: 16px;
+    border: 1px solid #4B89FF;
+    background: white;
+    color: #4B89FF;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.lang-btn:hover {
+    background: #4B89FF;
+    color: #fff;
+}
+
+/* --------- Mobile Menu Button --------- */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    width: 26px;
+    height: 3px;
+    background: #333;
+    border-radius: 4px;
+}
+
+/* ================================
+   2.  HERO SECTION
+================================ */
+
+.hero {
+    padding: 180px 60px 140px;
+    background: linear-gradient(135deg, #4B89FF, #6E4BFF);
+    color: #fff;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 52px;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 20px;
+    max-width: 760px;
+    margin: auto;
+    opacity: 0.9;
+}
+
+/* CTA 按钮组 */
+.cta-group {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.btn {
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.btn-gradient {
+    background: linear-gradient(135deg, #4B89FF, #6E4BFF);
+    color: #fff;
+}
+
+.btn-gradient:hover {
+    opacity: 0.85;
+}
+
+.btn-outline {
+    border: 2px solid #fff;
+    color: #fff;
+}
+
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* ================================
+   3. SECTIONS LAYOUT
+================================ */
+
+.section {
+    padding: 120px 60px;
+}
+
+.section h2 {
+    font-size: 36px;
+    font-weight: 800;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+/* ================================
+   4. SERVICE GRID
+================================ */
+
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+
+.service-card {
+    background: linear-gradient(180deg, #ffffff, #f4f8ff);
+    border-radius: 18px;
+    padding: 32px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    transition: 0.3s;
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+}
+
+.service-card h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+/* ================================
+   5. RESOURCE LINKS
+================================ */
+
+.resources {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    max-width: 700px;
+    margin: auto;
+}
+
+.resource-item {
+    padding: 16px 22px;
+    background: #f7faff;
+    border-radius: 14px;
+    border: 1px solid #e6edff;
+    font-size: 17px;
+}
+
+/* ================================
+   6. FOOTER
+================================ */
+
+footer {
+    padding: 50px 60px;
+    background: #111;
+    color: #eee;
+    text-align: center;
+}
+
+footer a {
+    color: #6E4BFF;
+}
+
+/* ================================
+   7. MOBILE RESPONSIVE
+================================ */
+
+@media (max-width: 960px) {
+
+    nav {
+        padding: 14px 24px;
+    }
+
+    nav.scrolled {
+        padding: 8px 24px;
+    }
+
+    .menu {
+        display: none;
+        position: absolute;
+        right: 24px;
+        top: 72px;
+        flex-direction: column;
+        gap: 16px;
+        padding: 20px;
+        background: rgba(255,255,255,0.95);
+        backdrop-filter: blur(8px);
+        border-radius: 16px;
+    }
+
+    .menu.show {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .hero {
+        padding: 160px 24px 100px;
+    }
+
+    .cta-group {
+        flex-direction: column;
+    }
+
+    .service-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .resources {
+        grid-template-columns: 1fr;
+    }
+
+    .section {
+        padding: 80px 24px;
+    }
+}

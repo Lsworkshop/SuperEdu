@@ -1,54 +1,83 @@
-// menu.js — hamburger, nav scroll behavior, mobile menu
-(function(){
-  const nav = document.getElementById('topNav');
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const maxTransparent = 60; // px scrolled when nav becomes solid
+/* ======================================================
+   SuperEdu — menu.js V1.0
+   1) 导航栏：默认半透明 → 滚动后更透明 + 模糊增强
+   2) 移动端：汉堡菜单展开/收起
+   3) 与 main.css 完整对应
+   ====================================================== */
 
-  // toggle mobile menu
-  if(hamburger){
-    hamburger.addEventListener('click', function(){
-      const open = mobileMenu.getAttribute('aria-hidden') === 'false';
-      mobileMenu.setAttribute('aria-hidden', open ? 'true' : 'false');
-      mobileMenu.style.display = open ? 'none':'block';
-      // animate hamburger (simple)
-      hamburger.classList.toggle('open', !open);
-    });
-  }
+(function () {
 
-  // close mobile menu on link click
-  mobileMenu && mobileMenu.querySelectorAll('a').forEach(a=>{
-    a.addEventListener('click', ()=> { mobileMenu.setAttribute('aria-hidden','true'); mobileMenu.style.display='none'; hamburger.classList.remove('open'); });
-  });
+    const nav = document.getElementById("topNav");
+    const hamburger = document.getElementById("hamburger");
+    const mobileMenu = document.getElementById("mobileMenu");
 
-  // nav scroll behavior: transparent → solid
-  function onScroll(){
-    const y = window.scrollY || window.pageYOffset;
-    if(y > maxTransparent) {
-      nav.classList.remove('nav--transparent'); nav.classList.add('nav--solid');
-    } else {
-      nav.classList.add('nav--transparent'); nav.classList.remove('nav--solid');
+    /* ===============================
+       1. 导航栏滚动行为
+       默认：半透明
+       滚动：更透明 + 增强模糊
+       =============================== */
+    function updateNav() {
+        const y = window.scrollY;
+
+        if (y > 40) {
+            nav.classList.remove("nav--half");
+            nav.classList.add("nav--more-transparent");
+        } else {
+            nav.classList.add("nav--half");
+            nav.classList.remove("nav--more-transparent");
+        }
     }
-  }
-  window.addEventListener('scroll', onScroll);
-  onScroll();
 
-  // Improve mobile hamburger touch area & position: adjust padding on small screens
-  function adjustForMobile(){
-    if(window.innerWidth <= 720){
-      // ensure hamburger isn't too close to edge by padding body via nav inner (CSS already handles but this ensures)
-      document.querySelector('.nav-inner').style.padding = '12px 18px';
-    } else {
-      document.querySelector('.nav-inner').style.padding = '14px 20px';
+    window.addEventListener("scroll", updateNav);
+    updateNav();
+
+
+
+    /* ===============================
+       2. 移动端汉堡菜单
+       =============================== */
+
+    if (hamburger) {
+        hamburger.addEventListener("click", () => {
+            const isOpen = mobileMenu.classList.contains("open");
+
+            if (isOpen) {
+                mobileMenu.classList.remove("open");
+                mobileMenu.style.display = "none";
+                hamburger.classList.remove("active");
+            } else {
+                mobileMenu.classList.add("open");
+                mobileMenu.style.display = "block";
+                hamburger.classList.add("active");
+            }
+        });
     }
-  }
-  window.addEventListener('resize', adjustForMobile);
-  adjustForMobile();
 
-  // small tweak: align brand text vertically (if needed)
-  const brandText = document.querySelector('.brand-text');
-  if(brandText){
-    // keep slightly lifted to visually match logo height
-    brandText.style.transform = 'translateY(-2px)';
-  }
+    /* 点击菜单项后关闭 mobile menu */
+    if (mobileMenu) {
+        mobileMenu.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", () => {
+                mobileMenu.classList.remove("open");
+                mobileMenu.style.display = "none";
+                hamburger.classList.remove("active");
+            });
+        });
+    }
+
+
+    /* ===============================
+       3. 可选的小优化：调整小屏按钮触控面积
+       =============================== */
+    function adjustPadding() {
+        if (window.innerWidth <= 720) {
+            nav.style.padding = "10px 14px";
+        } else {
+            nav.style.padding = "14px 20px";
+        }
+    }
+
+    window.addEventListener("resize", adjustPadding);
+    adjustPadding();
+
+
 })();
