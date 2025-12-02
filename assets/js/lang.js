@@ -1,157 +1,163 @@
-/* ==========================================
-   SuperEdu — lang.js V1.0
-   全站语言切换：英文 <-> 中文
-   ========================================== */
+// ===============================
+//  lang.js — V1.0  
+//  For SuperEdu bilingual website  
+//  全站中英文切换（按钮、服务内容、导航、CTA 全包含）
+// ===============================
 
-const langData = {
+const translations = {
     en: {
         nav_home: "Home",
         nav_services: "Services",
-        nav_resources: "Resources",
+        nav_join: "Register / Join",
+        nav_unlock: "Unlock",
         nav_contact: "Contact",
 
-        hero_title: "Unlock U.S. Education — Smarter, Faster, Globally",
-        hero_subtitle: "SuperEdu helps international families navigate U.S. K12, college admission, FAFSA/CSS financial aid, and long-term education planning.",
+        hero_title: "SuperEdu — Unlock U.S. Education",
+        hero_sub: "Your trusted pathway to U.S. schools, colleges, and financial aid.",
+        hero_btn_register: "Join Now",
+        hero_btn_unlock: "Quick Unlock — Education Center",
 
-        btn_register: "Register / Join",
-        btn_unlock: "Quick Unlock — Education Center",
-        btn_apply: "Apply for Service",
-        btn_enter_center: "Enter Education Center (Locked)",
+        service_title: "Our Services",
+        service_1_title: "U.S. Education & Comparative Analysis",
+        service_1_desc: "Macro analysis of U.S. K12 and higher education vs. mainland China.",
+        service_2_title: "U.S. K12 School Selection",
+        service_2_desc: "Guidance on U.S. public, private and charter school selection.",
+        service_3_title: "College Admissions Strategy",
+        service_3_desc: "Customized admission strategies for U.S. colleges.",
+        service_4_title: "FAFSA Guidance",
+        service_4_desc: "Full support for FAFSA application and financial aid planning.",
+        service_5_title: "CSS Profile Assistance",
+        service_5_desc: "Professional assistance for the CSS Profile submission.",
+        service_6_title: "College Funding Strategy",
+        service_6_desc: "Planning for college savings, scholarships and financial packages.",
+        service_7_title: "Parent Education Coaching",
+        service_7_desc: "Support for parents in understanding the U.S. education system.",
+        service_8_title: "U.S. Life & Community Integration",
+        service_8_desc: "Guidance for new immigrant or international student families.",
+        service_9_title: "Career Development Pathways",
+        service_9_desc: "Exploring college majors and professional career tracks.",
+        service_10_title: "Education Center Unlock",
+        service_10_desc: "Unlock full access to SuperEdu’s private learning center.",
+        service_11_title: "College Housing Investment Service",
+        service_11_desc: "Real estate consulting near universities to optimize living & investment.",
+
+        service_apply_btn: "Apply for Service",
 
         about_title: "About SuperEdu",
-        about_text:
-            "SuperEdu provides guidance for Chinese families worldwide on U.S. education, college admissions, financial aid (FAFSA/CSS), and long-term college funding planning.",
+        about_text: 
+            "SuperEdu provides guidance for Chinese families worldwide on U.S. education, college admissions, FAFSA/CSS, and college funding planning.",
 
         webinar_title: "Upcoming Webinar",
         webinar_text:
-            "Join our live webinar for FAFSA essentials and college funding strategies. Seats are limited — register to reserve a spot.",
-        btn_join_webinar: "Join Webinar",
-        btn_quick_register_webinar: "Quick Register for Webinar",
+            "Join our live webinar for FAFSA essentials and college funding strategies. Seats are limited — register now.",
 
-        service_title: "Professional Services",
-        service_1_title: "1. U.S. Education & Comparative Analysis",
-        service_1_desc: "Macro analysis of U.S. K12 and higher education vs. mainland China.",
-        service_2_title: "2. College Planning",
-        service_2_desc: "Customized academic and extracurricular strategy for U.S. college admissions.",
-        service_3_title: "3. FAFSA Guidance",
-        service_3_desc: "Step-by-step FAFSA support for maximizing federal aid.",
-        service_4_title: "4. CSS Profile Support",
-        service_4_desc: "Comprehensive assistance for CSS Profile to improve institutional aid eligibility.",
-        service_5_title: "5. Need-Based Aid Strategy",
-        service_5_desc: "Advanced analysis to optimize family financial presentation for aid.",
-        service_6_title: "6. Merit Scholarship Planning",
-        service_6_desc: "Targeted approach for maximizing merit-based scholarships.",
-        service_7_title: "7. Ivy/Elite School Special Support",
-        service_7_desc: "High-tier application strategy for competitive universities.",
-        service_8_title: "8. U.S. Private School Applications",
-        service_8_desc: "Full guidance for U.S. boarding and private school admissions.",
-        service_9_title: "9. College Funding Plan",
-        service_9_desc: "Long-term education funding and tax-efficient planning.",
-        service_10_title: "10. International Family Education Planning",
-        service_10_desc: "Integrated K12 + college roadmap for global families.",
-        service_11_title: "11. College-Area Real Estate Planning",
-        service_11_desc: "Advisory for housing investment near universities to support students and optimize long-term returns.",
+        webinar_btn_main: "Join Webinar (Main Page)",
+        webinar_btn_quick: "Quick Register for Webinar",
 
-        resource_title: "Quick Resources",
-        resource_text: "Practical links for FAFSA, CSS Profile, college rankings and our Aid Calculator.",
+        resources_title: "Quick Resources",
+        resources_desc: "Practical links for FAFSA, CSS Profile, college rankings and our Aid Calculator.",
         res_calc: "LSFinova Aid Calculator",
         res_fafsa: "FAFSA — studentaid.gov",
         res_css: "CSS Profile",
-        res_usnews: "US News — College Rankings",
+        res_rank: "US News — College Rankings",
 
         contact_title: "Contact",
-        contact_phone: "Phone: 1-916-793-0676 (Text Only)",
+        contact_phone: "Phone: 1 916-793-0676 (Texting Only)",
         contact_wechat: "WeChat ID: Leon_Song_PhD",
 
-        footer_text: "© 2025 SuperEdu. All Rights Reserved."
+        footer_rights: "All rights reserved."
     },
 
     zh: {
-        nav_home: "首页",
+        nav_home: "主页",
         nav_services: "服务内容",
-        nav_resources: "快速资源",
-        nav_contact: "联系我们",
+        nav_join: "注册 / 加入",
+        nav_unlock: "快速解锁",
+        nav_contact: "联系方式",
 
-        hero_title: "解锁美国教育 —— 更快、更准、更智慧",
-        hero_subtitle: "SuperEdu 为全球华人家庭提供美国 K12、高校申请、FAFSA/CSS 助学金规划及长期教育规划服务。",
+        hero_title: "SuperEdu — 解锁美国教育",
+        hero_sub: "为华人家庭提供美国留学、院校规划与助学金指导。",
+        hero_btn_register: "立即加入",
+        hero_btn_unlock: "快速解锁 — 教育中心",
 
-        btn_register: "注册 / 加入",
-        btn_unlock: "快速解锁 —— 教育中心",
-        btn_apply: "申请服务",
-        btn_enter_center: "进入教育中心（已加锁）",
+        service_title: "我们的服务",
+        service_1_title: "美国教育与中美比较分析",
+        service_1_desc: "美国K12与高等教育对比中国大陆的宏观分析。",
+        service_2_title: "美国K12学校选择",
+        service_2_desc: "公立、私立与特许学校的择校指导。",
+        service_3_title: "大学申请策略",
+        service_3_desc: "为申请美国大学提供个性化规划策略。",
+        service_4_title: "FAFSA助学金指导",
+        service_4_desc: "FAFSA全流程申请支持与家庭资助规划。",
+        service_5_title: "CSS Profile 专业协助",
+        service_5_desc: "CSS Profile 填写与提交专业指导。",
+        service_6_title: "大学资金规划",
+        service_6_desc: "大学储蓄、奖学金与资助组合规划。",
+        service_7_title: "家长教育辅导",
+        service_7_desc: "帮助家长理解美国教育体系与路径。",
+        service_8_title: "美国生活与社区融入",
+        service_8_desc: "新移民或留学生家庭提供落地与文化支持。",
+        service_9_title: "职业发展路径",
+        service_9_desc: "探索专业方向与未来职业规划。",
+        service_10_title: "教育中心解锁",
+        service_10_desc: "解锁 SuperEdu 私人教育中心全部内容。",
+        service_11_title: "大学周边房地产投资服务",
+        service_11_desc: "帮助孩子获得优质住宿并实现房产最佳投资。",
+
+        service_apply_btn: "申请服务",
 
         about_title: "关于 SuperEdu",
         about_text:
-            "SuperEdu 为全球华人家庭提供美国教育咨询、大学申请规划、FAFSA/CSS 助学金规划以及长期教育基金规划。",
+            "SuperEdu 为全球华人家庭提供美国教育、大学申请、FAFSA/CSS 助学金与大学资金规划服务。",
 
-        webinar_title: "即将上线的直播课",
+        webinar_title: "即将举行的讲座",
         webinar_text:
-            "加入我们的 FAFSA 助学金与大学资金规划直播课。名额有限，请提前预约。",
-        btn_join_webinar: "加入直播课",
-        btn_quick_register_webinar: "快速报名直播课",
+            "加入我们的直播讲座：FAFSA 要点与大学资金规划。名额有限，请立即注册。",
 
-        service_title: "专业服务内容",
-        service_1_title: "1. 美国教育体系与对比分析",
-        service_1_desc: "对美国 K12 与高等教育体系进行宏观分析，并与中国大陆教育体系对比。",
-        service_2_title: "2. 大学规划与策略制定",
-        service_2_desc: "提供学术与课外活动规划，助力美国大学申请。",
-        service_3_title: "3. FAFSA 助学金申请指导",
-        service_3_desc: "逐步指导填写 FAFSA，帮助学生获取更多联邦资助。",
-        service_4_title: "4. CSS Profile 申请支持",
-        service_4_desc: "全面协助完成 CSS Profile，提高学校奖助金获批概率。",
-        service_5_title: "5. 基于需求的助学金策略",
-        service_5_desc: "优化家庭财务呈现方式，提升助学金获得率。",
-        service_6_title: "6. 优秀奖学金规划",
-        service_6_desc: "制定策略，最大化获得优秀学生奖学金的机会。",
-        service_7_title: "7. 顶尖名校申请特别支持",
-        service_7_desc: "针对藤校与精英大学的高级申请策略。",
-        service_8_title: "8. 美国私立学校申请指导",
-        service_8_desc: "提供美国寄宿与私立学校申请的全流程指导。",
-        service_9_title: "9. 大学资金规划方案",
-        service_9_desc: "提供长期教育资金规划与税务优化策略。",
-        service_10_title: "10. 国际家庭教育规划",
-        service_10_desc: "为海外家庭提供从 K12 到大学的一体化教育规划路线图。",
-        service_11_title: "11. 大学周边房地产投资与规划",
-        service_11_desc: "为孩子大学就读提供住房投资方案，实现优质居住 + 房产增值。",
+        webinar_btn_main: "加入讲座（主页面）",
+        webinar_btn_quick: "快速注册讲座",
 
-        resource_title: "Quick Resources —— 快速资源",
-        resource_text: "FAFSA、CSS Profile、大学排名与助学金计算器等实用链接。",
+        resources_title: "快速资源",
+        resources_desc: "FAFSA、CSS Profile、大学排名与助学金计算器的实用链接。",
         res_calc: "LSFinova 助学金计算器",
-        res_fafsa: "FAFSA — studentaid.gov（联邦助学金）",
-        res_css: "CSS Profile（学校助学金）",
-        res_usnews: "US News — 美国大学排名",
+        res_fafsa: "FAFSA — studentaid.gov",
+        res_css: "CSS Profile",
+        res_rank: "US News — 大学排名",
 
-        contact_title: "联系我们",
-        contact_phone: "电话：1-916-793-0676（仅短信）",
-        contact_wechat: "微信 ID：Leon_Song_PhD",
+        contact_title: "联系方式",
+        contact_phone: "电话：1 916-793-0676 （仅限短信）",
+        contact_wechat: "微信：Leon_Song_PhD",
 
-        footer_text: "© 2025 SuperEdu 版权所有"
+        footer_rights: "版权所有。"
     }
 };
 
-/* ==========================================
-   Apply Language to DOM
-========================================== */
-function applyLanguage(lang) {
-    document.querySelectorAll("[data-lang]").forEach(el => {
-        const key = el.getAttribute("data-lang");
-        if (langData[lang][key]) {
-            el.innerHTML = langData[lang][key];
+// ===========================
+// Language Switcher
+// ===========================
+function switchLanguage(lang) {
+    document.querySelectorAll("[data-translate]").forEach(el => {
+        const key = el.getAttribute("data-translate");
+        if (translations[lang][key]) {
+            el.textContent = translations[lang][key];
         }
     });
+
+    // 按钮（value 属性）
+    document.querySelectorAll("[data-translate-value]").forEach(el => {
+        const key = el.getAttribute("data-translate-value");
+        if (translations[lang][key]) {
+            el.value = translations[lang][key];
+        }
+    });
+
+    localStorage.setItem("lang", lang);
 }
 
-/* ==========================================
-   Language Switch Button
-========================================== */
-const langBtn = document.getElementById("langBtn");
-let currentLang = "en";
-
-langBtn.addEventListener("click", () => {
-    currentLang = currentLang === "en" ? "zh" : "en";
-    applyLanguage(currentLang);
-    langBtn.innerHTML = currentLang === "en" ? "中文" : "EN";
+// ===========================
+// Load Saved Language
+// ===========================
+document.addEventListener("DOMContentLoaded", () => {
+    const saved = localStorage.getItem("lang") || "en";
+    switchLanguage(saved);
 });
-
-/* 默认加载英文 */
-applyLanguage("en");
