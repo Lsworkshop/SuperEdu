@@ -1,44 +1,54 @@
-// lang.js — simple language toggler (data-en / data-zh)
-(function(){
+/* assets/js/lang.js
+   Language module for SuperEdu V1.0
+   Provides:
+    - getLang(), setLang()
+    - t(en, zh) simple translator
+    - onChange(callback) subscribe to language change
+*/
+(function(global){
   const KEY = 'superedu-lang';
-  let lang = localStorage.getItem(KEY) || (document.documentElement.lang || 'en');
-  // expose for other scripts
-  window.supereduLang = lang;
+  let current = localStorage.getItem(KEY) || 'en';
+  const listeners = [];
 
-  function applyLang(l){
-    lang = l;
-    localStorage.setItem(KEY, l);
-    document.documentElement.lang = l;
-    // text nodes
+  function applyDOM(){
     document.querySelectorAll('[data-en]').forEach(el=>{
       const en = el.getAttribute('data-en');
       const zh = el.getAttribute('data-zh');
       if(!en && !zh) return;
-      // inputs/textarea placeholders handled elsewhere; here set innerText for elements
-      if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-        // use data attributes as placeholder if present
-        if(en || zh) el.placeholder = (l==='en') ? en || '' : zh || '';
-      } else {
-        el.innerText = (l==='en') ? en || zh || el.innerText : zh || en || el.innerText;
-      }
+      el.textContent = current === 'en' ? (en || zh) : (zh || en);
     });
+    // ARIA and button label
+    const togg = document.getElementById('langToggle');
+    if(togg) togg.textContent = current === 'en' ? '中文' : 'EN';
+    document.documentElement.lang = current;
+  }
 
-    // ensure nav lang button text
+  function setLang(l){
+    if(!l) return;
+    current = l;
+    localStorage.setItem(KEY, l);
+    applyDOM();
+    listeners.forEach(fn=>{ try{ fn(l); }catch(e){console.error(e);} });
+  }
+
+  function getLang(){ return current; }
+  function onChange(fn){ if(typeof fn === 'function') listeners.push(fn); }
+
+  // helper: choose between en/zh strings
+  function t(en, zh){ return current === 'en' ? (en||zh) : (zh||en); }
+
+  // init - attach toggle button
+  document.addEventListener('DOMContentLoaded', ()=>{
+    applyDOM();
     const btn = document.getElementById('langToggle');
-    if(btn) btn.innerText = (lang==='en') ? '中文' : 'EN';
-    // remember globally
-    window.supereduLang = lang;
-  }
+    if(btn){
+      btn.addEventListener('click', ()=>{
+        setLang(current === 'en' ? 'zh' : 'en');
+      });
+    }
+  });
 
-  // initial apply
-  applyLang(lang);
+  // export
+  global.langModule = { getLang, setLang, onChange, t };
+})(window);
 
-  // attach to toggle button
-  const btn = document.getElementById('langToggle');
-  if(btn){
-    btn.addEventListener('click', function(){
-      const next = (localStorage.getItem(KEY) === 'en') ? 'zh' : 'en';
-      applyLang(next);
-    });
-  }
-})();
