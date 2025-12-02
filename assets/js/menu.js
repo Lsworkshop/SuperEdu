@@ -1,69 +1,54 @@
-// ===============================
-// menu.js — V1.0  
-// SuperEdu Navigation + Mobile Menu + Transparent Header Scroll Effect
-// ===============================
+// menu.js — hamburger, nav scroll behavior, mobile menu
+(function(){
+  const nav = document.getElementById('topNav');
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const maxTransparent = 60; // px scrolled when nav becomes solid
 
-// Mobile menu elements
-const menuBtn = document.querySelector(".menu-btn");
-const mobileMenu = document.querySelector(".mobile-menu");
-const menuOverlay = document.querySelector(".menu-overlay");
-
-// ===============================
-// 1. Mobile Menu Toggle
-// ===============================
-if (menuBtn) {
-    menuBtn.addEventListener("click", () => {
-        mobileMenu.classList.toggle("active");
-        menuOverlay.classList.toggle("active");
+  // toggle mobile menu
+  if(hamburger){
+    hamburger.addEventListener('click', function(){
+      const open = mobileMenu.getAttribute('aria-hidden') === 'false';
+      mobileMenu.setAttribute('aria-hidden', open ? 'true' : 'false');
+      mobileMenu.style.display = open ? 'none':'block';
+      // animate hamburger (simple)
+      hamburger.classList.toggle('open', !open);
     });
-}
+  }
 
-// Close menu when clicking overlay
-if (menuOverlay) {
-    menuOverlay.addEventListener("click", () => {
-        mobileMenu.classList.remove("active");
-        menuOverlay.classList.remove("active");
-    });
-}
+  // close mobile menu on link click
+  mobileMenu && mobileMenu.querySelectorAll('a').forEach(a=>{
+    a.addEventListener('click', ()=> { mobileMenu.setAttribute('aria-hidden','true'); mobileMenu.style.display='none'; hamburger.classList.remove('open'); });
+  });
 
-// Close menu when selecting item (mobile)
-document.querySelectorAll(".mobile-menu a").forEach(item => {
-    item.addEventListener("click", () => {
-        mobileMenu.classList.remove("active");
-        menuOverlay.classList.remove("active");
-    });
-});
-
-// ===============================
-// 2. Transparent Header → More Transparent on Scroll
-// ===============================
-const header = document.querySelector("header");
-
-window.addEventListener("scroll", () => {
-    if (!header) return;
-
-    if (window.scrollY > 40) {
-        header.classList.add("scrolled");
+  // nav scroll behavior: transparent → solid
+  function onScroll(){
+    const y = window.scrollY || window.pageYOffset;
+    if(y > maxTransparent) {
+      nav.classList.remove('nav--transparent'); nav.classList.add('nav--solid');
     } else {
-        header.classList.remove("scrolled");
+      nav.classList.add('nav--transparent'); nav.classList.remove('nav--solid');
     }
-});
+  }
+  window.addEventListener('scroll', onScroll);
+  onScroll();
 
-// ===============================
-// 3. Smooth Scrolling for internal links like Register / Join & Unlock
-// ===============================
-document.querySelectorAll("a[href^='#']").forEach(link => {
-    link.addEventListener("click", function (e) {
-        const targetId = this.getAttribute("href");
-        if (targetId.length > 1) {
-            e.preventDefault();
-            const targetEl = document.querySelector(targetId);
-            if (targetEl) {
-                window.scrollTo({
-                    top: targetEl.offsetTop - 80,
-                    behavior: "smooth"
-                });
-            }
-        }
-    });
-});
+  // Improve mobile hamburger touch area & position: adjust padding on small screens
+  function adjustForMobile(){
+    if(window.innerWidth <= 720){
+      // ensure hamburger isn't too close to edge by padding body via nav inner (CSS already handles but this ensures)
+      document.querySelector('.nav-inner').style.padding = '12px 18px';
+    } else {
+      document.querySelector('.nav-inner').style.padding = '14px 20px';
+    }
+  }
+  window.addEventListener('resize', adjustForMobile);
+  adjustForMobile();
+
+  // small tweak: align brand text vertically (if needed)
+  const brandText = document.querySelector('.brand-text');
+  if(brandText){
+    // keep slightly lifted to visually match logo height
+    brandText.style.transform = 'translateY(-2px)';
+  }
+})();
