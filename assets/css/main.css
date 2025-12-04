@@ -116,3 +116,28 @@ footer{background:#0f1724;color:#cbd5e1;padding:40px 20px;margin-top:40px}
   display: none;
 }
 
+/* === 强制：移动端基于 aria-hidden 隐藏/显示移动菜单 === */
+/* 放在 main.css 最底部，确保覆盖 media 查询 */
+@media (max-width: 720px) {
+  /* 默认收起（当 aria-hidden="true"） */
+  .mobile-menu[aria-hidden="true"] {
+    display: none !important;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+  }
+
+  /* 展开（当 aria-hidden="false"） */
+  .mobile-menu[aria-hidden="false"] {
+    display: block !important;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* 让汉堡 open 状态更明显（可选美化） */
+  .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+}
+
