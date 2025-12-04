@@ -110,3 +110,9 @@ footer{background:#0f1724;color:#cbd5e1;padding:40px 20px;margin-top:40px}
 
 /* small niceties */
 .btn:active{transform:translateY(1px)}
+
+/* Ensure mobile menu is hidden by default */
+.mobile-menu[aria-hidden="true"] {
+  display: none;
+}
+
