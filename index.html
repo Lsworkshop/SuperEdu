@@ -41,6 +41,7 @@
         </button>
       </div>
     </div>
+
     <!-- mobile slide menu -->
     <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
       <a href="#home" data-en="Home" data-zh="首页">Home</a>
@@ -58,6 +59,16 @@
   <!-- HERO -->
   <header id="home" class="hero">
     <div class="hero-left">
+
+      <!-- 🌟 HERO 大图标 -->
+      <div style="width:64px; height:64px; margin-bottom:18px;">
+        <svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="#4F7BFF" stroke-width="1.5">
+          <path d="M12 3l8 4-8 4-8-4 8-4z"/>
+          <path d="M4 10l8 4 8-4"/>
+          <path d="M4 16l8 4 8-4"/>
+        </svg>
+      </div>
+
       <h1 class="hero-title" data-en="Smarter Education Planning for Every Family" data-zh="为每个家庭提供更智慧的教育规划">
         Smarter Education Planning for Every Family
       </h1>
@@ -67,7 +78,6 @@
       </p>
 
       <div class="hero-ctas">
-        <!-- these scroll to sections on the same page -->
         <button class="btn btn-primary" id="ctaRegister" data-en="Register / Join" data-zh="注册 / 加入">Register / Join</button>
         <button class="btn btn-outline" id="ctaUnlock" data-en="Quick Unlock → Education" data-zh="快速解锁 → 教育">Quick Unlock → Education</button>
         <a class="btn btn-link" href="/apply.html" id="ctaApply" target="_self" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
@@ -84,105 +94,259 @@
     </div>
   </header>
 
-  <main>
+
+ <main>
+
+
     <!-- SERVICES -->
-    <section id="services" class="section section--services">
-      <h2 class="section-title" data-en="Our Services" data-zh="我们的服务">Our Services</h2>
-      <p class="section-sub" data-en="Click any service to read the detailed page and apply." data-zh="点击任意服务查看详细信息并提交申请。">Click any service to read the detailed page and apply.</p>
+   
+<!-- SERVICES (Part 2: enhanced with icons, 11 items) -->
+<section id="services" class="section section--services" style="margin:40px auto; padding:28px 20px;">
+  <!-- large header icon (brand gradient rounded rectangle + white line book/star motif) -->
+  <div style="text-align:center;margin-bottom:10px;">
+    <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img">
+      <defs>
+        <linearGradient id="g-header" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0" stop-color="#4B89FF"/>
+          <stop offset="1" stop-color="#6E4BFF"/>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="72" height="72" rx="14" fill="url(#g-header)"/>
+      <!-- white line icon: stylized open book + star -->
+      <path d="M18 28c6-4 12-4 18 0 6-4 12-4 18 0" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M24 34v12c0 1.2.9 2 2 2h20c1.1 0 2-.8 2-2V34" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M50 20l2 4 4 .5-3 3 .7 4-3.7-2.1L47 30l-3.7 2.1.7-4-3-3 4-.5 2-4z" fill="#fff" opacity="0.95"/>
+    </svg>
+  </div>
 
-      <div class="services-grid">
-        <!-- 10 service cards with longer descriptions -->
-        <article class="service-card" onclick="location.href='/services/service-1.html'">
-          <h3 data-en="1. U.S. Education & Comparative Analysis" data-zh="1. 美国教育与比较分析">1. U.S. Education & Comparative Analysis</h3>
-          <p class="desc" data-en="Macro analysis of U.S. K12 and higher education vs. mainland China — system differences, learning models, assessment and outcomes."
-             data-zh="对美国 K12 与高等教育与中国大陆教育体系进行宏观比较分析——系统差异、学习模式、评估方法与结果异同。">
-            Macro analysis of U.S. K12 and higher education vs. mainland China — system differences, learning models, assessment and outcomes.
-          </p>
-          <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
-        </article>
+  <h2 class="section-title" data-en="Our Services" data-zh="我们的服务">Our Services</h2>
+  <p class="section-sub" data-en="Click any service to read the detailed page and apply." data-zh="点击任意服务查看详细信息并提交申请。">Click any service to read the detailed page and apply.</p>
 
-        <article class="service-card" onclick="location.href='/services/service-2.html'">
-          <h3 data-en="2. College Application Strategy & Planning" data-zh="2. 大学申请策略与规划">2. College Application Strategy & Planning</h3>
-          <p class="desc" data-en="End-to-end application planning: platform strategy, timeline, major selection, application materials, and interview prep."
-             data-zh="端到端申请规划：平台策略、时间线、专业选择、申请材料与面试准备。">
-            End-to-end application planning: platform strategy, timeline, major selection, application materials, and interview prep.
-          </p>
-          <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
-        </article>
+  <div class="services-grid" style="margin-top:12px; gap:14px;">
+    <!-- 1 -->
+    <article class="service-card" onclick="location.href='/services/service-1.html'">
+      <h3>
+        <!-- small icon -->
+        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0" stop-color="#4B89FF"/>
+              <stop offset="1" stop-color="#6E4BFF"/>
+            </linearGradient>
+          </defs>
+          <rect width="28" height="28" rx="6" fill="url(#g1)"/>
+          <path d="M8 11h12M8 15h8" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        <span data-en="1. U.S. Education — Comparative Overview" data-zh="1. 美国教育优势与中美比较">1. U.S. Education — Comparative Overview</span>
+      </h3>
+      <p class="desc" data-en="High-level comparison of US K12 & higher education vs mainland China — systems, learning models, assessments and outcomes."
+         data-zh="对美国 K12 与高等教育与中国大陆教育体系进行宏观比较分析——系统差异、学习模式、评估方法与结果异同。">
+        Macro analysis of U.S. K12 and higher education vs. mainland China — system differences, learning models, assessment and outcomes.
+      </p>
+      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+    </article>
 
-        <article class="service-card" onclick="location.href='/services/service-3.html'">
-          <h3 data-en="3. Pre-College Profile Development (AP / Summer Programs)" data-zh="3. 升学档案构建（AP / 暑期项目）">3. Pre-College Profile Development (AP / Summer Programs)</h3>
-          <p class="desc" data-en="Course selection, AP planning and summer program strategy to build a standout academic and extracurricular profile."
-             data-zh="课程选择、AP 规划与暑期项目策略，打造突出的学术与课外活动档案。">
-            Course selection, AP planning and summer program strategy to build a standout academic and extracurricular profile.
-          </p>
-          <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
-        </article>
+    <!-- 2 -->
+    <article class="service-card" onclick="location.href='/services/service-2.html'">
+      <h3>
+        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
+          <defs>
+            <linearGradient id="g2" x1="0" x2="1"><stop offset="0" stop-color="#4B89FF"/><stop offset="1" stop-color="#6E4BFF"/></linearGradient>
+          </defs>
+          <rect width="28" height="28" rx="6" fill="url(#g2)"/>
+          <path d="M9 9h10v10H9z" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+          <path d="M9 13h10" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <span data-en="2. University Applications — Overview & Process" data-zh="2. 美国大学申请总体：流程、学费与资源">2. University Applications — Overview & Process</span>
+      </h3>
+      <p class="desc" data-en="Overview of mainstream university ecosystems, application flows, courses, and tuition. Includes guidance & resources."
+         data-zh="包括主流大学简介、申请流程、大学课程与学费；并提供咨询与资源支持。">
+        Overview of mainstream university ecosystems, application flows, courses, and tuition. Includes guidance & resources.
+      </p>
+      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+    </article>
 
-        <article class="service-card" onclick="location.href='/services/service-4.html'">
-          <h3 data-en="4. Financial Aid (FAFSA / CSS) — One-on-One" data-zh="4. 助学金（FAFSA / CSS）一对一">4. Financial Aid (FAFSA / CSS) — One-on-One</h3>
-          <p class="desc" data-en="Detailed FAFSA & CSS walkthroughs, grant and loan strategies, and institutional aid case-by-case support."
-             data-zh="详细的 FAFSA 与 CSS 操作指导、助学金与贷款策略，以及院校个案援助。">
-            Detailed FAFSA & CSS walkthroughs, grant and loan strategies, and institutional aid case-by-case support.
-          </p>
-          <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
-        </article>
+    <!-- 3 -->
+    <article class="service-card" onclick="location.href='/services/service-3.html'">
+      <h3>
+        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
+          <defs>
+            <linearGradient id="g3" x1="0" x2="1"><stop offset="0" stop-color="#4B89FF"/><stop offset="1" stop-color="#6E4BFF"/></linearGradient>
+          </defs>
+          <rect width="28" height="28" rx="6" fill="url(#g3)"/>
+          <path d="M8 16l3-6 3 6 3-8 3 8" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span data-en="3. Pre-College Profile (AP / Summer)" data-zh="3. 大学申请前课程、AP 与暑期项目">3. Pre-College Profile (AP / Summer)</span>
+      </h3>
+      <p class="desc" data-en="Course planning, AP strategy and summer programs to build a standout academic & extracurricular profile."
+         data-zh="课程选择、AP 规划与暑期项目策略，打造突出的升学档案与课外活动经历。">
+        Course planning, AP strategy and summer programs to build a standout academic & extracurricular profile.
+      </p>
+      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+    </article>
 
-        <article class="service-card" onclick="location.href='/services/service-5.html'">
-          <h3 data-en="5. Scholarship Application Support" data-zh="5. 奖学金申请支持">5. Scholarship Application Support</h3>
-          <p class="desc" data-en="Merit & need-based scholarship research, essay strategy and application management for high school and college scholarships."
-             data-zh="成绩型与需求型奖学金研究、论文策略与申请管理，覆盖高中及大学奖学金。">
-            Merit & need-based scholarship research, essay strategy and application management for high school and college scholarships.
-          </p>
-          <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
-        </article>
+    <!-- 4 -->
+    <article class="service-card" onclick="location.href='/services/service-4.html'">
+      <h3>
+        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
+          <defs>
+            <linearGradient id="g4" x1="0" x2="1"><stop offset="0" stop-color="#4B89FF"/><stop offset="1" stop-color="#6E4BFF"/></linearGradient>
+          </defs>
+          <rect width="28" height="28" rx="6" fill="url(#g4)"/>
+          <path d="M9 11h10M9 15h6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M14 7v2" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <span data-en="4. Financial Aid (FAFSA / CSS) — One-on-One" data-zh="4. 助学金（FAFSA / CSS）一对一辅导">4. Financial Aid (FAFSA / CSS) — One-on-One</span>
+      </h3>
+      <p class="desc" data-en="Detailed one-on-one FAFSA & CSS walkthroughs: grants, loans and institutional aid strategies."
+         data-zh="提供详细的一对一 FAFSA 与 CSS 指导，包含助学金、贷款与院校资助策略。">
+        Detailed one-on-one FAFSA & CSS walkthroughs: grants, loans and institutional aid strategies.
+      </p>
+      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+    </article>
 
-        <article class="service-card" onclick="location.href='/services/service-6.html'">
-          <h3 data-en="6. Family & Long-term Education Planning" data-zh="6. 家庭与长期教育规划">6. Family & Long-term Education Planning</h3>
-          <p class="desc" data-en="Holistic K12 → college planning to maximize outcomes, timing and aid across siblings and family situations."
-             data-zh="从 K12 到大学的整体规划，优化效果、时间安排与助学金分配，兼顾兄弟姐妹及家庭状况。">
-            Holistic K12 → college planning to maximize outcomes, timing and aid across siblings and family situations.
-          </p>
-          <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
-        </article>
+    <!-- 5 -->
+    <article class="service-card" onclick="location.href='/services/service-5.html'">
+      <h3>
+        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
+          <defs>
+            <linearGradient id="g5" x1="0" x2="1"><stop offset="0" stop-color="#4B89FF"/><stop offset="1" stop-color="#6E4BFF"/></linearGradient>
+          </defs>
+          <rect width="28" height="28" rx="6" fill="url(#g5)"/>
+          <path d="M8 14h12M10 10l2 2 4-4 2 2" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        </svg>
+        <span data-en="5. Scholarship Application Support" data-zh="5. 奖学金申请支持（高中与大学）">5. Scholarship Application Support</span>
+      </h3>
+      <p class="desc" data-en="Merit & need-based scholarship research, essay strategy and application management for high school and college."
+         data-zh="覆盖高中与大学的成绩型与需求型奖学金研究、论文策略与申请管理。">
+        Merit & need-based scholarship research, essay strategy and application management for high school and college.
+      </p>
+      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+    </article>
 
-        <article class="service-card" onclick="location.href='/services/service-7.html'">
-          <h3 data-en="7. Education Savings & Tax (ESA / 529)" data-zh="7. 教育储蓄与税务（ESA / 529）">7. Education Savings & Tax (ESA / 529)</h3>
-          <p class="desc" data-en="Account selection, tax-efficient structures, and cross-jurisdiction considerations for education savings and tax planning."
-             data-zh="账户选择、税务高效结构与跨司法区考量，为教育储蓄与税务规划提供建议。">
-            Account selection, tax-efficient structures, and cross-jurisdiction considerations for education savings and tax planning.
-          </p>
-          <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
-        </article>
+    <!-- 6 -->
+    <article class="service-card" onclick="location.href='/services/service-6.html'">
+      <h3>
+        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
+          <defs>
+            <linearGradient id="g6" x1="0" x2="1"><stop offset="0" stop-color="#4B89FF"/><stop offset="1" stop-color="#6E4BFF"/></linearGradient>
+          </defs>
+          <rect width="28" height="28" rx="6" fill="url(#g6)"/>
+          <path d="M8 18c2-3 6-4 12 0" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M9 12h10" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <span data-en="6. Family & Long-term Education Planning" data-zh="6. 家庭与长期教育规划">6. Family & Long-term Education Planning</span>
+      </h3>
+      <p class="desc" data-en="Holistic K12→college planning to maximize outcomes, timing and aid across siblings and family situations."
+         data-zh="为家庭提供从 K12 到大学的整体规划，优化时间与助学金分配，兼顾兄弟姐妹与家庭情况。">
+        Holistic K12→college planning to maximize outcomes, timing and aid across siblings and family situations.
+      </p>
+      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+    </article>
 
-        <article class="service-card" onclick="location.href='/services/service-8.html'">
-          <h3 data-en="8. College Fund Design & Financial Strategy" data-zh="8. 大学基金设计与财务策略">8. College Fund Design & Financial Strategy</h3>
-          <p class="desc" data-en="Designing long-term college funding strategies, investment allocation and risk considerations aligned to family goals."
-             data-zh="设计长期大学资助方案、投资配置与风险考量，使之与家庭目标一致。">
-            Designing long-term college funding strategies, investment allocation and risk considerations aligned to family goals.
-          </p>
-          <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
-        </article>
+    <!-- 7 -->
+    <article class="service-card" onclick="location.href='/services/service-7.html'">
+      <h3>
+        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
+          <defs>
+            <linearGradient id="g7" x1="0" x2="1"><stop offset="0" stop-color="#4B89FF"/><stop offset="1" stop-color="#6E4BFF"/></linearGradient>
+          </defs>
+          <rect width="28" height="28" rx="6" fill="url(#g7)"/>
+          <path d="M9 11h10M9 15h10" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M7 9v10" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <span data-en="7. Education Savings & Tax (ESA / 529)" data-zh="7. 教育账户与税务（ESA / 529）">7. Education Savings & Tax (ESA / 529)</span>
+      </h3>
+      <p class="desc" data-en="Account selection, tax-efficient structures, and cross-jurisdiction considerations for education savings and tax planning."
+         data-zh="账户选择、税务高效结构与跨司法区考量，为教育储蓄与税务规划提供实施方案。">
+        Account selection, tax-efficient structures, and cross-jurisdiction considerations for education savings and tax planning.
+      </p>
+      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+    </article>
 
-        <article class="service-card" onclick="location.href='/services/service-9.html'">
-          <h3 data-en="9. Family Foundation / 501(c)(3) Setup" data-zh="9. 家族基金会 / 501(c)(3) 设立">9. Family Foundation / 501(c)(3) Setup</h3>
-          <p class="desc" data-en="Establishing compliant charitable entities: governance, filing, tax rules and operational considerations for family foundations."
-             data-zh="设立合规慈善实体：家族基金会的治理、申报、税务规则與运营考量。">
-            Establishing compliant charitable entities: governance, filing, tax rules and operational considerations for family foundations.
-          </p>
-          <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
-        </article>
+    <!-- 8 -->
+    <article class="service-card" onclick="location.href='/services/service-8.html'">
+      <h3>
+        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
+          <defs>
+            <linearGradient id="g8" x1="0" x2="1"><stop offset="0" stop-color="#4B89FF"/><stop offset="1" stop-color="#6E4BFF"/></linearGradient>
+          </defs>
+          <rect width="28" height="28" rx="6" fill="url(#g8)"/>
+          <path d="M8 12h12M10 16h8" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+          <circle cx="20" cy="8" r="2" fill="#fff"/>
+        </svg>
+        <span data-en="8. College Fund Design & Financial Strategy" data-zh="8. 大学基金设计与财务策略">8. College Fund Design & Financial Strategy</span>
+      </h3>
+      <p class="desc" data-en="Designing long-term college funding strategies, investment allocation and risk considerations aligned to family goals."
+         data-zh="设计长期大学资助方案、投资配置与风险考量，使之与家庭目标一致并可实施。">
+        Designing long-term college funding strategies, investment allocation and risk considerations aligned to family goals.
+      </p>
+      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+    </article>
 
-        <article class="service-card" onclick="location.href='/services/service-10.html'">
-          <h3 data-en="10. Education + Wealth & Trust Planning" data-zh="10. 教育 + 财富与信托规划">10. Education + Wealth & Trust Planning</h3>
-          <p class="desc" data-en="Trust design and intergenerational planning that coordinates education goals with wealth preservation strategies."
-             data-zh="信托设计与代际规划，将教育目标与财富传承策略相协调。">
-            Trust design and intergenerational planning that coordinates education goals with wealth preservation strategies.
-          </p>
-          <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
-        </article>
-      </div>
-    </section>
+    <!-- 9 -->
+    <article class="service-card" onclick="location.href='/services/service-9.html'">
+      <h3>
+        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
+          <defs>
+            <linearGradient id="g9" x1="0" x2="1"><stop offset="0" stop-color="#4B89FF"/><stop offset="1" stop-color="#6E4BFF"/></linearGradient>
+          </defs>
+          <rect width="28" height="28" rx="6" fill="url(#g9)"/>
+          <path d="M10 9h8M9 13h10M10 17h8" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        <span data-en="9. Family Foundation / 501(c)(3) Setup" data-zh="9. 设立家族基金会 / 501(c)(3)">9. Family Foundation / 501(c)(3) Setup</span>
+      </h3>
+      <p class="desc" data-en="Establish compliant charitable entities: governance, filing, tax rules and operational considerations for family foundations."
+         data-zh="提供家族基金会或其他符合 IRS 501(c)(3) 非营利组织的设立、治理与合规实施建议。">
+        Establish compliant charitable entities: governance, filing, tax rules and operational considerations for family foundations.
+      </p>
+      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+    </article>
+
+    <!-- 10 -->
+    <article class="service-card" onclick="location.href='/services/service-10.html'">
+      <h3>
+        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
+          <defs>
+            <linearGradient id="g10" x1="0" x2="1"><stop offset="0" stop-color="#4B89FF"/><stop offset="1" stop-color="#6E4BFF"/></linearGradient>
+          </defs>
+          <rect width="28" height="28" rx="6" fill="url(#g10)"/>
+          <path d="M9 10h10M9 14h6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M9 18h10" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <span data-en="10. Education + Wealth & Trust Planning" data-zh="10. 教育与财富/信托规划">10. Education + Wealth & Trust Planning</span>
+      </h3>
+      <p class="desc" data-en="Trust design and intergenerational planning coordinating education goals with wealth preservation strategies."
+         data-zh="信托设计與代际规划，将教育目标与财富传承、保护策略协调一致并实施。">
+        Trust design and intergenerational planning coordinating education goals with wealth preservation strategies.
+      </p>
+      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+    </article>
+
+    <!-- 11 (added per request) -->
+    <article class="service-card" onclick="location.href='/services/service-11.html'">
+      <h3>
+        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
+          <defs>
+            <linearGradient id="g11" x1="0" x2="1"><stop offset="0" stop-color="#4B89FF"/><stop offset="1" stop-color="#6E4BFF"/></linearGradient>
+          </defs>
+          <rect width="28" height="28" rx="6" fill="url(#g11)"/>
+          <path d="M9 18h10M12 9v6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
+          <path d="M9 20v2h10v-2" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+        <span data-en="11. Campus-area Real Estate & Student Housing" data-zh="11. 校区周边房地产与学生住宿投资服务">11. Campus-area Real Estate & Student Housing</span>
+      </h3>
+      <p class="desc" data-en="Advisory on student housing and neighborhood real estate near universities — help secure quality housing and optimize investment."
+         data-zh="提供大学周边优质居住与房地产投资服务，帮助孩子实现安全舒适住所并实现房产价值最大化。">
+        Advisory on student housing and neighborhood real estate near universities — help secure quality housing and optimize investment.
+      </p>
+      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+    </article>
+
+  </div>
+</section>
+
+
 
     <!-- TOOLS (Register / Unlock / Apply section) -->
     <section class="section tools-section" id="tools">
