@@ -169,57 +169,59 @@ footer{background:#0f1724;color:#cbd5e1;padding:40px 20px;margin-top:40px}
   }
 }
 
+
 /* =========================================
-   SECTION BACKGROUND COLORS (NEW)
+   SECTION BACKGROUND COLORS (Enhanced Contrast)
    ========================================= */
-section#about { background: #F3F6FF; }
-section#services { background: #F8F3FF; }
-section#planning { background: #F4FAFF; }
-section#tax { background: #F7F4FF; }
-section#legal { background: #F5F9FF; }
-section#real-estate { background: #F5F7FF; }
-section#contact { background: #F4F4FF; }
-section#faq { background: #F6F8FF; }
-
-/* hero 保持纯白 */
-section#hero { background: #FFFFFF; }
+/* 色彩更明显：蓝系、紫系交替，提升视觉区隔 */
+section#about { background: #E8EEFF; }        /* 更亮的浅蓝 */
+section#services { background: #EFE4FF; }     /* 明显浅紫 */
+section#planning { background: #E4F1FF; }     /* 更清的浅蓝 */
+section#tax { background: #F0E8FF; }          /* 淡紫更明显 */
+section#legal { background: #E9F3FF; }        /* 亮浅蓝白混合 */
+section#real-estate { background: #EDF1FF; }  /* 淡灰蓝 */
+section#contact { background: #EEE9FF; }      /* 更明显的浅灰紫 */
+section#faq { background: #E9F0FF; }          /* 亮浅蓝紫 */
+section#hero { background: #FFFFFF; }         /* 保持纯白，不变 */
 
 /* =========================================
-   SECTION SPACING (REDUCED)
+   SECTION SPACING (Reduced More)
    ========================================= */
 section {
-  padding: 50px 0;    /* 原本可能为 70~90，这里调整得更紧凑 */
+  padding: 40px 0;   /* 再次缩小 —— 更紧凑、专业 */
 }
 
 @media(max-width: 768px) {
   section {
-    padding: 40px 0;  /* 手机上再稍微缩小 */
+    padding: 32px 0; /* 手机段更紧凑，但仍保持呼吸感 */
   }
 }
 
-/* 标题与图标间距微调 */
+/* =========================================
+   ICON & TITLE SPACING TWEAKS
+   ========================================= */
 .section-icon {
-  margin-bottom: 10px !important;
+  margin-bottom: 8px !important;
+  width: 56px;
+  height: 56px;
 }
 
 section h2.section-title {
-  margin-top: 0;
-  margin-bottom: 20px;  /* 原本可能过大，统一缩小 */
+  margin: 0 0 16px 0;   /* 再缩一丢丢 */
 }
 
-/* 卡片标题图标微调（小图标） */
+/* Small card icons */
 .card-icon {
   margin-right: 8px;
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
 }
 
-/* 卡片整体间距缩小 */
+/* Card padding & margin refined */
 .service-card,
 .feature-card,
 .info-card {
-  padding: 20px 22px;
-  margin-bottom: 20px;
+  padding: 18px 20px;   /* 略再小一点 */
+  margin-bottom: 16px;
 }
-
-
-
