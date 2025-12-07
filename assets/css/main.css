@@ -398,3 +398,35 @@ section {
     margin: 0 !important;
   }
 }
+
+
+/* ============================================================
+   TRUE FULL-WIDTH SECTION FIX (Desktop + Mobile)
+   Ensures background spans full screen exactly like top nav
+   ============================================================ */
+body, html {
+  width: 100%;
+  overflow-x: hidden !important; /* prevent unwanted scroll bars */
+}
+
+/* Make each section extend edge-to-edge */
+section.section {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+
+  /* Remove internal padding applied by default layouts */
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Ensure content inside section stays centered */
+section.section > * {
+  max-width: 1200px;   /* same as your card width */
+  margin: 0 auto;      /* perfectly centered */
+  padding: 0 20px;     /* restore inside padding */
+  box-sizing: border-box;
+}
