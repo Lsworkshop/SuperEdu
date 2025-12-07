@@ -278,43 +278,46 @@ section h2.section-title {
 .section-title-icon rect,
 .section-title-icon circle { filter: drop-shadow(0 6px 18px rgba(40,55,120,0.08)); }
 
+
 /* ===============================
    Section 背景左右贯通 + 内容居中
    =============================== */
 
-/* 背景铺满视口宽度 */
+/* Section 背景铺满屏幕 */
 .section {
   position: relative;
-  width: 100vw;                        /* 背景宽度铺满整个视口 */
-  margin-left: calc(50% - 50vw);       /* 背景向左偏移，使左右贯通 */
-  margin-right: calc(50% - 50vw);
+  width: 100vw;               /* 背景宽度铺满视口 */
+  left: 50%;                  /* 背景向左偏移一半视口宽度 */
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
   box-sizing: border-box;
-  overflow: hidden;                     /* 避免滚动条 */
-  padding-left: 0;                      /* 可保留原有 padding，根据需求调整 */
+  overflow: hidden;
+  padding-left: 0;            /* 可保留原 padding 内边距 */
   padding-right: 0;
 }
 
-/* Section 内部内容保持最大宽度并居中 */
-.section > .section-inner,
-.section > .section-title-wrapper,
-.section > .card,
-.section .resources-grid,
-.section .cta-row {
-  max-width: 1200px;    /* 根据设计稿调整最大宽度 */
+/* Section 内部内容居中且限制最大宽度 */
+.section > * {
+  max-width: 1200px;          /* 内容最大宽度，可按设计调整 */
   margin-left: auto;
   margin-right: auto;
-  padding-left: 20px;   /* 保留左右内边距，避免内容紧贴边缘 */
+  padding-left: 20px;         /* 内容内边距 */
   padding-right: 20px;
 }
 
-/* 可选：针对不同背景颜色的 Section（比如交替颜色） */
-.section:nth-child(even) {
-  background-color: #f9f9f9;  /* 示例淡灰色背景 */
+/* 示例：为不同 Section 设置背景色 */
+#education {
+  background-color: #f0f8ff;  /* 淡蓝色 */
 }
-
-.section:nth-child(odd) {
-  background-color: #ffffff;  /* 示例白色背景 */
+#webinar {
+  background-color: #fff8f0;  /* 淡橙色 */
 }
-
+#resources {
+  background-color: #f0fff8;  /* 淡绿 */
+}
+#contact {
+  background-color: #f8f0ff;  /* 淡紫 */
+}
 
 
