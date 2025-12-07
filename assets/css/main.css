@@ -225,3 +225,146 @@ section h2.section-title {
   padding: 18px 20px;   /* 略再小一点 */
   margin-bottom: 16px;
 }
+
+/* ========================================================
+   1. SECTION FULL-WIDTH BACKGROUND + GRADIENT (NEW)
+   ======================================================== */
+/* 所有 Section 的背景左右贯穿全屏，并使用柔和渐变 */
+section {
+  width: 100%;
+  position: relative;
+  padding: 48px 0;
+  margin: 0;
+  background-size: 100% 100%;
+}
+
+/* 各区渐变（蓝 → 紫 → 白 淡淡过渡） */
+section#about {
+  background: linear-gradient(180deg, #EAF1FF 0%, #F4EFFF 100%);
+}
+
+section#services {
+  background: linear-gradient(180deg, #F2E9FF 0%, #EAF0FF 100%);
+}
+
+section#planning {
+  background: linear-gradient(180deg, #E8F2FF 0%, #F4EEFF 100%);
+}
+
+section#tax {
+  background: linear-gradient(180deg, #F7EFFF 0%, #E9F2FF 100%);
+}
+
+section#legal {
+  background: linear-gradient(180deg, #EAF0FF 0%, #F6EDFF 100%);
+}
+
+section#real-estate {
+  background: linear-gradient(180deg, #EEF3FF 0%, #F3EFFF 100%);
+}
+
+section#contact {
+  background: linear-gradient(180deg, #F2ECFF 0%, #EAF1FF 100%);
+}
+
+section#faq {
+  background: linear-gradient(180deg, #EAF0FF 0%, #F0E8FF 100%);
+}
+
+/* HERO 不动 */
+section#hero {
+  background: #FFFFFF;
+}
+
+
+/* ========================================================
+   2. SECTION TOP GLASS DIVIDER（磨砂玻璃分隔线）
+   ======================================================== */
+section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  backdrop-filter: blur(4px);
+  background: rgba(255, 255, 255, 0.35);
+  z-index: 0;
+}
+
+/* 避免 HERO 顶部变线（头部导航已经有线） */
+section#hero::before {
+  display: none;
+}
+
+
+/* ========================================================
+   3. SMOOTH SCROLL REVEAL ANIMATION
+   ======================================================== */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: all 0.9s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 轻微延迟，分层进入 */
+.reveal.delay-1 { transition-delay: 0.15s; }
+.reveal.delay-2 { transition-delay: 0.3s; }
+.reveal.delay-3 { transition-delay: 0.45s; }
+
+/* ========================================================
+   4. UNIFIED SHADOW + RADIUS + CARD STYLE
+   ======================================================== */
+.service-card,
+.feature-card,
+.info-card {
+  border-radius: 14px;
+  box-shadow:
+      0 4px 10px rgba(80, 100, 200, 0.12),
+      0 1px 3px rgba(80, 100, 200, 0.08);
+  padding: 22px 24px;
+  margin-bottom: 18px;
+  background: #fff;
+  position: relative;
+}
+
+/* 小图标统一 */
+.card-icon {
+  width: 22px;
+  height: 22px;
+  margin-right: 10px;
+}
+
+/* Section 主图标统一尺寸 */
+.section-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 14px;
+}
+
+/* H2 更有呼吸感 */
+.section-title {
+  font-size: 1.9rem;
+  margin-bottom: 20px;
+}
+
+
+/* ========================================================
+   5. SECTION SPACING OPTIMIZED（稍微更紧凑）
+   ======================================================== */
+@media (min-width: 1024px) {
+  section {
+    padding: 48px 0;
+  }
+}
+
+@media (max-width: 768px) {
+  section {
+    padding: 36px 0;
+  }
+}
