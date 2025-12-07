@@ -169,4 +169,57 @@ footer{background:#0f1724;color:#cbd5e1;padding:40px 20px;margin-top:40px}
   }
 }
 
+/* =========================================
+   SECTION BACKGROUND COLORS (NEW)
+   ========================================= */
+section#about { background: #F3F6FF; }
+section#services { background: #F8F3FF; }
+section#planning { background: #F4FAFF; }
+section#tax { background: #F7F4FF; }
+section#legal { background: #F5F9FF; }
+section#real-estate { background: #F5F7FF; }
+section#contact { background: #F4F4FF; }
+section#faq { background: #F6F8FF; }
+
+/* hero 保持纯白 */
+section#hero { background: #FFFFFF; }
+
+/* =========================================
+   SECTION SPACING (REDUCED)
+   ========================================= */
+section {
+  padding: 50px 0;    /* 原本可能为 70~90，这里调整得更紧凑 */
+}
+
+@media(max-width: 768px) {
+  section {
+    padding: 40px 0;  /* 手机上再稍微缩小 */
+  }
+}
+
+/* 标题与图标间距微调 */
+.section-icon {
+  margin-bottom: 10px !important;
+}
+
+section h2.section-title {
+  margin-top: 0;
+  margin-bottom: 20px;  /* 原本可能过大，统一缩小 */
+}
+
+/* 卡片标题图标微调（小图标） */
+.card-icon {
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+/* 卡片整体间距缩小 */
+.service-card,
+.feature-card,
+.info-card {
+  padding: 20px 22px;
+  margin-bottom: 20px;
+}
+
+
 
