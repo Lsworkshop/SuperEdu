@@ -259,4 +259,22 @@ section h2.section-title {
   }
 }
 
+/* ICON sizing + spacing for section and card icons */
+.section-title-wrapper { text-align:center; margin-bottom:12px; position:relative; }
+.section-title-icon { width:68px; height:68px; display:block; margin:0 auto 10px; }
+.section-title-wrapper h2 { margin-top: 6px; font-size:28px; }
+
+/* card icon (left of title) - keep compact and vertically centered */
+.service-card { display:flex; gap:12px; align-items:flex-start; padding:16px; }
+.card-icon { width:36px; height:36px; flex:0 0 36px; margin-top:6px; }
+
+/* ensure small service-content doesn't collapse on narrow screens */
+.service-content { flex:1; min-width:0; }
+
+/* mobile tweaks: give webinar CTA buttons breathing room */
+.card.wide .cta-row .btn { display:inline-block; margin-bottom:10px; }
+
+/* if you want the section icon to be slightly elevated visually (subtle shadow) */
+.section-title-icon rect,
+.section-title-icon circle { filter: drop-shadow(0 6px 18px rgba(40,55,120,0.08)); }
 
