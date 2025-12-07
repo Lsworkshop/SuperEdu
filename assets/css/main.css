@@ -368,3 +368,33 @@ section#hero::before {
     padding: 36px 0;
   }
 }
+
+/* ========================================================
+   FIX 1 — Make all sections truly full-width
+   ======================================================== */
+section {
+  position: relative;
+  width: 100vw !important;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  box-sizing: border-box;
+}
+
+/* ========================================================
+   FIX 2 — Mobile spacing for Webinar buttons
+   ======================================================== */
+@media (max-width: 768px) {
+  .cta-row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px !important; /* 按钮之间的间距 */
+  }
+
+  .cta-row .btn {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+}
