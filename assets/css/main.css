@@ -141,3 +141,32 @@ footer{background:#0f1724;color:#cbd5e1;padding:40px 20px;margin-top:40px}
   .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 }
 
+/* Section big icons */
+.section-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+/* Small icons with h3 */
+.card-title-with-icon,
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-title-with-icon svg,
+.contact-item svg {
+  flex-shrink: 0;
+}
+
+/* Increase clarity on mobile */
+@media (max-width: 600px) {
+  .section-icon svg {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+

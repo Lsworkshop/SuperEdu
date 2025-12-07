@@ -15,9 +15,228 @@
   <link rel="icon" href="/assets/icons/favicon.ico">
 
   <link rel="stylesheet" href="/assets/css/main.css">
+  <!-- You may later place per-page CSS overrides near end of document in Part 5-D -->
 </head>
 
 <body>
+  <!-- ------ SVG defs: brand gradient + reusable rounded-square icon shapes + line icons ------ -->
+  <!-- These live in the DOM so every section/card can reference them via <svg class="icon"><use href="#sym-..."/></svg> -->
+  <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden" focusable="false">
+    <defs>
+      <!-- brand gradient used across all icons -->
+      <linearGradient id="grad-brand" x1="0" x2="1" y1="0" y2="1">
+        <stop offset="0%" stop-color="#4B89FF"/>
+        <stop offset="100%" stop-color="#6E4BFF"/>
+      </linearGradient>
+
+      <!-- Rounded rect mask/background for icon blocks -->
+      <symbol id="bg-rounded" viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
+        <rect x="0" y="0" width="48" height="48" rx="10" ry="10" fill="url(#grad-brand)"/>
+      </symbol>
+
+      <!-- White stroke line icons placed over rounded block -->
+      <!-- 1. Education / Book -->
+      <symbol id="line-book" viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
+        <g fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 10h22v26H12z" transform="translate(0,0)"/>
+          <path d="M12 14h22" />
+          <path d="M12 28c2-1.2 6-1.2 10 0s8 1.2 10 0" />
+        </g>
+      </symbol>
+
+      <!-- 2. Strategy / Target -->
+      <symbol id="line-target" viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
+        <g fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="24" cy="20" r="8" />
+          <circle cx="24" cy="20" r="14" />
+          <path d="M24 6v6" />
+          <path d="M34 20h6" />
+        </g>
+      </symbol>
+
+      <!-- 3. AP / Programs (certificate) -->
+      <symbol id="line-certificate" viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
+        <g fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="10" y="8" width="28" height="22" rx="2" />
+          <path d="M18 32l-3 8 7-4 7 4-3-8" />
+        </g>
+      </symbol>
+
+      <!-- 4. Financial Aid / Dollar -->
+      <symbol id="line-dollar" viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
+        <g fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M24 10v28" />
+          <path d="M20 12c-4 1-6 3-6 8s2 7 6 8c4 1 6 3 6 8s-2 7-6 8" transform="translate(0,-2)"/>
+          <circle cx="24" cy="24" r="12" />
+        </g>
+      </symbol>
+
+      <!-- 5. Scholarship / Star -->
+      <symbol id="line-star" viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
+        <g fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M24 9l3.8 8.2L36 19l-7 5 2.5 8.6L24 30l-7.5 2.6L19 24l-7-5 8.2-1.8L24 9z"/>
+        </g>
+      </symbol>
+
+      <!-- 6. Family Planning / Family -->
+      <symbol id="line-family" viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
+        <g fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18" cy="18" r="3" />
+          <circle cx="30" cy="18" r="3" />
+          <path d="M8 34c4-6 12-8 16-8s12 2 16 8" />
+        </g>
+      </symbol>
+
+      <!-- 7. Savings & Tax / Piggy -->
+      <symbol id="line-piggy" viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
+        <g fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 28c0-6 6-10 12-10s12 4 12 10-4 8-12 8-12-2-12-8z"/>
+          <path d="M30 18l6-2" />
+          <circle cx="16" cy="24" r="1.5" />
+        </g>
+      </symbol>
+
+      <!-- 8. College Fund / Graph -->
+      <symbol id="line-graph" viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
+        <g fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 34v-8l8-6 6 6 8-10v18" />
+          <rect x="6" y="6" width="36" height="36" rx="4" />
+        </g>
+      </symbol>
+
+      <!-- 9. Foundation / Building -->
+      <symbol id="line-building" viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
+        <g fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="12" y="14" width="24" height="22" rx="2" />
+          <path d="M8 38h32" />
+          <path d="M20 18v6M28 18v6" />
+        </g>
+      </symbol>
+
+      <!-- 10. Trust / Shield -->
+      <symbol id="line-shield" viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
+        <g fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M24 6l10 6v8c0 8-6 14-10 16-4-2-10-8-10-16V12z" />
+        </g>
+      </symbol>
+
+      <!-- 11. Real Estate near Campus / House -->
+      <symbol id="line-house" viewBox="0 0 48 48" preserveAspectRatio="xMidYMid meet">
+        <g fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 26L24 10l18 16" />
+          <rect x="10" y="26" width="28" height="14" rx="2" />
+          <path d="M20 32v8M28 32v8" />
+        </g>
+      </symbol>
+
+      <!-- small inline small-line icon variants for service-card left-of-title (scaled) -->
+      <!-- These will be used by <svg class="icon small"><use href="#sym-card-1"/></svg> -->
+      <symbol id="card-book" viewBox="0 0 24 24">
+        <rect x="0" y="0" width="24" height="24" rx="5" fill="url(#grad-brand)"/>
+        <g fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" transform="translate(2,2) scale(0.5)">
+          <path d="M12 4h11v18H12z"/>
+          <path d="M12 8h11"/>
+        </g>
+      </symbol>
+
+      <symbol id="card-target" viewBox="0 0 24 24">
+        <rect x="0" y="0" width="24" height="24" rx="5" fill="url(#grad-brand)"/>
+        <g fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" transform="translate(4,4) scale(0.4)">
+          <circle cx="24" cy="12" r="6"/>
+          <circle cx="24" cy="12" r="10"/>
+        </g>
+      </symbol>
+
+      <symbol id="card-certificate" viewBox="0 0 24 24">
+        <rect x="0" y="0" width="24" height="24" rx="5" fill="url(#grad-brand)"/>
+        <g fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" transform="translate(2,2) scale(0.4)">
+          <rect x="4" y="4" width="40" height="20" rx="2"/>
+          <path d="M20 30l-6 8 6-4 6 4-6-8"/>
+        </g>
+      </symbol>
+
+      <symbol id="card-dollar" viewBox="0 0 24 24">
+        <rect x="0" y="0" width="24" height="24" rx="5" fill="url(#grad-brand)"/>
+        <g fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" transform="translate(4,4) scale(0.5)">
+          <path d="M12 4v20"/>
+          <circle cx="12" cy="12" r="10"/>
+        </g>
+      </symbol>
+
+      <symbol id="card-star" viewBox="0 0 24 24">
+        <rect x="0" y="0" width="24" height="24" rx="5" fill="url(#grad-brand)"/>
+        <g fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" transform="translate(3,3) scale(0.4)">
+          <path d="M24 9l3.8 8.2L36 19l-7 5 2.5 8.6L24 30l-7.5 2.6L19 24l-7-5 8.2-1.8L24 9z"/>
+        </g>
+      </symbol>
+
+      <symbol id="card-family" viewBox="0 0 24 24">
+        <rect x="0" y="0" width="24" height="24" rx="5" fill="url(#grad-brand)"/>
+        <g fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" transform="translate(4,4) scale(0.5)">
+          <circle cx="8" cy="8" r="3"/>
+          <circle cx="20" cy="8" r="3"/>
+          <path d="M2 24c4-6 12-8 16-8s12 2 16 8"/>
+        </g>
+      </symbol>
+
+      <symbol id="card-piggy" viewBox="0 0 24 24">
+        <rect x="0" y="0" width="24" height="24" rx="5" fill="url(#grad-brand)"/>
+        <g fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" transform="translate(3,3) scale(0.5)">
+          <path d="M12 20c0-6 6-10 12-10s12 4 12 10-4 8-12 8-12-2-12-8z"/>
+          <circle cx="10" cy="12" r="1.5"/>
+        </g>
+      </symbol>
+
+      <symbol id="card-graph" viewBox="0 0 24 24">
+        <rect x="0" y="0" width="24" height="24" rx="5" fill="url(#grad-brand)"/>
+        <g fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" transform="translate(2,2) scale(0.5)">
+          <path d="M4 36v-12l8-6 6 6 8-10v18"/>
+        </g>
+      </symbol>
+
+      <symbol id="card-building" viewBox="0 0 24 24">
+        <rect x="0" y="0" width="24" height="24" rx="5" fill="url(#grad-brand)"/>
+        <g fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" transform="translate(3,3) scale(0.5)">
+          <rect x="16" y="12" width="24" height="22" rx="2"/>
+        </g>
+      </symbol>
+
+      <symbol id="card-shield" viewBox="0 0 24 24">
+        <rect x="0" y="0" width="24" height="24" rx="5" fill="url(#grad-brand)"/>
+        <g fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" transform="translate(3,3) scale(0.5)">
+          <path d="M24 6l10 6v8c0 8-6 14-10 16-4-2-10-8-10-16V12z"/>
+        </g>
+      </symbol>
+
+      <symbol id="card-house" viewBox="0 0 24 24">
+        <rect x="0" y="0" width="24" height="24" rx="5" fill="url(#grad-brand)"/>
+        <g fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" transform="translate(3,3) scale(0.5)">
+          <path d="M6 26L24 10l18 16"/>
+          <rect x="10" y="26" width="28" height="14" rx="2"/>
+        </g>
+      </symbol>
+
+      <!-- generic small UI icons for tools/cta -->
+      <symbol id="icon-register" viewBox="0 0 24 24">
+        <rect x="0" y="0" width="24" height="24" rx="5" fill="#fff"/>
+        <g fill="none" stroke="#4B89FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 4v8"/>
+          <path d="M6 20c2-4 6-6 12-6"/>
+        </g>
+      </symbol>
+
+      <symbol id="icon-unlock" viewBox="0 0 24 24">
+        <rect x="0" y="0" width="24" height="24" rx="5" fill="#fff"/>
+        <g fill="none" stroke="#6E4BFF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 12h12v8H6z"/>
+          <path d="M9 12V8a3 3 0 0 1 6 0"/>
+        </g>
+      </symbol>
+
+      <!-- more symbols can be added later if needed -->
+    </defs>
+  </svg>
+
   <!-- NAV -->
   <nav id="topNav" class="nav--transparent">
     <div class="nav-inner">
@@ -41,7 +260,6 @@
         </button>
       </div>
     </div>
-
     <!-- mobile slide menu -->
     <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
       <a href="#home" data-en="Home" data-zh="首页">Home</a>
@@ -59,16 +277,6 @@
   <!-- HERO -->
   <header id="home" class="hero">
     <div class="hero-left">
-
-      <!-- 🌟 HERO 大图标 -->
-      <div style="width:64px; height:64px; margin-bottom:18px;">
-        <svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="#4F7BFF" stroke-width="1.5">
-          <path d="M12 3l8 4-8 4-8-4 8-4z"/>
-          <path d="M4 10l8 4 8-4"/>
-          <path d="M4 16l8 4 8-4"/>
-        </svg>
-      </div>
-
       <h1 class="hero-title" data-en="Smarter Education Planning for Every Family" data-zh="为每个家庭提供更智慧的教育规划">
         Smarter Education Planning for Every Family
       </h1>
@@ -78,9 +286,21 @@
       </p>
 
       <div class="hero-ctas">
-        <button class="btn btn-primary" id="ctaRegister" data-en="Register / Join" data-zh="注册 / 加入">Register / Join</button>
-        <button class="btn btn-outline" id="ctaUnlock" data-en="Quick Unlock → Education" data-zh="快速解锁 → 教育">Quick Unlock → Education</button>
-        <a class="btn btn-link" href="/apply.html" id="ctaApply" target="_self" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+        <!-- these scroll to sections on the same page -->
+        <button class="btn btn-primary" id="ctaRegister" data-en="Register / Join" data-zh="注册 / 加入">
+          <!-- inline small icon -->
+          <svg class="icon icon-inline" width="16" height="16" aria-hidden="true"><use href="#icon-register"></use></svg>
+          <span>Register / Join</span>
+        </button>
+
+        <button class="btn btn-outline" id="ctaUnlock" data-en="Quick Unlock → Education" data-zh="快速解锁 → 教育">
+          <svg class="icon icon-inline" width="16" height="16" aria-hidden="true"><use href="#icon-unlock"></use></svg>
+          <span>Quick Unlock → Education</span>
+        </button>
+
+        <a class="btn btn-link" href="/apply.html" id="ctaApply" target="_self" data-en="Apply for Services" data-zh="申请服务">
+          Apply for Services
+        </a>
       </div>
 
       <div class="hero-subitems">
@@ -90,269 +310,201 @@
     </div>
 
     <div class="hero-right" aria-hidden>
-      <div class="hero-graphic" role="img" aria-label="education graphic"></div>
+      <div class="hero-graphic" role="img" aria-label="education graphic">
+        <!-- decorative gradient block (matches brand) -->
+        <svg viewBox="0 0 600 380" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs>
+            <linearGradient id="heroGrad" x1="0" x2="1">
+              <stop offset="0%" stop-color="#4B89FF"/>
+              <stop offset="100%" stop-color="#6E4BFF"/>
+            </linearGradient>
+          </defs>
+          <rect width="100%" height="100%" rx="24" fill="url(#heroGrad)" />
+          <!-- subtle white shapes -->
+          <g fill="rgba(255,255,255,0.08)">
+            <rect x="40" y="60" width="160" height="120" rx="14" />
+            <rect x="220" y="20" width="300" height="80" rx="14" />
+            <circle cx="420" cy="260" r="40" />
+          </g>
+        </svg>
+      </div>
     </div>
   </header>
 
+  <!-- content after this point (sections) will be output in Part 5-B -->
 
- <main>
 
+  <!-- ====== SERVICES (with big centered icon above title, small icons left of each h3) ====== -->
+  <style>
+    /* Local overrides for spacing and icon layout (can be moved to main.css) */
+    .section { margin: 30px auto; padding: 24px 20px; } /* reduce vertical spacing */
+    .section .card.wide { padding: 18px; }
+    .section-title-wrapper { text-align:center; margin-bottom:12px; }
+    .section-title-icon { width:64px; height:64px; margin:0 auto 10px; display:block; }
+    .section-title { font-size:26px; margin:2px 0 6px; }
+    .section-sub { margin-bottom:18px; }
 
-    <!-- SERVICES -->
-   
-<!-- SERVICES (Part 2: enhanced with icons, 11 items) -->
-<section id="services" class="section section--services" style="margin:40px auto; padding:28px 20px;">
-  <!-- large header icon (brand gradient rounded rectangle + white line book/star motif) -->
-  <div style="text-align:center;margin-bottom:10px;">
-    <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img">
-      <defs>
-        <linearGradient id="g-header" x1="0" x2="1" y1="0" y2="1">
-          <stop offset="0" stop-color="#4B89FF"/>
-          <stop offset="1" stop-color="#6E4BFF"/>
-        </linearGradient>
-      </defs>
-      <rect x="0" y="0" width="72" height="72" rx="14" fill="url(#g-header)"/>
-      <!-- white line icon: stylized open book + star -->
-      <path d="M18 28c6-4 12-4 18 0 6-4 12-4 18 0" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M24 34v12c0 1.2.9 2 2 2h20c1.1 0 2-.8 2-2V34" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M50 20l2 4 4 .5-3 3 .7 4-3.7-2.1L47 30l-3.7 2.1.7-4-3-3 4-.5 2-4z" fill="#fff" opacity="0.95"/>
-    </svg>
-  </div>
+    /* Service card small icon + title */
+    .service-card { display:flex; gap:12px; align-items:flex-start; padding:14px; }
+    .service-card .card-icon { width:40px; height:40px; flex:0 0 40px; margin-top:6px; }
+    .service-card h3 { margin:0; font-size:16px; display:flex; align-items:center; gap:10px; font-weight:700; color:var(--brand-2); }
+    .service-card .desc { margin:8px 0 14px; color:var(--muted); font-size:14px; line-height:1.45; }
+    .service-card .apply-cta { margin-top:auto; }
 
-  <h2 class="section-title" data-en="Our Services" data-zh="我们的服务">Our Services</h2>
-  <p class="section-sub" data-en="Click any service to read the detailed page and apply." data-zh="点击任意服务查看详细信息并提交申请。">Click any service to read the detailed page and apply.</p>
+    /* smaller text for service card link */
+    .apply-cta { font-size:13px; padding:8px 10px; }
 
-  <div class="services-grid" style="margin-top:12px; gap:14px;">
-    <!-- 1 -->
-    <article class="service-card" onclick="location.href='/services/service-1.html'">
-      <h3>
-        <!-- small icon -->
-        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
-          <defs>
-            <linearGradient id="g1" x1="0" x2="1">
-              <stop offset="0" stop-color="#4B89FF"/>
-              <stop offset="1" stop-color="#6E4BFF"/>
-            </linearGradient>
-          </defs>
-          <rect width="28" height="28" rx="6" fill="url(#g1)"/>
-          <path d="M8 11h12M8 15h8" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+    /* tools section icons */
+    .tools-wrap { gap:16px; }
+    .card.registration-card h3,
+    .card.unlock-card h3,
+    .card.apply-card h3 { display:flex; align-items:center; gap:10px; }
+    .card .card-small-icon { width:20px;height:20px;flex:0 0 20px; }
+
+    /* section-level icon style (line icon sits on top of rounded block) */
+    .svg-icon-block { width:64px; height:64px; display:inline-block; vertical-align:middle; }
+    .svg-icon-block use { /* nothing */ }
+
+    /* responsive: reduce sizes on small screens */
+    @media (max-width:720px){
+      .section-title-icon { width:52px; height:52px; }
+      .service-card .card-icon { width:36px; height:36px; flex:0 0 36px; }
+      .service-card h3 { font-size:15px; }
+    }
+  </style>
+
+  <main>
+    <!-- SERVICES: big icon above title -->
+    <section id="services" class="section section--services">
+      <div class="section-title-wrapper">
+        <svg class="section-title-icon" viewBox="0 0 48 48" aria-hidden="true">
+          <use href="#bg-rounded"></use>
+          <use href="#line-book"></use>
         </svg>
-        <span data-en="1. U.S. Education — Comparative Overview" data-zh="1. 美国教育优势与中美比较">1. U.S. Education — Comparative Overview</span>
-      </h3>
-      <p class="desc" data-en="High-level comparison of US K12 & higher education vs mainland China — systems, learning models, assessments and outcomes."
-         data-zh="对美国 K12 与高等教育与中国大陆教育体系进行宏观比较分析——系统差异、学习模式、评估方法与结果异同。">
-        Macro analysis of U.S. K12 and higher education vs. mainland China — system differences, learning models, assessment and outcomes.
-      </p>
-      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
-    </article>
+        <h2 class="section-title" data-en="Our Services" data-zh="我们的服务">Our Services</h2>
+        <p class="section-sub" data-en="Click any service to read the detailed page and apply." data-zh="点击任意服务查看详细信息并提交申请。">Click any service to read the detailed page and apply.</p>
+      </div>
 
-    <!-- 2 -->
-    <article class="service-card" onclick="location.href='/services/service-2.html'">
-      <h3>
-        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
-          <defs>
-            <linearGradient id="g2" x1="0" x2="1"><stop offset="0" stop-color="#4B89FF"/><stop offset="1" stop-color="#6E4BFF"/></linearGradient>
-          </defs>
-          <rect width="28" height="28" rx="6" fill="url(#g2)"/>
-          <path d="M9 9h10v10H9z" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-          <path d="M9 13h10" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
-        </svg>
-        <span data-en="2. University Applications — Overview & Process" data-zh="2. 美国大学申请总体：流程、学费与资源">2. University Applications — Overview & Process</span>
-      </h3>
-      <p class="desc" data-en="Overview of mainstream university ecosystems, application flows, courses, and tuition. Includes guidance & resources."
-         data-zh="包括主流大学简介、申请流程、大学课程与学费；并提供咨询与资源支持。">
-        Overview of mainstream university ecosystems, application flows, courses, and tuition. Includes guidance & resources.
-      </p>
-      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
-    </article>
+      <div class="services-grid">
+        <!-- 11 service cards (small icon on left, title & desc on right) -->
+        <article class="service-card" onclick="location.href='/services/service-1.html'">
+          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-book"></use></svg>
+          <div class="service-content">
+            <h3 data-en="1. U.S. Education — Comparative Analysis" data-zh="1. 美国教育的优势与比较">1. U.S. Education — Comparative Analysis</h3>
+            <p class="desc" data-en="Macro analysis of US K12 & higher education vs. mainland China; system differences and outcomes." data-zh="美国 K12 与高等教育与中国大陆教育体系的宏观比较分析，侧重于系统差异与结果。">Macro analysis of US K12 & higher education vs. mainland China; system differences and outcomes.</p>
+            <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+          </div>
+        </article>
 
-    <!-- 3 -->
-    <article class="service-card" onclick="location.href='/services/service-3.html'">
-      <h3>
-        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
-          <defs>
-            <linearGradient id="g3" x1="0" x2="1"><stop offset="0" stop-color="#4B89FF"/><stop offset="1" stop-color="#6E4BFF"/></linearGradient>
-          </defs>
-          <rect width="28" height="28" rx="6" fill="url(#g3)"/>
-          <path d="M8 16l3-6 3 6 3-8 3 8" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span data-en="3. Pre-College Profile (AP / Summer)" data-zh="3. 大学申请前课程、AP 与暑期项目">3. Pre-College Profile (AP / Summer)</span>
-      </h3>
-      <p class="desc" data-en="Course planning, AP strategy and summer programs to build a standout academic & extracurricular profile."
-         data-zh="课程选择、AP 规划与暑期项目策略，打造突出的升学档案与课外活动经历。">
-        Course planning, AP strategy and summer programs to build a standout academic & extracurricular profile.
-      </p>
-      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
-    </article>
+        <article class="service-card" onclick="location.href='/services/service-2.html'">
+          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-target"></use></svg>
+          <div class="service-content">
+            <h3 data-en="2. College Application Overview" data-zh="2. 美国大学申请总体情况">2. College Application Overview</h3>
+            <p class="desc" data-en="Overview of mainstream universities, application process, curricula, platforms and tuition; consulting & resources." data-zh="主流大学简介、申请流程、课程平台与学费信息；提供咨询与资源支持。">Overview of mainstream universities, application process, curricula, platforms and tuition; consulting & resources.</p>
+            <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+          </div>
+        </article>
 
-    <!-- 4 -->
-    <article class="service-card" onclick="location.href='/services/service-4.html'">
-      <h3>
-        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
-          <defs>
-            <linearGradient id="g4" x1="0" x2="1"><stop offset="0" stop-color="#4B89FF"/><stop offset="1" stop-color="#6E4BFF"/></linearGradient>
-          </defs>
-          <rect width="28" height="28" rx="6" fill="url(#g4)"/>
-          <path d="M9 11h10M9 15h6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
-          <path d="M14 7v2" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
-        </svg>
-        <span data-en="4. Financial Aid (FAFSA / CSS) — One-on-One" data-zh="4. 助学金（FAFSA / CSS）一对一辅导">4. Financial Aid (FAFSA / CSS) — One-on-One</span>
-      </h3>
-      <p class="desc" data-en="Detailed one-on-one FAFSA & CSS walkthroughs: grants, loans and institutional aid strategies."
-         data-zh="提供详细的一对一 FAFSA 与 CSS 指导，包含助学金、贷款与院校资助策略。">
-        Detailed one-on-one FAFSA & CSS walkthroughs: grants, loans and institutional aid strategies.
-      </p>
-      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
-    </article>
+        <article class="service-card" onclick="location.href='/services/service-3.html'">
+          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-certificate"></use></svg>
+          <div class="service-content">
+            <h3 data-en="3. Pre-College Profile (AP / Summer)" data-zh="3. 升学档案构建（AP/暑期）">3. Pre-College Profile (AP / Summer)</h3>
+            <p class="desc" data-en="Course selection, AP planning, summer programs and extracurricular strategy to strengthen profile." data-zh="课程选择、AP 规划、暑期项目与课外活动策略，提升升学竞争力。">Course selection, AP planning, summer programs and extracurricular strategy to strengthen profile.</p>
+            <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+          </div>
+        </article>
 
-    <!-- 5 -->
-    <article class="service-card" onclick="location.href='/services/service-5.html'">
-      <h3>
-        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
-          <defs>
-            <linearGradient id="g5" x1="0" x2="1"><stop offset="0" stop-color="#4B89FF"/><stop offset="1" stop-color="#6E4BFF"/></linearGradient>
-          </defs>
-          <rect width="28" height="28" rx="6" fill="url(#g5)"/>
-          <path d="M8 14h12M10 10l2 2 4-4 2 2" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-        </svg>
-        <span data-en="5. Scholarship Application Support" data-zh="5. 奖学金申请支持（高中与大学）">5. Scholarship Application Support</span>
-      </h3>
-      <p class="desc" data-en="Merit & need-based scholarship research, essay strategy and application management for high school and college."
-         data-zh="覆盖高中与大学的成绩型与需求型奖学金研究、论文策略与申请管理。">
-        Merit & need-based scholarship research, essay strategy and application management for high school and college.
-      </p>
-      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
-    </article>
+        <article class="service-card" onclick="location.href='/services/service-4.html'">
+          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-dollar"></use></svg>
+          <div class="service-content">
+            <h3 data-en="4. Financial Aid (FAFSA / CSS) — One-on-One" data-zh="4. 助学金（FAFSA/CSS）一对一">4. Financial Aid (FAFSA / CSS) — One-on-One</h3>
+            <p class="desc" data-en="Detailed FAFSA & CSS walkthroughs, grant/loan strategies, and institutional aid support." data-zh="详细 FAFSA 与 CSS 操作指导，助学金与贷款策略，院校个案支持。">Detailed FAFSA & CSS walkthroughs, grant/loan strategies, and institutional aid support.</p>
+            <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+          </div>
+        </article>
 
-    <!-- 6 -->
-    <article class="service-card" onclick="location.href='/services/service-6.html'">
-      <h3>
-        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
-          <defs>
-            <linearGradient id="g6" x1="0" x2="1"><stop offset="0" stop-color="#4B89FF"/><stop offset="1" stop-color="#6E4BFF"/></linearGradient>
-          </defs>
-          <rect width="28" height="28" rx="6" fill="url(#g6)"/>
-          <path d="M8 18c2-3 6-4 12 0" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
-          <path d="M9 12h10" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
-        </svg>
-        <span data-en="6. Family & Long-term Education Planning" data-zh="6. 家庭与长期教育规划">6. Family & Long-term Education Planning</span>
-      </h3>
-      <p class="desc" data-en="Holistic K12→college planning to maximize outcomes, timing and aid across siblings and family situations."
-         data-zh="为家庭提供从 K12 到大学的整体规划，优化时间与助学金分配，兼顾兄弟姐妹与家庭情况。">
-        Holistic K12→college planning to maximize outcomes, timing and aid across siblings and family situations.
-      </p>
-      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
-    </article>
+        <article class="service-card" onclick="location.href='/services/service-5.html'">
+          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-star"></use></svg>
+          <div class="service-content">
+            <h3 data-en="5. Scholarship Application Support" data-zh="5. 奖学金申请支持">5. Scholarship Application Support</h3>
+            <p class="desc" data-en="Merit & need-based scholarship search, essay strategy and application management for HS and college." data-zh="成绩型与需求型奖学金研究、文书策略与申请管理，覆盖高中与大学的奖学金。">Merit & need-based scholarship search, essay strategy and application management for HS and college.</p>
+            <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+          </div>
+        </article>
 
-    <!-- 7 -->
-    <article class="service-card" onclick="location.href='/services/service-7.html'">
-      <h3>
-        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
-          <defs>
-            <linearGradient id="g7" x1="0" x2="1"><stop offset="0" stop-color="#4B89FF"/><stop offset="1" stop-color="#6E4BFF"/></linearGradient>
-          </defs>
-          <rect width="28" height="28" rx="6" fill="url(#g7)"/>
-          <path d="M9 11h10M9 15h10" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
-          <path d="M7 9v10" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
-        </svg>
-        <span data-en="7. Education Savings & Tax (ESA / 529)" data-zh="7. 教育账户与税务（ESA / 529）">7. Education Savings & Tax (ESA / 529)</span>
-      </h3>
-      <p class="desc" data-en="Account selection, tax-efficient structures, and cross-jurisdiction considerations for education savings and tax planning."
-         data-zh="账户选择、税务高效结构与跨司法区考量，为教育储蓄与税务规划提供实施方案。">
-        Account selection, tax-efficient structures, and cross-jurisdiction considerations for education savings and tax planning.
-      </p>
-      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
-    </article>
+        <article class="service-card" onclick="location.href='/services/service-6.html'">
+          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-family"></use></svg>
+          <div class="service-content">
+            <h3 data-en="6. Family & Long-term Education Planning" data-zh="6. 家庭与长期教育规划">6. Family & Long-term Education Planning</h3>
+            <p class="desc" data-en="Holistic K12 → college planning to maximize outcomes across siblings and family situations." data-zh="从 K12 到大学的一体化规划，兼顾兄弟姐妹与家庭情境，最大化助学金与结果。">Holistic K12 → college planning to maximize outcomes across siblings and family situations.</p>
+            <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+          </div>
+        </article>
 
-    <!-- 8 -->
-    <article class="service-card" onclick="location.href='/services/service-8.html'">
-      <h3>
-        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
-          <defs>
-            <linearGradient id="g8" x1="0" x2="1"><stop offset="0" stop-color="#4B89FF"/><stop offset="1" stop-color="#6E4BFF"/></linearGradient>
-          </defs>
-          <rect width="28" height="28" rx="6" fill="url(#g8)"/>
-          <path d="M8 12h12M10 16h8" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
-          <circle cx="20" cy="8" r="2" fill="#fff"/>
-        </svg>
-        <span data-en="8. College Fund Design & Financial Strategy" data-zh="8. 大学基金设计与财务策略">8. College Fund Design & Financial Strategy</span>
-      </h3>
-      <p class="desc" data-en="Designing long-term college funding strategies, investment allocation and risk considerations aligned to family goals."
-         data-zh="设计长期大学资助方案、投资配置与风险考量，使之与家庭目标一致并可实施。">
-        Designing long-term college funding strategies, investment allocation and risk considerations aligned to family goals.
-      </p>
-      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
-    </article>
+        <article class="service-card" onclick="location.href='/services/service-7.html'">
+          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-piggy"></use></svg>
+          <div class="service-content">
+            <h3 data-en="7. Education Savings & Tax (ESA / 529)" data-zh="7. 教育储蓄与税务（ESA/529）">7. Education Savings & Tax (ESA / 529)</h3>
+            <p class="desc" data-en="Account selection, tax-efficient structures, and cross-jurisdiction considerations for education savings." data-zh="教育储蓄账户选择、税务优化结构与跨司法区考量，提供实施性建议。">Account selection, tax-efficient structures, and cross-jurisdiction considerations for education savings.</p>
+            <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+          </div>
+        </article>
 
-    <!-- 9 -->
-    <article class="service-card" onclick="location.href='/services/service-9.html'">
-      <h3>
-        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
-          <defs>
-            <linearGradient id="g9" x1="0" x2="1"><stop offset="0" stop-color="#4B89FF"/><stop offset="1" stop-color="#6E4BFF"/></linearGradient>
-          </defs>
-          <rect width="28" height="28" rx="6" fill="url(#g9)"/>
-          <path d="M10 9h8M9 13h10M10 17h8" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
-        </svg>
-        <span data-en="9. Family Foundation / 501(c)(3) Setup" data-zh="9. 设立家族基金会 / 501(c)(3)">9. Family Foundation / 501(c)(3) Setup</span>
-      </h3>
-      <p class="desc" data-en="Establish compliant charitable entities: governance, filing, tax rules and operational considerations for family foundations."
-         data-zh="提供家族基金会或其他符合 IRS 501(c)(3) 非营利组织的设立、治理与合规实施建议。">
-        Establish compliant charitable entities: governance, filing, tax rules and operational considerations for family foundations.
-      </p>
-      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
-    </article>
+        <article class="service-card" onclick="location.href='/services/service-8.html'">
+          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-graph"></use></svg>
+          <div class="service-content">
+            <h3 data-en="8. College Fund Design & Financial Strategy" data-zh="8. 大学基金设计与财务策略">8. College Fund Design & Financial Strategy</h3>
+            <p class="desc" data-en="Design long-term college funding strategies, investment allocation, and risk planning aligned to family goals." data-zh="定制长期大学资助方案、投资配置与风险管理，使之契合家庭目标。">Design long-term college funding strategies, investment allocation, and risk planning aligned to family goals.</p>
+            <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+          </div>
+        </article>
 
-    <!-- 10 -->
-    <article class="service-card" onclick="location.href='/services/service-10.html'">
-      <h3>
-        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
-          <defs>
-            <linearGradient id="g10" x1="0" x2="1"><stop offset="0" stop-color="#4B89FF"/><stop offset="1" stop-color="#6E4BFF"/></linearGradient>
-          </defs>
-          <rect width="28" height="28" rx="6" fill="url(#g10)"/>
-          <path d="M9 10h10M9 14h6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
-          <path d="M9 18h10" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
-        </svg>
-        <span data-en="10. Education + Wealth & Trust Planning" data-zh="10. 教育与财富/信托规划">10. Education + Wealth & Trust Planning</span>
-      </h3>
-      <p class="desc" data-en="Trust design and intergenerational planning coordinating education goals with wealth preservation strategies."
-         data-zh="信托设计與代际规划，将教育目标与财富传承、保护策略协调一致并实施。">
-        Trust design and intergenerational planning coordinating education goals with wealth preservation strategies.
-      </p>
-      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
-    </article>
+        <article class="service-card" onclick="location.href='/services/service-9.html'">
+          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-building"></use></svg>
+          <div class="service-content">
+            <h3 data-en="9. Family Foundation / 501(c)(3) Setup" data-zh="9. 设立家族基金会 / 501(c)(3)">9. Family Foundation / 501(c)(3) Setup</h3>
+            <p class="desc" data-en="Establish compliant charitable entities: governance, filing, tax rules and operational considerations." data-zh="设立合规慈善实体：治理架构、申报流程、税法与运营注意事项的一站式咨询。">Establish compliant charitable entities: governance, filing, tax rules and operational considerations.</p>
+            <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+          </div>
+        </article>
 
-    <!-- 11 (added per request) -->
-    <article class="service-card" onclick="location.href='/services/service-11.html'">
-      <h3>
-        <svg width="28" height="28" viewBox="0 0 28 28" style="vertical-align:middle;margin-right:8px;" aria-hidden="true">
-          <defs>
-            <linearGradient id="g11" x1="0" x2="1"><stop offset="0" stop-color="#4B89FF"/><stop offset="1" stop-color="#6E4BFF"/></linearGradient>
-          </defs>
-          <rect width="28" height="28" rx="6" fill="url(#g11)"/>
-          <path d="M9 18h10M12 9v6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>
-          <path d="M9 20v2h10v-2" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>
-        </svg>
-        <span data-en="11. Campus-area Real Estate & Student Housing" data-zh="11. 校区周边房地产与学生住宿投资服务">11. Campus-area Real Estate & Student Housing</span>
-      </h3>
-      <p class="desc" data-en="Advisory on student housing and neighborhood real estate near universities — help secure quality housing and optimize investment."
-         data-zh="提供大学周边优质居住与房地产投资服务，帮助孩子实现安全舒适住所并实现房产价值最大化。">
-        Advisory on student housing and neighborhood real estate near universities — help secure quality housing and optimize investment.
-      </p>
-      <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
-    </article>
+        <article class="service-card" onclick="location.href='/services/service-10.html'">
+          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-shield"></use></svg>
+          <div class="service-content">
+            <h3 data-en="10. Education + Wealth & Trust Planning" data-zh="10. 教育与财富 / 信托规划">10. Education + Wealth & Trust Planning</h3>
+            <p class="desc" data-en="Trust design and intergenerational planning that coordinates education goals with wealth preservation strategies." data-zh="信托设计與代际财务规划，协调教育目标与财富传承策略。">Trust design and intergenerational planning that coordinates education goals with wealth preservation strategies.</p>
+            <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+          </div>
+        </article>
 
-  </div>
-</section>
+        <article class="service-card" onclick="location.href='/services/service-11.html'">
+          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-house"></use></svg>
+          <div class="service-content">
+            <h3 data-en="11. Student Housing & Nearby Real Estate Services" data-zh="11. 大学周边房产/住宿投资服务">11. Student Housing & Nearby Real Estate Services</h3>
+            <p class="desc" data-en="Advisory & execution for student housing and nearby property investment to ensure quality living and optimal returns." data-zh="提供学生就读期间的优质居住方案与周边房产投资顾问及执行，兼顾居住质量与投资回报。">Advisory & execution for student housing and nearby property investment to ensure quality living and optimal returns.</p>
+            <a class="apply-cta" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+          </div>
+        </article>
+      </div>
+    </section>
 
-
-
-    <!-- TOOLS (Register / Unlock / Apply section) -->
+    <!-- TOOLS (Register / Unlock / Apply) with centered icon -->
     <section class="section tools-section" id="tools">
+      <div class="section-title-wrapper">
+        <svg class="section-title-icon" viewBox="0 0 48 48" aria-hidden="true">
+          <use href="#bg-rounded"></use>
+          <use href="#line-target"></use>
+        </svg>
+        <h2 class="section-title" data-en="Tools & Quick Actions" data-zh="工具与快速操作">Tools & Quick Actions</h2>
+        <p class="section-sub" data-en="Register, unlock content, or apply for one-on-one services." data-zh="注册、快速解锁或提交一对一服务申请。">Register, unlock content, or apply for one-on-one services.</p>
+      </div>
+
       <div class="tools-wrap">
         <div class="card registration-card" id="registrationCard">
-          <h3 data-en="Club Registration" data-zh="俱乐部注册">Club Registration</h3>
+          <h3 data-en="Club Registration" data-zh="俱乐部注册">
+            <svg class="card-small-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-register"></use></svg>
+            Club Registration
+          </h3>
           <p class="muted" data-en="Sign up with name & email — referral optional." data-zh="输入姓名与邮箱注册，推荐码为可选项。">Sign up with name & email — referral optional.</p>
 
           <form id="registerForm" autocomplete="off">
@@ -369,14 +521,20 @@
             <input id="r-ref" name="ref" type="text" placeholder="Referral code / 推荐码" />
 
             <div class="form-actions">
-              <button type="submit" class="btn btn-primary" data-en="Join the Club" data-zh="加入俱乐部">Join the Club</button>
+              <button type="submit" class="btn btn-primary" data-en="Join the Club" data-zh="加入俱乐部">
+                <svg class="card-small-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-register"></use></svg>
+                Join the Club
+              </button>
               <div id="regStatus" class="form-status"></div>
             </div>
           </form>
         </div>
 
         <div class="card unlock-card" id="unlockCard">
-          <h3 data-en="Quick Unlock — Access Education Center" data-zh="快速解锁 — 进入教育中心">Quick Unlock — Access Education Center</h3>
+          <h3 data-en="Quick Unlock — Access Education Center" data-zh="快速解锁 — 进入教育中心">
+            <svg class="card-small-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-unlock"></use></svg>
+            Quick Unlock — Access Education Center
+          </h3>
           <p class="muted" data-en="Submit name & email to unlock the Education Center and get a free consultation opportunity." data-zh="提交姓名与邮箱以解锁教育中心，并获得免费咨询机会。">Submit name & email to unlock the Education Center and get a free consultation opportunity.</p>
 
           <div class="quick-unlock-vertical">
@@ -392,7 +550,10 @@
         </div>
 
         <div class="card apply-card">
-          <h3 data-en="Service Application" data-zh="服务申请">Service Application</h3>
+          <h3 data-en="Service Application" data-zh="服务申请">
+            <svg class="card-small-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-target"></use></svg>
+            Service Application
+          </h3>
           <p class="muted" data-en="Fill an application to request one-on-one service." data-zh="填写申请以请求一对一服务。">Fill an application to request one-on-one service.</p>
           <div class="form-actions">
             <a class="btn btn-primary" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
@@ -403,17 +564,32 @@
 
     <!-- ABOUT -->
     <section class="section about-section" id="about">
-      <div class="card wide">
+      <div class="section-title-wrapper">
+        <svg class="section-title-icon" viewBox="0 0 48 48" aria-hidden="true">
+          <use href="#bg-rounded"></use>
+          <use href="#line-family"></use>
+        </svg>
         <h2 data-en="About SuperEdu" data-zh="关于 超能教育">About SuperEdu</h2>
+        <p class="section-sub" data-en="Guidance for Chinese families worldwide on US education, admissions, aid and college fund planning." data-zh="为全球华人家庭提供美国教育、入学、助学与大学基金规划的咨询。">Guidance for Chinese families worldwide on US education, admissions, aid and college fund planning.</p>
+      </div>
+
+      <div class="card wide">
         <p class="muted" data-en="SuperEdu provides guidance for Chinese families worldwide on US education, college admissions, financial aid (FAFSA/CSS), and college fund planning." data-zh="超能教育为全球华人家庭提供关于美国教育、大学申请、助学金（FAFSA/CSS）与大学基金规划的咨询与服务。">SuperEdu provides guidance for Chinese families worldwide on US education, college admissions, financial aid (FAFSA/CSS), and college fund planning.</p>
       </div>
     </section>
 
     <!-- WEBINAR -->
     <section class="section webinar-section" id="webinar">
-      <div class="card wide">
+      <div class="section-title-wrapper">
+        <svg class="section-title-icon" viewBox="0 0 48 48" aria-hidden="true">
+          <use href="#bg-rounded"></use>
+          <use href="#line-certificate"></use>
+        </svg>
         <h2 data-en="Upcoming Webinar" data-zh="近期讲座">Upcoming Webinar</h2>
-        <p class="muted" data-en="Join our live webinar for FAFSA essentials and college funding strategies. Seats limited — register to reserve." data-zh="参加我们的 FAFSA 实务与大学资助策略讲座。名额有限，请注册保留席位。">Join our live webinar for FAFSA essentials and college funding strategies. Seats limited — register to reserve.</p>
+        <p class="section-sub" data-en="Join our live webinar for FAFSA essentials and college funding strategies. Seats limited — register to reserve." data-zh="参加我们的 FAFSA 实务与大学资助策略讲座。名额有限，请注册保留席位。">Join our live webinar for FAFSA essentials and college funding strategies. Seats limited — register to reserve.</p>
+      </div>
+
+      <div class="card wide">
         <div class="cta-row">
           <a class="btn btn-primary" href="https://lsfinova.com/zoom" target="_blank" data-en="Join Webinar (Main Page)" data-zh="加入讲座（主页面）">Join Webinar (Main Page)</a>
           <a class="btn btn-outline" href="https://us02web.zoom.us/meeting/register/OTK5r59URLODa2eWFv5b0A" target="_blank" data-en="Quick Register for Webinar" data-zh="快速注册讲座">Quick Register for Webinar</a>
@@ -423,10 +599,16 @@
 
     <!-- QUICK RESOURCES -->
     <section class="section resources-section" id="resources">
-      <div class="card wide">
+      <div class="section-title-wrapper">
+        <svg class="section-title-icon" viewBox="0 0 48 48" aria-hidden="true">
+          <use href="#bg-rounded"></use>
+          <use href="#line-graph"></use>
+        </svg>
         <h2 data-en="Quick Resources" data-zh="重要链接">Quick Resources</h2>
-        <p class="muted" data-en="Practical links for FAFSA, CSS Profile, college rankings and our Aid Calculator." data-zh="FAFSA、CSS Profile、大学排名与我们的助学金计算器等实用链接。">Practical links for FAFSA, CSS Profile, college rankings and our Aid Calculator.</p>
+        <p class="section-sub" data-en="Practical links for FAFSA, CSS Profile, college rankings and our Aid Calculator." data-zh="FAFSA、CSS Profile、大学排名与我们的助学金计算器等实用链接。">Practical links for FAFSA, CSS Profile, college rankings and our Aid Calculator.</p>
+      </div>
 
+      <div class="card wide">
         <div class="resources-grid">
           <a class="resource-pill" href="http://lsfinova.com/aid" target="_blank" data-en="LSFinova Aid Calculator" data-zh="LSFinova 助学金计算器">LSFinova Aid Calculator</a>
           <a class="resource-pill" href="https://studentaid.gov" target="_blank" data-en="FAFSA — studentaid.gov" data-zh="FAFSA — studentaid.gov">FAFSA — studentaid.gov</a>
@@ -438,8 +620,16 @@
 
     <!-- CONTACT -->
     <section class="section contact-section" id="contact">
-      <div class="card wide">
+      <div class="section-title-wrapper">
+        <svg class="section-title-icon" viewBox="0 0 48 48" aria-hidden="true">
+          <use href="#bg-rounded"></use>
+          <use href="#line-building"></use>
+        </svg>
         <h2 data-en="Contact" data-zh="联系">Contact</h2>
+        <p class="section-sub" data-en="Reach us by text, WeChat or email." data-zh="通过短信、微信或邮箱联系我们。">Reach us by text, WeChat or email.</p>
+      </div>
+
+      <div class="card wide">
         <p class="muted">Phone: 1 916-793-0676 (Texting Only)</p>
         <p class="muted">Wechat 微信 ID: Leon_Song_PhD</p>
         <p class="muted">Email: team@lsfinova.com</p>
@@ -447,7 +637,7 @@
     </section>
   </main>
 
-  <!-- FOOTER -->
+  <!-- FOOTER (with small centered icon optionally) -->
   <footer>
     <div class="footer-inner">
       <div class="footer-col">
@@ -474,25 +664,24 @@
     <div class="footer-copy">© 2025 SuperEdu — LSFinova. All rights reserved.</div>
   </footer>
 
-  <!-- scripts -->
+  <!-- scripts (lang + menu + inline behaviors) -->
   <script src="/assets/js/lang.js"></script>
   <script src="/assets/js/menu.js"></script>
-  <script>
-    // Inline behaviors for register/unlock forms and anchors
 
-    // smooth scroll helpers
-    function scrollToEl(id){ document.getElementById(id).scrollIntoView({behavior:'smooth', block:'center'}); }
+  <script>
+    // Inline behaviors for register/unlock forms and anchors (kept from original)
+    function scrollToEl(id){ const el = document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth', block:'center'}); }
 
     // CTA buttons -> scroll to appropriate section
-    document.getElementById('ctaRegister').addEventListener('click', ()=> scrollToEl('registrationCard'));
-    document.getElementById('ctaUnlock').addEventListener('click', ()=> scrollToEl('unlockCard'));
+    document.getElementById('ctaRegister')?.addEventListener('click', ()=> scrollToEl('registrationCard'));
+    document.getElementById('ctaUnlock')?.addEventListener('click', ()=> scrollToEl('unlockCard'));
 
-    // mobile menu actions
-    document.getElementById('mobileRegister').addEventListener('click', ()=> { document.getElementById('hamburger').click(); scrollToEl('registrationCard'); });
-    document.getElementById('mobileUnlock').addEventListener('click', ()=> { document.getElementById('hamburger').click(); scrollToEl('unlockCard'); });
+    // mobile menu actions (buttons in mobile menu)
+    document.getElementById('mobileRegister')?.addEventListener('click', ()=> { document.getElementById('hamburger')?.click(); scrollToEl('registrationCard'); });
+    document.getElementById('mobileUnlock')?.addEventListener('click', ()=> { document.getElementById('hamburger')?.click(); scrollToEl('unlockCard'); });
 
     // REGISTER form submit (with email validation)
-    document.getElementById('registerForm').addEventListener('submit', async function(e){
+    document.getElementById('registerForm')?.addEventListener('submit', async function(e){
       e.preventDefault();
       const status = document.getElementById('regStatus');
       const fname = document.getElementById('r-first').value.trim();
@@ -503,7 +692,6 @@
       if(!emailPattern.test(email)){ status.innerText = (localStorage.getItem('superedu-lang')==='zh') ? '请输入有效邮箱' : 'Please enter a valid email'; return; }
       status.innerText = (localStorage.getItem('superedu-lang')==='zh') ? '提交中...' : 'Submitting...';
 
-      // POST to backend (worker). If you don't have a worker, this will fail — adjust endpoint accordingly.
       try{
         const payload = { firstName: fname, lastName: lname, email, referralCode: ref, source:'index_register', created_at: new Date().toISOString() };
         const res = await fetch('/api/register', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
@@ -516,7 +704,7 @@
     });
 
     // QUICK UNLOCK
-    document.getElementById('unlockBtn').addEventListener('click', async function(){
+    document.getElementById('unlockBtn')?.addEventListener('click', async function(){
       const st = document.getElementById('unlockStatus');
       const f = document.getElementById('u-first').value.trim();
       const l = document.getElementById('u-last').value.trim();
@@ -531,7 +719,6 @@
         const res = await fetch('/api/unlock', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
         const j = await res.json();
         st.innerText = j.message || ((localStorage.getItem('superedu-lang')==='zh') ? '已解锁，请点击进入' : 'Unlocked — click to enter');
-        // show enter button + store simple token
         document.getElementById('enterEduBtn').style.display = 'inline-block';
         localStorage.setItem('edu_unlocked_token', JSON.stringify({email, ts: Date.now()}));
       }catch(err){
@@ -541,12 +728,17 @@
     });
 
     // ENTER Education Center (checks token)
-    document.getElementById('enterEduBtn').addEventListener('click', function(){
+    document.getElementById('enterEduBtn')?.addEventListener('click', function(){
       const token = JSON.parse(localStorage.getItem('edu_unlocked_token') || 'null');
       if(!token){ alert(localStorage.getItem('superedu-lang')==='zh' ? '请先解锁教育中心' : 'Please unlock access first'); scrollToEl('unlockCard'); return; }
       window.location = '/education.html';
     });
 
+    // small accessibility improvement: add keyboard activation on service cards
+    document.querySelectorAll('.service-card').forEach(card=>{
+      card.setAttribute('tabindex','0');
+      card.addEventListener('keydown', (e)=> { if(e.key==='Enter') card.click(); });
+    });
   </script>
 </body>
 </html>
