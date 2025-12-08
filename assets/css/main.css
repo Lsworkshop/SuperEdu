@@ -398,10 +398,10 @@ section .section-inner {
 .registration-card h3 .sub-icon,
 .unlock-card h3 .sub-icon,
 .apply-card h3 .sub-icon {
-  width: 20px;     /* 你可以设为 16px / 18px / 20px */
-  height: 20px;
+  width: 36px;     /* 你可以设为 16px / 18px / 20px */
+  height: 36px;
   flex: 0 0 18px;
-  margin-right: 8px;    /* 图标与文字的间距 */
+  margin-right: 12px;    /* 图标与文字的间距 */
   vertical-align: middle;
 }
 
@@ -411,8 +411,8 @@ section .section-inner {
   .registration-card h3 .sub-icon,
   .unlock-card h3 .sub-icon,
   .apply-card h3 .sub-icon {
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
     flex: 0 0 16px;
   }
 }
