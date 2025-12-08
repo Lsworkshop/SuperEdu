@@ -400,7 +400,7 @@ section .section-inner {
 .apply-card h3 .sub-icon {
   width: 36px;     /* 你可以设为 16px / 18px / 20px */
   height: 36px;
-  flex: 0 0 18px;
+  flex: 0 0 36px;
   margin-right: 12px;    /* 图标与文字的间距 */
   vertical-align: middle;
 }
@@ -413,7 +413,7 @@ section .section-inner {
   .apply-card h3 .sub-icon {
     width: 24px;
     height: 24px;
-    flex: 0 0 16px;
+    flex: 0 0 24px;
   }
 }
 
