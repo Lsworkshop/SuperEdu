@@ -283,6 +283,35 @@
         </g>
       </symbol>
 
+<!-- small icon: club registration -->
+<symbol id="icon-club" viewBox="0 0 24 24">
+  <rect x="0.3" y="0.3" width="23.4" height="23.4" rx="5" fill="url(#grad-brand)"/>
+  <g stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M7.5 14.5c1.5-2 3-3 4.5-3s3 1 4.5 3"/>
+    <circle cx="12" cy="8.8" r="2.8"/>
+  </g>
+</symbol>
+
+<!-- small icon: quick unlock / education center -->
+<symbol id="icon-unlock" viewBox="0 0 24 24">
+  <rect x="0.3" y="0.3" width="23.4" height="23.4" rx="5" fill="url(#grad-brand)"/>
+  <g stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M8 11h8v6H8z"/>
+    <path d="M10 11V9a2 2 0 0 1 4 0"/>
+  </g>
+</symbol>
+
+<!-- small icon: service application -->
+<symbol id="icon-apply" viewBox="0 0 24 24">
+  <rect x="0.3" y="0.3" width="23.4" height="23.4" rx="5" fill="url(#grad-brand)"/>
+  <g stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M7 8h10v10H7z"/>
+    <path d="M9 12h6"/>
+    <path d="M9 15h3.8"/>
+  </g>
+</symbol>
+
+
       <!-- more symbols can be added later if needed -->
     </defs>
   </svg>
@@ -545,10 +574,13 @@
 
       <div class="tools-wrap">
         <div class="card registration-card" id="registrationCard">
-          <h3 data-en="Club Registration" data-zh="俱乐部注册">
-            <svg class="card-small-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-register"></use></svg>
-            Club Registration
-          </h3>
+
+         <h3>
+    <svg class="sub-icon" viewBox="0 0 24 24"><use href="#icon-club"></use></svg>
+    <span data-en="Club Registration" data-zh="俱乐部注册">俱乐部注册</span>
+        </h3>
+
+
           <p class="muted" data-en="Sign up with name & email — referral optional." data-zh="输入姓名与邮箱注册，推荐码为可选项。">Sign up with name & email — referral optional.</p>
 
           <form id="registerForm" autocomplete="off">
@@ -575,10 +607,10 @@
         </div>
 
         <div class="card unlock-card" id="unlockCard">
-          <h3 data-en="Quick Unlock — Access Education Center" data-zh="快速解锁 — 进入教育中心">
-            <svg class="card-small-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-unlock"></use></svg>
-            Quick Unlock — Access Education Center
-          </h3>
+          <h3>
+    <svg class="sub-icon" viewBox="0 0 24 24"><use href="#icon-unlock"></use></svg>
+    <span data-en="Quick Unlock — Education Center" data-zh="快速解锁 — 进入教育中心">快速解锁 — 进入教育中心</span>
+  </h3>
           <p class="muted" data-en="Submit name & email to unlock the Education Center and get a free consultation opportunity." data-zh="提交姓名与邮箱以解锁教育中心，并获得免费咨询机会。">Submit name & email to unlock the Education Center and get a free consultation opportunity.</p>
 
           <div class="quick-unlock-vertical">
@@ -594,10 +626,10 @@
         </div>
 
         <div class="card apply-card">
-          <h3 data-en="Service Application" data-zh="服务申请">
-            <svg class="card-small-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-target"></use></svg>
-            Service Application
-          </h3>
+           <h3>
+    <svg class="sub-icon" viewBox="0 0 24 24"><use href="#icon-apply"></use></svg>
+    <span data-en="Service Application" data-zh="服务申请">服务申请</span>
+  </h3>
           <p class="muted" data-en="Fill an application to request one-on-one service." data-zh="填写申请以请求一对一服务。">Fill an application to request one-on-one service.</p>
           <div class="form-actions">
             <a class="btn btn-primary" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>

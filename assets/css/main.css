@@ -390,3 +390,17 @@ section .section-inner {
     display: none;
   }
 }
+
+/* small icon used inside sub-cards */
+.sub-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sub-card .sub-icon {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+}
+
