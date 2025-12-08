@@ -417,3 +417,81 @@ section .section-inner {
   }
 }
 
+/* ===== Hero Title Final Recommended Style ===== */
+.hero-title {
+  font-family: 'Noto Sans SC', sans-serif;
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  line-height: 1.32;
+  text-align: center;
+
+  background: linear-gradient(90deg, #0057ff, #00c6ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  text-shadow: 0 2px 5px rgba(0,0,0,0.08);
+  animation: heroFadeIn 1.3s ease-out;
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 28px;
+    letter-spacing: 0.4px;
+  }
+}
+
+@keyframes heroFadeIn {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ============================
+   SUBPAGE NAV COMPATIBILITY FIX
+   放在 main.css 最底部
+   ============================ */
+
+/* 保证品牌区域内部链接显示为 flex（避免样式错位） */
+.brand { display:flex; align-items:center; }
+.brand-link { display:flex; align-items:center; gap:12px; text-decoration:none; color:inherit; }
+.brand-link .logo-img { display:block; }
+
+/* 确保 .nav-inner 保持居中容器行为（子页面也一样） */
+nav#topNav .nav-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 14px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  box-sizing:border-box;
+}
+
+/* 当使用 nav--solid（子页面）时给出稳定背景和边框 */
+nav#topNav.nav--solid {
+  background: rgba(255,255,255,0.98);
+  border-bottom: 1px solid #e6eaf3;
+  box-shadow: 0 6px 18px rgba(20,30,60,0.04);
+}
+
+/* 菜单项保持 inline-flex 且不要折行，防止在子页上错位 */
+.menu { display:flex; gap:8px; align-items:center; flex-wrap:nowrap; }
+
+/* 确保移动菜单在默认 aria-hidden=true 时被隐藏（与现有规则兼容） */
+.mobile-menu[aria-hidden="true"] { display:none; opacity:0; transform:translateY(-6px); pointer-events:none; }
+
+/* 给汉堡按钮与 mobileMenu 交互留出可访问性特性（JS 负责切换 aria-expanded/aria-hidden） */
+.hamburger[aria-expanded="true"] { outline: none; }
+
+/* 防止 logo-img 在不同页面大小突变（约束高度，保持一致） */
+.logo-img { height:36px; width:auto; max-width:160px; object-fit:contain; }
+
+/* 小屏幕下菜单折叠行为（如你已有的样式，确保此处不被覆盖） */
+@media (max-width: 720px) {
+  .menu { display:none; }
+  .hamburger { display:block; }
+  .mobile-menu[aria-hidden="false"] { display:block; opacity:1; transform:translateY(0); pointer-events:auto; }
+}
+
+
