@@ -348,7 +348,7 @@ section .section-inner {
   display: flex;
   justify-content: center; /* 居中内容 */
   overflow: hidden;
-  max-height: 640px;       /* Desktop 高度 */
+  max-height: 780px;       /* Desktop 高度 */
   background: #f7f9ff;     /* 防止图片加载慢时空白 */
 }
 
@@ -391,16 +391,29 @@ section .section-inner {
   }
 }
 
-/* small icon used inside sub-cards */
-.sub-card h3 {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+
+/* --- ONLY resize the 3 tool-card small icons --- */
+
+.card h3 .sub-icon,
+.registration-card h3 .sub-icon,
+.unlock-card h3 .sub-icon,
+.apply-card h3 .sub-icon {
+  width: 20px;     /* 你可以设为 16px / 18px / 20px */
+  height: 20px;
+  flex: 0 0 18px;
+  margin-right: 8px;    /* 图标与文字的间距 */
+  vertical-align: middle;
 }
 
-.sub-card .sub-icon {
-  width: 28px;
-  height: 28px;
-  flex: 0 0 28px;
+/* 手机端（可选，但建议保留） */
+@media (max-width: 720px) {
+  .card h3 .sub-icon,
+  .registration-card h3 .sub-icon,
+  .unlock-card h3 .sub-icon,
+  .apply-card h3 .sub-icon {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 16px;
+  }
 }
 
