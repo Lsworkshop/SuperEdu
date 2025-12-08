@@ -54,7 +54,18 @@ nav .nav-inner{max-width:var(--maxw);margin:0 auto;display:flex;align-items:cent
 .hero-right .hero-graphic{height:320px;border-radius:22px;background:var(--grad);box-shadow:0 18px 60px rgba(75,137,255,0.12)}
 
 /* SECTIONS */
-.section{max-width:var(--maxw);margin:60px auto;padding:40px 20px}
+.section {
+  width: 100%;       /* 必须让 section 占满整屏宽度 */
+  margin: 0;         /* 不要再用 auto 居中，内容由 inner 控制 */
+  padding: 40px 0;   /* 上下间距 */
+}
+
+section .section-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;    /* 内容居中 */
+  padding: 0 20px;   /* 内容左右内边距 */
+}
+
 .section-title{font-size:30px;font-weight:800;color:var(--brand-2);text-align:center;margin:0}
 .section-sub{text-align:center;color:var(--muted);margin-top:8px;margin-bottom:28px}
 
