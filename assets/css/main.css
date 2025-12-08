@@ -348,12 +348,12 @@ section .section-inner {
   display: flex;
   justify-content: center; /* 居中内容 */
   overflow: hidden;
-  max-height: 320px;       /* Desktop 高度 */
+  max-height: 640px;       /* Desktop 高度 */
   background: #f7f9ff;     /* 防止图片加载慢时空白 */
 }
 
 .top-banner img {
-  max-width: 1200px;       /* Desktop 最大宽度 */
+  max-width: 1920px;       /* Desktop 最大宽度 */
   width: 100%;
   height: 100%;
   object-fit: cover;       /* 保持比例裁剪 */
@@ -373,13 +373,13 @@ section .section-inner {
 
 /* ==== HERO RIGHT IMAGE OPTIMIZED ==== */
 .hero-right {
-  max-width: 360px;        /* Desktop 宽度 */
+  max-width: 480px;        /* Desktop 宽度 */
   width: 100%;
 }
 
 .hero-right .hero-graphic {
   width: 100%;
-  max-height: 320px;       /* 控制高度 */
+  max-height: 360px;       /* 控制高度 */
   object-fit: cover;       /* 保持比例 */
   border-radius: 22px;     /* 圆角保持原样 */
 }
