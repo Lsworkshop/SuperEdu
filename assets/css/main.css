@@ -278,33 +278,36 @@ section h2.section-title {
 .section-title-icon rect,
 .section-title-icon circle { filter: drop-shadow(0 6px 18px rgba(40,55,120,0.08)); }
 
+/* =========================================
+   SECTION BACKGROUND COLORS — FULL WIDTH
+   ========================================= */
+section#about { background-color: #E8EEFF; }
+section#services { background-color: #EFE4FF; }
+section#planning { background-color: #E4F1FF; }
+section#tax { background-color: #F0E8FF; }
+section#legal { background-color: #E9F3FF; }
+section#real-estate { background-color: #EDF1FF; }
+section#contact { background-color: #EEE9FF; }
+section#faq { background-color: #E9F0FF; }
+section#hero { background-color: #FFFFFF; }
 
 /* =========================================
-   Section 背景左右贯通（内容保持居中）
+   SECTION INNER CONTAINER — 保持内容居中
    ========================================= */
-section {
-  position: relative; /* 保证伪元素相对定位 */
+section .section-inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 40px 20px; /* 可根据需要调整上下和左右内边距 */
 }
 
-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;     /* 背景铺满整个视口宽度 */
-  height: 100%;     /* 背景撑满 section 高度 */
-  z-index: -1;      /* 背景在内容下方 */
+/* 可选：针对响应式，手机段稍微减小内边距 */
+@media (max-width: 768px) {
+  section .section-inner {
+    padding: 32px 16px;
+  }
 }
 
-/* 各 section 背景颜色 */
-section#about::before        { background-color: #E8EEFF; }
-section#services::before     { background-color: #EFE4FF; }
-section#planning::before     { background-color: #E4F1FF; }
-section#tax::before          { background-color: #F0E8FF; }
-section#legal::before        { background-color: #E9F3FF; }
-section#real-estate::before  { background-color: #EDF1FF; }
-section#contact::before      { background-color: #EEE9FF; }
-section#faq::before          { background-color: #E9F0FF; }
-section#hero::before         { background-color: #FFFFFF; }
+
+
 
 
