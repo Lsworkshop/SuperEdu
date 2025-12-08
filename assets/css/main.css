@@ -70,6 +70,10 @@ nav .nav-inner{max-width:var(--maxw);margin:0 auto;display:flex;align-items:cent
   height: 100%;
   max-height: 380px;
 }
+.hero-graphic.hero-photo {
+  max-width: 600px;
+  max-height: 380px;
+}
 
 
 /* SECTIONS */
@@ -338,6 +342,15 @@ section .section-inner {
 }
 
 
+/* ========== TOP BANNER ========== */
+.top-banner {
+  width: 100%;
+  overflow: hidden;
+}
 
-
-
+.top-banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
