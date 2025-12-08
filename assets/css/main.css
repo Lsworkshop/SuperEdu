@@ -495,3 +495,63 @@ nav#topNav.nav--solid {
 }
 
 
+/* ============================
+   Mobile (narrow) spacing tune
+   ============================ */
+@media (max-width: 720px) {
+  /* Make hero more compact on phones */
+  .hero {
+    padding: 80px 16px 32px; /* 减小顶部/底部空间 */
+    grid-template-columns: 1fr; /* already applied, but keep */
+    gap: 18px;
+  }
+
+  /* Sections: reduce vertical spacing and internal padding */
+  .section {
+    margin: 20px auto;      /* 原来 60px -> 20px，更紧凑 */
+    padding: 18px 16px;     /* 原来 40px -> 18px */
+  }
+
+  /* Make section titles sit closer to their content */
+  .section-title {
+    margin-bottom: 8px;
+    font-size: 22px;
+  }
+  .section-sub { margin-top: 6px; margin-bottom: 12px; }
+
+  /* Cards: slightly smaller padding and tighter stacked gaps */
+  .card {
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  /* Grid gaps */
+  .services-grid { gap: 12px; }
+  .tools-wrap { gap: 12px; }
+  .resources-grid { gap: 8px; }
+
+  /* Service card internals */
+  .service-card { padding: 14px; }
+  .service-card .desc { margin-bottom: 8px; font-size: 14px; }
+
+  /* Tools CTA spacing — ensure the two webinar buttons are not touching */
+  .cta-row { display:flex; gap:12px; flex-direction:column; align-items:stretch; }
+  .cta-row .btn { margin-bottom: 8px; }
+
+  /* Hero CTA spacing */
+  .hero-ctas { gap: 10px; flex-direction:column; align-items:stretch; }
+  .hero-ctas .btn { width:100%; }
+
+  /* Mobile menu items spacing */
+  .mobile-menu a { padding: 10px 0; }
+  .mobile-actions { gap:10px; padding-top:10px; }
+
+  /* Footer compact */
+  footer { padding: 24px 12px; }
+  .footer-inner { gap:18px; }
+
+  /* Small niceties */
+  .apply-cta, .btn { padding: 10px 12px; font-size: 15px; }
+}
+
+

@@ -76,6 +76,15 @@
     cursor:pointer;
     font-weight:700;
     font-size:15px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .btn.btn-ghost {
+    background:transparent;
+    color:var(--brand-green);
+    border:2px solid rgba(44,156,71,0.12);
   }
 
   .small {
@@ -106,8 +115,12 @@
     width:18px;
     height:18px;
   }
-</style>
 
+  /* small responsive tweak */
+  @media (max-width:720px){
+    .services-checkbox-grid { grid-template-columns:1fr; }
+  }
+</style>
 
 <link rel="stylesheet" href="/assets/css/main.css">
 <script src="/assets/js/menu.js" defer></script>
@@ -117,11 +130,10 @@
 
 <body>
 
-<!-- NAV (for subpages like apply.html) - paste this at top of body -->
+<!-- NAV (for subpages like apply.html) -->
 <nav id="topNav" class="nav--solid" role="navigation" aria-label="Main navigation">
   <div class="nav-inner">
     <div class="brand">
-      <!-- use a distinct class on the anchor to avoid confusion with the outer brand div -->
       <a href="/index.html#home" class="brand-link" aria-label="SuperEdu Home">
         <img src="/assets/img/superedu-logo.png" alt="SuperEdu" class="logo-img" />
         <span class="brand-text">SuperEdu</span>
@@ -152,14 +164,13 @@
     <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
     <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
 
-    <div class="mobile-actions">
-      <button class="btn btn-ghost" id="mobileRegister" data-en="Register / Join" data-zh="注册 / 加入">Register / Join</button>
-      <button class="btn" id="mobileUnlock" data-en="Unlock Education" data-zh="解锁教育">Unlock Education</button>
+    <!-- === 修改点：把注册/解锁按钮改为链接（跳回首页对应区块） === -->
+    <div class="mobile-actions" style="padding:12px 0; display:flex; gap:10px; flex-direction:column;">
+      <a class="btn btn-ghost" id="mobileRegister" href="/index.html#registrationCard" data-en="Register / Join" data-zh="注册 / 加入">Register / Join</a>
+      <a class="btn" id="mobileUnlock" href="/index.html#unlockCard" data-en="Unlock Education" data-zh="解锁教育">Unlock Education</a>
     </div>
   </div>
 </nav>
-
-
 
 <div class="container">
   <div class="card">
@@ -228,6 +239,7 @@ function renderServices(){
   wrap.innerHTML = '';
   serviceItems.forEach(s=>{
     const text = lang==='en' ? s.en : s.zh;
+    // value set to english key for consistent backend handling, but label text is localized
     wrap.innerHTML += `
       <label>
         <input type="checkbox" name="services" value="${s.en}">
@@ -236,24 +248,76 @@ function renderServices(){
     `;
   });
 }
-renderServices();
 
-/* Language switching */
+/* Language switching UI + behavior */
 function setLang(l){
   lang = l;
   localStorage.setItem('superedu-lang',l);
 
+  // update all elements that have data-en / data-zh
   document.querySelectorAll('[data-en]').forEach(el=>{
+    // skip inputs / textareas placeholders (we could handle placeholders if needed)
     if(el.tagName==='INPUT' || el.tagName==='TEXTAREA') return;
     el.innerText = (l==='en') ? el.dataset.en : el.dataset.zh;
   });
 
-  document.getElementById('submitBtn').innerText =
-    (l==='en')?'Submit Application':'提交申请';
+  // Update submit button text specifically (in case innerText wasn't covered)
+  const submitBtn = document.getElementById('submitBtn');
+  if(submitBtn) submitBtn.innerText = (l==='en') ? submitBtn.dataset.en : submitBtn.dataset.zh;
 
+  // render localized services list
   renderServices();
+
+  // update language toggle button label to show opposite (UX choice)
+  const langBtn = document.getElementById('langToggle');
+  if(langBtn) langBtn.innerText = (l==='en') ? '中文' : 'EN';
 }
-setLang(lang);
+
+/* Toggle language when user clicks the top button */
+document.addEventListener('DOMContentLoaded', () => {
+  // initialize UI
+  setLang(lang);
+
+  const langBtn = document.getElementById('langToggle');
+  if(langBtn){
+    // ensure label shows opposite language as the toggle (common pattern)
+    langBtn.addEventListener('click', () => {
+      const next = (lang === 'en') ? 'zh' : 'en';
+      setLang(next);
+    });
+    // set initial label according to current language
+    langBtn.innerText = (lang==='en') ? '中文' : 'EN';
+  }
+
+  // Hook: mobile hamburger toggling (simple)
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if(hamburger && mobileMenu){
+    hamburger.addEventListener('click', () => {
+      const expanded = hamburger.getAttribute('aria-expanded') === 'true';
+      hamburger.setAttribute('aria-expanded', (!expanded).toString());
+      if(expanded){
+        mobileMenu.setAttribute('aria-hidden','true');
+        hamburger.classList.remove('open');
+      } else {
+        mobileMenu.setAttribute('aria-hidden','false');
+        hamburger.classList.add('open');
+      }
+    });
+
+    // Close mobile menu when any menu link is clicked (helps UX)
+    mobileMenu.querySelectorAll('a').forEach(a=>{
+      a.addEventListener('click', ()=> {
+        mobileMenu.setAttribute('aria-hidden','true');
+        hamburger.setAttribute('aria-expanded','false');
+        hamburger.classList.remove('open');
+      });
+    });
+  }
+});
+
+/* initial render of services */
+renderServices();
 
 /* ===============================
       SUBMIT FORM
