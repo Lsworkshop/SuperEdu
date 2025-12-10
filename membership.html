@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Membership | SuperEdu</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+
+    <style>
+    /* 页面框架 */
+    .membership-container {
+        max-width: 1100px;
+        margin: 140px auto 80px;
+        padding: 0 20px;
+    }
+    .membership-title {
+        text-align: center;
+        font-size: 2.4rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    .membership-sub {
+        text-align: center;
+        margin-bottom: 40px;
+        font-size: 1.1rem;
+        opacity: 0.8;
+    }
+
+    /* 卡片布局 */
+    .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 28px;
+    }
+
+    /* 卡片样式 */
+    .mem-card {
+        background: var(--card-bg, #ffffff10);
+        padding: 28px;
+        border-radius: 16px;
+        backdrop-filter: blur(8px);
+        border: 1px solid #ffffff20;
+        transition: all .25s ease;
+        cursor: pointer;
+        text-align: left;
+    }
+    .mem-card:hover {
+        transform: translateY(-6px) scale(1.03);
+        box-shadow: 0 10px 28px rgba(0,0,0,0.18);
+        border: 1px solid var(--accent, #4CC2FF);
+    }
+
+    .mem-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+    .mem-card p {
+        font-size: 0.95rem;
+        opacity: 0.8;
+        margin-bottom: 20px;
+        line-height: 1.5;
+    }
+
+    .mem-btn {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px 18px;
+        background: var(--accent, #4CC2FF);
+        color: #fff;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        transition: .2s;
+    }
+    .mem-btn:hover {
+        transform: scale(1.05);
+    }
+    </style>
+</head>
+
+<body>
+
+<!-- Top Navigation 会自动加载 -->
+
+<div class="membership-container">
+    <h1 class="membership-title">Membership Access</h1>
+    <p class="membership-sub">Unlock premium learning tools and join our education community.</p>
+
+    <div class="card-grid">
+
+        <!-- 卡片 1：快速解锁 EduCenter -->
+        <div class="mem-card" onclick="location.href='/membership.html#unlock'">
+            <h3>快速解锁 EduCenter</h3>
+            <p>一次性解锁教育中心内容，获得全部课程与资料的访问权限。</p>
+            <a class="mem-btn">Unlock Now →</a>
+        </div>
+
+        <!-- 卡片 2：社区注册 -->
+        <div class="mem-card" onclick="location.href='/membership.html#community'">
+            <h3>加入 EduCommunity</h3>
+            <p>注册成为社区成员，参与讨论、发布内容、获得专属活动资格。</p>
+            <a class="mem-btn">Join Community →</a>
+        </div>
+
+        <!-- 卡片 3：创建账户 -->
+        <div class="mem-card" onclick="location.href='/membership.html#create'">
+            <h3>注册并创建账户</h3>
+            <p>创建我自己的账户，用邮箱登录，记录课程、提交任务、管理权限。</p>
+            <a class="mem-btn">Create Account →</a>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
