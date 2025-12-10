@@ -34,6 +34,11 @@ nav .nav-inner{max-width:var(--maxw);margin:0 auto;display:flex;align-items:cent
 .hamburger{display:none;background:none;border:0;padding:6px;cursor:pointer}
 .hamburger span{display:block;width:22px;height:2px;background:#222;margin:4px 0;border-radius:2px;transition:all .2s}
 
+body {
+  font-family: "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+
 /* mobile menu (slide) */
 .mobile-menu{display:none;max-width:var(--maxw);margin:0 auto;padding:10px 20px;}
 
