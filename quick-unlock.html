@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Quick Unlock — SuperEdu</title>
+
+<!-- icons -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/android-chrome-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/android-chrome-512.png">
+<link rel="icon" href="/assets/icons/favicon.ico">
+
+<link rel="stylesheet" href="/assets/css/main.css">
+<script src="/assets/js/menu.js" defer></script>
+<script src="/assets/js/lang.js" defer></script>
+
+<style>
+body {
+  font-family: Inter, Arial, sans-serif;
+  background: #FAF5E9;
+  margin: 0;
+}
+.unlock-wrap {
+  max-width: 600px;
+  margin: 140px auto;
+  padding: 0 20px;
+  text-align: center;
+}
+.unlock-wrap h1 {
+  font-size: 36px;
+  color: #2C9C47;
+  font-weight: 400; /* 非加粗 */
+  margin-bottom: 12px;
+}
+.unlock-wrap p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 30px;
+}
+.unlock-card {
+  background: linear-gradient(135deg, #E3F6F5, #FAF5E9);
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  transition: all 0.22s;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.unlock-card:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+  border: 2px solid #4B89FF;
+}
+input[type="email"] {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+.btn-primary {
+  background: linear-gradient(90deg, #4B89FF, #6FA8FF);
+  color: #fff;
+  border: none;
+  padding: 12px 18px;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: all 0.2s;
+}
+.btn-primary:hover {
+  opacity: 0.9;
+}
+.notice {
+  font-size: 14px;
+  color: #888;
+  margin-top: 8px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav id="topNav" class="nav--transparent">
+  <div class="nav-inner">
+    <div class="brand">
+      <a href="/index.html#home" class="brand">
+        <img src="/assets/img/superedu-logo.png" alt="SuperEdu" class="logo-img" />
+        <span class="brand-text">SuperEdu</span>
+      </a>
+    </div>
+
+    <div class="menu" id="menu">
+      <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
+      <a href="/index.html#services" data-en="Services" data-zh="服务">Services</a>
+      <a href="/membership.html" data-en="Membership" data-zh="会员">Membership</a>
+      <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
+      <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
+      <a href="/login.html" data-en="Login" data-zh="登录">Login</a>
+      <span class="nav-underline"></span>
+    </div>
+
+    <div class="nav-right">
+      <button id="langToggle" class="lang-toggle">中文</button>
+      <button id="hamburger" class="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="unlock-wrap">
+  <h1 data-en="Quick Unlock" data-zh="快速解锁">Quick Unlock</h1>
+  <p data-en="Enter your email to instantly unlock access to Education Center." data-zh="输入邮箱即可立即解锁教育中心。">
+    Enter your email to instantly unlock access to Education Center.
+  </p>
+
+  <div class="unlock-card">
+    <input type="email" id="unlockEmail" placeholder="you@example.com" />
+    <button class="btn-primary" id="btnUnlock" data-en="Quick Unlock" data-zh="快速解锁">Quick Unlock</button>
+    <div class="notice" id="unlockNotice" data-en="" data-zh=""></div>
+  </div>
+</div>
+
+<script>
+document.getElementById('btnUnlock').addEventListener('click', async () => {
+  const emailInput = document.getElementById('unlockEmail');
+  const notice = document.getElementById('unlockNotice');
+  const email = emailInput.value.trim();
+
+  if(!email) {
+    notice.innerText = 'Please enter a valid email.';
+    return;
+  }
+
+  // 简单邮箱正则验证
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if(!emailRegex.test(email)) {
+    notice.innerText = 'Invalid email format.';
+    return;
+  }
+
+  // 模拟API调用
+  try {
+    // TODO: 替换成真实后端API
+    // const res = await fetch('/api/unlock.js', {
+    //   method:'POST',
+    //   headers:{'Content-Type':'application/json'},
+    //   body: JSON.stringify({email})
+    // });
+    // const data = await res.json();
+
+    // 先用前端模拟
+    localStorage.setItem('quickUnlock', 'true');
+    notice.style.color = 'green';
+    notice.innerText = 'Unlocked successfully! Redirecting...';
+
+    setTimeout(() => {
+      window.location.href = '/education.html'; // 解锁后跳转到EduCenter
+    }, 1200);
+  } catch(err) {
+    notice.style.color = 'red';
+    notice.innerText = 'Failed to unlock. Try again.';
+  }
+});
+</script>
+
+</body>
+</html>
