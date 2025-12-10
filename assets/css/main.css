@@ -554,4 +554,25 @@ nav#topNav.nav--solid {
   .apply-cta, .btn { padding: 10px 12px; font-size: 15px; }
 }
 
+.menu a {
+  position: relative;
+  padding-bottom: 4px;
+  text-decoration: none;
+}
+
+.menu a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #007aff;
+  transition: width 0.3s ease;
+}
+
+.menu a:hover::after {
+  width: 100%;
+}
+
 
