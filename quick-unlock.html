@@ -23,63 +23,71 @@ body {
   background: #FAF5E9;
   margin: 0;
 }
-.unlock-wrap {
+.quick-wrap {
   max-width: 600px;
-  margin: 140px auto;
+  margin: 140px auto 60px;
   padding: 0 20px;
-  text-align: center;
 }
-.unlock-wrap h1 {
+.quick-title {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.quick-title h1 {
+  margin: 0;
   font-size: 36px;
   color: #2C9C47;
-  font-weight: 400; /* 非加粗 */
-  margin-bottom: 12px;
+  font-weight: 400;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
-.unlock-wrap p {
-  font-size: 16px;
+.quick-title p {
+  margin-top: 10px;
   color: #555;
-  margin-bottom: 30px;
+  font-size: 16px;
 }
-.unlock-card {
-  background: linear-gradient(135deg, #E3F6F5, #FAF5E9);
+
+.quick-card {
+  background: linear-gradient(145deg, #ffffff, #f4f8ff);
   padding: 28px;
   border-radius: 16px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.06);
   transition: all 0.22s;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
 }
-.unlock-card:hover {
+.quick-card:hover {
   transform: translateY(-4px) scale(1.03);
   box-shadow: 0 10px 28px rgba(0,0,0,0.12);
   border: 2px solid #4B89FF;
 }
-input[type="email"] {
+.quick-card label {
+  display: block;
+  margin-top: 14px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.quick-card input {
   width: 100%;
-  padding: 12px;
+  padding: 10px;
   border-radius: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #e0e0e0;
+  margin-top: 6px;
   font-size: 15px;
 }
-.btn-primary {
-  background: linear-gradient(90deg, #4B89FF, #6FA8FF);
-  color: #fff;
-  border: none;
-  padding: 12px 18px;
-  font-weight: 700;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 12px;
-  transition: all 0.2s;
-}
-.btn-primary:hover {
-  opacity: 0.9;
+.quick-card .btn {
+  margin-top: 18px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 .notice {
-  font-size: 14px;
+  font-size: 13px;
   color: #888;
-  margin-top: 8px;
+  margin-top: 10px;
+  text-align: center;
+}
+.success-msg {
+  text-align: center;
+  color: #2C9C47;
+  font-weight: 600;
+  margin-top: 18px;
 }
 </style>
 </head>
@@ -99,6 +107,8 @@ input[type="email"] {
     <div class="menu" id="menu">
       <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
       <a href="/index.html#services" data-en="Services" data-zh="服务">Services</a>
+      <a href="/membership.html" data-en="EduCenter" data-zh="教育中心">EduCenter</a>
+      <a href="#" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
       <a href="/membership.html" data-en="Membership" data-zh="会员">Membership</a>
       <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
       <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
@@ -111,62 +121,93 @@ input[type="email"] {
       <button id="hamburger" class="hamburger"><span></span><span></span><span></span></button>
     </div>
   </div>
+
+  <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+      <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
+      <a href="/index.html#services" data-en="Services" data-zh="服务">Services</a>
+      <a href="/membership.html" data-en="EduCenter" data-zh="教育中心">EduCenter</a>
+      <a href="#" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
+      <a href="/membership.html" data-en="Membership" data-zh="会员">Membership</a>
+      <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
+      <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
+      <a href="/login.html" data-en="Login" data-zh="登录">Login</a>
+  </div>
 </nav>
 
 <!-- MAIN CONTENT -->
-<div class="unlock-wrap">
-  <h1 data-en="Quick Unlock" data-zh="快速解锁">Quick Unlock</h1>
-  <p data-en="Enter your email to instantly unlock access to Education Center." data-zh="输入邮箱即可立即解锁教育中心。">
-    Enter your email to instantly unlock access to Education Center.
-  </p>
+<div class="quick-wrap">
+  <div class="quick-title">
+    <h1 data-en="Quick Unlock" data-zh="快速解锁">Quick Unlock</h1>
+    <p data-en="Enter your name and email to instantly unlock access." data-zh="输入姓名和邮箱以立即解锁。">
+      Enter your name and email to instantly unlock access.
+    </p>
+  </div>
 
-  <div class="unlock-card">
-    <input type="email" id="unlockEmail" placeholder="you@example.com" />
-    <button class="btn-primary" id="btnUnlock" data-en="Quick Unlock" data-zh="快速解锁">Quick Unlock</button>
-    <div class="notice" id="unlockNotice" data-en="" data-zh=""></div>
+  <div class="quick-card">
+    <label for="qName" data-en="Name" data-zh="姓名">Name</label>
+    <input type="text" id="qName" placeholder="Your Name" />
+
+    <label for="qEmail" data-en="Email" data-zh="邮箱">Email</label>
+    <input type="email" id="qEmail" placeholder="you@example.com" />
+
+    <button class="btn btn-primary" id="submitUnlock" data-en="Unlock Now" data-zh="立即解锁">Unlock Now</button>
+    <div class="notice" id="formNotice"></div>
+    <div class="success-msg" id="successMsg" style="display:none;">
+      Access unlocked! <button class="btn btn-outline" id="goEdu">Go to EduCenter</button>
+    </div>
   </div>
 </div>
 
 <script>
-document.getElementById('btnUnlock').addEventListener('click', async () => {
-  const emailInput = document.getElementById('unlockEmail');
-  const notice = document.getElementById('unlockNotice');
-  const email = emailInput.value.trim();
+document.getElementById('submitUnlock').addEventListener('click', async function() {
+  const name = document.getElementById('qName').value.trim();
+  const email = document.getElementById('qEmail').value.trim();
+  const notice = document.getElementById('formNotice');
+  const successMsg = document.getElementById('successMsg');
 
-  if(!email) {
-    notice.innerText = 'Please enter a valid email.';
+  notice.textContent = '';
+  successMsg.style.display = 'none';
+
+  if(!name || !email){
+    notice.textContent = "Please enter both name and email / 请填写姓名和邮箱";
     return;
   }
 
-  // 简单邮箱正则验证
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if(!emailRegex.test(email)) {
-    notice.innerText = 'Invalid email format.';
+  // Email format validation
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if(!emailPattern.test(email)){
+    notice.textContent = "Please enter a valid email / 请输入有效邮箱";
     return;
   }
 
-  // 模拟API调用
+  // Submit to Cloudflare API
   try {
-    // TODO: 替换成真实后端API
-    // const res = await fetch('/api/unlock.js', {
-    //   method:'POST',
-    //   headers:{'Content-Type':'application/json'},
-    //   body: JSON.stringify({email})
-    // });
-    // const data = await res.json();
+    const res = await fetch('/api/unlock.js', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({name,email})
+    });
 
-    // 先用前端模拟
-    localStorage.setItem('quickUnlock', 'true');
-    notice.style.color = 'green';
-    notice.innerText = 'Unlocked successfully! Redirecting...';
+    if(res.ok){
+      // Mark Quick Unlock in LocalStorage
+      localStorage.setItem('quickUnlocked', 'true');
+      localStorage.setItem('quickUnlockedName', name);
+      localStorage.setItem('quickUnlockedEmail', email);
 
-    setTimeout(() => {
-      window.location.href = '/education.html'; // 解锁后跳转到EduCenter
-    }, 1200);
-  } catch(err) {
-    notice.style.color = 'red';
-    notice.innerText = 'Failed to unlock. Try again.';
+      successMsg.style.display = 'block';
+    } else {
+      const data = await res.json();
+      notice.textContent = data.error || "Failed to unlock / 解锁失败";
+    }
+  } catch(err){
+    notice.textContent = "Network error / 网络错误";
+    console.error(err);
   }
+});
+
+// Go to EduCenter
+document.getElementById('goEdu').addEventListener('click', function(){
+  window.location.href = '/education.html';
 });
 </script>
 
