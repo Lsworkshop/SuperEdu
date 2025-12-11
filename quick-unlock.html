@@ -1,218 +1,321 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Quick Unlock — SuperEdu</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quick Unlock – Membership Access</title>
 
-  <!-- icons (same as other pages) -->
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/android-chrome-192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/android-chrome-512.png">
-  <link rel="icon" href="/assets/icons/favicon.ico">
+<style>
+/* ------------------------------
+   Global + Navigation (Same as index.html)
+--------------------------------*/
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #fafafa;
+}
 
-  <link rel="stylesheet" href="/assets/css/main.css">
+/* Nav Container */
+.navbar {
+  width: 100%;
+  padding: 18px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  border-bottom: 1px solid #eee;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
 
-  <style>
-    /* small page-specific tweaks */
-    .page-hero { max-width:1200px; margin:120px auto 24px; padding: 0 20px; text-align:center; }
-    .page-hero h1 { font-size:30px; margin:0 0 8px; }
-    .page-hero p { color:var(--muted); margin:0 0 18px; }
+/* Logo */
+.nav-left img {
+  height: 42px;
+}
 
-    .unlock-wrap { max-width:760px; margin: 18px auto 80px; padding: 0 20px; }
-    .card { background:var(--card); padding:20px; border-radius:12px; box-shadow:0 8px 30px rgba(9,30,66,0.04); }
-    .form-row { display:flex; gap:12px; margin-bottom:12px; }
-    .form-row .col { flex:1; min-width:0; display:flex; flex-direction:column; }
-    label { font-size:13px; margin-bottom:6px; font-weight:600; color:#222; }
-    input[type="text"], input[type="email"] { padding:10px 12px; border-radius:8px; border:1px solid #e8e8e8; font-size:15px; }
-    .actions { display:flex; gap:12px; align-items:center; margin-top:12px; }
-    .form-status { font-size:13px; color:var(--muted); min-height:1.2em; }
-    #enterEduBtn { display:none; }
-    @media (max-width:720px){
-      .form-row { flex-direction:column; }
-    }
-  </style>
+/* Desktop Menu */
+.nav-center {
+  display: flex;
+  gap: 32px;
+}
+
+.nav-center a {
+  text-decoration: none;
+  color: #333;
+  font-size: 16px;
+  padding-bottom: 6px;
+  position: relative;
+}
+
+/* Hover underline */
+.nav-center a::after {
+  content: "";
+  height: 2px;
+  width: 0%;
+  background: #333;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  transition: 0.25s ease;
+}
+
+.nav-center a:hover::after {
+  width: 100%;
+}
+
+/* Language Button */
+.lang-btn {
+  cursor: pointer;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: white;
+  font-size: 14px;
+}
+
+/* Mobile menu button */
+.menu-btn {
+  display: none;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+/* ------------------------------
+   Mobile Menu
+--------------------------------*/
+@media (max-width: 820px) {
+  .nav-center {
+    display: none;
+  }
+  .menu-btn {
+    display: block;
+  }
+
+  .mobile-menu {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 70px;
+    background: white;
+    display: none;
+    flex-direction: column;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+    z-index: 40;
+  }
+
+  .mobile-menu a {
+    padding: 14px 20px;
+    text-decoration: none;
+    color: #333;
+    font-size: 17px;
+  }
+}
+
+/* ------------------------------
+    Quick Unlock Page Layout
+--------------------------------*/
+.main {
+  max-width: 600px;
+  margin: 60px auto;
+  background: white;
+  padding: 40px;
+  border-radius: 14px;
+  border: 1px solid #eee;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+}
+
+h1 {
+  margin-top: 0;
+  font-size: 28px;
+  color: #111;
+}
+
+label {
+  display: block;
+  margin-top: 20px;
+  font-size: 15px;
+  color: #333;
+}
+
+input {
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+button {
+  margin-top: 25px;
+  width: 100%;
+  padding: 14px;
+  background: black;
+  color: white;
+  border: none;
+  font-size: 17px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #333;
+}
+
+.success-message {
+  margin-top: 20px;
+  font-size: 16px;
+  color: green;
+  display: none;
+}
+.error-message {
+  margin-top: 20px;
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+</style>
 </head>
 <body>
 
-  <!-- NAV (same look as other subpages) -->
-  <nav id="topNav" class="nav--solid" role="navigation" aria-label="Main navigation">
-    <div class="nav-inner">
-      <div class="brand">
-        <a href="/index.html#home" class="brand-link" aria-label="SuperEdu Home">
-          <img src="/assets/img/superedu-logo.png" alt="SuperEdu" class="logo-img" />
-          <span class="brand-text">SuperEdu</span>
-        </a>
-      </div>
-
-      <div class="menu" id="menu">
-        <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
-        <a href="/index.html#services" data-en="Services" data-zh="服务">Services</a>
-        <a href="/membership.html" data-en="EduCenter" data-zh="教育中心">EduCenter</a>
-        <a href="/membership.html" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
-        <a href="/membership.html" data-en="Membership" data-zh="会员">Membership</a>
-        <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
-        <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
-      </div>
-
-      <div class="nav-right">
-        <button id="langToggle" class="lang-toggle" aria-label="Language toggle">中文</button>
-        <button id="hamburger" class="hamburger" aria-label="Menu">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-    </div>
-
-    <!-- mobile menu -->
-    <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
-      <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
-      <a href="/index.html#services" data-en="Services" data-zh="服务">Services</a>
-      <a href="/membership.html" data-en="EduCenter" data-zh="教育中心">EduCenter</a>
-      <a href="/membership.html" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
-      <a href="/membership.html" data-en="Membership" data-zh="会员">Membership</a>
-      <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
-      <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
-
-      <div class="mobile-actions">
-        <button class="btn btn-ghost" id="mobileRegister" data-en="Register / Join" data-zh="注册 / 加入">Register / Join</button>
-        <button class="btn" id="mobileUnlock" data-en="Unlock Education" data-zh="解锁教育">Unlock Education</button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Hero -->
-  <div class="page-hero">
-    <h1 data-en="Quick Unlock" data-zh="快速解锁">Quick Unlock</h1>
-    <p data-en="Get instant access to the Education Center: enter your name & email." data-zh="立即解锁教育中心：请输入姓名与邮箱。">
-      Get instant access to the Education Center: enter your name & email.
-    </p>
+<!-- ============================================================
+     Navigation Bar (FULL COPY FROM index.html)
+=============================================================== -->
+<nav class="navbar">
+  <div class="nav-left">
+    <a href="/"><img src="/assets/logo.png" alt="Logo"></a>
   </div>
 
-  <!-- Form -->
-  <div class="form-wrap">
+  <div class="nav-center">
+    <a href="/">Home</a>
+    <a href="/membership.html">Membership</a>
+    <a href="/edu-center.html">EduCenter</a>
+    <a href="/community.html">EduCommunity</a>
+  </div>
 
-  <h1 data-en="Quick Unlock" data-zh="快速解锁">Quick Unlock</h1>
+  <button class="lang-btn" id="langToggle">EN</button>
 
-  <form id="unlockForm">
-    <label data-en="First Name" data-zh="名">First Name</label>
-    <input type="text" id="firstName" required>
+  <div class="menu-btn" id="menuBtn">☰</div>
+</nav>
 
-    <label data-en="Last Name" data-zh="姓">Last Name</label>
-    <input type="text" id="lastName" required>
-
-    <label data-en="Email" data-zh="邮箱">Email</label>
-    <input type="email" id="email" required>
-
-    <button type="submit" class="btn btn-primary" 
-      data-en="Submit" data-zh="提交">Submit</button>
-  </form>
-
-  <div class="success-msg" id="successMsg"></div>
-  <div class="error-msg" id="errorMsg"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/">Home</a>
+  <a href="/membership.html">Membership</a>
+  <a href="/edu-center.html">EduCenter</a>
+  <a href="/community.html">EduCommunity</a>
 </div>
 
-        <div class="actions">
-          <button type="submit" id="unlockSubmit" class="btn btn-primary" data-en="Unlock Content" data-zh="解锁内容">Unlock Content</button>
-          <a id="enterEduBtn" class="btn btn-outline" href="/education.html" role="button" data-en="Enter Education Center" data-zh="进入教育中心">Enter Education Center</a>
-          <div id="unlockStatus" class="form-status" aria-live="polite"></div>
-        </div>
-      </form>
-    </div>
-  </div>
+<!-- ============================================================
+     Quick Unlock Content
+=============================================================== -->
 
-  <script src="/assets/js/menu.js" defer></script>
-  <script src="/assets/js/lang.js" defer></script>
+<div class="main">
+  <h1>Quick Unlock Access</h1>
+  <p>Enter your information to unlock Level-1 membership access.</p>
 
-  <script>
-    (function(){
-      // localization helper
-      const lang = localStorage.getItem('superedu-lang') || 'en';
-      function t(en, zh){ return lang==='zh' ? zh : en; }
+  <label>First Name</label>
+  <input id="firstName" type="text">
 
-      // Elements
-      const form = document.getElementById('quickUnlockForm');
-      const statusEl = document.getElementById('unlockStatus');
-      const submitBtn = document.getElementById('unlockSubmit');
-      const enterBtn = document.getElementById('enterEduBtn');
+  <label>Last Name</label>
+  <input id="lastName" type="text">
 
-      // If user already has token -> show Enter button
-      try{
-        const token = JSON.parse(localStorage.getItem('edu_unlocked_token') || 'null');
-        if(token && token.email){
-          enterBtn.style.display = 'inline-block';
-          statusEl.innerText = t('You already unlocked — ready to enter.','您已解锁 — 可进入教育中心。');
-        }
-      }catch(e){ /* ignore parse errors */ }
+  <label>Email</label>
+  <input id="email" type="email">
 
-      // Email validation
-      function validEmail(e){
-        const p = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return p.test(e);
-      }
+  <button onclick="submitUnlock()">Unlock Now</button>
 
-      form.addEventListener('submit', async function(ev){
-        ev.preventDefault();
-        statusEl.innerText = '';
-        const f = document.getElementById('u-first').value.trim();
-        const l = document.getElementById('u-last').value.trim();
-        const email = document.getElementById('u-email').value.trim();
+  <div class="success-message" id="successMsg">Unlocked successfully! Redirecting…</div>
+  <div class="error-message" id="errorMsg"></div>
+</div>
 
-        if(!f || !l || !email){
-          statusEl.innerText = t('Please fill first name, last name and email','请填写名、姓与邮箱');
-          return;
-        }
-        if(!validEmail(email)){
-          statusEl.innerText = t('Please enter a valid email','请输入有效邮箱');
-          return;
-        }
+<script>
+/* -----------------------------------------------------
+   Mobile Menu Toggle
+------------------------------------------------------ */
+const menuBtn = document.getElementById("menuBtn");
+const mobileMenu = document.getElementById("mobileMenu");
 
-        submitBtn.disabled = true;
-        submitBtn.innerText = t('Submitting...','提交中...');
-        statusEl.innerText = '';
+menuBtn.onclick = () => {
+  mobileMenu.style.display =
+    mobileMenu.style.display === "flex" ? "none" : "flex";
+};
 
-        try {
-          const payload = { firstName: f, lastName: l, email, source:'quick_unlock', created_at: new Date().toISOString() };
-          const res = await fetch('/api/unlock', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-          });
+/* -----------------------------------------------------
+   Language toggle (placeholder)
+------------------------------------------------------ */
+document.getElementById("langToggle").onclick = () => {
+  alert("Language switching coming soon.");
+};
 
-          const j = await res.json().catch(()=>({}));
-          if(res.ok){
-            // success: store token locally (same structure as homepage)
-            localStorage.setItem('edu_unlocked_token', JSON.stringify({ email, ts: Date.now() }));
-            statusEl.innerText = j.message || t('Unlocked — click to enter','已解锁 — 点击进入');
-            enterBtn.style.display = 'inline-block';
-          } else {
-            statusEl.innerText = j.message || t('Submission failed, please try again','提交失败，请重试');
-          }
-        } catch(err){
-          console.error(err);
-          statusEl.innerText = t('Submission failed — network error','提交失败 — 网络错误');
-        } finally {
-          submitBtn.disabled = false;
-          submitBtn.innerText = t('Unlock Content','解锁内容');
-        }
-      });
+/* -----------------------------------------------------
+   MAIN FUNCTION — Quick Unlock
+------------------------------------------------------ */
+async function submitUnlock() {
+  const firstName = document.getElementById("firstName").value.trim();
+  const lastName = document.getElementById("lastName").value.trim();
+  const email = document.getElementById("email").value.trim();
 
-      // Mobile menu action buttons (if present) should link back to index anchors
-      document.getElementById('mobileRegister')?.addEventListener('click', ()=>{
-        window.location.href = '/register.html';
-      });
-      document.getElementById('mobileUnlock')?.addEventListener('click', ()=>{
-        // stay on this page — or show message
-        window.scrollTo({top: document.body.scrollHeight/10, behavior:'smooth'});
-      });
+  const err = document.getElementById("errorMsg");
+  const ok = document.getElementById("successMsg");
 
-      // set language text for static controls if lang.js not yet applied
-      document.querySelectorAll('[data-en]').forEach(el=>{
-        if(el.tagName==='INPUT' || el.tagName==='TEXTAREA') return;
-        el.innerText = (lang==='zh') ? (el.dataset.zh || el.dataset.en) : (el.dataset.en || el.dataset.zh);
-      });
-    })();
-  </script>
+  err.style.display = "none";
+  ok.style.display = "none";
+
+  if (!firstName || !lastName || !email) {
+    err.innerText = "All fields are required.";
+    err.style.display = "block";
+    return;
+  }
+
+  /* -----------------------------------------------------
+     STEP 1 — Check if email already has unlock
+     (Level-1 permission check)
+  ------------------------------------------------------ */
+  const check = await fetch("/api/check-auth", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email })
+  }).then(r => r.json());
+
+  if (check.exists === true) {
+    // Already unlocked → Give token
+    localStorage.setItem("membership_token", check.token);
+    ok.innerText = "Already unlocked! Redirecting…";
+    ok.style.display = "block";
+    return setTimeout(() => location.href = "/membership.html", 1200);
+  }
+
+  /* -----------------------------------------------------
+     STEP 2 — Perform Unlock
+  ------------------------------------------------------ */
+  const res = await fetch("/api/unlock", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ firstName, lastName, email })
+  }).then(r => r.json());
+
+  if (res.error) {
+    err.innerText = res.error;
+    err.style.display = "block";
+    return;
+  }
+
+  /* -----------------------------------------------------
+     STEP 3 — Store local token
+  ------------------------------------------------------ */
+  const token = "level1_" + btoa(email) + "_" + Date.now();
+  localStorage.setItem("membership_token", token);
+
+  ok.innerText = "Unlocked successfully! Redirecting…";
+  ok.style.display = "block";
+
+  setTimeout(() => location.href = "/membership.html", 1300);
+}
+
+</script>
+
 </body>
 </html>
