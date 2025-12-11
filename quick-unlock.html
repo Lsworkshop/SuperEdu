@@ -91,28 +91,27 @@
   </div>
 
   <!-- Form -->
-  <div class="unlock-wrap">
-    <div class="card" role="region" aria-labelledby="quickUnlockTitle">
-      <h2 id="quickUnlockTitle" style="margin:0 0 12px;font-size:18px;">Quick Unlock</h2>
+  <div class="form-wrap">
 
-      <form id="quickUnlockForm" autocomplete="off">
-        <div class="form-row">
-          <div class="col">
-            <label for="u-first" data-en="First name" data-zh="名">First name</label>
-            <input id="u-first" name="firstName" type="text" placeholder="e.g. John / 例如：小明" required />
-          </div>
+  <h1 data-en="Quick Unlock" data-zh="快速解锁">Quick Unlock</h1>
 
-          <div class="col">
-            <label for="u-last" data-en="Last name" data-zh="姓">Last name</label>
-            <input id="u-last" name="lastName" type="text" placeholder="e.g. Smith / 例如：张" required />
-          </div>
-      
+  <form id="unlockForm">
+    <label data-en="First Name" data-zh="名">First Name</label>
+    <input type="text" id="firstName" required>
 
-        <div style="margin-bottom:12px;">
-          <label for="u-email" data-en="Email" data-zh="邮箱">Email</label>
-          <input id="u-email" name="email" type="email" placeholder="you@domain.com / 您的邮箱" required />
-        </div>
-      </div>
+    <label data-en="Last Name" data-zh="姓">Last Name</label>
+    <input type="text" id="lastName" required>
+
+    <label data-en="Email" data-zh="邮箱">Email</label>
+    <input type="email" id="email" required>
+
+    <button type="submit" class="btn btn-primary" 
+      data-en="Submit" data-zh="提交">Submit</button>
+  </form>
+
+  <div class="success-msg" id="successMsg"></div>
+  <div class="error-msg" id="errorMsg"></div>
+</div>
 
         <div class="actions">
           <button type="submit" id="unlockSubmit" class="btn btn-primary" data-en="Unlock Content" data-zh="解锁内容">Unlock Content</button>
