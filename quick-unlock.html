@@ -1,215 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Quick Unlock — SuperEdu</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quick Unlock — SuperEdu</title>
 
-<!-- icons -->
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
-<link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/android-chrome-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/android-chrome-512.png">
-<link rel="icon" href="/assets/icons/favicon.ico">
+  <!-- icons (same as other pages) -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/android-chrome-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/android-chrome-512.png">
+  <link rel="icon" href="/assets/icons/favicon.ico">
 
-<link rel="stylesheet" href="/assets/css/main.css">
-<script src="/assets/js/menu.js" defer></script>
-<script src="/assets/js/lang.js" defer></script>
+  <link rel="stylesheet" href="/assets/css/main.css">
 
-<style>
-body {
-  font-family: Inter, Arial, sans-serif;
-  background: #FAF5E9;
-  margin: 0;
-}
-.quick-wrap {
-  max-width: 600px;
-  margin: 140px auto 60px;
-  padding: 0 20px;
-}
-.quick-title {
-  text-align: center;
-  margin-bottom: 28px;
-}
-.quick-title h1 {
-  margin: 0;
-  font-size: 36px;
-  color: #2C9C47;
-  font-weight: 400;
-  font-family: "Segoe UI", Arial, sans-serif;
-}
-.quick-title p {
-  margin-top: 10px;
-  color: #555;
-  font-size: 16px;
-}
+  <style>
+    /* small page-specific tweaks */
+    .page-hero { max-width:1200px; margin:120px auto 24px; padding: 0 20px; text-align:center; }
+    .page-hero h1 { font-size:30px; margin:0 0 8px; }
+    .page-hero p { color:var(--muted); margin:0 0 18px; }
 
-.quick-card {
-  background: linear-gradient(145deg, #ffffff, #f4f8ff);
-  padding: 28px;
-  border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-  transition: all 0.22s;
-}
-.quick-card:hover {
-  transform: translateY(-4px) scale(1.03);
-  box-shadow: 0 10px 28px rgba(0,0,0,0.12);
-  border: 2px solid #4B89FF;
-}
-.quick-card label {
-  display: block;
-  margin-top: 14px;
-  font-weight: 600;
-  font-size: 14px;
-}
-.quick-card input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
-  margin-top: 6px;
-  font-size: 15px;
-}
-.quick-card .btn {
-  margin-top: 18px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-.notice {
-  font-size: 13px;
-  color: #888;
-  margin-top: 10px;
-  text-align: center;
-}
-.success-msg {
-  text-align: center;
-  color: #2C9C47;
-  font-weight: 600;
-  margin-top: 18px;
-}
-</style>
+    .unlock-wrap { max-width:760px; margin: 18px auto 80px; padding: 0 20px; }
+    .card { background:var(--card); padding:20px; border-radius:12px; box-shadow:0 8px 30px rgba(9,30,66,0.04); }
+    .form-row { display:flex; gap:12px; margin-bottom:12px; }
+    .form-row .col { flex:1; min-width:0; display:flex; flex-direction:column; }
+    label { font-size:13px; margin-bottom:6px; font-weight:600; color:#222; }
+    input[type="text"], input[type="email"] { padding:10px 12px; border-radius:8px; border:1px solid #e8e8e8; font-size:15px; }
+    .actions { display:flex; gap:12px; align-items:center; margin-top:12px; }
+    .form-status { font-size:13px; color:var(--muted); min-height:1.2em; }
+    #enterEduBtn { display:none; }
+    @media (max-width:720px){
+      .form-row { flex-direction:column; }
+    }
+  </style>
 </head>
-
 <body>
 
-<!-- NAV -->
-<nav id="topNav" class="nav--transparent">
-  <div class="nav-inner">
-    <div class="brand">
-      <a href="/index.html#home" class="brand">
-        <img src="/assets/img/superedu-logo.png" alt="SuperEdu" class="logo-img" />
-        <span class="brand-text">SuperEdu</span>
-      </a>
+  <!-- NAV (same look as other subpages) -->
+  <nav id="topNav" class="nav--solid" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <div class="brand">
+        <a href="/index.html#home" class="brand-link" aria-label="SuperEdu Home">
+          <img src="/assets/img/superedu-logo.png" alt="SuperEdu" class="logo-img" />
+          <span class="brand-text">SuperEdu</span>
+        </a>
+      </div>
+
+      <div class="menu" id="menu">
+        <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
+        <a href="/index.html#services" data-en="Services" data-zh="服务">Services</a>
+        <a href="/membership.html" data-en="EduCenter" data-zh="教育中心">EduCenter</a>
+        <a href="/membership.html" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
+        <a href="/membership.html" data-en="Membership" data-zh="会员">Membership</a>
+        <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
+        <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
+      </div>
+
+      <div class="nav-right">
+        <button id="langToggle" class="lang-toggle" aria-label="Language toggle">中文</button>
+        <button id="hamburger" class="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
 
-    <div class="menu" id="menu">
+    <!-- mobile menu -->
+    <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
       <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
       <a href="/index.html#services" data-en="Services" data-zh="服务">Services</a>
       <a href="/membership.html" data-en="EduCenter" data-zh="教育中心">EduCenter</a>
-      <a href="#" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
+      <a href="/membership.html" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
       <a href="/membership.html" data-en="Membership" data-zh="会员">Membership</a>
       <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
       <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
-      <a href="/login.html" data-en="Login" data-zh="登录">Login</a>
-      <span class="nav-underline"></span>
+
+      <div class="mobile-actions">
+        <button class="btn btn-ghost" id="mobileRegister" data-en="Register / Join" data-zh="注册 / 加入">Register / Join</button>
+        <button class="btn" id="mobileUnlock" data-en="Unlock Education" data-zh="解锁教育">Unlock Education</button>
+      </div>
     </div>
+  </nav>
 
-    <div class="nav-right">
-      <button id="langToggle" class="lang-toggle">中文</button>
-      <button id="hamburger" class="hamburger"><span></span><span></span><span></span></button>
-    </div>
-  </div>
-
-  <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
-      <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
-      <a href="/index.html#services" data-en="Services" data-zh="服务">Services</a>
-      <a href="/membership.html" data-en="EduCenter" data-zh="教育中心">EduCenter</a>
-      <a href="#" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
-      <a href="/membership.html" data-en="Membership" data-zh="会员">Membership</a>
-      <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
-      <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
-      <a href="/login.html" data-en="Login" data-zh="登录">Login</a>
-  </div>
-</nav>
-
-<!-- MAIN CONTENT -->
-<div class="quick-wrap">
-  <div class="quick-title">
+  <!-- Hero -->
+  <div class="page-hero">
     <h1 data-en="Quick Unlock" data-zh="快速解锁">Quick Unlock</h1>
-    <p data-en="Enter your name and email to instantly unlock access." data-zh="输入姓名和邮箱以立即解锁。">
-      Enter your name and email to instantly unlock access.
+    <p data-en="Get instant access to the Education Center: enter your name & email." data-zh="立即解锁教育中心：请输入姓名与邮箱。">
+      Get instant access to the Education Center: enter your name & email.
     </p>
   </div>
 
-  <div class="quick-card">
-    <label for="qName" data-en="Name" data-zh="姓名">Name</label>
-    <input type="text" id="qName" placeholder="Your Name" />
+  <!-- Form -->
+  <div class="unlock-wrap">
+    <div class="card" role="region" aria-labelledby="quickUnlockTitle">
+      <h2 id="quickUnlockTitle" style="margin:0 0 12px;font-size:18px;">Quick Unlock</h2>
 
-    <label for="qEmail" data-en="Email" data-zh="邮箱">Email</label>
-    <input type="email" id="qEmail" placeholder="you@example.com" />
+      <form id="quickUnlockForm" autocomplete="off">
+        <div class="form-row">
+          <div class="col">
+            <label for="u-first" data-en="First name" data-zh="名">First name</label>
+            <input id="u-first" name="firstName" type="text" placeholder="e.g. John / 例如：小明" required />
+          </div>
 
-    <button class="btn btn-primary" id="submitUnlock" data-en="Unlock Now" data-zh="立即解锁">Unlock Now</button>
-    <div class="notice" id="formNotice"></div>
-    <div class="success-msg" id="successMsg" style="display:none;">
-      Access unlocked! <button class="btn btn-outline" id="goEdu">Go to EduCenter</button>
+          <div class="col">
+            <label for="u-last" data-en="Last name" data-zh="姓">Last name</label>
+            <input id="u-last" name="lastName" type="text" placeholder="e.g. Smith / 例如：张" required />
+          </div>
+        </div>
+
+        <div style="margin-bottom:12px;">
+          <label for="u-email" data-en="Email" data-zh="邮箱">Email</label>
+          <input id="u-email" name="email" type="email" placeholder="you@domain.com / 您的邮箱" required />
+        </div>
+
+        <div class="actions">
+          <button type="submit" id="unlockSubmit" class="btn btn-primary" data-en="Unlock Content" data-zh="解锁内容">Unlock Content</button>
+          <a id="enterEduBtn" class="btn btn-outline" href="/education.html" role="button" data-en="Enter Education Center" data-zh="进入教育中心">Enter Education Center</a>
+          <div id="unlockStatus" class="form-status" aria-live="polite"></div>
+        </div>
+      </form>
     </div>
   </div>
-</div>
 
-<script>
-document.getElementById('submitUnlock').addEventListener('click', async function() {
-  const name = document.getElementById('qName').value.trim();
-  const email = document.getElementById('qEmail').value.trim();
-  const notice = document.getElementById('formNotice');
-  const successMsg = document.getElementById('successMsg');
+  <script src="/assets/js/menu.js" defer></script>
+  <script src="/assets/js/lang.js" defer></script>
 
-  notice.textContent = '';
-  successMsg.style.display = 'none';
+  <script>
+    (function(){
+      // localization helper
+      const lang = localStorage.getItem('superedu-lang') || 'en';
+      function t(en, zh){ return lang==='zh' ? zh : en; }
 
-  if(!name || !email){
-    notice.textContent = "Please enter both name and email / 请填写姓名和邮箱";
-    return;
-  }
+      // Elements
+      const form = document.getElementById('quickUnlockForm');
+      const statusEl = document.getElementById('unlockStatus');
+      const submitBtn = document.getElementById('unlockSubmit');
+      const enterBtn = document.getElementById('enterEduBtn');
 
-  // Email format validation
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if(!emailPattern.test(email)){
-    notice.textContent = "Please enter a valid email / 请输入有效邮箱";
-    return;
-  }
+      // If user already has token -> show Enter button
+      try{
+        const token = JSON.parse(localStorage.getItem('edu_unlocked_token') || 'null');
+        if(token && token.email){
+          enterBtn.style.display = 'inline-block';
+          statusEl.innerText = t('You already unlocked — ready to enter.','您已解锁 — 可进入教育中心。');
+        }
+      }catch(e){ /* ignore parse errors */ }
 
-  // Submit to Cloudflare API
-  try {
-    const res = await fetch('/api/unlock.js', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({name,email})
-    });
+      // Email validation
+      function validEmail(e){
+        const p = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return p.test(e);
+      }
 
-    if(res.ok){
-      // Mark Quick Unlock in LocalStorage
-      localStorage.setItem('quickUnlocked', 'true');
-      localStorage.setItem('quickUnlockedName', name);
-      localStorage.setItem('quickUnlockedEmail', email);
+      form.addEventListener('submit', async function(ev){
+        ev.preventDefault();
+        statusEl.innerText = '';
+        const f = document.getElementById('u-first').value.trim();
+        const l = document.getElementById('u-last').value.trim();
+        const email = document.getElementById('u-email').value.trim();
 
-      successMsg.style.display = 'block';
-    } else {
-      const data = await res.json();
-      notice.textContent = data.error || "Failed to unlock / 解锁失败";
-    }
-  } catch(err){
-    notice.textContent = "Network error / 网络错误";
-    console.error(err);
-  }
-});
+        if(!f || !l || !email){
+          statusEl.innerText = t('Please fill first name, last name and email','请填写名、姓与邮箱');
+          return;
+        }
+        if(!validEmail(email)){
+          statusEl.innerText = t('Please enter a valid email','请输入有效邮箱');
+          return;
+        }
 
-// Go to EduCenter
-document.getElementById('goEdu').addEventListener('click', function(){
-  window.location.href = '/education.html';
-});
-</script>
+        submitBtn.disabled = true;
+        submitBtn.innerText = t('Submitting...','提交中...');
+        statusEl.innerText = '';
 
+        try {
+          const payload = { firstName: f, lastName: l, email, source:'quick_unlock', created_at: new Date().toISOString() };
+          const res = await fetch('/api/unlock', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          const j = await res.json().catch(()=>({}));
+          if(res.ok){
+            // success: store token locally (same structure as homepage)
+            localStorage.setItem('edu_unlocked_token', JSON.stringify({ email, ts: Date.now() }));
+            statusEl.innerText = j.message || t('Unlocked — click to enter','已解锁 — 点击进入');
+            enterBtn.style.display = 'inline-block';
+          } else {
+            statusEl.innerText = j.message || t('Submission failed, please try again','提交失败，请重试');
+          }
+        } catch(err){
+          console.error(err);
+          statusEl.innerText = t('Submission failed — network error','提交失败 — 网络错误');
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerText = t('Unlock Content','解锁内容');
+        }
+      });
+
+      // Mobile menu action buttons (if present) should link back to index anchors
+      document.getElementById('mobileRegister')?.addEventListener('click', ()=>{
+        window.location.href = '/register.html';
+      });
+      document.getElementById('mobileUnlock')?.addEventListener('click', ()=>{
+        // stay on this page — or show message
+        window.scrollTo({top: document.body.scrollHeight/10, behavior:'smooth'});
+      });
+
+      // set language text for static controls if lang.js not yet applied
+      document.querySelectorAll('[data-en]').forEach(el=>{
+        if(el.tagName==='INPUT' || el.tagName==='TEXTAREA') return;
+        el.innerText = (lang==='zh') ? (el.dataset.zh || el.dataset.en) : (el.dataset.en || el.dataset.zh);
+      });
+    })();
+  </script>
 </body>
 </html>
