@@ -630,4 +630,8 @@ nav#topNav.nav--solid {
   width: 100%;
 }
 
+/* ========== Language Default (EN) ========== */
+[id$='-zh']{
+  display: none;
+}
 
