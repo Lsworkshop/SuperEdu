@@ -12,6 +12,13 @@
   --maxw:1200px;
 }
 
+
+html, body {
+  background-color: #FAF5E9;
+}
+
+
+
 /* Reset basics */
 *{box-sizing:border-box}
 html,body{height:100%;margin:0;padding:0;font-family:Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased}
@@ -630,8 +637,40 @@ nav#topNav.nav--solid {
   width: 100%;
 }
 
-/* ========== Language Default (EN) ========== */
-[id$='-zh']{
-  display: none;
+/* ===============================
+   Desktop Navigation Typography
+   =============================== */
+@media (min-width: 992px) {
+
+  .menu a {
+    font-family:
+      Inter,
+      -apple-system,
+      BlinkMacSystemFont,
+      "PingFang SC",
+      "Hiragino Sans GB",
+      "Microsoft YaHei",
+      "Noto Sans SC",
+      sans-serif;
+
+    font-size: 15.5px;          /* 比现在略大一点 */
+    font-weight: 500;           /* 比默认更稳重 */
+    letter-spacing: 0.02em;     /* 英文更高级 */
+    padding: 10px 14px;
+    color: #1f2937;             /* 深灰而非纯黑 */
+    transition: color 0.2s ease;
+  }
+
+  /* 中文在视觉上略微紧凑一点 */
+  .menu a[data-zh] {
+    letter-spacing: 0.01em;
+  }
+
+  /* Hover 状态 */
+  .menu a:hover {
+    color: var(--brand-green);
+  }
+
 }
+
 
