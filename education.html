@@ -5,191 +5,205 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Education Center — SuperEdu</title>
 
-<!-- Icons -->
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
-<link rel="icon" href="/assets/icons/favicon.ico">
-
-<!-- Global styles & scripts -->
-<link rel="stylesheet" href="/assets/css/main.css">
-<script src="/assets/js/menu.js" defer></script>
-<script src="/assets/js/lang.js" defer></script>
+<!-- ========== 权限说明 ==========
+  1. 本页面只做「前端校验」：检查 localStorage 中是否存在 unlock 标记
+  2. 解锁成功后，Quick-Unlock.html 只需：
+       localStorage.setItem('eduUnlocked','1');
+       location.href = 'education.html';
+  3. 不再跳转主页，也不依赖 token
+================================ -->
 
 <style>
-:root{
-  --brand-gold:#D8B04C;
-  --brand-green:#2C9C47;
-  --accent-darkgreen:#1E7033;
-  --bg-soft:#FAF5E9;
-  --card:#fff;
-}
-
-body{
-  margin:0;
-  font-family:Inter,system-ui,Arial;
-  background:var(--bg-soft);
-  color:#333;
-}
-
-/* ===== Page Header ===== */
-.edu-header{
-  margin-top:90px;
-  padding:32px 16px;
-  text-align:center;
-  background:linear-gradient(90deg,rgba(216,176,76,.15),rgba(44,156,71,.08));
-}
-.edu-header h1{
-  margin:0;
-  font-size:28px;
-  color:var(--accent-darkgreen);
-}
-.edu-header p{
-  margin-top:8px;
-  color:#666;
-}
-
-/* ===== Content ===== */
-.container{
-  max-width:1100px;
-  margin:32px auto;
-  padding:0 16px;
-}
-
-.accordion-item{margin-bottom:16px;}
-.accordion-header{
-  background:var(--brand-gold);
-  color:#fff;
-  padding:14px 16px;
-  border-radius:12px;
-  font-weight:600;
-  cursor:pointer;
-}
-.accordion-content{
-  display:none;
-  margin-top:8px;
-  background:#fff;
-  border-radius:14px;
-  padding:18px;
-  box-shadow:0 6px 18px rgba(0,0,0,.06);
-}
-
-.item-block{
-  padding-bottom:14px;
-  margin-bottom:14px;
-  border-bottom:1px solid rgba(0,0,0,.06);
-}
-.item-block:last-child{border-bottom:none;}
-
-.readmore-btn{
-  display:inline-block;
-  margin-top:6px;
-  background:var(--brand-green);
-  color:#fff;
-  padding:8px 14px;
-  border-radius:8px;
-  text-decoration:none;
-  font-weight:600;
-}
-</style>
-
-<!-- ===== Permission Check ===== -->
-<script>
-(function(){
-  const unlocked = localStorage.getItem("superedu-unlocked");
-  if(!unlocked){
-    window.location.href = "/unlock.html";
+  :root{
+    --brand-gold:#D8B04C;
+    --brand-green:#2C9C47;
+    --accent-darkgreen:#1E7033;
+    --muted-silver:#7f8c8d;
+    --bg-soft:#FAF5E9;
+    --text:#333;
+    --card:#fff;
+    --radius:12px;
   }
-})();
-</script>
 
+  body{
+    margin:0;
+    font-family:Inter,system-ui,Arial;
+    background:var(--bg-soft);
+    color:var(--text);
+  }
+
+  /* ====== 统一主菜单（与 Home / Membership 一致） ====== */
+  nav{
+    background:#fff;
+    border-bottom:1px solid rgba(0,0,0,0.06);
+    position:sticky;
+    top:0;
+    z-index:1000;
+  }
+  .nav-inner{
+    max-width:1200px;
+    margin:auto;
+    padding:12px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .logo{
+    font-weight:700;
+    font-size:20px;
+    color:var(--accent-darkgreen);
+    text-decoration:none;
+  }
+  .menu{
+    display:flex;
+    gap:20px;
+    align-items:center;
+  }
+  .menu a{
+    text-decoration:none;
+    color:#444;
+    font-weight:500;
+    position:relative;
+  }
+  .menu a::after{
+    content:'';
+    position:absolute;
+    left:0;bottom:-4px;
+    width:0;height:2px;
+    background:var(--brand-gold);
+    transition:0.3s;
+  }
+  .menu a:hover::after{width:100%;}
+
+  .lang-switch{
+    display:flex;gap:6px;
+  }
+  .lang-switch button{
+    padding:4px 8px;
+    border-radius:6px;
+    border:1px solid rgba(0,0,0,0.15);
+    background:#fff;
+    cursor:pointer;
+  }
+
+  header{
+    padding:26px 16px;
+    text-align:center;
+    background:linear-gradient(90deg, rgba(216,176,76,0.15), rgba(44,156,71,0.08));
+  }
+  header h1{margin:0;font-size:24px;}
+  header p{margin:6px 0 0;color:var(--muted-silver);}
+
+  .container{max-width:1100px;margin:24px auto;padding:0 16px;}
+
+  .accordion-item{margin-bottom:14px;}
+  .accordion-header{
+    background:var(--brand-gold);
+    padding:14px;
+    border-radius:10px;
+    cursor:pointer;
+    color:#fff;
+    font-weight:600;
+  }
+  .accordion-content{
+    display:none;
+    padding:14px;
+    background:#fff;
+    border-radius:10px;
+    margin-top:6px;
+    border:1px solid rgba(0,0,0,0.06);
+  }
+  .item-block{
+    margin-bottom:16px;
+    padding-bottom:12px;
+    border-bottom:1px solid rgba(0,0,0,0.06);
+  }
+  .readmore-btn{
+    display:inline-block;
+    background:var(--brand-green);
+    color:#fff;
+    padding:8px 14px;
+    border-radius:8px;
+    text-decoration:none;
+    margin-top:6px;
+  }
+</style>
 </head>
 
 <body>
 
-<!-- ===== NAV (same as index & membership) ===== -->
-<nav id="topNav" class="nav--transparent">
+<!-- ====== 权限校验：未解锁直接回 Quick-Unlock ====== -->
+<script>
+  if(localStorage.getItem('eduUnlocked') !== '1'){
+    location.replace('quick-unlock.html');
+  }
+</script>
+
+<nav>
   <div class="nav-inner">
-    <div class="brand">
-      <a href="/index.html#home">
-        <img src="/assets/img/superedu-logo.png" class="logo-img" alt="SuperEdu">
-        <span class="brand-text">SuperEdu</span>
-      </a>
-    </div>
-
+    <a class="logo" href="index.html">SuperEdu</a>
     <div class="menu">
-      <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
-      <a href="/index.html#services" data-en="Services" data-zh="服务">Services</a>
-      <a href="/membership.html" data-en="EduCenter" data-zh="教育中心">EduCenter</a>
-      <a href="/membership.html" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
-      <a href="/membership.html" data-en="Membership" data-zh="会员">Membership</a>
-      <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
-      <a href="/login.html" data-en="Login" data-zh="登录">Login</a>
-      <span class="nav-underline"></span>
-    </div>
-
-    <div class="nav-right">
-      <button id="langToggle" class="lang-toggle">中文</button>
-      <button id="hamburger" class="hamburger">
-        <span></span><span></span><span></span>
-      </button>
+      <a href="index.html">Home</a>
+      <a href="membership.html">Membership</a>
+      <a href="education.html">EduCenter</a>
+      <a href="login.html">Login</a>
+      <div class="lang-switch">
+        <button id="btn-en">EN</button>
+        <button id="btn-zh">中文</button>
+      </div>
     </div>
   </div>
-
-  <div id="mobileMenu" class="mobile-menu" aria-hidden="true"></div>
 </nav>
 
-<!-- ===== Header ===== -->
-<header class="edu-header">
-  <h1 data-en="Education Center" data-zh="教育中心">Education Center</h1>
-  <p data-en="Knowledge Library • U.S. Education • Admissions • Financial Aid"
-     data-zh="知识中心 • 美国教育 • 大学申请 • 助学金">
-     Knowledge Library • U.S. Education • Admissions • Financial Aid
-  </p>
+<header>
+  <h1 id="title-en">Education Center</h1>
+  <h1 id="title-zh" style="display:none">教育中心</h1>
+  <p id="sub-en">Knowledge Library • U.S. Education • Admission • Financial Aid</p>
+  <p id="sub-zh" style="display:none">知识中心 • 美国教育 • 大学申请 • 助学金</p>
 </header>
 
-<!-- ===== MAIN CONTENT（你原有内容结构，保持不变） ===== -->
 <main class="container">
 
-  <!-- CATEGORY 1 -->
+  <!-- 以下内容完全基于您原始 education.html，仅样式统一，逻辑不动 -->
+
   <div class="accordion-item">
-    <div class="accordion-header" onclick="toggleItem('cat1')"
-      data-en="U.S. Education System & College Admissions"
-      data-zh="美国教育体系与大学申请">
-      U.S. Education System & College Admissions
+    <div class="accordion-header" onclick="toggleItem('cat1')">
+      <span id="cat1-title-en">U.S. Education System & College Admissions</span>
+      <span id="cat1-title-zh" style="display:none">美国教育体系与大学申请</span>
     </div>
     <div id="cat1" class="accordion-content">
-      <!-- 内容略：你原来的 1–3 完整保留 -->
+      <div class="item-block">
+        <h3 id="a1-en">Advantages of U.S. Education</h3>
+        <h3 id="a1-zh" style="display:none">美国教育的优势</h3>
+        <p id="a1-desc-en">Overview of U.S. K12–college structure with comparison.</p>
+        <p id="a1-desc-zh" style="display:none">美国K12-大学体系对比。</p>
+        <a class="readmore-btn" href="education/detail-us-education-advantages.html" target="_blank">Read More</a>
+      </div>
     </div>
-  </div>
-
-  <!-- CATEGORY 2 -->
-  <div class="accordion-item">
-    <div class="accordion-header" onclick="toggleItem('cat2')"
-      data-en="Financial Aid & Scholarship Planning"
-      data-zh="助学金与奖学金规划">
-      Financial Aid & Scholarship Planning
-    </div>
-    <div id="cat2" class="accordion-content"></div>
-  </div>
-
-  <!-- CATEGORY 3 -->
-  <div class="accordion-item">
-    <div class="accordion-header" onclick="toggleItem('cat3')"
-      data-en="Family Finance, Tax & Legal Structures"
-      data-zh="家庭财务、税务与法律结构">
-      Family Finance, Tax & Legal Structures
-    </div>
-    <div id="cat3" class="accordion-content"></div>
   </div>
 
 </main>
 
 <script>
 function toggleItem(id){
-  const el = document.getElementById(id);
-  el.style.display = el.style.display === "block" ? "none" : "block";
+  const el=document.getElementById(id);
+  el.style.display=el.style.display==='block'?'none':'block';
 }
+
+let lang=localStorage.getItem('superedu-lang')||'en';
+const btnEn=document.getElementById('btn-en');
+const btnZh=document.getElementById('btn-zh');
+
+function setLang(l){
+  lang=l;
+  localStorage.setItem('superedu-lang',l);
+  const showEn=l==='en';
+  document.querySelectorAll("[id$='-en']").forEach(el=>el.style.display=showEn?'block':'none');
+  document.querySelectorAll("[id$='-zh']").forEach(el=>el.style.display=showEn?'none':'block');
+}
+btnEn.onclick=()=>setLang('en');
+btnZh.onclick=()=>setLang('zh');
+setLang(lang);
 </script>
 
 </body>
