@@ -1,44 +1,42 @@
-// lang.js — simple language toggler (data-en / data-zh)
-(function(){
-  const KEY = 'superedu-lang';
-  let lang = localStorage.getItem(KEY) || (document.documentElement.lang || 'en');
-  // expose for other scripts
-  window.supereduLang = lang;
+(function () {
+  const STORAGE_KEY = "superedu-lang";
 
-  function applyLang(l){
-    lang = l;
-    localStorage.setItem(KEY, l);
-    document.documentElement.lang = l;
-    // text nodes
-    document.querySelectorAll('[data-en]').forEach(el=>{
-      const en = el.getAttribute('data-en');
-      const zh = el.getAttribute('data-zh');
-      if(!en && !zh) return;
-      // inputs/textarea placeholders handled elsewhere; here set innerText for elements
-      if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-        // use data attributes as placeholder if present
-        if(en || zh) el.placeholder = (l==='en') ? en || '' : zh || '';
-      } else {
-        el.innerText = (l==='en') ? en || zh || el.innerText : zh || en || el.innerText;
-      }
+  function applyLanguage(lang) {
+    const isEN = lang === "en";
+
+    // ① 切换 data-en / data-zh（菜单 & 通用）
+    document.querySelectorAll("[data-en]").forEach(el => {
+      el.textContent = isEN ? el.dataset.en : el.dataset.zh;
     });
 
-    // ensure nav lang button text
-    const btn = document.getElementById('langToggle');
-    if(btn) btn.innerText = (lang==='en') ? '中文' : 'EN';
-    // remember globally
-    window.supereduLang = lang;
+    // ② 切换正文中 id 结尾为 -en / -zh 的元素（Education 专用）
+    document.querySelectorAll("[id$='-en']").forEach(el => {
+      el.style.display = isEN ? "block" : "none";
+    });
+
+    document.querySelectorAll("[id$='-zh']").forEach(el => {
+      el.style.display = isEN ? "none" : "block";
+    });
+
+    // ③ 同步按钮文字
+    const toggleBtn = document.getElementById("langToggle");
+    if (toggleBtn) {
+      toggleBtn.textContent = isEN ? "中文" : "EN";
+    }
   }
 
-  // initial apply
-  applyLang(lang);
+  // 初始化
+  const savedLang = localStorage.getItem(STORAGE_KEY) || "en";
+  applyLanguage(savedLang);
 
-  // attach to toggle button
-  const btn = document.getElementById('langToggle');
-  if(btn){
-    btn.addEventListener('click', function(){
-      const next = (localStorage.getItem(KEY) === 'en') ? 'zh' : 'en';
-      applyLang(next);
+  // 绑定主菜单语言按钮
+  const toggleBtn = document.getElementById("langToggle");
+  if (toggleBtn) {
+    toggleBtn.addEventListener("click", () => {
+      const current = localStorage.getItem(STORAGE_KEY) || "en";
+      const next = current === "en" ? "zh" : "en";
+      localStorage.setItem(STORAGE_KEY, next);
+      applyLanguage(next);
     });
   }
 })();
