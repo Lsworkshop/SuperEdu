@@ -9,8 +9,8 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
-<link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/android-chrome-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/android-chrome-512.png">
+<link rel="icon" sizes="192x192" href="/assets/icons/android-chrome-192.png">
+<link rel="icon" sizes="512x512" href="/assets/icons/android-chrome-512.png">
 <link rel="icon" href="/assets/icons/favicon.ico">
 
 <link rel="stylesheet" href="/assets/css/main.css">
@@ -18,100 +18,92 @@
 <script src="/assets/js/lang.js" defer></script>
 
 <style>
-  :root{
-    --brand-gold: #D8B04C;
-    --brand-green: #2C9C47;
-    --accent-darkgreen: #1E7033;
-    --muted-silver: #BDC3C7;
-    --bg-soft: #FAF5E9;     /* 恢复原亮度 */
-    --text: #333;
-    --card: #fff;
-    --radius: 12px;
-  }
+:root{
+  --brand-gold:#D8B04C;
+  --brand-green:#2C9C47;
+  --accent-darkgreen:#1E7033;
+  --muted-silver:#BDC3C7;
+  --bg-soft:#FAF5E9;
+  --text:#333;
+  --card:#fff;
+  --radius:12px;
+}
 
-  body{
-    margin:0;
-    font-family: Inter, system-ui, Arial;
-    background:var(--bg-soft);
-    color:var(--text);
-  }
+/* ✅ 关键修正：为顶部导航让位 */
+body{
+  margin:0;
+  padding-top:96px;
+  font-family:Inter,system-ui,Arial;
+  background:var(--bg-soft);
+  color:var(--text);
+}
 
-  header{
-    padding:28px 16px;
-    text-align:center;
-    background:linear-gradient(90deg, rgba(216,176,76,0.15), rgba(44,156,71,0.08));
-  }
-  header h1{margin:0;font-size:24px;}
-  header p{margin:6px 0 0; color:var(--muted-silver);}
+header{
+  padding:28px 16px;
+  text-align:center;
+  background:linear-gradient(
+    90deg,
+    rgba(216,176,76,0.15),
+    rgba(44,156,71,0.08)
+  );
+}
+header h1{margin:0;font-size:24px;}
+header p{margin:6px 0 0;color:var(--muted-silver);}
 
-  .container{max-width:1100px;margin:24px auto;padding:0 16px;}
+.container{
+  max-width:1100px;
+  margin:24px auto;
+  padding:0 16px;
+}
 
-  .card{
-    background:var(--card);
-    border-radius:var(--radius);
-    padding:18px;
-    box-shadow:0 6px 18px rgba(0,0,0,0.06);
-    border:1px solid rgba(0,0,0,0.03);
-    margin-bottom:14px;
-  }
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:18px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.06);
+  border:1px solid rgba(0,0,0,0.03);
+  margin-bottom:14px;
+}
 
-  .section-title{
-    margin:0 0 8px;
-    font-size:20px;
-    color:var(--accent-darkgreen);
-  }
+.section-title{
+  margin:0 0 8px;
+  font-size:20px;
+  color:var(--accent-darkgreen);
+}
 
-  /* 折叠块 */
-  .accordion-item{margin-bottom:12px;}
-  .accordion-header{
-    background:var(--brand-gold);
-    padding:14px;
-    border-radius:10px;
-    cursor:pointer;
-    color:#fff;
-    font-weight:600;
-  }
-  .accordion-content{
-    display:none;
-    padding:14px;
-    background:#ffffff;
-    border-radius:10px;
-    border:1px solid rgba(0,0,0,0.06);
-    margin-top:6px;
-  }
+.accordion-item{margin-bottom:12px;}
+.accordion-header{
+  background:var(--brand-gold);
+  padding:14px;
+  border-radius:10px;
+  cursor:pointer;
+  color:#fff;
+  font-weight:600;
+}
+.accordion-content{
+  display:none;
+  padding:14px;
+  background:#fff;
+  border-radius:10px;
+  border:1px solid rgba(0,0,0,0.06);
+  margin-top:6px;
+}
 
-  .item-block{
-    margin-bottom:16px;
-    padding-bottom:12px;
-    border-bottom:1px solid rgba(0,0,0,0.06);
-  }
+.item-block{
+  margin-bottom:16px;
+  padding-bottom:12px;
+  border-bottom:1px solid rgba(0,0,0,0.06);
+}
 
-  .readmore-btn{
-    display:inline-block;
-    background:var(--brand-green);
-    color:#fff;
-    padding:8px 14px;
-    border-radius:8px;
-    text-decoration:none;
-    margin-top:6px;
-  }
-
-  /* 语言切换 */
-  .lang-switch{
-    position:fixed;
-    top:14px;
-    right:18px;
-    display:flex;
-    gap:8px;
-    z-index:999;
-  }
-  .lang-switch button{
-    padding:6px 10px;
-    background:#fff;
-    border-radius:8px;
-    border:1px solid rgba(0,0,0,0.15);
-    cursor:pointer;
-  }
+.readmore-btn{
+  display:inline-block;
+  background:var(--brand-green);
+  color:#fff;
+  padding:8px 14px;
+  border-radius:8px;
+  text-decoration:none;
+  margin-top:6px;
+}
 </style>
 </head>
 
@@ -162,17 +154,13 @@
   </div>
 </nav>
 
-<div class="lang-switch">
-  <button id="btn-en">EN</button>
-  <button id="btn-zh">中文</button>
-</div>
-
 <header>
   <h1 id="title-en">Education Center</h1>
   <h1 id="title-zh" style="display:none">教育中心</h1>
   <p id="sub-en">Knowledge Library • U.S. Education • Admission • Financial Aid</p>
   <p id="sub-zh" style="display:none">知识中心 • 美国教育 • 大学申请 • 助学金</p>
 </header>
+
 
 <main class="container">
 
@@ -309,30 +297,9 @@
 
 <script>
 function toggleItem(id){
-  const el = document.getElementById(id);
-  el.style.display = el.style.display === "block" ? "none" : "block";
+  const el=document.getElementById(id);
+  el.style.display=el.style.display==="block"?"none":"block";
 }
-
-let lang = localStorage.getItem("superedu-lang") || "en";
-const btnEn = document.getElementById("btn-en");
-const btnZh = document.getElementById("btn-zh");
-
-function setLang(l){
-  lang = l;
-  localStorage.setItem("superedu-lang",l);
-
-  const showEn = (l === "en");
-
-  document.querySelectorAll("[id$='-en']").forEach(el => el.style.display = showEn ? "block" : "none");
-  document.querySelectorAll("[id$='-zh']").forEach(el => el.style.display = showEn ? "none" : "block");
-
-  btnEn.style.border = showEn ? "2px solid var(--brand-gold)" : "1px solid rgba(0,0,0,0.1)";
-  btnZh.style.border = showEn ? "1px solid rgba(0,0,0,0.1)" : "2px solid var(--brand-gold)";
-}
-
-btnEn.onclick = ()=> setLang("en");
-btnZh.onclick = ()=> setLang("zh");
-setLang(lang);
 </script>
 
 </body>
