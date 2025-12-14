@@ -696,9 +696,9 @@ nav#topNav.nav--solid {
    Page offset for fixed nav
    =============================== */
 
-/* Education 页面 */
-body.page-education{
-  padding-top:120px;
+/* Education 页面整体下移 */
+body.page-education main.container {
+  padding-top: 120px;
 }
 
 /* Thank-you 页面 */
