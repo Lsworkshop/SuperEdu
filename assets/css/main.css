@@ -712,23 +712,11 @@ body.page-thankyou{
   padding-top:120px;
 }
 
-/* Services grid 布局 */
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Desktop 一行显示两个卡片 */
-  gap: 24px; /* 卡片间距 */
-}
-
-/* 手机自适应：屏幕小于 768px 一行显示一个卡片 */
-@media (max-width: 768px) {
-  .services-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* 服务卡片样式 */
+
 .service-card {
   display: flex;
+  width: auto;
   align-items: flex-start;
   background: #fff;
   border-radius: 12px;
