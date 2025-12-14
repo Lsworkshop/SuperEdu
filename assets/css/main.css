@@ -697,8 +697,8 @@ nav#topNav.nav--solid {
    =============================== */
 
 /* Education 页面整体下移 */
-body.page-education main.container {
-  padding-top: 120px;
+body.page-education .container {
+  margin-top: 120px; /* main.container 下移 */
 }
 
 /* Thank-you 页面 */
