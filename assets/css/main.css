@@ -696,12 +696,16 @@ nav#topNav.nav--solid {
    Page offset for fixed nav
    =============================== */
 
+/* Apply 页面整体下移 */
+body.page-apply .container {
+  margin-top: 120px; /* 或根据 header 高度调整 */
+}
+
+
 /* Education 页面整体下移 */
 body.page-education main.container {
   margin-top: 120px; /* 根据 header 高度调整 */
 }
-
-
 
 /* Thank-you 页面 */
 body.page-thankyou{
