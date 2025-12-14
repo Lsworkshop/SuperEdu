@@ -673,4 +673,23 @@ nav#topNav.nav--solid {
 
 }
 
+/* ===============================
+   Nav Hover Color Sync with Underline
+   =============================== */
+
+@media (min-width: 992px) {
+
+  /* 菜单 hover / focus 时文字变蓝 */
+  .menu a:hover,
+  .menu a:focus {
+    color: var(--accent-blue, #2563eb);
+  }
+
+  /* 当前激活项（如果你有 active 状态） */
+  .menu a.active {
+    color: var(--accent-blue, #2563eb);
+  }
+
+}
+
 
