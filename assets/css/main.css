@@ -712,21 +712,28 @@ body.page-thankyou{
   padding-top:120px;
 }
 
+/* Services grid 布局 */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* 每行最多两个卡片，最小宽400px */
+  gap: 24px; /* 卡片间距 */
+}
+
 /* 服务卡片 hover 效果 */
 .service-card {
-  display: block;
-  background: var(--card);
-  border-radius: var(--radius);
+  display: flex;
+  align-items: flex-start;
+  background: #fff;
+  border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-  border: 1px solid rgba(0,0,0,0.03);
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
   text-decoration: none;
   color: inherit;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
+  border: 2px solid transparent;
 }
 
 .service-card:hover {
-  transform: scale(1.03);
-  border-color: #3498db; /* 亮蓝色边框 */
-  box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+  transform: scale(1.02);
+  border: 2px solid #3B82F6; /* 亮蓝色边框 */
 }
