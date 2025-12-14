@@ -715,11 +715,18 @@ body.page-thankyou{
 /* Services grid 布局 */
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* 每行最多两个卡片，最小宽400px */
+  grid-template-columns: repeat(2, 1fr); /* Desktop 一行显示两个卡片 */
   gap: 24px; /* 卡片间距 */
 }
 
-/* 服务卡片 hover 效果 */
+/* 手机自适应：屏幕小于 768px 一行显示一个卡片 */
+@media (max-width: 768px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 服务卡片样式 */
 .service-card {
   display: flex;
   align-items: flex-start;
@@ -735,5 +742,5 @@ body.page-thankyou{
 
 .service-card:hover {
   transform: scale(1.02);
-  border: 2px solid #3B82F6; /* 亮蓝色边框 */
+  border: 2px solid #3B82F6; /* 蓝色边框 */
 }
