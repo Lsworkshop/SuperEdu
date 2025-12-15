@@ -887,3 +887,54 @@ body.page-thankyou{
   box-shadow: 0 6px 18px rgba(59,130,246,0.25);
 }
 
+
+/* ===============================
+   QUICK RESOURCES section
+   =============================== */
+
+/* Resources container card */
+.resources-section .card.wide {
+  background: linear-gradient(180deg, #fff, #FAF5E9);
+  border: 1px solid rgba(10,10,10,0.04);
+  box-shadow: 0 6px 18px rgba(9,30,66,0.06);
+}
+
+/* Resource grid */
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+/* Resource pill buttons */
+.resource-pill {
+  display: block;
+  text-align: center;
+  padding: 12px 14px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.08);
+  font-weight: 600;
+  text-decoration: none;
+  color: inherit;
+
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    border-color .18s ease;
+}
+
+/* Hover effect */
+.resource-pill:hover {
+  transform: scale(1.03);
+  border-color: #3B82F6;
+  box-shadow: 0 8px 22px rgba(59,130,246,0.25);
+}
+
+/* Mobile stacking */
+@media (max-width: 720px) {
+  .resources-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
