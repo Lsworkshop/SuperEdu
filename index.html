@@ -778,25 +778,60 @@
 </div>
     </section>
 
-    <!-- CONTACT -->
-    <section class="section contact-section" id="contact">
- <div class="section-inner">
-      <div class="section-title-wrapper">
-        <svg class="section-title-icon" viewBox="0 0 48 48" aria-hidden="true">
-          <use href="#bg-rounded"></use>
-          <use href="#line-building"></use>
-        </svg>
-        <h2 data-en="Contact" data-zh="联系">Contact</h2>
-        <p class="section-sub" data-en="Reach us by text, WeChat or email." data-zh="通过短信、微信或邮箱联系我们。">Reach us by text, WeChat or email.</p>
+     <!-- CONTACT -->
+<section class="section contact-section" id="contact">
+  <div class="section-inner">
+    <div class="section-title-wrapper">
+      <svg class="section-title-icon" viewBox="0 0 48 48" aria-hidden="true">
+        <use href="#bg-rounded"></use>
+        <use href="#line-building"></use>
+      </svg>
+      <h2 data-en="Have a question or need a consultation?" data-zh="有问题或需要咨询吗？">
+        Have a question or need a consultation?
+      </h2>
+      <p class="section-sub" data-en="Please scan the QR code on WeChat or fill in the form below, we will get back to you shortly!"
+         data-zh="请扫描微信二维码或填写下方表格，我们会尽快与您联系。">
+        Please scan the QR code on WeChat or fill in the form below, we will get back to you shortly!
+      </p>
+    </div>
+
+    <div class="contact-grid">
+      <!-- WeChat QR Code -->
+      <div class="contact-card wechat-card">
+        <img src="/images/wechat-qr.png" alt="WeChat QR Code" class="wechat-qr" />
+        <p class="muted" data-en="Scan to add on WeChat" data-zh="扫描添加微信">Scan to add on WeChat</p>
       </div>
 
-      <div class="card wide">
-        <p class="muted">Phone: 1 916-793-0676 (Texting Only)</p>
-        <p class="muted">Wechat 微信 ID: Leon_Song_PhD</p>
-        <p class="muted">Email: team@lsfinova.com</p>
+      <!-- Consultation Form -->
+      <div class="contact-card form-card">
+        <form id="consultForm" autocomplete="off">
+          <label data-en="First Name*" data-zh="名*">First Name*</label>
+          <input type="text" name="firstName" required />
+
+          <label data-en="Last Name*" data-zh="姓*">Last Name*</label>
+          <input type="text" name="lastName" required />
+
+          <label data-en="Email*" data-zh="邮箱*">Email*</label>
+          <input type="email" name="email" required />
+
+          <label data-en="Phone" data-zh="电话">Phone</label>
+          <input type="text" name="phone" />
+
+          <label data-en="High School Graduation Year" data-zh="高中毕业年份">High School Graduation Year</label>
+          <input type="text" name="gradYear" />
+
+          <label data-en="What else do you want to tell us?" data-zh="还有其他想告诉我们的？">What else do you want to tell us?</label>
+          <textarea name="message" rows="3"></textarea>
+
+          <button type="submit" class="btn btn-primary" data-en="Send" data-zh="发送">Send</button>
+          <div id="consultStatus" class="form-status"></div>
+        </form>
       </div>
- </div>
-    </section>
+    </div>
+  </div>
+</section>
+
+
   </main>
 
   <!-- FOOTER (with small centered icon optionally) -->
