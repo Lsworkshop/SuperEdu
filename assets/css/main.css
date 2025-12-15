@@ -856,4 +856,34 @@ body.page-thankyou{
 }
 
 
+/* ===============================
+   WEBINAR section styling
+   =============================== */
+
+/* Webinar card container */
+.webinar-section .card.wide {
+  background: linear-gradient(180deg, #fff, #FAF5E9);
+  border: 1px solid rgba(10,10,10,0.04);
+  box-shadow: 0 6px 18px rgba(9,30,66,0.06);
+}
+
+/* Subtle hover — no scaling */
+.webinar-section .card.wide:hover {
+  box-shadow: 0 10px 26px rgba(9,30,66,0.08);
+}
+
+/* CTA row layout */
+.webinar-section .cta-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+/* Button hover emphasis */
+.webinar-section .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(59,130,246,0.25);
+}
 
