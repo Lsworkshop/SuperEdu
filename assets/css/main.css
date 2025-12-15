@@ -748,3 +748,11 @@ body.page-thankyou{
   padding-top:120px;
 }
 
+/* ✅ 强制 Desktop 显示两列 services */
+@media (min-width:1025px){
+  .services-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+
