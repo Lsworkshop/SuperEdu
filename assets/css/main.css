@@ -966,8 +966,15 @@ body.page-thankyou{
 }
 
 .contact-card:hover {
-  transform: scale(1.05);
+  transform: scale(1.04);
   border: 2px solid #3B82F6; /* 蓝色边框 */
+}
+
+.contact-form-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--brand-2); /* 与卡片标题颜色一致 */
 }
 
 /* WeChat QR Card */
@@ -976,8 +983,8 @@ body.page-thankyou{
 }
 
 .wechat-qr {
-  width: 420px;
-  height: 570px;
+  width: 380px;
+  height: 516px;
   margin-bottom: 12px;
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.06);
