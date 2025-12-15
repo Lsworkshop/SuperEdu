@@ -943,6 +943,7 @@ body.page-thankyou{
   }
 }
 
+
 /* Contact Section Grid */
 .contact-grid {
   display: grid;
@@ -953,13 +954,14 @@ body.page-thankyou{
 
 /* Contact Cards (WeChat + Form) */
 .contact-card {
-  background: linear-gradient(180deg, #fff8e5, #FAF5E9);
+  background: linear-gradient(180deg, #fffaf0, #faf5e9); /* 更淡的棕黄色渐变 */
   border-radius: 12px;
-  padding: 20px;
+  padding: 22px;
   box-shadow: 0 8px 24px rgba(9,30,66,0.04);
   transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
   border: 2px solid transparent;
   cursor: default;
+  font-family: Inter, Arial, sans-serif; /* 原先字体 */
 }
 
 .contact-card:hover {
@@ -980,6 +982,12 @@ body.page-thankyou{
   box-shadow: 0 4px 16px rgba(0,0,0,0.06);
 }
 
+.wechat-card p {
+  margin: 6px 0;
+  font-size: 14px;
+  color: #444;
+}
+
 /* Consultation Form Card */
 .form-card form {
   display: flex;
@@ -990,6 +998,7 @@ body.page-thankyou{
 .form-card label {
   font-weight: 600;
   font-size: 14px;
+  color: #333;
 }
 
 .form-card input,
@@ -1022,5 +1031,3 @@ body.page-thankyou{
     height: 140px;
   }
 }
-
-
