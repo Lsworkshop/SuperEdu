@@ -112,12 +112,49 @@ section .section-inner {
 .section-title{font-size:30px;font-weight:800;color:var(--brand-2);text-align:center;margin:0}
 .section-sub{text-align:center;color:var(--muted);margin-top:8px;margin-bottom:28px}
 
-/* services grid (larger cards, stacked gradient) */
-.services-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:20px}
-.service-card{background:linear-gradient(180deg,#fff,#FAF5E9);border-radius:12px;padding:18px;border:1px solid rgba(10,10,10,0.03);box-shadow:0 8px 24px rgba(9,30,66,0.04);transition:all .18s}
-.service-card h3{margin:0 0 8px;font-size:18px;color:var(--brand-2)}
-.service-card .desc{color:var(--muted);line-height:1.45;margin-bottom:12px}
-.apply-cta{display:inline-block;padding:8px 12px;border-radius:10px;background:var(--brand-1);color:#fff;font-weight:700}
+/* services grid */
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+  margin-top:20px;
+}
+
+/* service card */
+.service-card{
+  background:linear-gradient(180deg,#fff,#FAF5E9);
+  border-radius:12px;
+  padding:18px;
+  border:1px solid rgba(10,10,10,0.03);
+  box-shadow:0 8px 24px rgba(9,30,66,0.04);
+  cursor:pointer;
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    border-color .2s ease;
+
+  /* 🔒 防止 Grid 自动跨列 */
+  grid-column:auto;
+}
+
+/* card content */
+.service-card h3{
+  margin:0 0 8px;
+  font-size:18px;
+  color:var(--brand-2);
+}
+
+.service-card .desc{
+  color:var(--muted);
+  line-height:1.45;
+  margin-bottom:12px;
+}
+
+.service-card:hover {
+  transform: scale(1.02);
+  border: 2px solid #3B82F6; /* 蓝色边框 */
+}
 
 /* tools area: three columns -> stacked on mobile */
 .tools-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -711,23 +748,3 @@ body.page-thankyou{
   padding-top:120px;
 }
 
-/* 服务卡片样式 */
-
-.service-card {
-  display: flex;
-  width: auto;
-  align-items: flex-start;
-  background: #fff;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
-  border: 2px solid transparent;
-}
-
-.service-card:hover {
-  transform: scale(1.02);
-  border: 2px solid #3B82F6; /* 蓝色边框 */
-}
