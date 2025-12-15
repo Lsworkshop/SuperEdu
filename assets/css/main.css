@@ -120,11 +120,6 @@ section .section-inner {
   margin-top:20px;
 }
 
-.service-card{
-  min-width: 0;
-  overflow: hidden;
-}
-
 /* service card */
 .service-card{
   background:linear-gradient(180deg,#fff,#FAF5E9);
@@ -155,6 +150,19 @@ section .section-inner {
   line-height:1.45;
   margin-bottom:12px;
 }
+
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+}
+
+.service-card{
+  display:flex;      /* OK */
+  cursor:pointer;    /* OK */
+  min-width:0;       /* ⭐ 必须 */
+}
+
 
 .service-card:hover {
   transform: scale(1.02);
@@ -753,11 +761,6 @@ body.page-thankyou{
   padding-top:120px;
 }
 
-/* ✅ 强制 Desktop 显示两列 services */
-@media (min-width:1025px){
-  .services-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-}
+
 
 
