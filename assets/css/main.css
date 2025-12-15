@@ -761,6 +761,65 @@ body.page-thankyou{
   padding-top:120px;
 }
 
+/* =====================================================
+   TOOLS & QUICK ACTIONS — visual upgrade
+   ===================================================== */
+
+/* Tools 区卡片统一基类 */
+.tools-section .tool-card{
+  position:relative;
+  background:linear-gradient(180deg,#fff,#FAF5E9); /* 与服务卡片一致 */
+  border-radius:12px;
+  padding:20px;
+  border:1px solid rgba(10,10,10,0.04);
+  box-shadow:0 8px 24px rgba(9,30,66,0.05);
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease,
+    border-color .22s ease;
+}
+
+/* hover 整体微抬升 */
+.tools-section .tool-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 32px rgba(9,30,66,0.08);
+}
+
+/* clickable（服务申请卡） */
+.tools-section .tool-card.clickable{
+  cursor:pointer;
+}
+
+/* clickable hover：服务卡片级反馈 */
+.tools-section .tool-card.clickable:hover{
+  transform:scale(1.03);
+  border:2px solid #3B82F6; /* 蓝色高亮线 */
+}
+
+/* Apply 卡片标题放大 */
+.tools-section .apply-card h3{
+  transition:transform .2s ease;
+}
+
+.tools-section .apply-card:hover h3{
+  transform:scale(1.05);
+}
+
+/* Apply 卡片箭头提示 */
+.tools-section .apply-card::after{
+  content:"→";
+  position:absolute;
+  right:18px;
+  bottom:18px;
+  font-size:22px;
+  opacity:.35;
+  transition:transform .2s ease, opacity .2s ease;
+}
+
+.tools-section .apply-card:hover::after{
+  transform:translateX(6px);
+  opacity:.8;
+}
 
 
 

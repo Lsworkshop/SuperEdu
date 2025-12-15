@@ -577,86 +577,144 @@
   </div>
     </section>
 
-    <!-- TOOLS (Register / Unlock / Apply) with centered icon -->
+    
+<!-- TOOLS (Register / Unlock / Apply) -->
+<section class="section tools-section" id="tools">
+  <div class="section-inner">
 
+    <div class="section-title-wrapper">
+      <svg class="section-title-icon" viewBox="0 0 48 48" aria-hidden="true">
+        <use href="#bg-rounded"></use>
+        <use href="#line-target"></use>
+      </svg>
+      <h2 class="section-title" data-en="Tools & Quick Actions" data-zh="工具与快速操作">
+        Tools & Quick Actions
+      </h2>
+      <p class="section-sub"
+         data-en="Register, unlock content, or apply for one-on-one services."
+         data-zh="注册、快速解锁或提交一对一服务申请。">
+        Register, unlock content, or apply for one-on-one services.
+      </p>
+    </div>
 
-    <section class="section tools-section" id="tools">
-   <div class="section-inner">
-      <div class="section-title-wrapper">
-        <svg class="section-title-icon" viewBox="0 0 48 48" aria-hidden="true">
-          <use href="#bg-rounded"></use>
-          <use href="#line-target"></use>
-        </svg>
-        <h2 class="section-title" data-en="Tools & Quick Actions" data-zh="工具与快速操作">Tools & Quick Actions</h2>
-        <p class="section-sub" data-en="Register, unlock content, or apply for one-on-one services." data-zh="注册、快速解锁或提交一对一服务申请。">Register, unlock content, or apply for one-on-one services.</p>
-      </div>
+    <div class="tools-wrap">
 
-      <div class="tools-wrap">
-        <div class="card registration-card" id="registrationCard">
+      <!-- ① Registration -->
+      <div class="card tool-card registration-card" id="registrationCard">
 
-         <h3>
-    <svg class="sub-icon" viewBox="0 0 24 24"><use href="#icon-club"></use></svg>
-    <span data-en="Club Registration" data-zh="俱乐部注册">俱乐部注册</span>
+        <h3>
+          <svg class="sub-icon" viewBox="0 0 24 24">
+            <use href="#icon-club"></use>
+          </svg>
+          <span data-en="Club Registration" data-zh="俱乐部注册">
+            俱乐部注册
+          </span>
         </h3>
 
-          <p class="muted" data-en="Become a member to receive many free services and access to a wealth of high-value information." data-zh="成为会员即可免费得到大部分服务与高价值大量信息资料">Become a member to receive many free services and access to a wealth of high-value information.</p>
-          <p class="muted" data-en="Sign up with name & email — referral optional." data-zh="请输入姓名与邮箱注册，推荐码为可选项">Sign up with name & email — referral optional.</p>
+        <p class="muted"
+           data-en="Become a member to receive many free services and access to a wealth of high-value information."
+           data-zh="成为会员即可免费得到大部分服务与高价值大量信息资料">
+          Become a member to receive many free services and access to a wealth of high-value information.
+        </p>
 
-          <form id="registerForm" autocomplete="off">
-            <label for="r-first" data-en="First name" data-zh="名">First name</label>
-            <input id="r-first" name="firstName" type="text" required placeholder="e.g. John / 例如：小明" />
+        <p class="muted"
+           data-en="Sign up with name & email — referral optional."
+           data-zh="请输入姓名与邮箱注册，推荐码为可选项">
+          Sign up with name & email — referral optional.
+        </p>
 
-            <label for="r-last" data-en="Last name" data-zh="姓">Last name</label>
-            <input id="r-last" name="lastName" type="text" required placeholder="e.g. Smith / 例如：张" />
+        <form id="registerForm" autocomplete="off">
+          <label for="r-first" data-en="First name" data-zh="名">First name</label>
+          <input id="r-first" name="firstName" type="text" required placeholder="e.g. John / 例如：小明" />
 
-            <label for="r-email" data-en="Email" data-zh="邮箱">Email</label>
-            <input id="r-email" name="email" type="email" required placeholder="you@domain.com / 您的邮箱" />
+          <label for="r-last" data-en="Last name" data-zh="姓">Last name</label>
+          <input id="r-last" name="lastName" type="text" required placeholder="e.g. Smith / 例如：张" />
 
-            <label for="r-ref" data-en="Referral code (optional)" data-zh="推荐码（可选）">Referral code (optional)</label>
-            <input id="r-ref" name="ref" type="text" placeholder="Referral code / 推荐码" />
+          <label for="r-email" data-en="Email" data-zh="邮箱">Email</label>
+          <input id="r-email" name="email" type="email" required placeholder="you@domain.com / 您的邮箱" />
 
-            <div class="form-actions">
-              <button type="submit" class="btn btn-primary" data-en="Join the Club" data-zh="加入俱乐部">
-                <svg class="card-small-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-register"></use></svg>
-                Join the Club
-              </button>
-              <div id="regStatus" class="form-status"></div>
-            </div>
-          </form>
-        </div>
+          <label for="r-ref" data-en="Referral code (optional)" data-zh="推荐码（可选）">
+            Referral code (optional)
+          </label>
+          <input id="r-ref" name="ref" type="text" placeholder="Referral code / 推荐码" />
 
-        <div class="card unlock-card" id="unlockCard">
-          <h3>
-    <svg class="sub-icon" viewBox="0 0 24 24"><use href="#icon-unlock"></use></svg>
-    <span data-en="Quick Unlock — Education Center" data-zh="快速解锁 — 进入教育中心">快速解锁 — 进入教育中心</span>
-  </h3>
-          <p class="muted" data-en="Submit name & email to unlock the Education Center and get a free consultation opportunity." data-zh="提交姓名与邮箱以解锁教育中心获取信息资料，并获得免费咨询机会。">Submit name & email to unlock the Education Center and get a free consultation opportunity.</p>
-
-          <div class="quick-unlock-vertical">
-            <input id="u-first" placeholder="First name / 名" />
-            <input id="u-last" placeholder="Last name / 姓" />
-            <input id="u-email" placeholder="Email / 邮箱" />
-            <div class="form-actions" style="margin-top:10px;">
-              <button id="unlockBtn" class="btn" data-en="Unlock Content" data-zh="解锁内容">Unlock Content</button>
-              <button id="enterEduBtn" class="btn btn-outline" style="display:none" data-en="Enter Education Center" data-zh="进入教育中心">Enter Education Center</button>
-            </div>
-            <div id="unlockStatus" class="form-status"></div>
-          </div>
-        </div>
-
-        <div class="card apply-card">
-           <h3>
-    <svg class="sub-icon" viewBox="0 0 24 24"><use href="#icon-apply"></use></svg>
-    <span data-en="Service Application" data-zh="服务申请">服务申请</span>
-  </h3>
-          <p class="muted" data-en="Fill an application to request one-on-one service." data-zh="填写申请以请求一对一服务。">Fill an application to request one-on-one service.</p>
           <div class="form-actions">
-            <a class="btn btn-primary" href="/apply.html" data-en="Apply for Services" data-zh="申请服务">Apply for Services</a>
+            <button type="submit" class="btn btn-primary"
+                    data-en="Join the Club" data-zh="加入俱乐部">
+              <svg class="card-small-icon" viewBox="0 0 24 24">
+                <use href="#icon-register"></use>
+              </svg>
+              Join the Club
+            </button>
+            <div id="regStatus" class="form-status"></div>
           </div>
+        </form>
+      </div>
+
+      <!-- ② Quick Unlock -->
+      <div class="card tool-card unlock-card" id="unlockCard">
+
+        <h3>
+          <svg class="sub-icon" viewBox="0 0 24 24">
+            <use href="#icon-unlock"></use>
+          </svg>
+          <span data-en="Quick Unlock — Education Center"
+                data-zh="快速解锁 — 进入教育中心">
+            快速解锁 — 进入教育中心
+          </span>
+        </h3>
+
+        <p class="muted"
+           data-en="Submit name & email to unlock the Education Center and get a free consultation opportunity."
+           data-zh="提交姓名与邮箱以解锁教育中心获取信息资料，并获得免费咨询机会。">
+          Submit name & email to unlock the Education Center and get a free consultation opportunity.
+        </p>
+
+        <div class="quick-unlock-vertical">
+          <input id="u-first" placeholder="First name / 名" />
+          <input id="u-last" placeholder="Last name / 姓" />
+          <input id="u-email" placeholder="Email / 邮箱" />
+
+          <div class="form-actions" style="margin-top:10px;">
+            <button id="unlockBtn" class="btn"
+                    data-en="Unlock Content" data-zh="解锁内容">
+              Unlock Content
+            </button>
+            <button id="enterEduBtn" class="btn btn-outline" style="display:none"
+                    data-en="Enter Education Center" data-zh="进入教育中心">
+              Enter Education Center
+            </button>
+          </div>
+
+          <div id="unlockStatus" class="form-status"></div>
         </div>
       </div>
-</div>
-    </section>
+
+      <!-- ③ Apply — clickable service-style card -->
+      <div class="card tool-card apply-card clickable"
+           onclick="location.href='/apply.html'">
+
+        <h3>
+          <svg class="sub-icon" viewBox="0 0 24 24">
+            <use href="#icon-apply"></use>
+          </svg>
+          <span data-en="Service Application" data-zh="服务申请">
+            服务申请
+          </span>
+        </h3>
+
+        <p class="muted"
+           data-en="Request one-on-one guidance tailored to your needs."
+           data-zh="提交申请，获得为您定制的一对一服务。">
+          Request one-on-one guidance tailored to your needs.
+        </p>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
 
     <!-- ABOUT -->
     <section class="section about-section" id="about">
