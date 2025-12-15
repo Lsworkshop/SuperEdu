@@ -843,5 +843,17 @@ body.page-thankyou{
   cursor: pointer;
 }
 
+/* === About section card (calm & trustful) === */
+.about-section .card.wide {
+  background: linear-gradient(180deg, #fff, #FAF5E9);
+  border: 1px solid rgba(10,10,10,0.04);
+  box-shadow: 0 6px 18px rgba(9,30,66,0.06);
+}
+
+/* subtle hover – no scale, no blue line */
+.about-section .card.wide:hover {
+  box-shadow: 0 10px 26px rgba(9,30,66,0.08);
+}
+
 
 
