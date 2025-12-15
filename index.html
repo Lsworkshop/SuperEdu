@@ -807,40 +807,42 @@
         </p>
       </div>
 
-      <!-- Consultation Form Card -->
-      <div class="contact-card">
-  <h3 class="contact-form-title" data-en="Book a Consultation or Send a Message" data-zh="预约咨询或发送信息">
+     <!-- Consultation Form Card -->
+
+
+
+      <div class="contact-card form-card">
+
+<h3 class="contact-form-title" data-en="Book a Consultation or Send a Message" data-zh="预约咨询或发送信息">
     Book a Consultation or Send a Message
   </h3>
 
-  <form id="contactForm" autocomplete="off">
-    <label for="c-first" data-en="First name*" data-zh="名*">First name*</label>
-    <input id="c-first" name="firstName" type="text" required />
+        <form id="consultForm" autocomplete="off">
+          <label data-en="First Name*" data-zh="名*">First Name*</label>
+          <input type="text" name="firstName" required />
 
-    <label for="c-last" data-en="Last name" data-zh="姓">Last name</label>
-    <input id="c-last" name="lastName" type="text" />
+          <label data-en="Last Name*" data-zh="姓*">Last Name*</label>
+          <input type="text" name="lastName" required />
 
-    <label for="c-email" data-en="Email*" data-zh="邮箱*">Email*</label>
-    <input id="c-email" name="email" type="email" required />
+          <label data-en="Email*" data-zh="邮箱*">Email*</label>
+          <input type="email" name="email" required />
 
-    <label for="c-phone" data-en="Phone" data-zh="电话">Phone</label>
-    <input id="c-phone" name="phone" type="text" />
+          <label data-en="Phone" data-zh="电话">Phone</label>
+          <input type="text" name="phone" />
 
-    <label for="c-grad" data-en="High School Graduation Year" data-zh="高中毕业年份">High School Graduation Year</label>
-    <input id="c-grad" name="gradYear" type="text" />
+          <label data-en="High School Graduation Year" data-zh="高中毕业年份">High School Graduation Year</label>
+          <input type="text" name="gradYear" />
 
-    <label for="c-msg" data-en="What else do you want to tell us?" data-zh="其他信息">What else do you want to tell us?</label>
-    <textarea id="c-msg" name="message"></textarea>
+          <label data-en="What else do you want to tell us?" data-zh="还有其他想告诉我们的？">What else do you want to tell us?</label>
+          <textarea name="message" rows="3"></textarea>
 
-    <div class="form-actions">
-      <button type="submit" class="btn btn-primary" data-en="Send" data-zh="发送">Send</button>
+          <button type="submit" class="btn btn-primary" data-en="Send" data-zh="发送">Send</button>
+          <div id="consultStatus" class="form-status"></div>
+        </form>
+      </div>
     </div>
-  </form>
-</div>
-  </div>
   </div>
 </section>
-
 
   </main>
 
