@@ -145,7 +145,6 @@ footer{background:#0f1724;color:#cbd5e1;padding:40px 20px;margin-top:40px}
 /* responsive */
 @media(max-width:1024px){
   .hero{grid-template-columns:1fr 360px;padding:100px 20px 60px}
-  .services-grid{grid-template-columns:1fr}
   .tools-wrap{grid-template-columns:1fr}
 }
 @media(max-width:720px){
