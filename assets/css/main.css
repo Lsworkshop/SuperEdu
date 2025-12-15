@@ -822,4 +822,26 @@ body.page-thankyou{
 }
 
 
+/* === Tools cards: unified hover style === */
+.tools-section .tool-card {
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease,
+    border-color .22s ease;
+  border: 2px solid transparent;
+}
+
+/* hover – all tool cards */
+.tools-section .tool-card:hover {
+  transform: scale(1.02);
+  border-color: #3B82F6; /* 与 Services 卡片一致的蓝色 */
+  box-shadow: 0 12px 28px rgba(59,130,246,0.18);
+}
+
+/* clickable card – stronger affordance */
+.tools-section .tool-card.clickable {
+  cursor: pointer;
+}
+
+
 
