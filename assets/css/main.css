@@ -120,6 +120,11 @@ section .section-inner {
   margin-top:20px;
 }
 
+.service-card{
+  min-width: 0;
+  overflow: hidden;
+}
+
 /* service card */
 .service-card{
   background:linear-gradient(180deg,#fff,#FAF5E9);
