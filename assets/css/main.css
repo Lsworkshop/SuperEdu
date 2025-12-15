@@ -952,9 +952,10 @@ body.page-thankyou{
   margin-top: 20px;
 }
 
+
 /* Contact Cards (WeChat + Form) */
 .contact-card {
-  background: linear-gradient(180deg, #fffaf0, #faf5e9); /* 更淡的棕黄色渐变 */
+  background: linear-gradient(180deg, #fffdfa, #fff5e9); /* 上浅下稍深的淡棕黄色渐变 */
   border-radius: 12px;
   padding: 22px;
   box-shadow: 0 8px 24px rgba(9,30,66,0.04);
@@ -965,7 +966,7 @@ body.page-thankyou{
 }
 
 .contact-card:hover {
-  transform: scale(1.02);
+  transform: scale(1.05);
   border: 2px solid #3B82F6; /* 蓝色边框 */
 }
 
@@ -975,8 +976,8 @@ body.page-thankyou{
 }
 
 .wechat-qr {
-  width: 560px;
-  height: 760px;
+  width: 420px;
+  height: 570px;
   margin-bottom: 12px;
   border-radius: 12px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.06);
