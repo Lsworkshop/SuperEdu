@@ -1092,4 +1092,43 @@ body.page-thankyou{
   margin-top: 18px;
 }
 
+/* Send Button – Gentle Emphasis */
+.form-card .btn {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.form-card .btn:hover {
+  transform: scale(1.06);
+  box-shadow: 0 6px 16px rgba(59,130,246,0.18);
+}
+
+/* WeChat text vertical adjustment */
+.wechat-card {
+  padding-top: 14px;
+}
+
+/* Contact section spacing refinement */
+.contact-section {
+  padding-bottom: 90px;
+}
+
+/* Footer transition harmony */
+footer {
+  margin-top: -40px;
+}
+
+.contact-section p,
+.form-card label,
+.form-card input,
+.form-card textarea {
+  line-height: 1.6;
+}
+
+.form-card form {
+  gap: 12px;
+}
+
 

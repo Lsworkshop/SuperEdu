@@ -732,9 +732,7 @@
         <p class="muted" data-en="Helping families achieve integrated education and financial planning by strategically using U.S. education accounts and tax laws to maximize financial aid opportunities, establish structured college funding plans, and align education funding with Family Foundations and Trusts for long-term, sustainable asset growth.." data-zh="超能教育帮助家庭进行全面教育与财务规划，在合理运用美国教育账户及税法的基础上，最大化奖助学金机会， 系统建立教育基金计划，并结合 Family Foundation 与 Trust，实现教育投入与家庭资产的长期、稳健增值。"></p>
 <p>   </p>
 <p class="muted" data-en="This is Leon Song. I am the founder of LS Finova and Snova Education, as well as Workshop Tech, dedicated to helping individuals and families achieve clarity, stability, and long-term growth in education and finance." data-zh="我是Leon Song, LS Finova、Snova Education 以及 Workshop Tech 的创始人，致力于帮助个人与家庭在教育与财富规划中实现清晰认知、长期稳定与可持续增长。"></p>
-
 <p class="muted" data-en="Holding a Ph.D. from Harbin Institute of Technology and postdoctoral training at Tsinghua University, I apply advanced data science and analytical expertise to financial planning and strategic solutions." data-zh="我拥有 哈尔滨工业大学博士学位，并在 清华大学完成博士后研究，将先进的数据分析与系统性思维应用于教育规划、财富管理及战略解决方案中。"></p>
-
 <p class="muted" data-en="I lead the development of an AI-driven fintech platform designed to expand accessible, network-based financial and educational services across the United States and globally." data-zh="目前，我正主导开发一个 AI 驱动的金融科技平台，旨在于美国及全球范围内，构建更加普惠、可扩展、以网络为核心的教育与金融服务体系。"></p>
 
 <p class="muted" data-en="SnovaEdu — Smart Education. Lasting Wealth." data-zh="SnovaEdu —— 智慧教育，恒久财富。"></p>
@@ -827,23 +825,21 @@
   </h3>
 <div class="contact-form-wrapper">
         <form id="consultForm" autocomplete="off">
-          <label data-en="First Name*" data-zh="名*">First Name*</label>
-          <input type="text" name="firstName" required />
 
-          <label data-en="Last Name*" data-zh="姓*">Last Name*</label>
-          <input type="text" name="lastName" required />
+<input type="text" name="firstName" placeholder="First name" required>
 
-          <label data-en="Email*" data-zh="邮箱*">Email*</label>
-          <input type="email" name="email" required />
+<input type="text" name="lastName" placeholder="Last name" required>
 
-          <label data-en="Phone" data-zh="电话">Phone</label>
-          <input type="text" name="phone" />
+<input type="email" name="email" placeholder="Email address" required>
 
-          <label data-en="High School Graduation Year" data-zh="高中毕业年份">High School Graduation Year</label>
-          <input type="text" name="gradYear" />
+<input type="tel" name="phone" placeholder="Phone number (optional)">
 
-          <label data-en="What else do you want to tell us?" data-zh="还有其他想告诉我们的？">What else do you want to tell us?</label>
-          <textarea name="message" rows="3"></textarea>
+<input type="text" name="gradYear" placeholder="High school graduation year">
+
+<textarea name="message" rows="4"
+  placeholder="Tell us a bit about your situation, goals, or questions (optional)">
+</textarea>
+
 
           <button type="submit" class="btn btn-primary" data-en="Send" data-zh="发送">Send</button>
           <div id="consultStatus" class="form-status"></div>
