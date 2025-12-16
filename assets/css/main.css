@@ -1192,3 +1192,61 @@ footer {
   }
 }
 
+
+/* Footer overall style */
+footer {
+  background: linear-gradient(180deg, #0a0a0a, #1c1c1c); /* 深色渐变，上浅下深 */
+  color: #fff;
+  padding: 40px 20px 20px; 
+  font-family: Inter, Arial, sans-serif;
+  font-size: 14px;
+}
+
+/* Footer inner columns */
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Each column */
+.footer-col h4 {
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.footer-col a, .footer-col .muted {
+  display: block;
+  margin-bottom: 8px;
+  color: #ccc;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-col a:hover {
+  color: #3B82F6; /* 蓝色 hover */
+}
+
+/* Footer copyright */
+.footer-copy {
+  text-align: center;
+  margin-top: 24px;
+  color: #999;
+  font-size: 13px;
+}
+
+/* Mobile responsive */
+@media (max-width: 720px) {
+  .footer-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .footer-col {
+    width: 100%;
+  }
+}
+
