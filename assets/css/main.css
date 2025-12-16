@@ -1115,138 +1115,78 @@ body.page-thankyou{
   padding-bottom: 90px;
 }
 
-/* Footer transition harmony */
-footer {
-  margin-top: -40px;
-}
-
-.contact-section p,
-.form-card label,
-.form-card input,
-.form-card textarea {
-  line-height: 1.6;
-}
-
-.form-card form {
-  gap: 12px;
-}
 
 /* =========================
-   Footer – refined & unified
+   Footer – Optimized & Unified
 ========================= */
-
-footer {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 250, 243, 0.55),
-    rgba(255, 245, 233, 0.85)
-  );
-  padding: 48px 16px 28px;
-  margin-top: 60px;
-}
-
-.footer-inner {
-  max-width: 1100px;
-  margin: 0 auto 18px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 28px;
-}
-
-
-.footer-col h4 {
-  font-size: 14px;
-  font-weight: 500;      /* 不要粗 */
-  margin-bottom: 10px;
-  color: #444;
-  letter-spacing: 0.3px;
-}
-
-.footer-col a,
-.footer-col .muted {
-  display: block;
-  font-size: 13px;
-  color: #666;
-  margin-bottom: 6px;
-  text-decoration: none;
-  line-height: 1.5;
-}
-
-.footer-col a:hover {
-  color: var(--brand-2);
-  text-decoration: underline;
-}
-
-.footer-copy {
-  text-align: center;
-  font-size: 12px;
-  color: #888;
-  padding-top: 12px;
-  border-top: 1px solid rgba(0,0,0,0.05);
-}
-
-@media (max-width: 720px) {
-  .footer-inner {
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-}
-
 
 /* Footer overall style */
 footer {
   background: linear-gradient(180deg, #0a0a0a, #1c1c1c); /* 深色渐变，上浅下深 */
   color: #fff;
-  padding: 40px 20px 20px; 
+  padding: 48px 20px 28px;
   font-family: Inter, Arial, sans-serif;
   font-size: 14px;
+  line-height: 1.6;
 }
 
 /* Footer inner columns */
 .footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
+  gap: 24px;
 }
 
 /* Each column */
-.footer-col h4 {
-  font-weight: 600;
-  margin-bottom: 12px;
+.footer-col {
+  flex: 1 1 200px;
 }
 
-.footer-col a, .footer-col .muted {
+.footer-col h4 {
+  font-size: 16px;
+  font-weight: 500; /* 不要加粗 */
+  margin-bottom: 14px;
+  color: #f5f5f5; /* 标题稍亮 */
+}
+
+.footer-col a,
+.footer-col .muted {
   display: block;
   margin-bottom: 8px;
-  color: #ccc;
+  color: #ccc; /* 正文颜色稍亮可读 */
   text-decoration: none;
   transition: color 0.2s ease;
+  font-weight: 400; /* 正文字体正常 */
 }
 
 .footer-col a:hover {
   color: #3B82F6; /* 蓝色 hover */
+  text-decoration: underline;
 }
 
 /* Footer copyright */
 .footer-copy {
   text-align: center;
-  margin-top: 24px;
+  margin-top: 32px;
   color: #999;
   font-size: 13px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 16px;
 }
 
-/* Mobile responsive */
+/* Responsive: Mobile */
 @media (max-width: 720px) {
   .footer-inner {
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
+
   .footer-col {
     width: 100%;
+    margin-bottom: 20px;
   }
 }
-
