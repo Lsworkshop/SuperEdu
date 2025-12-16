@@ -1039,3 +1039,57 @@ body.page-thankyou{
     height: 380px;
   }
 }
+
+/* =========================
+   Contact – Visual Refinement (Override Only)
+   基于原有结构与尺寸的轻度优化
+========================= */
+
+/* 卡片背景：更淡、更克制 */
+.contact-card {
+  background: linear-gradient(
+    180deg,
+    #FFFFFF 0%,
+    #FBF7F0 100%
+  );
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.03);
+}
+
+/* 取消 Contact 卡片的放大与强交互感 */
+.contact-card:hover {
+  transform: none;
+  border-color: transparent;
+}
+
+/* WeChat 文本更轻 */
+.wechat-card p {
+  font-weight: 400;
+  color: #555;
+  line-height: 1.55;
+}
+
+/* 表单标题更安静 */
+.contact-form-title {
+  font-weight: 400;
+  letter-spacing: 0.2px;
+}
+
+/* 表单标签与输入框间距更自然 */
+.form-card label {
+  margin-top: 14px;
+  margin-bottom: 4px;
+  font-weight: 400;
+}
+
+.form-card input,
+.form-card textarea {
+  border-color: #e5e5e5;
+}
+
+/* 按钮与表单拉开一点距离 */
+.form-card .btn {
+  margin-top: 18px;
+}
+
+
