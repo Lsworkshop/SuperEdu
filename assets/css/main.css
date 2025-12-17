@@ -1243,14 +1243,6 @@ footer::before {
    Hero CTA hover enhancement
 ========================= */
 
-.hero-cta {
-  display: inline-flex; /* 防止 scale 影响行高 */
-  align-items: center;
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease;
-}
-
 .hero-cta:hover {
   transform: scale(1.05);
   box-shadow: 0 8px 20px rgba(59,130,246,0.18);
