@@ -1115,79 +1115,89 @@ body.page-thankyou{
   padding-bottom: 90px;
 }
 
-
 /* =========================
-   Footer – Optimized & Unified
+   Footer – Final Polished
 ========================= */
 
-/* Footer overall style */
 footer {
-  background: linear-gradient(180deg, #0a0a0a, #1c1c1c); /* 深色渐变，上浅下深 */
-  color: #fff;
+  background: linear-gradient(180deg, #0a0a0a 0%, #1c1c1c 100%);
+  color: #ffffff;
   padding: 48px 20px 28px;
   font-family: Inter, Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 15px;              /* 整体略大，提升可读性 */
+  line-height: 1.7;
+  position: relative;
 }
 
-/* Footer inner columns */
+/* Soft transition from Contact */
+footer::before {
+  content: "";
+  position: absolute;
+  top: -36px;
+  left: 0;
+  right: 0;
+  height: 36px;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0),
+    rgba(10,10,10,0.85)
+  );
+}
+
+/* Inner layout */
 .footer-inner {
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 24px;
+  gap: 28px;
 }
 
-/* Each column */
+/* Column */
 .footer-col {
   flex: 1 1 200px;
 }
 
+/* Column titles */
 .footer-col h4 {
-  font-size: 16px;
-  font-weight: 500; /* 不要加粗 */
-  margin-bottom: 14px;
-  color: #f5f5f5; /* 标题稍亮 */
+  font-size: 17px;
+  font-weight: 500;              /* 不加粗 */
+  margin-bottom: 10px;
+  color: #f7f7f7;
+  letter-spacing: 0.4px;
 }
 
+/* Links & text */
 .footer-col a,
 .footer-col .muted {
   display: block;
-  margin-bottom: 8px;
-  color: #ccc; /* 正文颜色稍亮可读 */
+  font-size: 14.5px;
+  color: rgba(255,255,255,0.72);
+  margin-bottom: 6px;
   text-decoration: none;
-  transition: color 0.2s ease;
-  font-weight: 400; /* 正文字体正常 */
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
+/* Subtle hover */
 .footer-col a:hover {
-  color: #3B82F6; /* 蓝色 hover */
-  text-decoration: underline;
+  color: #ffffff;
+  transform: translateX(3px);
 }
 
-/* Footer copyright */
+/* Copyright */
 .footer-copy {
   text-align: center;
-  margin-top: 32px;
-  color: #999;
-  font-size: 13px;
-  border-top: 1px solid rgba(255,255,255,0.1);
+  margin-top: 28px;
   padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
 }
 
-/* Responsive: Mobile */
-@media (max-width: 720px) {
-  .footer-col {
-    width: 100%;
-    margin-bottom: 12px;
-  }
-
-  .footer-col:last-child {
-    margin-bottom: 0;
-  }
-}
+/* =========================
+   Mobile Optimization
+========================= */
 
 @media (max-width: 720px) {
   footer {
@@ -1195,17 +1205,22 @@ footer {
   }
 
   .footer-inner {
-    display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    justify-content: flex-start;
-    gap: 14px;
+    gap: 12px;                  /* 👈 关键：压缩四段之间的距离 */
   }
 
   .footer-col {
-    margin: 0;
-    padding: 0;
     flex: none;
+  }
+
+  .footer-col h4 {
+    margin-bottom: 6px;
+  }
+
+  .footer-col a,
+  .footer-col .muted {
+    margin-bottom: 4px;         /* 👈 再压一点 */
   }
 }
