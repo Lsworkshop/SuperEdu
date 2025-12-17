@@ -1179,14 +1179,23 @@ footer {
 
 /* Responsive: Mobile */
 @media (max-width: 720px) {
+  footer {
+    padding: 32px 16px 20px;
+  }
+
   .footer-inner {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    gap: 10px; /* 控制整体段落间距 */
   }
 
   .footer-col {
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
+  }
+
+  .footer-col:last-child {
+    margin-bottom: 0;
   }
 }
