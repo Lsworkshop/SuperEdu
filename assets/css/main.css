@@ -1224,3 +1224,16 @@ footer::before {
     margin-bottom: 4px;         /* 👈 再压一点 */
   }
 }
+
+
+/* Quick Resources – emphasized pills */
+.resource-pill.resource-emphasis {
+  color: var(--brand-2);
+  font-weight: 500; /* 非粗体，但更有存在感 */
+}
+
+/* Hover 时保持高级、不侵入 */
+.resource-pill.resource-emphasis:hover {
+  color: var(--brand-2);
+  transform: translateY(-2px);
+}
