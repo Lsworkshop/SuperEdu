@@ -10,22 +10,23 @@
 <script src="/assets/js/lang.js" defer></script>
 
 <style>
+/* ===== Page Background ===== */
 body{
   font-family: Inter, Arial, sans-serif;
-  background:#FAF5E9;
+  background: linear-gradient(180deg, #F4F2EC, #EFEDE6);
   margin:0;
 }
 
-/* layout */
+/* ===== Layout ===== */
 .membership-wrap{
   max-width:900px;
-  margin:120px auto 60px;
+  margin:120px auto 70px;
   padding:0 20px;
 }
 
 .membership-title{
   text-align:center;
-  margin-bottom:36px;
+  margin-bottom:40px;
   font-family:'Poppins', sans-serif;
 }
 
@@ -42,35 +43,36 @@ body{
   font-size:17px;
 }
 
-/* cards */
+/* ===== Cards ===== */
 .cards{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:28px;
+  gap:30px;
 }
 
-/* shared card */
+/* Card base */
 .card{
-  background: linear-gradient(135deg, #F7F1E6, #EFE6D6); /* 淡棕色渐变 */
-  padding:32px 28px;
-  border-radius:18px;
-  box-shadow:0 8px 22px rgba(0,0,0,0.06);
+  background: linear-gradient(135deg, #FBF8F2, #F3EBDD);
+  padding:34px 28px;
+  border-radius:20px;
+  box-shadow:0 10px 26px rgba(0,0,0,0.07);
   transition:all .25s ease;
   cursor:pointer;
   border:2px solid transparent;
 }
 
+/* Hover */
 .card:hover{
   transform:translateY(-6px) scale(1.03);
-  box-shadow:0 14px 32px rgba(0,0,0,0.12);
+  box-shadow:0 16px 36px rgba(0,0,0,0.14);
 }
 
-/* primary card */
+/* Primary card */
 .card.primary{
   border-color: rgba(44,156,71,0.35);
 }
 
-/* headings */
+/* Text */
 .card h2{
   margin-top:0;
   font-size:22px;
@@ -83,21 +85,39 @@ body{
   color:#555;
   font-size:15px;
   line-height:1.5;
-  margin-bottom:18px;
+  margin-bottom:20px;
 }
 
-/* button area */
 .card .btn{
   width:100%;
   display:flex;
   justify-content:center;
 }
 
-/* login notice */
+/* Login note */
 .notice{
   font-size:13px;
   color:#777;
   margin-top:10px;
+}
+
+/* ===== Hidden Quick Unlock ===== */
+.quick-unlock-alt{
+  margin-top:38px;
+  text-align:center;
+  font-size:14px;
+  color:#777;
+}
+
+.quick-unlock-alt a{
+  color:#7A6F5B;
+  text-decoration:underline;
+  margin-left:4px;
+  transition:color .2s ease;
+}
+
+.quick-unlock-alt a:hover{
+  color:#2C9C47;
 }
 </style>
 </head>
@@ -109,7 +129,7 @@ body{
   <div class="nav-inner">
     <div class="brand">
       <a href="/index.html#home" class="brand">
-        <img src="/assets/img/superedu-logo.png" alt="SuperEdu" class="logo-img" />
+        <img src="/assets/img/superedu-logo.png" alt="SnovaEdu" class="logo-img" />
         <span class="brand-text">SuperEdu</span>
       </a>
     </div>
@@ -150,50 +170,60 @@ body{
 
 </nav>
 
+
 <!-- MAIN -->
 <div class="membership-wrap">
 
   <div class="membership-title">
     <h1 data-en="Membership Center" data-zh="会员中心">Membership Center</h1>
-    <p data-en="Create an account or log in to continue." data-zh="创建账户或登录以继续。">
-      Create an account or log in to continue.
+    <p data-en="Create an account or log in to continue."
+       data-zh="创建账户或登录以继续。">
+       Create an account or log in to continue.
     </p>
   </div>
 
   <div class="cards">
 
-    <!-- Create Account / Join -->
+    <!-- Create Account -->
     <div class="card primary" onclick="location.href='/register.html'">
       <h2 data-en="Create Account / Join" data-zh="创建账户 / 加入会员">
         Create Account / Join
       </h2>
-      <p data-en="New here? Create your account and unlock full membership access."
-         data-zh="新用户？创建账户并解锁完整会员权益。">
-        New here? Create your account and unlock full membership access.
+      <p data-en="New here? Create your account to unlock full membership access."
+         data-zh="新用户？创建账户以解锁完整会员服务。">
+        New here? Create your account to unlock full membership access.
       </p>
-      <button class="btn btn-primary" data-en="Get Started" data-zh="开始使用">
-        Get Started
-      </button>
+      <button class="btn btn-primary">Get Started</button>
     </div>
 
     <!-- Login -->
     <div class="card" onclick="location.href='/login.html'">
       <h2 data-en="Member Login" data-zh="会员登录">Member Login</h2>
-      <p data-en="Already have an account? Log in to your dashboard."
-         data-zh="已有账户？登录进入个人中心。">
-        Already have an account? Log in to your dashboard.
+      <p data-en="Already have an account? Log in here."
+         data-zh="已有账户？在此登录。">
+        Already have an account? Log in here.
       </p>
-      <button class="btn btn-outline" data-en="Login" data-zh="登录">
-        Login
-      </button>
-      <div class="notice" data-en="Account required before login."
-           data-zh="登录前需先创建账户。">
-        Account required before login.
-      </div>
+      <button class="btn btn-outline">Login</button>
+      <div class="notice">Account required before login.</div>
     </div>
 
   </div>
+
+  <!-- Hidden Quick Unlock -->
+  <div class="quick-unlock-alt">
+    <span data-en="Not ready to join?"
+          data-zh="暂时不想注册？">
+      Not ready to join?
+    </span>
+    <a href="/quick-unlock.html"
+       data-en="Quick Unlock"
+       data-zh="快速解锁">
+       Quick Unlock
+    </a>
+  </div>
+
 </div>
 
 </body>
 </html>
+
