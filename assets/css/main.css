@@ -1270,39 +1270,39 @@ footer::before {
   border-color: rgba(44,156,71,0.3);
 }
 
-/* Register page background */
-/* Register page – deeper background */
+/* =========================
+   Register page – visual contrast (FINAL)
+========================= */
+
+/* Page background – deeper & cooler */
 body.register-page {
   background: linear-gradient(
     180deg,
-    #d7cbb4 0%,   /* 上：偏灰棕 */
-    #cbbda2 100%  /* 下：明显更深 */
+    #d2c6ad 0%,
+    #bfb093 100%
   );
 }
-/* Register card – lighter & clearer gradient */
-.register-card,
-.card {
+
+/* Card – lighter, warmer, Ivy-style */
+body.register-page .register-card {
   background: linear-gradient(
     135deg,
-    #ffffff 0%,      /* 真白 */
-    #f6f0e6 60%,     /* 浅暖 */
-    #efe6d6 100%     /* 底部微暖 */
+    #ffffff 0%,
+    #f7f1e6 55%,
+    #efe4cf 100%
   );
 
   border-radius: 16px;
+  padding: 30px;
+
+  border: 1px solid rgba(140, 120, 90, 0.35);
 
   box-shadow:
-    0 14px 36px rgba(0, 0, 0, 0.18),
-    0 1px 0 rgba(255, 255, 255, 0.75) inset;
+    0 18px 44px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255,255,255,0.9);
+}
 
-  border: 1px solid rgba(170, 150, 110, 0.35);
-}
-.register-card {
-  box-shadow:
-    0 16px 40px rgba(0, 0, 0, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8),
-    inset 0 -6px 12px rgba(180, 150, 100, 0.12);
-}
+
 .register-card:hover,
 .card:hover {
   transform: translateY(-4px) scale(1.02);
