@@ -1250,15 +1250,11 @@ footer::before {
 }
 
 
-.membership-page {
-  background: linear-gradient(180deg, #EEF1F4, #E9EDF1);
-}
 
 .membership-page .card {
-  background: linear-gradient(135deg, #FFFCF6, #F4ECDD);
-  padding: 34px 28px;
-  border-radius: 20px;
-  box-shadow: 0 10px 26px rgba(0,0,0,0.07);
+  background: linear-gradient(180deg, #fff, #FAF5E9);
+  border: 1px solid rgba(10,10,10,0.04);
+  box-shadow: 0 6px 18px rgba(9,30,66,0.06);
   transition: all .25s ease;
   cursor: pointer;
   border: 2px solid transparent;
