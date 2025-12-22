@@ -1271,34 +1271,34 @@ footer::before {
 }
 
 /* =========================
-   Register page – visual contrast (FINAL)
+   Register page – light & refined (Quick Unlock aligned)
 ========================= */
 
-/* Page background – deeper & cooler */
+/* Page background – lighter, calm, non-intrusive */
 body.register-page {
   background: linear-gradient(
     180deg,
-    #d2c6ad 0%,
-    #bfb093 100%
+    #efe9dd 0%,
+    #e6dfd1 100%
   );
 }
 
-/* Card – lighter, warmer, Ivy-style */
+/* Card – soft paper-like contrast */
 body.register-page .register-card {
   background: linear-gradient(
     135deg,
     #ffffff 0%,
-    #f7f1e6 55%,
-    #efe4cf 100%
+    #fbf7ef 55%,
+    #f3ebdd 100%
   );
 
   border-radius: 16px;
   padding: 30px;
 
-  border: 1px solid rgba(140, 120, 90, 0.35);
+  border: 1px solid rgba(160, 140, 110, 0.25);
 
   box-shadow:
-    0 18px 44px rgba(0, 0, 0, 0.18),
+    0 14px 36px rgba(0, 0, 0, 0.12),
     inset 0 1px 0 rgba(255,255,255,0.9);
 }
 
