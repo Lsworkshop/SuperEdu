@@ -497,6 +497,7 @@ section .section-inner {
 
   background: linear-gradient(90deg, #0057ff, #00c6ff);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 
   text-shadow: 0 2px 5px rgba(0,0,0,0.08);
@@ -1267,4 +1268,22 @@ footer::before {
   transform: translateY(-4px) scale(1.03);
   box-shadow: 0 12px 28px rgba(0,0,0,0.12);
   border-color: rgba(44,156,71,0.3);
+}
+
+
+body.register-page {
+  background: linear-gradient(
+    180deg,
+    #efe8dc 0%,   /* 暖灰奶咖 */
+    #e6dccb 100%  /* 稍深一点 */
+  );
+  font-family: Inter, Arial, sans-serif;
+  margin: 0;
+}
+
+.register-card {
+  background: linear-gradient(180deg, #fffefa, #fdf6ec);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 10px 28px rgba(9,30,66,0.08);
 }

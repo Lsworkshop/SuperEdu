@@ -90,3 +90,44 @@
     brandText.style.transform = 'translateY(-2px)';
   }
 })();
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const mobileRegister = document.getElementById("mobileRegister");
+  const mobileUnlock = document.getElementById("mobileUnlock");
+
+  if (mobileRegister) {
+    mobileRegister.addEventListener("click", () => {
+      window.location.href = "/membership.html";
+    });
+  }
+
+  if (mobileUnlock) {
+    mobileUnlock.addEventListener("click", () => {
+      window.location.href = "/quick-unlock.html";
+    });
+  }
+
+});
+
+// ===============================
+// Mobile action buttons routing
+// ===============================
+document.addEventListener("DOMContentLoaded", () => {
+
+  const mobileRegister = document.getElementById("mobileRegister");
+  const mobileUnlock = document.getElementById("mobileUnlock");
+
+  if (mobileRegister) {
+    mobileRegister.addEventListener("click", () => {
+      window.location.href = "/register.html";
+    });
+  }
+
+  if (mobileUnlock) {
+    mobileUnlock.addEventListener("click", () => {
+      window.location.href = "/quick-unlock.html";
+    });
+  }
+
+});
