@@ -3,175 +3,291 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Register / Create Account — SnovaEdu</title>
+<title>Create Account — SnovaEdu</title>
 
 <!-- icons -->
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
-<link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/android-chrome-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/android-chrome-512.png">
 <link rel="icon" href="/assets/icons/favicon.ico">
 
+<!-- main styles -->
 <link rel="stylesheet" href="/assets/css/main.css">
+
+<!-- scripts -->
 <script src="/assets/js/menu.js" defer></script>
 <script src="/assets/js/lang.js" defer></script>
-<script src="/assets/js/access-control.js" defer></script>
 
 <style>
-body {
+/* =========================
+   Page Background
+========================= */
+body.register-page {
+  background: linear-gradient(180deg, #faf7f1, #f5efe6);
   font-family: Inter, Arial, sans-serif;
-  background: #f9f4e9;
   margin: 0;
 }
+
+/* =========================
+   Layout
+========================= */
 .register-wrap {
-  max-width: 480px;
-  margin: 100px auto 60px;
+  max-width: 520px;
+  margin: 120px auto 80px;
   padding: 0 20px;
 }
+
 .register-title {
   text-align: center;
-  margin-bottom: 28px;
+  margin-bottom: 26px;
 }
+
 .register-title h1 {
-  margin: 0;
   font-size: 34px;
   font-weight: 400;
-  color: #2C9C47;
+  color: var(--brand-2);
+  margin-bottom: 8px;
 }
+
 .register-title p {
-  margin-top: 10px;
   font-size: 16px;
   color: #555;
 }
-.form-card {
-  background: linear-gradient(135deg, #F0F9F5, #E6F4EA);
-  padding: 28px;
+
+/* =========================
+   Card
+========================= */
+.register-card {
+  background: linear-gradient(180deg, #fffefa, #fdf6ec);
   border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-  transition: all 0.22s;
-  border: 2px solid transparent;
+  padding: 30px;
+  box-shadow: 0 10px 28px rgba(9,30,66,0.06);
+  border: 1px solid rgba(10,10,10,0.04);
 }
-.form-card:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 10px 28px rgba(0,0,0,0.12);
-  border-color: rgba(44,156,71,0.3);
-}
-.form-card form {
+
+/* =========================
+   Form
+========================= */
+.register-form {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
-.form-card label {
+
+.register-form label {
   font-size: 14px;
-  font-weight: 400;
   color: #333;
 }
-.form-card input,
-.form-card select,
-.form-card textarea {
-  padding: 10px;
+
+.register-form input {
+  padding: 11px 12px;
   border-radius: 8px;
-  border: 1px solid #e8e8e8;
+  border: 1px solid #e2e2e2;
   font-size: 14px;
-  width: 100%;
-  box-sizing: border-box;
 }
-.form-card textarea { resize: vertical; }
-.form-card .btn {
-  margin-top: 14px;
-  align-self: stretch;
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.2s ease;
+
+.register-form input:focus {
+  outline: none;
+  border-color: #3B82F6;
 }
-.form-card .btn:hover { transform: scale(1.05); }
-.success-message {
-  font-size: 14px;
-  color: #2C9C47;
+
+.form-note {
+  font-size: 13px;
+  color: #666;
+  margin-top: 6px;
+}
+
+/* =========================
+   Submit Button
+========================= */
+.register-form .btn {
   margin-top: 12px;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.register-form .btn:hover {
+  transform: scale(1.04);
+  box-shadow: 0 8px 18px rgba(59,130,246,0.25);
+}
+
+/* =========================
+   Status
+========================= */
+.form-status {
+  font-size: 13px;
+  margin-top: 8px;
+}
+
+.form-status.error {
+  color: #c0392b;
+}
+
+.form-status.success {
+  color: #2e7d32;
+}
+
+/* =========================
+   Footer helper text
+========================= */
+.register-footer {
   text-align: center;
+  margin-top: 18px;
+  font-size: 14px;
+}
+
+.register-footer a {
+  color: var(--brand-2);
+  text-decoration: underline;
 }
 </style>
 </head>
 
 <body class="register-page">
 
-<!-- NAV -->
+<!-- NAV (same as other pages) -->
+
+
 <nav id="topNav" class="nav--transparent">
   <div class="nav-inner">
     <div class="brand">
       <a href="/index.html#home" class="brand">
-        <img src="/assets/img/superedu-logo.png" alt="SuperEdu" class="logo-img" />
-        <span class="brand-text">SuperEdu</span>
+        <img src="/assets/img/superedu-logo.png" alt="SnovaEdu" class="logo-img" />
+        <span class="brand-text">SnovaEdu</span>
       </a>
     </div>
+
     <div class="menu" id="menu">
       <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
       <a href="/index.html#services" data-en="Services" data-zh="服务">Services</a>
-      <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
+      <a href="/index.html#services" data-en="EduCenter" data-zh="教育中心">EduCenter</a>
+      <a href="#" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
       <a href="/membership.html" data-en="Membership" data-zh="会员">Membership</a>
+      <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
       <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
+      <a href="/login.html" data-en="Login" data-zh="登录">Login</a>
       <span class="nav-underline"></span>
     </div>
+
+    <div class="nav-right">
+      <button id="langToggle" class="lang-toggle">中文</button>
+      <button id="hamburger" class="hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+
+  <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+      <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
+      <a href="/index.html#services" data-en="Services" data-zh="服务">Services</a>
+      <a href="/membership.html" data-en="EduCenter" data-zh="教育中心">EduCenter</a>
+      <a href="/membership.html" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
+      <a href="/membership.html" data-en="Membership" data-zh="会员">Membership</a>
+      <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
+      <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
+      <a href="/login.html" data-en="Login" data-zh="登录">Login</a>
+
+      <div class="mobile-actions">
+        <button class="btn btn-ghost" id="mobileRegister" data-en="Register / Join" data-zh="注册 / 加入">Register / Join</button>
+        <button class="btn" id="mobileUnlock" data-en="Unlock Education" data-zh="解锁教育">Unlock Education</button>
+      </div>
   </div>
 </nav>
 
-<!-- MAIN CONTENT -->
+
+
+<!-- MAIN -->
 <div class="register-wrap">
+
   <div class="register-title">
-    <h1 data-en="Create Your Account" data-zh="创建账户">Create Your Account</h1>
-    <p data-en="Fill out the form to unlock full access." data-zh="填写表单以获取完整访问权限。"></p>
+    <h1 data-en="Create Your Account" data-zh="创建您的账户">Create Your Account</h1>
+    <p data-en="Unlock full access to member-only resources and services."
+       data-zh="解锁会员专属资源与服务。">
+       Unlock full access to member-only resources and services.
+    </p>
   </div>
 
-  <div class="form-card">
-    <form id="registerForm">
-      <label for="firstName">First Name*</label>
-      <input type="text" id="firstName" name="firstName" placeholder="Your first name" required>
+  <div class="register-card">
 
-      <label for="lastName">Last Name*</label>
-      <input type="text" id="lastName" name="lastName" placeholder="Your last name" required>
+    <form id="registerForm" class="register-form" autocomplete="off">
 
-      <label for="email">Email*</label>
-      <input type="email" id="email" name="email" placeholder="you@example.com" required>
+      <label data-en="First Name*" data-zh="名*">First Name*</label>
+      <input type="text" id="firstName" required />
 
-      <label for="password">Password*</label>
-      <input type="password" id="password" name="password" placeholder="Create a password" required>
+      <label data-en="Last Name*" data-zh="姓*">Last Name*</label>
+      <input type="text" id="lastName" required />
 
-      <label for="highSchoolYear">High School Graduation Year</label>
-      <input type="number" id="highSchoolYear" name="highSchoolYear" placeholder="2025">
+      <label data-en="Email*" data-zh="邮箱*">Email*</label>
+      <input type="email" id="email" required />
 
-      <label for="notes">Additional Notes</label>
-      <textarea id="notes" name="notes" placeholder="Anything else you'd like us to know?" rows="3"></textarea>
+      <label data-en="Password*" data-zh="密码*">Password*</label>
+      <input type="password" id="password" required />
 
-      <button type="submit" class="btn btn-primary" data-en="Create Account" data-zh="创建账户">Create Account</button>
-      <div id="successMessage" class="success-message" style="display:none;">Account created! You are now a Member.</div>
+      <label data-en="Confirm Password*" data-zh="确认密码*">Confirm Password*</label>
+      <input type="password" id="confirmPassword" required />
+
+      <button type="submit" class="btn btn-primary"
+        data-en="Create Account" data-zh="创建账户">
+        Create Account
+      </button>
+
+      <div id="formStatus" class="form-status"></div>
+
+      <div class="form-note"
+        data-en="Already have an account? Log in instead."
+        data-zh="已有账户？直接登录。">
+        Already have an account? Log in instead.
+      </div>
+
     </form>
+
   </div>
+
+  <div class="register-footer">
+    <a href="/login.html" data-en="Go to Login" data-zh="前往登录">Go to Login</a>
+  </div>
+
 </div>
 
+<!-- =========================
+     Register Logic (Front-end)
+========================= -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+
   const form = document.getElementById("registerForm");
-  const successMessage = document.getElementById("successMessage");
+  const status = document.getElementById("formStatus");
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    // 1️⃣ 模拟注册成功
-    // 真实系统这里会调用 API，将用户注册信息写入数据库
-    Access.setLevel("member"); // 升级权限到 Member
+    const email = document.getElementById("email").value.trim();
+    const pw = document.getElementById("password").value;
+    const cpw = document.getElementById("confirmPassword").value;
 
-    // 2️⃣ 显示成功信息
-    successMessage.style.display = "block";
+    if (pw !== cpw) {
+      status.textContent = "Passwords do not match.";
+      status.className = "form-status error";
+      return;
+    }
 
-    // 3️⃣ 可选择自动跳转到 Membership 页面
+    // 🔐 Simulated email uniqueness check
+    if (localStorage.getItem("member_email") === email) {
+      status.textContent = "This email is already registered.";
+      status.className = "form-status error";
+      return;
+    }
+
+    // ✅ Save basic member state
+    localStorage.setItem("member_email", email);
+    localStorage.setItem("member_role", "member");       // Level 3
+    localStorage.setItem("member_verified", "false");    // future email verify
+
+    status.textContent = "Account created successfully. Redirecting…";
+    status.className = "form-status success";
+
     setTimeout(() => {
       window.location.href = "/membership.html";
     }, 1200);
   });
+
 });
 </script>
 
 </body>
 </html>
+
