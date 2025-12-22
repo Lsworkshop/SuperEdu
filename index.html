@@ -375,7 +375,7 @@
       <a href="/login.html" data-en="Login" data-zh="登录">Login</a>
 
       <div class="mobile-actions">
-        <button class="btn btn-ghost" id="mobileRegister" data-en="Register / Join" data-zh="注册 / 加入">Register / Join</button>
+        <button class="btn btn-ghost" id="mobileRegister" data-en="Interest/Join list" data-zh="表达意向/加入名单">Register / Join</button>
         <button class="btn" id="mobileUnlock" data-en="Unlock Education" data-zh="解锁教育">Unlock Education</button>
       </div>
   </div>
@@ -397,7 +397,7 @@
 
       <div class="hero-ctas">
         <!-- these scroll to sections on the same page -->
-        <button class="btn btn-primary hero-cta" id="ctaRegister" data-en="Register / Join" data-zh="注册 / 加入">
+        <button class="btn btn-primary hero-cta" id="ctaRegister" data-en="Interest/Join list" data-zh="表达意向/加入名单">
           <!-- inline small icon -->
           <svg class="icon icon-inline" width="16" height="16" aria-hidden="true"><use href="#icon-register"></use></svg>
           <span>Register / Join</span>
@@ -705,7 +705,9 @@
 
         <p class="muted"
            data-en="Request one-on-one guidance tailored to your needs."
-           data-zh="提交申请，获得为您定制的一对一服务。">
+           data-en="Click any service to read the detailed page and apply."
+           data-zh="提交申请，获得为您定制的一对一服务。"
+           data-zh="点击任意服务查看详细信息并提交申请。">
           Request one-on-one guidance tailored to your needs.
         </p>
 
@@ -731,8 +733,8 @@
       <div class="card wide">
         <p class="muted" data-en="Helping families achieve integrated education and financial planning by strategically using U.S. education accounts and tax laws to maximize financial aid opportunities, establish structured college funding plans, and align education funding with Family Foundations and Trusts for long-term, sustainable asset growth.." data-zh="超能教育帮助家庭进行全面教育与财务规划，在合理运用美国教育账户及税法的基础上，最大化奖助学金机会， 系统建立教育基金计划，并结合 Family Foundation 与 Trust，实现教育投入与家庭资产的长期、稳健增值。"></p>
 <p>   </p>
-<p class="muted" data-en="This is Leon Song. I am the founder of LS Finova and Snova Education, as well as Workshop Tech, dedicated to helping individuals and families achieve clarity, stability, and long-term growth in education and finance." data-zh="我是Leon Song, LS Finova、Snova Education 以及 Workshop Tech 的创始人，致力于帮助个人与家庭在教育与财富规划中实现清晰认知、长期稳定与可持续增长。"></p>
-<p class="muted" data-en="Holding a Ph.D. from Harbin Institute of Technology and postdoctoral training at Tsinghua University, I apply advanced data science and analytical expertise to financial planning and strategic solutions." data-zh="我拥有 哈尔滨工业大学博士学位，并在 清华大学完成博士后研究，将先进的数据分析与系统性思维应用于教育规划、财富管理及战略解决方案中。"></p>
+<p class="muted" data-en="This is Leon Song. I am the founder of LS Finova and Snova Education, as well as Workshop Tech, dedicated to helping individuals and families achieve clarity, stability, and long-term growth in education and finance." data-zh="个人背景：Leon Song, LS Finova、Snova Education 以及 Workshop Tech 的创始人，致力于帮助个人与家庭在教育与财富规划中实现清晰认知、长期稳定与可持续增长。"></p>
+<p class="muted" data-en="Holding a Ph.D. from Harbin Institute of Technology and postdoctoral training at Tsinghua University, I apply advanced data science and analytical expertise to financial planning and strategic solutions." data-zh="本人拥有哈尔滨工业大学博士学位，并在清华大学完成博士后研究，将先进的数据分析与系统性思维应用于教育规划、财富管理及战略解决方案中。"></p>
 <p class="muted" data-en="I lead the development of an AI-driven fintech platform designed to expand accessible, network-based financial and educational services across the United States and globally." data-zh="目前，我正主导开发一个 AI 驱动的金融科技平台，旨在于美国及全球范围内，构建更加普惠、可扩展、以网络为核心的教育与金融服务体系。"></p>
 
 <p class="muted" data-en="SnovaEdu — Smart Education. Lasting Wealth." data-zh="SnovaEdu —— 智慧教育，恒久财富。"></p>
@@ -835,7 +837,7 @@
 
 <input type="tel" name="phone" placeholder="Phone number (optional)">
 
-<input type="text" name="gradYear" placeholder="High school graduation year">
+<input type="text" name="gradYear" placeholder="High school graduation year (optional)">
 
 <textarea name="message" rows="4"
   placeholder="Tell us a bit about your situation, goals, or questions (optional)">
@@ -912,7 +914,7 @@
         const payload = { firstName: fname, lastName: lname, email, referralCode: ref, source:'index_register', created_at: new Date().toISOString() };
         const res = await fetch('/api/register', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
         const j = await res.json();
-        status.innerText = j.message || ((localStorage.getItem('superedu-lang')==='zh') ? '注册成功' : 'Registered');
+        status.innerText = j.message || ((localStorage.getItem('superedu-lang')==='zh') ? '您已成功加入名单，创建账户以访问全部服务' : 'You’re on the list. Create an account to unlock full access.');
       }catch(err){
         console.error(err);
         status.innerText = (localStorage.getItem('superedu-lang')==='zh') ? '提交失败' : 'Submission failed';
