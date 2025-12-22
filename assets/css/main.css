@@ -1270,20 +1270,32 @@ footer::before {
   border-color: rgba(44,156,71,0.3);
 }
 
-
+/* Register page background */
 body.register-page {
   background: linear-gradient(
     180deg,
-    #efe8dc 0%,   /* 暖灰奶咖 */
-    #e6dccb 100%  /* 稍深一点 */
+    #e9e2d4 0%,
+    #ded4c2 100%
   );
-  font-family: Inter, Arial, sans-serif;
-  margin: 0;
 }
 
-.register-card {
-  background: linear-gradient(180deg, #fffefa, #fdf6ec);
+.register-card,
+.card {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 253, 248, 0.98),
+    rgba(247, 242, 233, 0.98)
+  );
   border-radius: 16px;
-  padding: 30px;
-  box-shadow: 0 10px 28px rgba(9,30,66,0.08);
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.10),
+    0 1px 0 rgba(255, 255, 255, 0.6) inset;
+  border: 1px solid rgba(180, 160, 120, 0.25);
+}
+
+.register-card:hover,
+.card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow:
+    0 16px 36px rgba(0, 0, 0, 0.16);
 }
