@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Register / Create Account — SnovaEdu</title>
+
+<!-- icons -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/icons/android-chrome-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/assets/icons/android-chrome-512.png">
+<link rel="icon" href="/assets/icons/favicon.ico">
+
+<link rel="stylesheet" href="/assets/css/main.css">
+<script src="/assets/js/menu.js" defer></script>
+<script src="/assets/js/lang.js" defer></script>
+<script src="/assets/js/access-control.js" defer></script>
+
+<style>
+body {
+  font-family: Inter, Arial, sans-serif;
+  background: #f9f4e9;
+  margin: 0;
+}
+.register-wrap {
+  max-width: 480px;
+  margin: 100px auto 60px;
+  padding: 0 20px;
+}
+.register-title {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.register-title h1 {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 400;
+  color: #2C9C47;
+}
+.register-title p {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #555;
+}
+.form-card {
+  background: linear-gradient(135deg, #F0F9F5, #E6F4EA);
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  transition: all 0.22s;
+  border: 2px solid transparent;
+}
+.form-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+  border-color: rgba(44,156,71,0.3);
+}
+.form-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.form-card label {
+  font-size: 14px;
+  font-weight: 400;
+  color: #333;
+}
+.form-card input,
+.form-card select,
+.form-card textarea {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e8e8e8;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.form-card textarea { resize: vertical; }
+.form-card .btn {
+  margin-top: 14px;
+  align-self: stretch;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.form-card .btn:hover { transform: scale(1.05); }
+.success-message {
+  font-size: 14px;
+  color: #2C9C47;
+  margin-top: 12px;
+  text-align: center;
+}
+</style>
+</head>
+
+<body class="register-page">
+
+<!-- NAV -->
+<nav id="topNav" class="nav--transparent">
+  <div class="nav-inner">
+    <div class="brand">
+      <a href="/index.html#home" class="brand">
+        <img src="/assets/img/superedu-logo.png" alt="SuperEdu" class="logo-img" />
+        <span class="brand-text">SuperEdu</span>
+      </a>
+    </div>
+    <div class="menu" id="menu">
+      <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
+      <a href="/index.html#services" data-en="Services" data-zh="服务">Services</a>
+      <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
+      <a href="/membership.html" data-en="Membership" data-zh="会员">Membership</a>
+      <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
+      <span class="nav-underline"></span>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="register-wrap">
+  <div class="register-title">
+    <h1 data-en="Create Your Account" data-zh="创建账户">Create Your Account</h1>
+    <p data-en="Fill out the form to unlock full access." data-zh="填写表单以获取完整访问权限。"></p>
+  </div>
+
+  <div class="form-card">
+    <form id="registerForm">
+      <label for="firstName">First Name*</label>
+      <input type="text" id="firstName" name="firstName" placeholder="Your first name" required>
+
+      <label for="lastName">Last Name*</label>
+      <input type="text" id="lastName" name="lastName" placeholder="Your last name" required>
+
+      <label for="email">Email*</label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" required>
+
+      <label for="password">Password*</label>
+      <input type="password" id="password" name="password" placeholder="Create a password" required>
+
+      <label for="highSchoolYear">High School Graduation Year</label>
+      <input type="number" id="highSchoolYear" name="highSchoolYear" placeholder="2025">
+
+      <label for="notes">Additional Notes</label>
+      <textarea id="notes" name="notes" placeholder="Anything else you'd like us to know?" rows="3"></textarea>
+
+      <button type="submit" class="btn btn-primary" data-en="Create Account" data-zh="创建账户">Create Account</button>
+      <div id="successMessage" class="success-message" style="display:none;">Account created! You are now a Member.</div>
+    </form>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("registerForm");
+  const successMessage = document.getElementById("successMessage");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    // 1️⃣ 模拟注册成功
+    // 真实系统这里会调用 API，将用户注册信息写入数据库
+    Access.setLevel("member"); // 升级权限到 Member
+
+    // 2️⃣ 显示成功信息
+    successMessage.style.display = "block";
+
+    // 3️⃣ 可选择自动跳转到 Membership 页面
+    setTimeout(() => {
+      window.location.href = "/membership.html";
+    }, 1200);
+  });
+});
+</script>
+
+</body>
+</html>
