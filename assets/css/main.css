@@ -1278,10 +1278,11 @@ footer::before {
 body.register-page {
   background: linear-gradient(
     180deg,
-    #efe9dd 0%,
-    #e6dfd1 100%
+    #f3efe6 0%,
+    #ebe5d8 100%
   );
 }
+
 
 /* Card – soft paper-like contrast */
 body.register-page .register-card {
