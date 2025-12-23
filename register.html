@@ -252,9 +252,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("registerForm");
   const status = document.getElementById("formStatus");
 
-  // ✅ 修改后的Email正则
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -267,6 +264,9 @@ document.addEventListener("DOMContentLoaded", () => {
       status.className = "form-status error";
       return;
     }
+
+    // ✅ 修改后的Email正则
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailPattern.test(email)) {
       status.textContent = "Please enter a valid email address (e.g., xx@x.x).";
@@ -281,21 +281,67 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // ✅ Save basic member state
-    localStorage.setItem("member_email", email);
-    localStorage.setItem("member_role", "member");
-    localStorage.setItem("member_verified", "false");
-
-    status.textContent = "Account created successfully. Redirecting…";
-    status.className = "form-status success";
-
-    setTimeout(() => {
-      window.location.href = "/membership.html";
-    }, 1200);
+      
   });
 
 });
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("registerForm");
+  const status = document.getElementById("formStatus");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const first_name = document.getElementById("firstName").value.trim();
+    const last_name  = document.getElementById("lastName").value.trim();
+    const email      = document.getElementById("email").value.trim();
+    const password   = document.getElementById("password").value;
+    const confirm    = document.getElementById("confirmPassword").value;
+
+    if (password !== confirm) {
+      status.textContent = "Passwords do not match.";
+      status.className = "form-status error";
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          first_name,
+          last_name,
+          email,
+          password
+        })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        status.textContent = data.error || "Registration failed.";
+        status.className = "form-status error";
+        return;
+      }
+
+      status.textContent = "Account created successfully. Redirecting…";
+      status.className = "form-status success";
+
+      setTimeout(() => {
+        window.location.href = "/membership.html";
+      }, 1200);
+
+    } catch (err) {
+      status.textContent = "Network error. Please try again.";
+      status.className = "form-status error";
+    }
+  });
+});
 </script>
+
 
 
 </body>
