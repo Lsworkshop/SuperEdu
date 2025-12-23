@@ -273,19 +273,10 @@ document.addEventListener("DOMContentLoaded", () => {
       status.className = "form-status error";
       return;
     }
-
-    // 🔐 Simulated email uniqueness check
-    if (localStorage.getItem("member_email") === email) {
-      status.textContent = "This email is already registered.";
-      status.className = "form-status error";
-      return;
-    }
-
       
   });
 
 });
-
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -341,8 +332,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 </script>
-
-
 
 </body>
 </html>
