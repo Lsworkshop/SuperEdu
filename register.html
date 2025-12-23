@@ -240,57 +240,51 @@ body.register-page {
 
 </div>
 
-<!-- ========================= Register Logic (Front-end) ========================= -->
+<!-- =========================
+     Register Logic (Front-end)
+========================= -->
+// =========================
+// Register Logic (Front-end)
+// =========================
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
   const form = document.getElementById("registerForm");
   const status = document.getElementById("formStatus");
 
-  // 简单的Email正则
+  // ✅ 修改后的Email正则
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const firstName = document.getElementById("first_name").value.trim();
-    const lastName = document.getElementById("last_name").value.trim();
     const email = document.getElementById("email").value.trim();
     const pw = document.getElementById("password").value;
     const cpw = document.getElementById("confirmPassword").value;
 
-    // 空值校验
-    if (!firstName || !lastName || !email || !pw || !cpw) {
-      status.textContent = "Please fill in all required fields.";
-      status.className = "form-status error";
-      return;
-    }
-
-    // Email格式校验
-    if (!emailPattern.test(email)) {
-      status.textContent = "Please enter a valid email address.";
-      status.className = "form-status error";
-      return;
-    }
-
-    // 密码一致性
     if (pw !== cpw) {
       status.textContent = "Passwords do not match.";
       status.className = "form-status error";
       return;
     }
 
-    // 🔐 模拟Email唯一性检查
+    if (!emailPattern.test(email)) {
+      status.textContent = "Please enter a valid email address (e.g., xx@x.x).";
+      status.className = "form-status error";
+      return;
+    }
+
+    // 🔐 Simulated email uniqueness check
     if (localStorage.getItem("member_email") === email) {
       status.textContent = "This email is already registered.";
       status.className = "form-status error";
       return;
     }
 
-    // ✅ 保存基础会员状态
+    // ✅ Save basic member state
     localStorage.setItem("member_email", email);
-    localStorage.setItem("member_role", "member");       // Level 3
-    localStorage.setItem("member_verified", "false");    // future email verify
+    localStorage.setItem("member_role", "member");
+    localStorage.setItem("member_verified", "false");
 
     status.textContent = "Account created successfully. Redirecting…";
     status.className = "form-status success";
@@ -302,6 +296,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
+
 
 </body>
 </html>
