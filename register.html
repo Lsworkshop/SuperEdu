@@ -258,22 +258,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const password   = document.getElementById("password").value;
     const confirm    = document.getElementById("confirmPassword").value;
 
-    // 1️⃣ Email 完整格式校验：xx@x.x
+    // ---------------- Email 格式验证 ----------------
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
-      status.textContent = "Please enter a valid email address (e.g., name@example.com).";
+      status.textContent = "Please enter a valid email address (e.g., xx@x.x).";
       status.className = "form-status error";
       return;
     }
 
-    // 2️⃣ 必填字段校验
-    if (!first_name || !last_name || !password) {
-      status.textContent = "Please fill in all required fields.";
-      status.className = "form-status error";
-      return;
-    }
-
-    // 3️⃣ 密码一致性
+    // ---------------- 密码确认 ----------------
     if (password !== confirm) {
       status.textContent = "Passwords do not match.";
       status.className = "form-status error";
@@ -283,11 +276,8 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const res = await fetch("/api/member", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          action: "register",     // ⭐ 必须有
           first_name,
           last_name,
           email,
@@ -297,8 +287,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const data = await res.json();
 
-      if (!res.ok || !data.success) {
-        status.textContent = data.message || "Registration failed.";
+      if (!res.ok) {
+        status.textContent = data.error || "Registration failed.";
         status.className = "form-status error";
         return;
       }
@@ -311,7 +301,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 1200);
 
     } catch (err) {
-      console.error(err);
       status.textContent = "Network error. Please try again.";
       status.className = "form-status error";
     }
@@ -319,6 +308,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
+
 
 </body>
 </html>
