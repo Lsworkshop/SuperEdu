@@ -243,9 +243,6 @@ body.register-page {
 <!-- =========================
      Register Logic (Front-end)
 ========================= -->
-// =========================
-// Register Logic (Front-end)
-// =========================
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -259,12 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const pw = document.getElementById("password").value;
     const cpw = document.getElementById("confirmPassword").value;
 
-    if (pw !== cpw) {
-      status.textContent = "Passwords do not match.";
-      status.className = "form-status error";
-      return;
-    }
-
+  
     // ✅ 修改后的Email正则
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
