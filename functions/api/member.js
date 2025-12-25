@@ -141,12 +141,19 @@ export async function onRequestPost({ request, env }) {
     );
 
   } catch (err) {
+  if (err.message && err.message.includes("UNIQUE")) {
     return new Response(
       JSON.stringify({
-        error: "Server error",
-        detail: err.message
+        error: "This email is already registered. Please log in instead."
       }),
-      { status: 500 }
+      { status: 409 }
     );
   }
+
+  return new Response(
+    JSON.stringify({ error: "Registration failed." }),
+    { status: 500 }
+  );
+}
+
 }
