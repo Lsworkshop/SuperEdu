@@ -240,84 +240,76 @@ body.register-page {
 
 </div>
 
-
-
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
   const form = document.getElementById("registerForm");
   const status = document.getElementById("formStatus");
 
-  const passwordInput = document.getElementById("password");
-
-  /* ---------- Password Hint ---------- */
-  const hint = document.createElement("div");
-  hint.className = "password-hint";
-  hint.innerHTML = `
-    <strong>Password requirements:</strong><br>
-    • At least 8 characters<br>
-    • Must include letters and numbers
-  `;
-  hint.style.fontSize = "0.9em";
-  hint.style.color = "#666";
-  hint.style.marginTop = "6px";
-
-  passwordInput.parentNode.appendChild(hint);
-
-  /* ---------- Helpers ---------- */
-  function isValidPassword(pw) {
-    return pw.length >= 8 && /[A-Za-z]/.test(pw) && /[0-9]/.test(pw);
-  }
-
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  /* ---------- Submit ---------- */
   form.addEventListener("submit", async (e) => {
-    e.preventDefault(); // ⛔ 必须拦截
+    e.preventDefault();
     status.textContent = "";
     status.className = "form-status";
 
-    const firstName = document.getElementById("firstName").value.trim();
-    const lastName  = document.getElementById("lastName").value.trim();
-    const email     = document.getElementById("email").value.trim();
-    const password  = document.getElementById("password").value;
-    const confirm   = document.getElementById("confirmPassword").value;
+    const first_name = document.getElementById("firstName").value.trim();
+    const last_name  = document.getElementById("lastName").value.trim();
+    const email      = document.getElementById("email").value.trim();
+    const password   = document.getElementById("password").value;
+    const confirm    = document.getElementById("confirmPassword").value;
 
-    /* ---------- Front-end Validation ---------- */
-    if (!firstName || !lastName || !email || !password || !confirm) {
+    /* =========================
+       Front-end Validation
+    ========================= */
+
+    // Required fields
+    if (!first_name || !last_name || !email || !password || !confirm) {
       status.textContent = "Please complete all required fields.";
-      status.classList.add("error");
+      status.className = "form-status error";
       return;
     }
 
+    // Email format
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
       status.textContent = "Please enter a valid email address (e.g. name@example.com).";
-      status.classList.add("error");
+      status.className = "form-status error";
       return;
     }
 
+    // Password rule
+    const passwordValid =
+      password.length >= 8 &&
+      /[A-Za-z]/.test(password) &&
+      /[0-9]/.test(password);
+
+    if (!passwordValid) {
+      status.textContent =
+        "Password must be at least 8 characters and include letters and numbers.";
+      status.className = "form-status error";
+      return;
+    }
+
+    // Password match
     if (password !== confirm) {
       status.textContent = "Passwords do not match.";
-      status.classList.add("error");
+      status.className = "form-status error";
       return;
     }
 
-    if (!isValidPassword(password)) {
-      status.textContent =
-        "Password must be at least 8 characters and include both letters and numbers.";
-      status.classList.add("error");
-      return;
-    }
+    /* =========================
+       Submit to API
+    ========================= */
 
-    /* ---------- API ---------- */
     try {
+      status.textContent = "Creating your account…";
+      status.className = "form-status loading";
+
       const res = await fetch("/api/member", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          action: "register",
-          first_name: firstName,
-          last_name: lastName,
+          first_name,
+          last_name,
           email,
           password
         })
@@ -327,22 +319,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!res.ok) {
         status.textContent = data.error || "Registration failed.";
-        status.classList.add("error");
+        status.className = "form-status error";
         return;
       }
 
-      status.textContent = `Account created successfully. Your Member ID: ${data.member_id}`;
-      status.classList.add("success");
-      form.reset();
+      status.innerHTML = `
+        Account created successfully.<br>
+        <strong>Your Member ID:</strong> ${data.member_id}<br>
+        Redirecting to Membership Center…
+      `;
+      status.className = "form-status success";
+
+      setTimeout(() => {
+        window.location.href = "/membership.html";
+      }, 1600);
 
     } catch (err) {
       status.textContent = "Network error. Please try again.";
-      status.classList.add("error");
+      status.className = "form-status error";
     }
   });
 
 });
 </script>
+
 
 </body>
 </html>

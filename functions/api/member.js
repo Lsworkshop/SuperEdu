@@ -1,58 +1,66 @@
+// functions/api/member.js
 import { hash } from "bcryptjs";
 
-/* ---------- Member ID Generator ---------- */
-function generateMemberId(prefix = "EDU") {
-  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-  let id = "";
-  for (let i = 0; i < 6; i++) {
-    id += chars[Math.floor(Math.random() * chars.length)];
-  }
-  return `${prefix}-${id}`;
-}
+/* =========================
+   Helpers
+========================= */
 
-/* ---------- Password Rule ---------- */
+// Password: at least 8 chars, letters + numbers
 function isValidPassword(pw) {
   return (
-    pw &&
+    typeof pw === "string" &&
     pw.length >= 8 &&
     /[A-Za-z]/.test(pw) &&
     /[0-9]/.test(pw)
   );
 }
 
-/* ---------- Register API ---------- */
+// Email format check
+function isValidEmail(email) {
+  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return pattern.test(email);
+}
+
+// Generate EDU-XX1234 style Member ID
+function generateMemberId() {
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const l1 = letters[Math.floor(Math.random() * 26)];
+  const l2 = letters[Math.floor(Math.random() * 26)];
+  const num = Math.floor(1000 + Math.random() * 9000);
+  return `EDU-${l1}${l2}${num}`;
+}
+
+/* =========================
+   Register API
+========================= */
 export async function onRequestPost({ request, env }) {
   try {
+    const body = await request.json();
+
     const {
-      action,
       first_name,
       last_name,
       email,
       password
-    } = await request.json();
+    } = body;
 
-    if (action !== "register") {
-      return new Response(
-        JSON.stringify({ error: "Invalid action" }),
-        { status: 400 }
-      );
-    }
-
+    /* ---------- Required Fields ---------- */
     if (!first_name || !last_name || !email || !password) {
       return new Response(
-        JSON.stringify({ error: "Missing required fields" }),
+        JSON.stringify({ error: "Missing required fields." }),
         { status: 400 }
       );
     }
 
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
+    /* ---------- Email Format ---------- */
+    if (!isValidEmail(email)) {
       return new Response(
-        JSON.stringify({ error: "Invalid email format" }),
+        JSON.stringify({ error: "Invalid email format." }),
         { status: 400 }
       );
     }
 
+    /* ---------- Password Rule ---------- */
     if (!isValidPassword(password)) {
       return new Response(
         JSON.stringify({
@@ -64,48 +72,33 @@ export async function onRequestPost({ request, env }) {
     }
 
     /* ---------- Email Uniqueness ---------- */
-    const exists = await env.DB
-      .prepare("SELECT id FROM members WHERE email = ?")
+    const emailExists = await env.DB
+      .prepare("SELECT 1 FROM members WHERE email = ?")
       .bind(email)
       .first();
 
-    if (exists) {
+    if (emailExists) {
       return new Response(
-        JSON.stringify({ error: "Email already registered" }),
+        JSON.stringify({ error: "This email is already registered." }),
         { status: 409 }
       );
     }
 
-    /* ---------- Member ID ---------- */
+    /* ---------- Generate Unique Member ID ---------- */
     let member_id;
-    let conflict = true;
-    while (conflict) {
+    let idExists;
+
+    do {
       member_id = generateMemberId();
-      const check = await env.DB
-        .prepare("SELECT id FROM members WHERE member_id = ?")
+      idExists = await env.DB
+        .prepare("SELECT 1 FROM members WHERE member_id = ?")
         .bind(member_id)
         .first();
-      conflict = !!check;
-    }
+    } while (idExists);
 
+    /* ---------- Password Hash ---------- */
     const password_hash = await hash(password, 10);
     const now = new Date().toISOString();
-
-    /* ---------- Weak Association (Optional) ---------- */
-    const lead = await env.DB
-      .prepare("SELECT id FROM leads WHERE email = ?")
-      .bind(email)
-      .first();
-
-    const unlock = await env.DB
-      .prepare("SELECT id FROM unlocks WHERE email = ?")
-      .bind(email)
-      .first();
-
-    const apply = await env.DB
-      .prepare("SELECT id FROM applies WHERE email = ?")
-      .bind(email)
-      .first();
 
     /* ---------- Insert Member ---------- */
     await env.DB.prepare(`
@@ -120,28 +113,25 @@ export async function onRequestPost({ request, env }) {
         status,
         is_verified,
         created_at,
-        updated_at,
-        lead_id,
-        unlock_id,
-        apply_id
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `).bind(
-      first_name,
-      last_name,
-      email,
-      member_id,
-      password_hash,
-      "member",
-      "register",
-      "active",
-      0,
-      now,
-      now,
-      lead?.id || null,
-      unlock?.id || null,
-      apply?.id || null
-    ).run();
+        updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `)
+      .bind(
+        first_name,
+        last_name,
+        email,
+        member_id,
+        password_hash,
+        "member",        // role
+        "register",      // source
+        "active",        // status
+        0,               // is_verified
+        now,
+        now
+      )
+      .run();
 
+    /* ---------- Success ---------- */
     return new Response(
       JSON.stringify({
         success: true,
@@ -152,7 +142,10 @@ export async function onRequestPost({ request, env }) {
 
   } catch (err) {
     return new Response(
-      JSON.stringify({ error: err.message }),
+      JSON.stringify({
+        error: "Server error",
+        detail: err.message
+      }),
       { status: 500 }
     );
   }
