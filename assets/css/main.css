@@ -1297,3 +1297,13 @@ body.register-page .register-card {
 }
 
 
+.password-hint {
+  font-size: 13px;
+  color: #6b5a3c;
+  margin-top: 6px;
+}
+
+.password-hint ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+}
