@@ -240,44 +240,58 @@ body.register-page {
 
 </div>
 
-<!-- =========================
-     Register Logic (Front-end)
-========================= -->
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector("#registerForm");
+  const messageBox = document.querySelector("#registerMessage");
+  const passwordInput = document.querySelector("#password");
 
-  const form = document.getElementById("registerForm");
-  const status = document.getElementById("formStatus");
+  /* ---------- Password Helper ---------- */
+  const passwordHint = document.createElement("div");
+  passwordHint.style.fontSize = "0.9em";
+  passwordHint.style.color = "#666";
+  passwordHint.style.marginTop = "6px";
+  passwordHint.innerHTML = `
+    <strong>Password requirements:</strong><br>
+    • At least 8 characters<br>
+    • Must include letters and numbers
+  `;
+  passwordInput.parentNode.appendChild(passwordHint);
 
+  function isValidPassword(pw) {
+    return pw.length >= 8 && /[A-Za-z]/.test(pw) && /[0-9]/.test(pw);
+  }
+
+  /* ---------- Submit ---------- */
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    messageBox.textContent = "";
 
-    const first_name = document.getElementById("firstName").value.trim();
-    const last_name  = document.getElementById("lastName").value.trim();
-    const email      = document.getElementById("email").value.trim();
-    const password   = document.getElementById("password").value;
-    const confirm    = document.getElementById("confirmPassword").value;
+    const first_name = form.first_name.value.trim();
+    const last_name = form.last_name.value.trim();
+    const email = form.email.value.trim();
+    const password = form.password.value;
 
-    // ---------------- Email 格式验证 ----------------
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-      status.textContent = "Please enter a valid email address (e.g., xx@x.x).";
-      status.className = "form-status error";
+    if (!first_name || !last_name || !email || !password) {
+      messageBox.textContent = "Please complete all required fields.";
       return;
     }
 
-    // ---------------- 密码确认 ----------------
-    if (password !== confirm) {
-      status.textContent = "Passwords do not match.";
-      status.className = "form-status error";
+    if (!isValidPassword(password)) {
+      messageBox.textContent =
+        "Password must be at least 8 characters and include both letters and numbers.";
       return;
     }
 
     try {
       const res = await fetch("/api/member", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({
+          action: "register",
           first_name,
           last_name,
           email,
@@ -287,28 +301,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const data = await res.json();
 
-      if (!res.ok) {
-        status.textContent = data.error || "Registration failed.";
-        status.className = "form-status error";
-        return;
+      if (res.ok) {
+        messageBox.style.color = "green";
+        messageBox.innerHTML = `
+          Registration successful.<br>
+          Your Member ID: <strong>${data.member_id}</strong>
+        `;
+        form.reset();
+      } else {
+        messageBox.style.color = "red";
+        messageBox.textContent =
+          data.error || "Registration failed. Please try again.";
       }
-
-      status.textContent = "Account created successfully. Redirecting…";
-      status.className = "form-status success";
-
-      setTimeout(() => {
-        window.location.href = "/membership.html";
-      }, 1200);
-
     } catch (err) {
-      status.textContent = "Network error. Please try again.";
-      status.className = "form-status error";
+      messageBox.style.color = "red";
+      messageBox.textContent =
+        "Network error. Please check your connection and try again.";
     }
   });
-
 });
 </script>
-
 
 </body>
 </html>
