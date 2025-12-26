@@ -235,10 +235,14 @@ body.register-page {
       <label data-en="Password*" data-zh="密码*">Password*</label>
       <input type="password" id="password" required />
 
-   <div class="password-hint" id="passwordHint">
-  <!-- 内容由 JS 根据语言填充 -->
+   <div class="password-rules">
+  <p>Password requirements:</p>
+  <ul>
+    <li>At least 8 characters</li>
+    <li>Include at least one letter (A–Z)</li>
+    <li>Include at least one number (0–9)</li>
+  </ul>
 </div>
-
 
 
       <label data-en="Confirm Password*" data-zh="确认密码*">Confirm Password*</label>
@@ -382,34 +386,6 @@ if (!passwordPattern.test(password)) {
 });
 </script>
 
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const hint = document.getElementById("passwordHint");
-  if (!hint) return;
-
-  const lang = localStorage.getItem("superedu-lang") || "en";
-
-  if (lang === "zh") {
-    hint.innerHTML = `
-      <strong>密码设置要求：</strong>
-      <ul>
-        <li>至少 8 位字符</li>
-        <li>至少包含 1 个英文字母（A–Z）</li>
-        <li>至少包含 1 个数字（0–9）</li>
-      </ul>
-    `;
-  } else {
-    hint.innerHTML = `
-      <strong>Password requirements:</strong>
-      <ul>
-        <li>At least 8 characters</li>
-        <li>Include at least one letter (A–Z)</li>
-        <li>Include at least one number (0–9)</li>
-      </ul>
-    `;
-  }
-});
-</script>
 
 </body>
 </html>
