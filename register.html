@@ -104,21 +104,22 @@ body.register-page {
 
 .password-hint .hint-title {
   font-weight: 600;
-  font-size: 1.05rem; /* 比正文略大 */
-  margin-bottom: 8px;
-  color: #333; /* 主标题颜色 */
+  font-size: 1rem;        /* 比之前小一点 */
+  margin-bottom: 6px;
+  color: #333;
 }
+
+.password-hint .hint-list li {
+  font-size: 0.92rem;     /* 正文略小 */
+  line-height: 1.55;
+  color: #555;
+}
+
 
 .password-hint .hint-list {
   margin: 0;
   padding-left: 20px;
   list-style-type: disc;
-}
-
-.password-hint .hint-list li {
-  font-size: 0.95rem;
-  line-height: 1.5;
-  color: #555; /* 内容文字稍淡 */
 }
 
 
@@ -247,19 +248,30 @@ body.register-page {
 
 
      <div class="password-hint">
-  <div class="hint-title" data-en="Password requirements:" data-zh="密码设置要求：">
+  <div class="hint-title"
+       data-en="Password requirements:"
+       data-zh="密码设置要求：">
     Password requirements:
   </div>
-  <ul class="hint-list" data-en="" data-zh="">
-    <li data-en="At least 8 characters" data-zh="至少 8 位字符">At least 8 characters</li>
-    <li data-en="Include at least one letter (A–Z)" data-zh="至少包含 1 个英文字母（A–Z）">
+
+  <ul class="hint-list">
+    <li data-en="At least 8 characters"
+        data-zh="至少 8 位字符">
+      At least 8 characters
+    </li>
+
+    <li data-en="Include at least one letter (A–Z)"
+        data-zh="至少包含 1 个英文字母（A–Z）">
       Include at least one letter (A–Z)
     </li>
-    <li data-en="Include at least one number (0–9)" data-zh="至少包含 1 个数字（0–9)">
+
+    <li data-en="Include at least one number (0–9)"
+        data-zh="至少包含 1 个数字（0–9）">
       Include at least one number (0–9)
     </li>
   </ul>
 </div>
+
 
   
       <label data-en="Confirm Password*" data-zh="确认密码*">Confirm Password*</label>
