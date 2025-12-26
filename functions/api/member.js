@@ -1,5 +1,13 @@
-// functions/api/member.js
-import { hash } from "bcryptjs";
+/* =========================
+   Password Hash (Web Crypto)
+========================= */
+async function hashPassword(password) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+}
 
 /* =========================
    Helpers
@@ -36,13 +44,7 @@ function generateMemberId() {
 export async function onRequestPost({ request, env }) {
   try {
     const body = await request.json();
-
-    const {
-      first_name,
-      last_name,
-      email,
-      password
-    } = body;
+    const { first_name, last_name, email, password } = body;
 
     /* ---------- Required Fields ---------- */
     if (!first_name || !last_name || !email || !password) {
@@ -79,10 +81,15 @@ export async function onRequestPost({ request, env }) {
 
     if (emailExists) {
       return new Response(
-        JSON.stringify({ error: "This email is already registered." }),
+        JSON.stringify({
+          error: "This email is already registered. Please log in instead."
+        }),
         { status: 409 }
       );
     }
+
+    /* ---------- Password Hash (ONLY ONCE) ---------- */
+    const password_hash = await hashPassword(password);
 
     /* ---------- Generate Unique Member ID ---------- */
     let member_id;
@@ -96,8 +103,6 @@ export async function onRequestPost({ request, env }) {
         .first();
     } while (idExists);
 
-    /* ---------- Password Hash ---------- */
-    const password_hash = await hash(password, 10);
     const now = new Date().toISOString();
 
     /* ---------- Insert Member ---------- */
@@ -141,19 +146,11 @@ export async function onRequestPost({ request, env }) {
     );
 
   } catch (err) {
-  if (err.message && err.message.includes("UNIQUE")) {
+    console.error(err);
+
     return new Response(
-      JSON.stringify({
-        error: "This email is already registered. Please log in instead."
-      }),
-      { status: 409 }
+      JSON.stringify({ error: "Registration failed." }),
+      { status: 500 }
     );
   }
-
-  return new Response(
-    JSON.stringify({ error: "Registration failed." }),
-    { status: 500 }
-  );
-}
-
 }
