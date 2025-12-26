@@ -1296,15 +1296,3 @@ body.register-page .register-card {
     0 16px 36px rgba(0, 0, 0, 0.16);
 }
 
-
-.password-hint {
-  margin: 12px 0 18px;
-  padding: 10px 12px;
-  background: rgba(255,255,255,0.6);
-  border-radius: 10px;
-  font-size: 14px;
-  color: #4b3a2a;
-}
-.password-hint ul {
-  margin: 6px 0 0 18px;
-}
