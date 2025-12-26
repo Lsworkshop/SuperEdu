@@ -183,6 +183,32 @@ body.register-page {
   color: #b71c1c;
 }
 
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 46px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  opacity: 0.65;
+  z-index: 10;               /* 🔴 非常关键 */
+  pointer-events: auto;     /* 🔴 非常关键 */
+}
+
+.toggle-password:hover {
+  opacity: 1;
+}
 
 /* =========================
    Submit Button
@@ -304,10 +330,15 @@ body.register-page {
       <label data-en="Email*" data-zh="邮箱*">Email*</label>
       <input type="email" id="email" required />
 
-    <label data-en="Password*" data-zh="密码*">Password*</label>
+   <label data-en="Password*" data-zh="密码*">Password*</label>
 <div class="password-wrapper">
   <input type="password" id="password" required />
-  <span class="toggle-password" data-target="password">👁</span>
+  <button type="button"
+          class="toggle-password"
+          data-target="password"
+          aria-label="Toggle password visibility">
+    👁
+  </button>
 </div>
 
 
@@ -336,11 +367,15 @@ body.register-page {
   </ul>
 </div>
 
-
-  <label data-en="Confirm Password*" data-zh="确认密码*">Confirm Password*</label>
+<label data-en="Confirm Password*" data-zh="确认密码*">Confirm Password*</label>
 <div class="password-wrapper">
   <input type="password" id="confirmPassword" required />
-  <span class="toggle-password" data-target="confirmPassword">👁</span>
+  <button type="button"
+          class="toggle-password"
+          data-target="confirmPassword"
+          aria-label="Toggle password visibility">
+    👁
+  </button>
 </div>
 
       <button type="submit" class="btn btn-primary"
@@ -439,13 +474,14 @@ document.addEventListener("DOMContentLoaded", () => {
      👁️ Toggle Password Visibility
   ========================= */
 
-  document.querySelectorAll(".toggle-password").forEach(icon => {
-    icon.addEventListener("click", () => {
-      const input = document.getElementById(icon.dataset.target);
+ document.querySelectorAll(".toggle-password").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const input = document.getElementById(btn.dataset.target);
       if (!input) return;
 
-      input.type = input.type === "password" ? "text" : "password";
-      icon.textContent = input.type === "password" ? "👁" : "🙈";
+      const isHidden = input.type === "password";
+      input.type = isHidden ? "text" : "password";
+      btn.textContent = isHidden ? "🙈" : "👁";
     });
   });
 
