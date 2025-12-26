@@ -6,8 +6,8 @@
 
     // ① 切换 data-en / data-zh（菜单 & 通用）
     document.querySelectorAll("[data-en]").forEach(el => {
-      el.textContent = isEN ? el.dataset.en : el.dataset.zh;
-    });
+  el.innerHTML = isEN ? el.dataset.en : el.dataset.zh;
+});
 
     // ② 切换正文中 id 结尾为 -en / -zh 的元素（Education 专用）
     document.querySelectorAll("[id$='-en']").forEach(el => {
