@@ -669,16 +669,16 @@ function checkConfirmPassword() {
   const text = confirmHint.querySelector(".text");
 
   if (match) {
-    icon.textContent = "✔";
+    icon.textContent = "✔ ";
     text.textContent = text.dataset.en === "Passwords do not match"
       ? "Passwords match"
       : text.textContent;
-    text.setAttribute("data-en", "Passwords match");
-    text.setAttribute("data-zh", "两次输入的密码一致");
+    text.setAttribute("data-en", " Passwords match");
+    text.setAttribute("data-zh", " 两次输入的密码一致");
   } else {
-    icon.textContent = "❌";
-    text.setAttribute("data-en", "Passwords do not match");
-    text.setAttribute("data-zh", "两次输入的密码不一致");
+    icon.textContent = "❌  ";
+    text.setAttribute("data-en", "  Passwords do not match");
+    text.setAttribute("data-zh", "  两次输入的密码不一致");
   }
 }
 
