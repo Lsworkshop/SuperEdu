@@ -271,13 +271,14 @@ body.register-page {
 }
 
 button:disabled {
-  opacity: 0.5;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
 button.enabled {
   opacity: 1;
   cursor: pointer;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.05);
 }
 
 /* =========================
@@ -712,30 +713,27 @@ function checkConfirmPassword() {
   }
 }
 
-/* 实时监听 */
-confirmInput.addEventListener("input", checkConfirmPassword);
-
-/* 当 Password 改变时，也要重新校验 Confirm */
-passwordInput.addEventListener("input", checkConfirmPassword);
-
-const submitBtn = document.getElementById("submitBtn");
-
-/* 判断是否可以提交 */
-function updateSubmitButton() {
-  const pw  = passwordInput.value;
-  const cpw = confirmInput.value;
-
-  const ok =
-    isValidPassword(pw) &&
-    pw === cpw;
-
-  submitBtn.disabled = !ok;
-  submitBtn.classList.toggle("enabled", ok);
+function canSubmitForm() {
+  return (
+    isValidEmail(emailInput.value) &&
+    isValidPassword(passwordInput.value) &&
+    passwordInput.value === confirmInput.value
+  );
 }
 
-/* 绑定到已有输入事件 */
+
+function updateSubmitButton() {
+  const canSubmit = canSubmitForm();
+
+  submitBtn.disabled = !canSubmit;   // ⭐ 核心
+  submitBtn.classList.toggle("enabled", canSubmit);
+}
+
+
+emailInput.addEventListener("input", updateSubmitButton);
 passwordInput.addEventListener("input", updateSubmitButton);
 confirmInput.addEventListener("input", updateSubmitButton);
+
 
 
 
