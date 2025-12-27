@@ -426,6 +426,16 @@ body.register-page {
   </button>
 </div>
 
+<div id="confirmHint" class="password-hint" style="display:none;">
+  <span class="icon">❌</span>
+  <span class="text"
+        data-en="Passwords do not match"
+        data-zh="两次输入的密码不一致">
+    Passwords do not match
+  </span>
+</div>
+
+
       <button type="submit" class="btn btn-primary"
         data-en="Create Account" data-zh="创建账户">
         Create Account
@@ -634,6 +644,49 @@ passwordInput.addEventListener("input", () => {
     rule.el.querySelector(".icon").textContent = ok ? "✔" : "✖";
   });
 });
+
+const confirmInput  = document.getElementById("confirmPassword");
+const confirmHint   = document.getElementById("confirmHint");
+
+function checkConfirmPassword() {
+  const pw  = passwordInput.value;
+  const cpw = confirmInput.value;
+
+  // ✅ 关键：未输入 → 什么都不显示
+  if (!cpw) {
+    confirmHint.style.display = "none";
+    confirmHint.classList.remove("valid");
+    return;
+  }
+
+  confirmHint.style.display = "flex";
+
+  const match = pw === cpw;
+
+  confirmHint.classList.toggle("valid", match);
+
+  const icon = confirmHint.querySelector(".icon");
+  const text = confirmHint.querySelector(".text");
+
+  if (match) {
+    icon.textContent = "✔";
+    text.textContent = text.dataset.en === "Passwords do not match"
+      ? "Passwords match"
+      : text.textContent;
+    text.setAttribute("data-en", "Passwords match");
+    text.setAttribute("data-zh", "两次输入的密码一致");
+  } else {
+    icon.textContent = "❌";
+    text.setAttribute("data-en", "Passwords do not match");
+    text.setAttribute("data-zh", "两次输入的密码不一致");
+  }
+}
+
+/* 实时监听 */
+confirmInput.addEventListener("input", checkConfirmPassword);
+
+/* 当 Password 改变时，也要重新校验 Confirm */
+passwordInput.addEventListener("input", checkConfirmPassword);
 </script>
 
 </body>
