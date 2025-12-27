@@ -470,21 +470,7 @@ if (!passwordPattern.test(password)) {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* =========================
-     👁️ Toggle Password Visibility
-  ========================= */
-
- document.querySelectorAll(".toggle-password").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const input = document.getElementById(btn.dataset.target);
-      if (!input) return;
-
-      const isHidden = input.type === "password";
-      input.type = isHidden ? "text" : "password";
-      btn.textContent = isHidden ? "🙈" : "👁";
-    });
-  });
-
+ 
   /* =========================
      Password Live Validation
   ========================= */
@@ -558,9 +544,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
-</script>
 
-<script>
+
+ /* =========================
+     👁️ Toggle Password Visibility
+  ========================= */
+
 document.querySelectorAll(".toggle-password").forEach(btn => {
   btn.addEventListener("click", () => {
     const input = document.getElementById(btn.dataset.target);
