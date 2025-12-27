@@ -445,14 +445,18 @@ body.register-page {
   </button>
 </div>
 
-<div class="confirm-hint" id="confirmHint">
+<!-- Password strength hint -->
+<div id="passwordHint" class="password-hint" style="display:none;">
   <span class="icon">✖</span>
-  <span
-    data-en="Passwords do not match"
-    data-zh="两次输入的密码不一致">
-    Passwords do not match
-  </span>
+  <span class="text">Password does not meet requirements</span>
 </div>
+
+<!-- Confirm password match hint -->
+<div id="confirmHint" class="password-hint" style="display:none;">
+  <span class="icon">✖</span>
+  <span class="text">Passwords do not match</span>
+</div>
+
 
 
       <button type="submit" class="btn btn-primary"
@@ -580,36 +584,59 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const passwordInput = document.getElementById("password");
 const confirmInput  = document.getElementById("confirmPassword");
-const confirmHint   = document.getElementById("confirmHint");
-const confirmIcon   = confirmHint.querySelector(".icon");
 
-/* 初始：隐藏 */
-confirmHint.style.display = "none";
+const passwordHint = document.getElementById("passwordHint");
+const confirmHint  = document.getElementById("confirmHint");
 
-function checkConfirmPassword() {
-  const pw  = passwordInput.value;
-  const cpw = confirmInput.value;
+/* ========= Password rule ========= */
+function isValidPassword(pw) {
+  return pw.length >= 8 && /[A-Za-z]/.test(pw) && /\d/.test(pw);
+}
 
-  // 没开始输入 confirm → 不显示
-  if (!cpw) {
-    confirmHint.style.display = "none";
-    confirmHint.classList.remove("valid");
-    confirmIcon.textContent = "✖";
+/* ========= Password strength check ========= */
+function checkPassword() {
+  const pw = passwordInput.value;
+
+  // 未输入 → 不显示
+  if (!pw) {
+    passwordHint.style.display = "none";
+    passwordHint.classList.remove("valid");
     return;
   }
 
-  // 已开始输入 → 显示提示
-  confirmHint.style.display = "flex";
+  passwordHint.style.display = "flex";
+  const ok = isValidPassword(pw);
 
+  passwordHint.classList.toggle("valid", ok);
+  passwordHint.querySelector(".icon").textContent = ok ? "✔" : "✖";
+}
+
+/* ========= Confirm match check ========= */
+function checkConfirm() {
+  const pw  = passwordInput.value;
+  const cpw = confirmInput.value;
+
+  // ⚠️ 关键：confirm 还没开始输入
+  if (!cpw) {
+    confirmHint.style.display = "none";
+    confirmHint.classList.remove("valid");
+    return;
+  }
+
+  confirmHint.style.display = "flex";
   const match = pw === cpw;
 
   confirmHint.classList.toggle("valid", match);
-  confirmIcon.textContent = match ? "✔" : "✖";
+  confirmHint.querySelector(".icon").textContent = match ? "✔" : "✖";
 }
 
-/* 监听两个输入框 */
-passwordInput.addEventListener("input", checkConfirmPassword);
-confirmInput.addEventListener("input", checkConfirmPassword);
+/* ========= Event binding ========= */
+passwordInput.addEventListener("input", () => {
+  checkPassword();
+  checkConfirm(); // password 改变时，也要重新判断 match
+});
+
+confirmInput.addEventListener("input", checkConfirm);
 
 
     /* =========================
