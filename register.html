@@ -254,6 +254,24 @@ body.register-page {
   color: #c62828;
 }
 
+
+.confirm-hint {
+  margin-top: 4px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #c62828;
+}
+
+.confirm-hint.valid {
+  color: #1a7f37;
+}
+
+.confirm-hint .icon {
+  font-size: 13px;
+}
+
 /* =========================
    Submit Button
 ========================= */
@@ -427,6 +445,16 @@ body.register-page {
   </button>
 </div>
 
+<div class="confirm-hint" id="confirmHint">
+  <span class="icon">✖</span>
+  <span
+    data-en="Passwords do not match"
+    data-zh="两次输入的密码不一致">
+    Passwords do not match
+  </span>
+</div>
+
+
       <button type="submit" class="btn btn-primary"
         data-en="Create Account" data-zh="创建账户">
         Create Account
@@ -516,6 +544,32 @@ if (!passwordPattern.test(password)) {
   status.className = "form-status error";
   return;
 }
+
+
+const passwordInput = document.getElementById("password");
+const confirmInput  = document.getElementById("confirmPassword");
+const confirmHint   = document.getElementById("confirmHint");
+const confirmIcon   = confirmHint.querySelector(".icon");
+
+function checkConfirmPassword() {
+  const pw  = passwordInput.value;
+  const cpw = confirmInput.value;
+
+  if (!cpw) {
+    confirmHint.classList.remove("valid");
+    confirmIcon.textContent = "✖";
+    return;
+  }
+
+  const match = pw === cpw;
+
+  confirmHint.classList.toggle("valid", match);
+  confirmIcon.textContent = match ? "✔" : "✖";
+}
+
+passwordInput.addEventListener("input", checkConfirmPassword);
+confirmInput.addEventListener("input", checkConfirmPassword);
+
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -607,9 +661,7 @@ document.querySelectorAll(".toggle-password").forEach(btn => {
     btn.textContent = isHidden ? "🙈" : "👁";
   });
 });
-</script>
 
-<script>
 const passwordInput = document.getElementById("password");
 
 const rules = {
