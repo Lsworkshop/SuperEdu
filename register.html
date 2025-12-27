@@ -254,6 +254,24 @@ body.register-page {
 }
 
 
+/* 密码 / 确认密码 提示通用样式 */
+.password-hint,
+.confirm-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;              /* ⭐ 关键：拉开 icon 与文字距离 */
+  margin-top: 6px;
+  font-size: 13px;
+}
+
+/* icon 稍微独立一些 */
+.password-hint .icon,
+.confirm-hint .icon {
+  min-width: 16px;       /* 防止挤压 */
+  text-align: center;
+}
+
+
 /* =========================
    Submit Button
 ========================= */
