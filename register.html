@@ -210,6 +210,52 @@ body.register-page {
   opacity: 1;
 }
 
+
+.password-hint {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #555;
+}
+
+.password-hint .hint-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.password-hint ul {
+  padding-left: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.password-hint li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 2px 0;
+}
+
+.password-hint .icon {
+  font-size: 13px;
+  width: 14px;
+}
+
+/* 状态 */
+.password-hint li.valid {
+  color: #1a7f37;
+}
+
+.password-hint li.valid .icon {
+  content: "✔";
+}
+
+.password-hint li.invalid {
+  color: #c62828;
+}
+
+
+
 /* =========================
    Submit Button
 ========================= */
@@ -342,30 +388,36 @@ body.register-page {
 </div>
 
 
-     <div class="password-hint">
-  <div class="hint-title"
-       data-en="Password requirements:"
-       data-zh="密码设置要求：">
+<div class="password-hint">
+  <div class="hint-title" data-en="Password requirements:" data-zh="密码设置要求：">
     Password requirements:
   </div>
 
-  <ul class="hint-list">
-    <li data-en="At least 8 characters"
-        data-zh="至少 8 位字符">
-      At least 8 characters
+  <ul>
+    <li id="rule-length">
+      <span class="icon">✖</span>
+      <span data-en="At least 8 characters" data-zh="至少 8 位字符">
+        At least 8 characters
+      </span>
     </li>
 
-    <li data-en="Include at least one letter (A–Z)"
-        data-zh="至少包含 1 个英文字母（A–Z）">
-      Include at least one letter (A–Z)
+    <li id="rule-letter">
+      <span class="icon">✖</span>
+      <span data-en="Include at least one letter (A–Z)" data-zh="至少包含 1 个英文字母">
+        Include at least one letter (A–Z)
+      </span>
     </li>
 
-    <li data-en="Include at least one number (0–9)"
-        data-zh="至少包含 1 个数字（0–9）">
-      Include at least one number (0–9)
+    <li id="rule-number">
+      <span class="icon">✖</span>
+      <span data-en="Include at least one number (0–9)" data-zh="至少包含 1 个数字">
+        Include at least one number (0–9)
+      </span>
     </li>
   </ul>
 </div>
+
+
 
 <label data-en="Confirm Password*" data-zh="确认密码*">Confirm Password*</label>
 <div class="password-wrapper">
@@ -377,6 +429,7 @@ body.register-page {
     👁
   </button>
 </div>
+
 
       <button type="submit" class="btn btn-primary"
         data-en="Create Account" data-zh="创建账户">
@@ -499,6 +552,94 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+
+
+const passwordInput = document.getElementById("password");
+const confirmInput  = document.getElementById("confirmPassword");
+
+const passwordHint = document.getElementById("passwordHint");
+const confirmHint  = document.getElementById("confirmHint");
+
+/* ========= Password rule ========= */
+function isValidPassword(pw) {
+  return pw.length >= 8 && /[A-Za-z]/.test(pw) && /\d/.test(pw);
+}
+
+/* ========= Password strength check ========= */
+function checkPassword() {
+  const pw = passwordInput.value;
+
+  // 未输入 → 不显示
+  if (!pw) {
+    passwordHint.style.display = "none";
+    passwordHint.classList.remove("valid");
+    return;
+  }
+
+  passwordHint.style.display = "flex";
+  const ok = isValidPassword(pw);
+
+  passwordHint.classList.toggle("valid", ok);
+  passwordHint.querySelector(".icon").textContent = ok ? "✔" : "✖";
+}
+
+/* ========= Confirm match check ========= */
+function checkConfirm() {
+  const pw  = passwordInput.value;
+  const cpw = confirmInput.value;
+
+  // ⚠️ 关键：confirm 还没开始输入
+  if (!cpw) {
+    confirmHint.style.display = "none";
+    confirmHint.classList.remove("valid");
+    return;
+  }
+
+  confirmHint.style.display = "flex";
+  const match = pw === cpw;
+
+  confirmHint.classList.toggle("valid", match);
+  confirmHint.querySelector(".icon").textContent = match ? "✔" : "✖";
+}
+
+/* ========= Event binding ========= */
+passwordInput.addEventListener("input", () => {
+  checkPassword();
+  checkConfirm(); // password 改变时，也要重新判断 match
+});
+
+confirmInput.addEventListener("input", checkConfirm);
+
+
+const passwordInput = document.getElementById("password");
+
+const rules = {
+  length: {
+    el: document.getElementById("rule-length"),
+    test: pw => pw.length >= 8
+  },
+  letter: {
+    el: document.getElementById("rule-letter"),
+    test: pw => /[A-Za-z]/.test(pw)
+  },
+  number: {
+    el: document.getElementById("rule-number"),
+    test: pw => /[0-9]/.test(pw)
+  }
+};
+
+passwordInput.addEventListener("input", () => {
+  const pw = passwordInput.value;
+
+  Object.values(rules).forEach(rule => {
+    const ok = rule.test(pw);
+    rule.el.classList.toggle("valid", ok);
+    rule.el.classList.toggle("invalid", !ok);
+    rule.el.querySelector(".icon").textContent = ok ? "✔" : "✖";
+  });
+});
+
+
     /* =========================
        Submit to API
     ========================= */
@@ -556,6 +697,34 @@ document.querySelectorAll(".toggle-password").forEach(btn => {
     const isHidden = input.type === "password";
     input.type = isHidden ? "text" : "password";
     btn.textContent = isHidden ? "🙈" : "👁";
+  });
+});
+
+const passwordInput = document.getElementById("password");
+
+const rules = {
+  length: {
+    el: document.getElementById("rule-length"),
+    test: pw => pw.length >= 8
+  },
+  letter: {
+    el: document.getElementById("rule-letter"),
+    test: pw => /[A-Za-z]/.test(pw)
+  },
+  number: {
+    el: document.getElementById("rule-number"),
+    test: pw => /[0-9]/.test(pw)
+  }
+};
+
+passwordInput.addEventListener("input", () => {
+  const pw = passwordInput.value;
+
+  Object.values(rules).forEach(rule => {
+    const ok = rule.test(pw);
+    rule.el.classList.toggle("valid", ok);
+    rule.el.classList.toggle("invalid", !ok);
+    rule.el.querySelector(".icon").textContent = ok ? "✔" : "✖";
   });
 });
 </script>
