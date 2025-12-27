@@ -123,6 +123,32 @@ body.login-page {
 .login-hint a:hover {
   text-decoration: underline;
 }
+
+/* Password with eye icon */
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 16px;
+  opacity: 0.6;
+  user-select: none;
+}
+
+.toggle-password:hover {
+  opacity: 1;
+}
+
 </style>
 </head>
 
@@ -192,8 +218,18 @@ body.login-page {
       <label for="login-email" data-en="Email" data-zh="邮箱">Email</label>
       <input id="login-email" type="email" required placeholder="you@email.com">
 
+      <div id="emailStatus" class="login-status"></div>
+
+
       <label for="login-password" data-en="Password" data-zh="密码">Password</label>
-      <input id="login-password" type="password" required placeholder="••••••••">
+
+<div class="password-wrapper">
+  <input id="login-password" type="password" required placeholder="••••••••">
+  <span class="toggle-password" id="toggleLoginPassword" title="Show / Hide">
+    👁
+  </span>
+</div>
+
 
       <button type="submit" class="btn btn-primary"
         data-en="Login"
@@ -226,10 +262,17 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
   const status = document.getElementById("loginStatus");
 
   if (!email || !password) {
-    status.textContent = "Please enter email and password.";
-    status.style.color = "#b45309";
-    return;
-  }
+  status.textContent = "Please enter email and password.";
+  status.style.color = "#b45309";
+  return;
+}
+
+if (!emailRegex.test(email)) {
+  status.textContent = "Invalid email format.";
+  status.style.color = "#dc2626";
+  return;
+}
+
 
   /* ===== Demo logic (replace with real backend later) ===== */
   localStorage.setItem("snovaAuth", "member");
@@ -242,6 +285,40 @@ document.getElementById("loginForm").addEventListener("submit", function(e) {
     window.location.href = "/membership.html";
   }, 900);
 });
+
+
+
+const emailInput = document.getElementById("login-email");
+const emailStatus = document.getElementById("emailStatus");
+const passwordInput = document.getElementById("login-password");
+const togglePassword = document.getElementById("toggleLoginPassword");
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/* Email real-time validation */
+emailInput.addEventListener("input", () => {
+  const val = emailInput.value.trim();
+
+  if (!val) {
+    emailStatus.textContent = "";
+    return;
+  }
+
+  if (!emailRegex.test(val)) {
+    emailStatus.textContent = "❌ Invalid email format";
+    emailStatus.style.color = "#dc2626";
+  } else {
+    emailStatus.textContent = "";
+  }
+});
+
+/* Toggle password visibility */
+togglePassword.addEventListener("click", () => {
+  const isHidden = passwordInput.type === "password";
+  passwordInput.type = isHidden ? "text" : "password";
+  togglePassword.textContent = isHidden ? "🙈" : "👁";
+});
+
 </script>
 
 </body>
