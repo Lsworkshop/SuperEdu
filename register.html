@@ -254,6 +254,24 @@ body.register-page {
   color: #c62828;
 }
 
+
+.confirm-hint {
+  margin-top: 4px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #c62828;
+}
+
+.confirm-hint.valid {
+  color: #1a7f37;
+}
+
+.confirm-hint .icon {
+  font-size: 13px;
+}
+
 /* =========================
    Submit Button
 ========================= */
@@ -427,6 +445,16 @@ body.register-page {
   </button>
 </div>
 
+<div class="confirm-hint" id="confirmHint">
+  <span class="icon">✖</span>
+  <span
+    data-en="Passwords do not match"
+    data-zh="两次输入的密码不一致">
+    Passwords do not match
+  </span>
+</div>
+
+
       <button type="submit" class="btn btn-primary"
         data-en="Create Account" data-zh="创建账户">
         Create Account
@@ -547,6 +575,42 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 });
+
+
+
+const passwordInput = document.getElementById("password");
+const confirmInput  = document.getElementById("confirmPassword");
+const confirmHint   = document.getElementById("confirmHint");
+const confirmIcon   = confirmHint.querySelector(".icon");
+
+/* 初始：隐藏 */
+confirmHint.style.display = "none";
+
+function checkConfirmPassword() {
+  const pw  = passwordInput.value;
+  const cpw = confirmInput.value;
+
+  // 没开始输入 confirm → 不显示
+  if (!cpw) {
+    confirmHint.style.display = "none";
+    confirmHint.classList.remove("valid");
+    confirmIcon.textContent = "✖";
+    return;
+  }
+
+  // 已开始输入 → 显示提示
+  confirmHint.style.display = "flex";
+
+  const match = pw === cpw;
+
+  confirmHint.classList.toggle("valid", match);
+  confirmIcon.textContent = match ? "✔" : "✖";
+}
+
+/* 监听两个输入框 */
+passwordInput.addEventListener("input", checkConfirmPassword);
+confirmInput.addEventListener("input", checkConfirmPassword);
+
 
     /* =========================
        Submit to API
