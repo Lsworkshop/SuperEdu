@@ -300,16 +300,6 @@ body.register-page {
   color: #2e7d32;
 }
 
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-button.enabled {
-  opacity: 1;
-  cursor: pointer;
-}
-
 /* =========================
    Footer helper text
 ========================= */
@@ -461,13 +451,6 @@ button.enabled {
     Passwords do not match
   </span>
 </div>
-
-
-      <button type="submit" class="btn btn-primary"
-        data-en="Create Account" data-zh="创建账户">
-        Create Account
-      </button>
-
 
 <button
   type="submit"
@@ -744,6 +727,7 @@ function updateSubmitButton() {
 /* 绑定到已有输入事件 */
 passwordInput.addEventListener("input", updateSubmitButton);
 confirmInput.addEventListener("input", updateSubmitButton);
+
 
 
 </script>
