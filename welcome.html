@@ -183,7 +183,8 @@ body.welcome-page {
 
 <body class="welcome-page">
 
-<!-- NAV（原样保留） -->
+<!-- NAV (same as other pages) -->
+
 <nav id="topNav" class="nav--transparent">
   <div class="nav-inner">
     <div class="brand">
@@ -196,7 +197,11 @@ body.welcome-page {
     <div class="menu" id="menu">
       <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
       <a href="/index.html#services" data-en="Services" data-zh="服务">Services</a>
+      <a href="/index.html#services" data-en="EduCenter" data-zh="教育中心">EduCenter</a>
+      <a href="#" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
       <a href="/membership.html" data-en="Membership" data-zh="会员">Membership</a>
+      <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
+      <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
       <a href="/login.html" data-en="Login" data-zh="登录">Login</a>
       <span class="nav-underline"></span>
     </div>
@@ -206,7 +211,24 @@ body.welcome-page {
       <button id="hamburger" class="hamburger"><span></span><span></span><span></span></button>
     </div>
   </div>
+
+  <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+      <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
+      <a href="/index.html#services" data-en="Services" data-zh="服务">Services</a>
+      <a href="/membership.html" data-en="EduCenter" data-zh="教育中心">EduCenter</a>
+      <a href="/membership.html" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
+      <a href="/membership.html" data-en="Membership" data-zh="会员">Membership</a>
+      <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
+      <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
+      <a href="/login.html" data-en="Login" data-zh="登录">Login</a>
+
+      <div class="mobile-actions">
+        <button class="btn btn-ghost" id="mobileRegister" data-en="Resiter/Join" data-zh="注册/加入">Register / Join</button>
+        <button class="btn" id="mobileUnlock" data-en="Quick Unlock" data-zh="快速解锁">Unlock Education</button>
+      </div>
+  </div>
 </nav>
+
 
 <!-- MAIN -->
 <div class="welcome-wrap">
