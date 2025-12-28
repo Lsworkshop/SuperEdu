@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Welcome — SnovaEdu</title>
+<title>Member Login — SnovaEdu</title>
 
 <!-- Icons -->
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
@@ -16,17 +16,26 @@
 <script src="/assets/js/lang.js" defer></script>
 
 <style>
+
+
+
+/* =========================
+   Welcome Page
+========================= */
+
 body.welcome-page {
   font-family: Inter, Arial, sans-serif;
   margin: 0;
 }
 
+/* Wrapper */
 .welcome-wrap {
   max-width: 720px;
   margin: 120px auto 40px;
   padding: 0 20px;
 }
 
+/* Welcome Card */
 .welcome-card {
   background: #ffffff;
   border-radius: 18px;
@@ -36,6 +45,7 @@ body.welcome-page {
   margin-bottom: 32px;
 }
 
+/* Welcome Title */
 .welcome-title {
   text-align: center;
   margin-bottom: 28px;
@@ -54,51 +64,184 @@ body.welcome-page {
   color: #555;
 }
 
+/* Benefits */
+.benefits {
+  margin-top: 24px;
+}
+
 .benefits h2 {
   font-size: 20px;
+  font-weight: 500;
   margin-bottom: 14px;
+  color: #333;
 }
 
 .benefits ul {
+  padding-left: 0;
   list-style: none;
-  padding: 0;
+  margin: 0;
 }
 
 .benefits li {
-  display: flex;
-  gap: 10px;
+  font-size: 15px;
+  color: #444;
   padding: 8px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
 }
 
 .benefits li::before {
   content: "✔";
   color: #15803d;
+  font-weight: 600;
+  margin-top: 2px;
 }
 
+/* Divider */
 .section-divider {
   height: 1px;
   background: linear-gradient(to right, transparent, #e2dccf, transparent);
   margin: 36px 0;
 }
 
-.login-card {
+/* =========================
+   Login Page
+========================= */
+
+body.login-page {
+  font-family: Inter, Arial, sans-serif;
+  margin: 0;
+}
+
+/* Wrapper */
+.login-wrap {
   max-width: 460px;
-  margin: 0 auto 80px;
-  background: linear-gradient(135deg,#ffffff,#fbf7ef,#f3ebdd);
+  margin: 120px auto 80px;
+  padding: 0 20px;
+}
+
+/* Card */
+.login-card {
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #fbf7ef 55%,
+    #f3ebdd 100%
+  );
   border-radius: 16px;
   padding: 32px;
   box-shadow: 0 14px 36px rgba(0,0,0,0.12);
+  border: 1px solid rgba(160,140,110,0.25);
 }
 
+/* Title */
+.login-title {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.login-title h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--brand-2);
+}
+
+.login-title p {
+  margin-top: 8px;
+  font-size: 15px;
+  color: #555;
+}
+
+/* Form */
 .login-form {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
+
+.login-form label {
+  font-size: 14px;
+  color: #444;
+}
+
+.login-form input {
+  padding: 11px 12px;
+  border-radius: 8px;
+  border: 1px solid #e1dccf;
+  font-size: 14px;
+  background: #fff;
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: var(--brand-2);
+}
+
+/* Button */
+.login-form .btn {
+  margin-top: 12px;
+  width: 100%;
+  transition: transform 0.18s ease;
+}
+
+.login-form .btn:hover {
+  transform: scale(1.05);
+}
+
+/* Status */
+.login-status {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* Footer hint */
+.login-hint {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 18px;
+  color: #666;
+}
+
+.login-hint a {
+  color: var(--brand-2);
+  text-decoration: none;
+}
+
+.login-hint a:hover {
+  text-decoration: underline;
+}
+
+/* Password with eye icon */
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 16px;
+  opacity: 0.6;
+  user-select: none;
+}
+
+.toggle-password:hover {
+  opacity: 1;
+}
+
 </style>
 </head>
 
-<body class="welcome-page">
+<body class="login-page">
 
 <!-- NAV -->
 <nav id="topNav" class="nav--transparent">
@@ -139,59 +282,178 @@ body.welcome-page {
       <a href="/login.html" data-en="Login" data-zh="登录">Login</a>
 
       <div class="mobile-actions">
-        <button class="btn btn-ghost" id="mobileRegister" data-en="Register / Join" data-zh="注册 / 加入">Register / Join</button>
-        <button class="btn" id="mobileUnlock" data-en="Unlock Education" data-zh="解锁教育">Unlock Education</button>
+        <button class="btn btn-ghost" id="mobileRegister" data-en="Resiter/Join" data-zh="注册/加入">Register / Join</button>
+        <button class="btn" id="mobileUnlock" data-en="Quick Unlock" data-zh="快速解锁">Unlock Education</button>
       </div>
   </div>
-
 </nav>
 
+
+
+
+<!-- MAIN 2 -->
 <div class="welcome-wrap">
 
+  <!-- Welcome -->
   <div class="welcome-card">
     <div class="welcome-title">
-      <h1 data-en="Welcome to SnovaEdu!" data-zh="欢迎加入 SnovaEdu！"></h1>
+      <h1 data-en="Welcome to SnovaEdu!" data-zh="欢迎加入 SnovaEdu！">
+        Welcome to SnovaEdu!
+      </h1>
       <p data-en="Your account has been successfully created. Thank you for trusting us."
-         data-zh="您的账户已成功创建，感谢您的信任。"></p>
+         data-zh="您的账户已成功创建，感谢您对我们的信任。">
+         Your account has been successfully created. Thank you for trusting us.
+      </p>
     </div>
 
     <div class="benefits">
-      <h2 data-en="As a member, you can now:" data-zh="作为会员，您现在可以："></h2>
+      <h2 data-en="As a SnovaEdu Member, you can now:"
+          data-zh="作为 SnovaEdu 会员，您现在可以：">
+          As a SnovaEdu Member, you can now:
+      </h2>
+
       <ul>
-        <li data-en="Access curated education resources" data-zh="访问精选教育资源"></li>
-        <li data-en="Join exclusive learning programs" data-zh="参与专属学习项目"></li>
-        <li data-en="Unlock member-only insights" data-zh="解锁会员专属内容"></li>
-        <li data-en="Become part of EduCommunity" data-zh="加入 EduCommunity 教育社区"></li>
+        <li data-en="Access curated education resources"
+            data-zh="访问精选教育资源">
+            Access curated education resources
+        </li>
+        <li data-en="Join exclusive learning programs"
+            data-zh="参与专属学习项目">
+            Join exclusive learning programs
+        </li>
+        <li data-en="Unlock member-only insights"
+            data-zh="解锁会员专属内容">
+            Unlock member-only insights
+        </li>
+        <li data-en="Become part of EduCommunity"
+            data-zh="加入 EduCommunity 教育社区">
+            Become part of EduCommunity
+        </li>
       </ul>
     </div>
   </div>
-
-  <div class="section-divider"></div>
-
-  <div class="login-card">
-    <form class="login-form" id="loginForm">
-      <input id="login-email" type="email" placeholder="Email" required>
-      <input id="login-password" type="password" placeholder="Password" required>
-      <button class="btn btn-primary">Enter Member Center</button>
-      <div id="loginStatus"></div>
-    </form>
-  </div>
-
 </div>
 
-<script>
-document.getElementById("loginForm").addEventListener("submit", e => {
-  e.preventDefault();
-  document.getElementById("loginStatus").textContent =
-    document.documentElement.lang === "zh"
-      ? "请在登录页完成身份验证"
-      : "Please sign in on the login page.";
 
-  setTimeout(() => location.href = "/login.html", 800);
+<!-- MAIN -->
+<div class="login-wrap">
+  <div class="login-card">
+
+    <div class="login-title">
+      <h1 data-en="Member Login" data-zh="会员登录">Member Login</h1>
+      <p data-en="Access your account and member resources."
+         data-zh="登录以访问您的账户与会员资源。">
+         Access your account and member resources.
+      </p>
+    </div>
+
+    <form class="login-form" id="loginForm" autocomplete="off">
+
+      <label for="login-email" data-en="Email" data-zh="邮箱">Email</label>
+      <input id="login-email" type="email" required placeholder="you@email.com">
+
+      <div id="emailStatus" class="login-status"></div>
+
+
+      <label for="login-password" data-en="Password" data-zh="密码">Password</label>
+
+<div class="password-wrapper">
+  <input id="login-password" type="password" required placeholder="••••••••">
+  <span class="toggle-password" id="toggleLoginPassword" title="Show / Hide">
+    👁
+  </span>
+</div>
+
+
+      <button type="submit" class="btn btn-primary"
+        data-en="Login"
+        data-zh="登录">
+        Login
+      </button>
+
+      <div id="loginStatus" class="login-status"></div>
+    </form>
+
+    <div class="login-hint">
+      <span data-en="New here?" data-zh="还没有账户？">New here?</span>
+      <a href="/register.html"
+         data-en="Create an account"
+         data-zh="创建账户">
+         Create an account
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<!-- LOGIN LOGIC -->
+<script>
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const email = document.getElementById("login-email").value.trim();
+  const password = document.getElementById("login-password").value;
+  const status = document.getElementById("loginStatus");
+
+  if (!email || !password) {
+  status.textContent = "Please enter email and password.";
+  status.style.color = "#b45309";
+  return;
+}
+
+if (!emailRegex.test(email)) {
+  status.textContent = "Invalid email format.";
+  status.style.color = "#dc2626";
+  return;
+}
+
+
+  /* ===== Demo logic (replace with real backend later) ===== */
+  localStorage.setItem("snovaAuth", "member");
+  localStorage.setItem("snovaUserEmail", email);
+
+  status.textContent = "Login successful. Redirecting…";
+  status.style.color = "#15803d";
+
+  setTimeout(() => {
+    window.location.href = "/membership.html";
+  }, 900);
 });
+
+
+
+const emailInput = document.getElementById("login-email");
+const emailStatus = document.getElementById("emailStatus");
+const passwordInput = document.getElementById("login-password");
+const togglePassword = document.getElementById("toggleLoginPassword");
+
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+/* Email real-time validation */
+emailInput.addEventListener("input", () => {
+  const val = emailInput.value.trim();
+
+  if (!val) {
+    emailStatus.textContent = "";
+    return;
+  }
+
+  if (!emailRegex.test(val)) {
+    emailStatus.textContent = "❌ Invalid email format";
+    emailStatus.style.color = "#dc2626";
+  } else {
+    emailStatus.textContent = "";
+  }
+});
+
+/* Toggle password visibility */
+togglePassword.addEventListener("click", () => {
+  const isHidden = passwordInput.type === "password";
+  passwordInput.type = isHidden ? "text" : "password";
+  togglePassword.textContent = isHidden ? "🙈" : "👁";
+});
+
 </script>
 
 </body>
 </html>
-
-
