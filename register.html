@@ -700,7 +700,74 @@ confirmInput.addEventListener("input", checkConfirmPassword);
 
 /* 当 Password 改变时，也要重新校验 Confirm */
 passwordInput.addEventListener("input", checkConfirmPassword);
+
+document.getElementById("registerForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const status = document.getElementById("formStatus");
+
+  const firstName = document.getElementById("firstName").value.trim();
+  const lastName  = document.getElementById("lastName").value.trim();
+  const email     = document.getElementById("email").value.trim();
+  const password  = document.getElementById("password").value;
+  const confirm   = document.getElementById("confirmPassword").value;
+
+  /* ========= 最终前端兜底校验 ========= */
+  if (!firstName || !lastName || !email || !password || !confirm) {
+    status.textContent = "Please complete all required fields.";
+    status.style.color = "#b45309";
+    return;
+  }
+
+  if (password !== confirm) {
+    status.textContent = "Passwords do not match.";
+    status.style.color = "#b91c1c";
+    return;
+  }
+
+  status.textContent = "Creating your account…";
+  status.style.color = "#555";
+
+  try {
+    const res = await fetch("/api/member", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        password
+      })
+    });
+
+    const data = await res.json();
+
+    /* ========= 注册成功 ========= */
+    if (res.ok && data.success) {
+      status.textContent = "Account created successfully!";
+      status.style.color = "#15803d";
+
+      // 🌟 丝滑跳转（给用户 600ms 情绪缓冲）
+      setTimeout(() => {
+        window.location.href = "/welcome.html";
+      }, 600);
+
+      return;
+    }
+
+    /* ========= 后端返回错误 ========= */
+    status.textContent = data.error || "Registration failed.";
+    status.style.color = "#b91c1c";
+
+  } catch (err) {
+    console.error(err);
+    status.textContent = "Network error. Please try again.";
+    status.style.color = "#b91c1c";
+  }
+});
 </script>
+
+
 
 </body>
 </html>
