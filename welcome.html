@@ -304,6 +304,36 @@ body.login-page {
   top: 110px;
 }
 
+.welcome-card {
+  min-height: 520px;   /* 根据你当前 Login Card 高度微调 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+
+  .welcome-layout {
+    grid-template-columns: 1fr;   /* 改成上下 */
+    gap: 32px;
+    margin: 80px auto 120px;
+  }
+
+  .welcome-wrap {
+    margin-top: 0;
+  }
+
+  .welcome-card {
+    min-height: unset;    /* 取消桌面端高度控制 */
+    padding: 28px;
+  }
+
+  .login-card {
+    position: static;     /* 取消 sticky */
+    top: unset;
+    padding: 28px;
+  }
+}
 
 
 </style>
