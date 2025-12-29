@@ -129,7 +129,7 @@ body.login-page {
   padding: 32px;
   box-shadow: 0 14px 36px rgba(0,0,0,0.12);
   border: 1px solid rgba(160,140,110,0.25);
-  margin-bottom: 260px;
+  margin-bottom: 0px;
 }
 
 /* Title */
@@ -235,18 +235,45 @@ body.login-page {
   opacity: 1;
 }
 
-.welcome-wrap {
+/* =========================
+   Welcome Page Main Layout
+========================= */
+
+.welcome-page-main {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  align-items: center;
+  gap: 48px;                 /* 控制 Welcome 与 Login 的节奏 */
+  padding-bottom: 160px;     /* 页面收尾空间 */
 }
 
-.welcome-card {
-  margin-bottom: 0;
+.benefits ul {
+  margin-top: 12px;
+}
+
+.benefits li {
+  line-height: 1.6;
 }
 
 .login-card {
-  margin-bottom: 280px;
+  position: relative;
+}
+
+.login-card::before {
+  content: "";
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  border-radius: 4px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--brand-2),
+    transparent
+  );
 }
 
 
@@ -300,7 +327,7 @@ body.login-page {
   </div>
 </nav>
 
-
+<div class="welcome-page-main">
 <!-- MAIN 2 -->
 <div class="welcome-wrap">
 
@@ -393,7 +420,7 @@ body.login-page {
 
   </div>
 </div>
-
+</div>
 <!-- LOGIN LOGIC -->
 <script>
 document.getElementById("loginForm").addEventListener("submit", function(e) {
