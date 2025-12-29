@@ -276,18 +276,10 @@ body.login-page {
   );
 }
 
-.welcome-layout {
-  max-width: 1100px;
-  margin: 120px auto 160px;
-  padding: 0 24px;
-  display: grid;
-  grid-template-columns: 1.1fr 1.3fr;
-  gap: 56px;
-  align-items: start;
-}
+
 
 .welcome-wrap {
-  margin-top: 48px;
+  margin-top: 24px;
 }
 
 .welcome-card {
@@ -301,11 +293,11 @@ body.login-page {
 .login-card {
   padding: 36px;
   position: sticky;
-  top: 110px;
+  top: 0px;
 }
 
 .welcome-card {
-  min-height: 510px;   /* 根据你当前 Login Card 高度微调 */
+  min-height: 480px;   /* 根据你当前 Login Card 高度微调 */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -314,25 +306,36 @@ body.login-page {
 @media (max-width: 768px) {
 
   .welcome-layout {
-    grid-template-columns: 1fr;   /* 改成上下 */
+    grid-template-columns: 1fr;
     gap: 32px;
     margin: 80px auto 120px;
   }
 
-  .welcome-wrap {
-    margin-top: 0;
+  .welcome-wrap,
+  .login-wrap {
+    max-width: 100%;     /* 🔴 关键 */
+    width: 100%;
   }
 
+  .login-card,
   .welcome-card {
-    min-height: unset;    /* 取消桌面端高度控制 */
-    padding: 28px;
+    width: 100%;
   }
 
-  .login-card {
-    position: static;     /* 取消 sticky */
-    top: unset;
-    padding: 28px;
-  }
+}
+
+
+/* ===== Desktop 主布局 ===== */
+.welcome-layout {
+  max-width: 1100px;
+  margin: 120px auto 140px;
+  padding: 0 24px;
+
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;  /* 右边略宽 */
+  gap: 48px;
+
+  align-items: start;   /* 🔴 关键：顶部对齐 */
 }
 
 
