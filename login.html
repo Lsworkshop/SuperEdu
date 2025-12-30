@@ -149,6 +149,45 @@ body.login-page {
   opacity: 1;
 }
 
+/* =========================
+   Login Card Hover (Desktop)
+========================= */
+
+@media (min-width: 769px) {
+  .login-card {
+    transition:
+      transform 0.28s ease,
+      box-shadow 0.28s ease,
+      border-color 0.28s ease;
+  }
+
+  .login-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 20px 48px rgba(0,0,0,0.16),
+      0 0 0 1px rgba(176,140,80,0.35); /* 品牌亮线 */
+    border-color: rgba(176,140,80,0.6);
+  }
+}
+
+/* =========================
+   Login Button Hover
+========================= */
+
+.login-form .btn {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+.login-form .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+  filter: brightness(1.06);
+}
+
+
 </style>
 </head>
 
