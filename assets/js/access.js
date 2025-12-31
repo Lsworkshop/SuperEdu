@@ -123,7 +123,7 @@
     };
 
     // Express Interest / Join List (device-level)
-    window.upgradeToLead = function (redirect = "/educenter.html") {
+    window.upgradeToLead = function (redirect = "/education.html") {
       setRole("lead", true);
       if (redirect) window.location.href = redirect;
     };
