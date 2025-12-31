@@ -146,5 +146,29 @@
 
     // console.log("Snova Role:", role);
 
+    document.addEventListener("DOMContentLoaded", () => {
+  const eduLink = document.getElementById("navEduCenter");
+  if (!eduLink) return;
+
+  eduLink.addEventListener("click", e => {
+    e.preventDefault();
+
+    const role =
+      localStorage.getItem("snovaRole") ||
+      sessionStorage.getItem("snovaRole") ||
+      "visitor";
+
+    if (role === "visitor") {
+      // 没权限 → 引导 Unlock
+      window.location.href = "/#tools";
+      return;
+    }
+
+    // quick / lead / member
+    window.location.href = "/education.html";
+  });
+});
+
+
   });
 })();
