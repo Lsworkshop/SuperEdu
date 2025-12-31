@@ -38,25 +38,31 @@
     const isMember = role === "member";
 
     /* ===============================
-       2. Page Guard
-    =============================== */
+   5. Page Guard (FIXED)
+=============================== */
 
-    const pageType = document.body.dataset.page;
+const pageType = document.body.dataset.page;
 
-    if (pageType === "quick-required" && !isQuick) {
-      window.location.replace("/quick-unlock.html");
-      return;
-    }
+// ⚠️ 防止死循环
+const isOnQuickUnlockPage =
+  window.location.pathname.includes("quick-unlock");
 
-    if (pageType === "lead-required" && !isLead) {
-      window.location.replace("/quick-unlock.html");
-      return;
-    }
+if (pageType === "quick-required" && !isQuick) {
+  if (!isOnQuickUnlockPage) {
+    window.location.replace("/quick-unlock.html");
+  }
+  return;
+}
 
-    if (pageType === "member-only" && !isMember) {
-      window.location.replace("/login.html");
-      return;
-    }
+if (pageType === "lead-required" && !isLead) {
+  window.location.replace("/#tools");
+  return;
+}
+
+if (pageType === "member-only" && !isMember) {
+  window.location.replace("/login.html");
+  return;
+}
 
     /* ===============================
        3. EduCenter Navigation Control
@@ -86,10 +92,15 @@
        4. Upgrade APIs
     =============================== */
 
-    window.unlockQuickSession = function () {
-      setRole("quick", false);
-      window.location.href = "/education.html";
-    };
+   window.unlockQuickSession = function (redirect = "/education.html") {
+  setRole("quick", false);
+
+  // 确保 role 已写入
+  setTimeout(() => {
+    window.location.replace(redirect);
+  }, 50);
+};
+
 
     window.unlockQuickPersistent = function () {
       setRole("quick", true);
