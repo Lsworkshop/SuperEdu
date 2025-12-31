@@ -1,10 +1,10 @@
 /* =====================================================
    SnovaEdu Unified Access Control
    Roles:
-   - visitor
-   - quick   (Unlock)
-   - lead    (Express Interest)
-   - member  (Registered & Logged in)
+   - visitor  (default)
+   - quick    (Quick Unlock)
+   - lead     (Express Interest / Join List)
+   - member   (Registered & Logged in)
 ===================================================== */
 
 (function () {
@@ -39,7 +39,7 @@
     const role = getRole();
 
     /* ===============================
-       2. Role Helpers
+       2. Role Helpers (Hierarchy)
     =============================== */
 
     const isQuick  = role === "quick" || role === "lead" || role === "member";
@@ -47,7 +47,8 @@
     const isMember = role === "member";
 
     /* ===============================
-       3. Visibility Control
+       3. Visibility Control (UI)
+       Usage: data-auth="quick|lead|member"
     =============================== */
 
     document.querySelectorAll("[data-auth]").forEach(el => {
@@ -66,54 +67,71 @@
        4. Navigation Control
     =============================== */
 
+    // Hide Register / Login after Member login
     document.querySelectorAll(".nav-register, .nav-login").forEach(el => {
       if (isMember) el.classList.add("hidden");
     });
 
+    // Show Member Center only for member
     document.querySelectorAll(".nav-member").forEach(el => {
       if (!isMember) el.classList.add("hidden");
     });
 
     /* ===============================
-       5. Page Guard
+       5. Page Guard (Route Protection)
+       Usage:
+       <body data-page="quick-required">
+       <body data-page="lead-required">
+       <body data-page="member-only">
     =============================== */
 
     const pageType = document.body.dataset.page;
 
+    // Quick Unlock required
     if (pageType === "quick-required" && !isQuick) {
       window.location.href = "/quick-unlock.html";
+      return;
     }
 
+    // Express Interest required
     if (pageType === "lead-required" && !isLead) {
-       window.location.href = "/#tools";
+      window.location.href = "/#tools-express-interest";
+      return;
     }
 
+    // Member only
     if (pageType === "member-only" && !isMember) {
       window.location.href = "/login.html";
+      return;
     }
 
     /* ===============================
        6. Upgrade Hooks (PUBLIC API)
+       Centralized upgrade + redirect
     =============================== */
 
-    // Homepage Quick Unlock (一次性)
-    window.unlockQuickSession = function () {
+    // Homepage Quick Unlock (session-only)
+    window.unlockQuickSession = function (redirect = null) {
       setRole("quick", false);
+      if (redirect) window.location.href = redirect;
     };
 
-    // Unlock Page (设备级)
-    window.unlockQuickPersistent = function () {
+    // Unlock Page Quick Unlock (device-level)
+    window.unlockQuickPersistent = function (redirect = null) {
       setRole("quick", true);
+      if (redirect) window.location.href = redirect;
     };
 
-    // Express Interest (设备级)
-    window.upgradeToLead = function () {
+    // Express Interest / Join List (device-level)
+    window.upgradeToLead = function (redirect = "/educenter.html") {
       setRole("lead", true);
+      if (redirect) window.location.href = redirect;
     };
 
-    // Register / Login
-    window.upgradeToMember = function () {
+    // Register / Login → Member
+    window.upgradeToMember = function (redirect = "/member-center.html") {
       setRole("member", true);
+      if (redirect) window.location.href = redirect;
     };
 
     // Logout
@@ -123,7 +141,7 @@
     };
 
     /* ===============================
-       7. Debug
+       7. Debug (optional)
     =============================== */
 
     // console.log("Snova Role:", role);
