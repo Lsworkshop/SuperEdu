@@ -1,12 +1,32 @@
-/* =====================================================
-   SnovaEdu Unified Access Control (STABLE FINAL)
-===================================================== */
+// /assets/js/access.js
 
-console.log("[ACCESS]", {
-  role,
-  pageType,
-  path: window.location.pathname
+document.addEventListener("DOMContentLoaded", () => {
+
+  const body = document.body;
+  const pageType = body.dataset.page; // quick-required
+
+  if (pageType !== "quick-required") return;
+
+  // ===== 1. 判断登录 =====
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (!user) {
+    // 未登录
+    window.location.replace("/login.html");
+    return;
+  }
+
+  // ===== 2. 判断 Edu 权限 =====
+  if (!user.educationUnlocked) {
+    // 已登录但没解锁
+    window.location.replace("/membership.html");
+    return;
+  }
+
+  // ===== 3. 有权限，才显示页面 =====
+  body.style.visibility = "visible";
 });
+
 
 
 (function () {
