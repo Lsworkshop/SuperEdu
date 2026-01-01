@@ -655,6 +655,66 @@
         </form>
       </div>
 
+      
+    <!-- 新增 EduCommunity 按钮，默认隐藏 -->
+    <div class="form-actions" style="margin-top:10px;">
+      <button type="button" class="btn btn-secondary" id="eduCommunityBtn"
+              style="display:none;" data-en="Go to EduCommunity" data-zh="进入教育社区">
+        EduCommunity
+      </button>
+    </div>
+  </form>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const joinBtn = document.getElementById("joinClubBtn");
+  const eduCommunityBtn = document.getElementById("eduCommunityBtn");
+  const regStatus = document.getElementById("regStatus");
+  
+  // 检查用户已有角色，页面加载时更新按钮显示
+  const role = localStorage.getItem("snovaRole") || sessionStorage.getItem("snovaRole") || "visitor";
+  if (["quick", "lead", "member"].includes(role)) {
+    joinBtn.textContent = "进入 EduCenter";
+    eduCommunityBtn.style.display = "inline-block";
+  }
+
+  // 提交加入名单表单
+  document.getElementById("registerForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    // 模拟提交成功
+    const firstName = document.getElementById("r-first").value.trim();
+    const lastName  = document.getElementById("r-last").value.trim();
+    const email     = document.getElementById("r-email").value.trim();
+    
+    if (!firstName || !lastName || !email) {
+      regStatus.textContent = "Please fill all required fields.";
+      return;
+    }
+
+    // 成功加入名单 → 设置角色为 lead
+    localStorage.setItem("snovaRole", "lead");
+    
+    // 更新按钮显示
+    joinBtn.textContent = "进入 EduCenter";
+    eduCommunityBtn.style.display = "inline-block";
+    regStatus.textContent = "注册成功！可以进入 EduCenter 和 EduCommunity。";
+
+    // 点击 Join Club 按钮即可直接进入 EduCenter
+    joinBtn.addEventListener("click", () => {
+      window.location.href = "/education.html";
+    });
+
+    // EduCommunity 按钮点击事件（只读访问）
+    eduCommunityBtn.addEventListener("click", () => {
+      window.location.href = "/educommunity.html"; // 假设 EduCommunity 页面
+    });
+  });
+});
+</script>
+
+
       <!-- ② Quick Unlock -->
       <div class="card tool-card unlock-card" id="unlockCard">
 
