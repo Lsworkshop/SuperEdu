@@ -51,16 +51,15 @@
     <div class="nav-inner">
       <div class="brand">
         <a href="/index.html#home" class="brand-link" aria-label="SuperEdu Home">
-          <img src="/assets/img/superedu-logo.png" alt="SuperEdu" class="logo-img" />
-          <span class="brand-text">SuperEdu</span>
+          <img src="/assets/img/superedu-logo.png" alt="SnovaEdu" class="logo-img" />
+          <span class="brand-text">SnovaEdu</span>
         </a>
       </div>
 
       <div class="menu" id="menu">
         <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
-        <a href="/index.html#services" data-en="Services" data-zh="服务">Services</a>
-        <a href="/index.html#education" data-en="EduCenter" data-zh="教育中心">EduCenter</a>
-        <a href="/membership.html" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
+        <a href="/education.html" id="navEduCenter" data-en="EduCenter" data-zh="教育中心"> EduCenter </a>
+        <a href="/community.html" id="navEduCommunity" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
         <a href="/membership.html" data-en="Membership" data-zh="会员">Membership</a>
         <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
         <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
@@ -187,6 +186,7 @@
               // set local token if backend returns one
               const token = j.token || JSON.stringify({ email, ts: Date.now() });
               localStorage.setItem('edu_unlocked_token', JSON.stringify({ email, ts: Date.now() }));
+              localStorage.setItem("snovaRole", "quick");
               statusEl.style.color = 'green';
               statusEl.innerText = localStorage.getItem('superedu-lang')==='zh' ? '已解锁 — 您现在可以进入教育中心' : 'Already unlocked — you may enter the Education Center';
               enterBtn.style.display = 'inline-block';
@@ -215,13 +215,14 @@
 
         // success -> set token locally
         localStorage.setItem('edu_unlocked_token', JSON.stringify({ email, ts: Date.now() }));
+        localStorage.setItem("snovaRole", "quick");
 
         statusEl.style.color = 'green';
         statusEl.innerText = localStorage.getItem('superedu-lang')==='zh' ? '解锁成功！正在跳转…' : 'Unlocked — redirecting…';
         enterBtn.style.display = 'inline-block';
 
         // small delay then go to Education Center
-        setTimeout(()=> window.location = '/education.html', 900);
+        setTimeout(()=> window.location.assign('/education.html'), 900);
       } catch(err){
         console.error(err);
         statusEl.style.color = 'crimson';
