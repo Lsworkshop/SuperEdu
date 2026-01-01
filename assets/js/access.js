@@ -8,13 +8,10 @@
   /* =========================================
      1. Role Storage Core
   ========================================= */
-
   function getRole() {
-    return (
-      localStorage.getItem("snovaRole") ||
-      sessionStorage.getItem("snovaRole") ||
-      "visitor"
-    );
+    return localStorage.getItem("snovaRole") ||
+           sessionStorage.getItem("snovaRole") ||
+           "visitor";
   }
 
   function setRole(role, persistent = false) {
@@ -23,6 +20,7 @@
       sessionStorage.removeItem("snovaRole");
     } else {
       sessionStorage.setItem("snovaRole", role);
+      localStorage.removeItem("snovaRole");
     }
   }
 
@@ -32,25 +30,20 @@
   }
 
   const role = getRole();
-
   const isQuick  = ["quick", "lead", "member"].includes(role);
   const isLead   = ["lead", "member"].includes(role);
   const isMember = role === "member";
 
   /* =========================================
-     2. Page Guard (唯一入口，防闪退)
-     依赖 body[data-page]
+     2. Page Guard (防闪退)
   ========================================= */
-
   document.addEventListener("DOMContentLoaded", () => {
 
     const pageType = document.body?.dataset?.page;
     if (!pageType) return;
 
-    const isOnQuickUnlockPage =
-      window.location.pathname.includes("quick-unlock");
+    const isOnQuickUnlockPage = window.location.pathname.includes("quick-unlock");
 
-    // —— Quick Required (EduCenter) ——
     if (pageType === "quick-required" && !isQuick) {
       if (!isOnQuickUnlockPage) {
         window.location.replace("/quick-unlock.html");
@@ -58,24 +51,23 @@
       return;
     }
 
-    // —— Lead Required ——
     if (pageType === "lead-required" && !isLead) {
       window.location.replace("/#tools");
       return;
     }
 
-    // —— Member Only ——
     if (pageType === "member-only" && !isMember) {
       window.location.replace("/login.html");
       return;
     }
+
+    // 页面权限验证通过后显示
+    document.body.style.visibility = "visible";
   });
 
   /* =========================================
-     3. EduCenter Navigation Control
-     （主菜单 & 移动端）
+     3. EduCenter Menu 控制
   ========================================= */
-
   function bindEduCenter(id) {
     const el = document.getElementById(id);
     if (!el) return;
@@ -83,10 +75,11 @@
     el.addEventListener("click", (e) => {
       e.preventDefault();
 
-      if (isQuick) {
+      const currentRole = getRole();
+      if (["quick", "lead", "member"].includes(currentRole)) {
         window.location.href = "/education.html";
       } else {
-        window.location.href = "/#tools";
+        window.location.href = "/quick-unlock.html";
       }
     });
   }
@@ -95,34 +88,32 @@
   bindEduCenter("mobileEduCenter");
 
   /* =========================================
-     4. Upgrade / Unlock APIs
-     （供页面按钮调用）
+     4. Unlock / Upgrade API
   ========================================= */
 
-  // Quick Unlock（一次性，session）
+  // 一次性 Quick Unlock（session）
   window.unlockQuickSession = function (redirect = "/education.html") {
     setRole("quick", false);
-    setTimeout(() => {
-      window.location.replace(redirect);
-    }, 30);
+    // 等待写入完成再跳转
+    setTimeout(() => window.location.replace(redirect), 30);
   };
 
-  // Quick Unlock（多次性，local）
+  // 持久 Quick Unlock（localStorage）
   window.unlockQuickPersistent = function () {
     setRole("quick", true);
-    window.location.replace("/education.html");
+    setTimeout(() => window.location.replace("/education.html"), 30);
   };
 
-  // Express Interest / Join List（设备级，多次有效）
+  // Express Interest / 加入名单（Lead）
   window.upgradeToLead = function () {
     setRole("lead", true);
-    window.location.replace("/education.html");
+    setTimeout(() => window.location.replace("/education.html"), 30);
   };
 
   // Member
   window.upgradeToMember = function () {
     setRole("member", true);
-    window.location.replace("/education.html");
+    setTimeout(() => window.location.replace("/education.html"), 30);
   };
 
   // Logout
