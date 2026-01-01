@@ -473,6 +473,43 @@
       .service-card .card-icon { width:36px; height:36px; flex:0 0 36px; }
       .service-card h3 { font-size:15px; }
     }
+
+
+    .form-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn {
+  min-width: 180px;
+  height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  transition: all .25s ease;
+}
+
+/* 主按钮 Hover */
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+/* Community 次按钮 */
+.btn-secondary {
+  background: #f2f4f6;
+  color: #2c9c47;
+  border: 1px solid #dcdcdc;
+}
+
+.btn-secondary:hover {
+  background: #e9f6ef;
+  border-color: #2c9c47;
+}
+
   </style>
 
   <main>
@@ -655,67 +692,85 @@
         </form>
       </div>
 
-      
-    <script>
+
+      <div class="form-actions" id="joinActions" style="justify-content:center;">
+  <button type="submit"
+          class="btn btn-primary"
+          id="joinClubBtn"
+          data-en="Join the Club"
+          data-zh="加入俱乐部">
+    <svg class="card-small-icon" viewBox="0 0 24 24">
+      <use href="#icon-register"></use>
+    </svg>
+    <span class="btn-text">Join the Club</span>
+  </button>
+
+  <!-- Community 按钮：默认隐藏 -->
+  <button type="button"
+          class="btn btn-secondary"
+          id="enterCommunityBtn"
+          style="display:none;">
+    Enter Community
+  </button>
+</div>
+
+
+      <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("registerForm");
-  if (!form) return;
+  const joinForm   = document.getElementById("registerForm");
+  const joinBtn    = document.getElementById("joinClubBtn");
+  const commBtn    = document.getElementById("enterCommunityBtn");
+  const btnText    = joinBtn.querySelector(".btn-text");
+  const regStatus  = document.getElementById("regStatus");
 
-  const submitBtn = form.querySelector("button[type='submit']");
-  const regStatus = document.getElementById("regStatus");
-
-  /* ========= 工具函数 ========= */
-  function setButtonToEduCenter() {
-    submitBtn.type = "button";
-    submitBtn.innerHTML = `
-      <svg class="card-small-icon" viewBox="0 0 24 24">
-        <use href="#icon-edu"></use>
-      </svg>
-      <span data-en="Enter EduCenter" data-zh="进入教育中心">
-        Enter EduCenter
-      </span>
-    `;
-    submitBtn.onclick = () => {
-      window.location.href = "/education.html";
-    };
-  }
-
-  /* ========= 页面加载时检查角色 ========= */
   const role =
     localStorage.getItem("snovaRole") ||
     sessionStorage.getItem("snovaRole") ||
     "visitor";
 
-  if (role === "lead" || role === "member") {
-    setButtonToEduCenter();
+  // ===== 已加入名单（lead / member）=====
+  if (["lead", "member"].includes(role)) {
+    btnText.textContent = "Enter EduCenter";
+    joinForm?.classList.add("joined");
+    commBtn.style.display = "inline-flex";
+    regStatus.textContent = "";
+
+    joinBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      window.location.href = "/education.html";
+    });
+
+    commBtn.addEventListener("click", () => {
+      window.location.href = "/community.html";
+    });
+
+    return;
   }
 
-  /* ========= 表单提交（加入名单） ========= */
-  form.addEventListener("submit", (e) => {
+  // ===== 提交加入名单 =====
+  joinForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const first = document.getElementById("r-first").value.trim();
-    const last  = document.getElementById("r-last").value.trim();
-    const email = document.getElementById("r-email").value.trim();
-
-    if (!first || !last || !email) {
-      regStatus.textContent = "Please fill all required fields.";
-      return;
-    }
-
-    /* ✅ 加入名单成功 → 升级为 lead */
+    // 👉 这里你可以换成真实接口
     localStorage.setItem("snovaRole", "lead");
 
-    regStatus.textContent =
-      "Successfully joined! You can now access EduCenter.";
+    btnText.textContent = "Enter EduCenter";
+    commBtn.style.display = "inline-flex";
+    regStatus.textContent = "Welcome! You can now access EduCenter & Community.";
 
-    /* ✅ 复用原按钮 → 变为进入 EduCenter */
-    setButtonToEduCenter();
+    joinBtn.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      window.location.href = "/education.html";
+    });
+
+    commBtn.addEventListener("click", () => {
+      window.location.href = "/community.html";
+    });
   });
 });
 </script>
 
-      <!-- ② Quick Unlock -->
+       <!-- ② Quick Unlock -->
       <div class="card tool-card unlock-card" id="unlockCard">
 
         <h3>
