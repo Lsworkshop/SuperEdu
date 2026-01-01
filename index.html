@@ -692,70 +692,65 @@
         </form>
       </div>
 
-  <!-- Community 按钮：默认隐藏 -->
-  <button type="button"
-          class="btn btn-secondary"
-          id="enterCommunityBtn"
-          style="display:none;">
-    Enter Community
-  </button>
-</div>
-
-
-      <script>
+<script>
 document.addEventListener("DOMContentLoaded", () => {
-  const joinForm   = document.getElementById("registerForm");
-  const joinBtn    = document.getElementById("joinClubBtn");
-  const commBtn    = document.getElementById("enterCommunityBtn");
-  const btnText    = joinBtn.querySelector(".btn-text");
-  const regStatus  = document.getElementById("regStatus");
+  const form = document.getElementById("registerForm");
+  if (!form) return;
 
+  const submitBtn = form.querySelector("button[type='submit']");
+  const regStatus = document.getElementById("regStatus");
+
+  /* ========= 工具函数 ========= */
+  function setButtonToEduCenter() {
+    submitBtn.type = "button";
+    submitBtn.innerHTML = `
+      <svg class="card-small-icon" viewBox="0 0 24 24">
+        <use href="#icon-edu"></use>
+      </svg>
+      <span data-en="Enter EduCenter" data-zh="进入教育中心">
+        Enter EduCenter
+      </span>
+    `;
+    submitBtn.onclick = () => {
+      window.location.href = "/education.html";
+    };
+  }
+
+  /* ========= 页面加载时检查角色 ========= */
   const role =
     localStorage.getItem("snovaRole") ||
     sessionStorage.getItem("snovaRole") ||
     "visitor";
 
-  // ===== 已加入名单（lead / member）=====
-  if (["lead", "member"].includes(role)) {
-    btnText.textContent = "Enter EduCenter";
-    joinForm?.classList.add("joined");
-    commBtn.style.display = "inline-flex";
-    regStatus.textContent = "";
-
-    joinBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      window.location.href = "/education.html";
-    });
-
-    commBtn.addEventListener("click", () => {
-      window.location.href = "/community.html";
-    });
-
-    return;
+  if (role === "lead" || role === "member") {
+    setButtonToEduCenter();
   }
 
-  // ===== 提交加入名单 =====
-  joinForm.addEventListener("submit", (e) => {
+  /* ========= 表单提交（加入名单） ========= */
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    // 👉 这里你可以换成真实接口
+    const first = document.getElementById("r-first").value.trim();
+    const last  = document.getElementById("r-last").value.trim();
+    const email = document.getElementById("r-email").value.trim();
+
+    if (!first || !last || !email) {
+      regStatus.textContent = "Please fill all required fields.";
+      return;
+    }
+
+    /* ✅ 加入名单成功 → 升级为 lead */
     localStorage.setItem("snovaRole", "lead");
 
-    btnText.textContent = "Enter EduCenter";
-    commBtn.style.display = "inline-flex";
-    regStatus.textContent = "Welcome! You can now access EduCenter & Community.";
+    regStatus.textContent =
+      "Successfully joined! You can now access EduCenter.";
 
-    joinBtn.addEventListener("click", (ev) => {
-      ev.preventDefault();
-      window.location.href = "/education.html";
-    });
-
-    commBtn.addEventListener("click", () => {
-      window.location.href = "/community.html";
-    });
+    /* ✅ 复用原按钮 → 变为进入 EduCenter */
+    setButtonToEduCenter();
   });
 });
 </script>
+
 
        <!-- ② Quick Unlock -->
       <div class="card tool-card unlock-card" id="unlockCard">
