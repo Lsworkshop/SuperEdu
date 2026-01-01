@@ -2,6 +2,13 @@
    SnovaEdu Unified Access Control (STABLE FINAL)
 ===================================================== */
 
+console.log("[ACCESS]", {
+  role,
+  pageType,
+  path: window.location.pathname
+});
+
+
 (function () {
   document.addEventListener("DOMContentLoaded", () => {
 
@@ -38,32 +45,34 @@
     const isMember = role === "member";
 
    /* ===============================
-   5. Page Guard (FINAL FIX)
+   Page Guard — FINAL (NO LOOP)
 =============================== */
 
 const pageType = document.body.dataset.page;
-const isOnQuickUnlockPage =
-  window.location.pathname.includes("quick-unlock");
+const path = window.location.pathname;
 
 if (pageType === "edu-center") {
-  // EduCenter：Quick / Lead / Member 都可以
+  // EduCenter：Quick / Lead / Member 都允许
   if (!isQuick) {
-    if (!isOnQuickUnlockPage) {
-      window.location.replace("/#tools");
-    }
-    return;
+    window.location.replace("/#tools");
   }
-}
-
-if (pageType === "lead-required" && !isLead) {
-  window.location.replace("/#tools");
   return;
 }
 
-if (pageType === "member-only" && !isMember) {
-  window.location.replace("/login.html");
+if (pageType === "lead-required") {
+  if (!isLead) {
+    window.location.replace("/#tools");
+  }
   return;
 }
+
+if (pageType === "member-only") {
+  if (!isMember) {
+    window.location.replace("/login.html");
+  }
+  return;
+}
+
 
 
     /* ===============================
@@ -124,8 +133,6 @@ if (pageType === "member-only" && !isMember) {
       window.location.href = "/";
     };
 
-    // console.log("Snova Role:", role);
-    console.log("[ACCESS]", role, pageType, window.location.pathname);
-
+   
   });
 })();
