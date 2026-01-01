@@ -37,21 +37,22 @@
     const isLead   = ["lead", "member"].includes(role);
     const isMember = role === "member";
 
-    /* ===============================
-   5. Page Guard (FIXED)
+   /* ===============================
+   5. Page Guard (FINAL FIX)
 =============================== */
 
 const pageType = document.body.dataset.page;
-
-// ⚠️ 防止死循环
 const isOnQuickUnlockPage =
   window.location.pathname.includes("quick-unlock");
 
-if (pageType === "quick-required" && !isQuick) {
-  if (!isOnQuickUnlockPage) {
-    window.location.replace("/quick-unlock.html");
+if (pageType === "edu-center") {
+  // EduCenter：Quick / Lead / Member 都可以
+  if (!isQuick) {
+    if (!isOnQuickUnlockPage) {
+      window.location.replace("/#tools");
+    }
+    return;
   }
-  return;
 }
 
 if (pageType === "lead-required" && !isLead) {
@@ -63,6 +64,7 @@ if (pageType === "member-only" && !isMember) {
   window.location.replace("/login.html");
   return;
 }
+
 
     /* ===============================
        3. EduCenter Navigation Control
@@ -123,5 +125,7 @@ if (pageType === "member-only" && !isMember) {
     };
 
     // console.log("Snova Role:", role);
+    console.log("[ACCESS]", role, pageType, window.location.pathname);
+
   });
 })();
