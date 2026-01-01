@@ -44,36 +44,43 @@ console.log("[ACCESS]", {
     const isLead   = ["lead", "member"].includes(role);
     const isMember = role === "member";
 
-   /* ===============================
-   Page Guard — FINAL (NO LOOP)
-=============================== */
+/* ===============================
+   Page Guard — MUST RUN IMMEDIATELY
+================================ */
 
-const pageType = document.body.dataset.page;
-const path = window.location.pathname;
+(function () {
+  const pageType = document.body?.dataset?.page;
+  if (!pageType) return;
 
-if (pageType === "edu-center") {
-  // EduCenter：Quick / Lead / Member 都允许
-  if (!isQuick) {
-    window.location.replace("/#tools");
+  const role =
+    localStorage.getItem("snovaRole") ||
+    sessionStorage.getItem("snovaRole") ||
+    "visitor";
+
+  const isQuick  = ["quick", "lead", "member"].includes(role);
+  const isLead   = ["lead", "member"].includes(role);
+  const isMember = role === "member";
+
+  const isOnQuickUnlockPage =
+    window.location.pathname.includes("quick-unlock");
+
+  if (pageType === "quick-required" && !isQuick) {
+    if (!isOnQuickUnlockPage) {
+      window.location.replace("/quick-unlock.html");
+    }
+    return;
   }
-  return;
-}
 
-if (pageType === "lead-required") {
-  if (!isLead) {
+  if (pageType === "lead-required" && !isLead) {
     window.location.replace("/#tools");
+    return;
   }
-  return;
-}
 
-if (pageType === "member-only") {
-  if (!isMember) {
+  if (pageType === "member-only" && !isMember) {
     window.location.replace("/login.html");
+    return;
   }
-  return;
-}
-
-
+})();
 
     /* ===============================
        3. EduCenter Navigation Control
