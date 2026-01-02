@@ -803,6 +803,30 @@ function setButtonToEduCenter() {
 </div>
 
 <script>
+
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+unlockBtn.addEventListener("click", () => {
+  statusEl.textContent = "";
+
+  if (!first.value || !last.value) {
+    statusEl.textContent = "Please fill all fields.";
+    return;
+  }
+
+  if (!isValidEmail(email.value.trim())) {
+    statusEl.textContent =
+      document.documentElement.lang === "zh"
+        ? "请输入正确的邮箱地址"
+        : "Please enter a valid email address.";
+    return;
+  }
+
+  // ✅ 通过校验，继续解锁逻辑
+});
+
 document.addEventListener("DOMContentLoaded", () => {
   const unlockBtn = document.getElementById("unlockBtn");
   const enterBtn  = document.getElementById("enterEduBtn");
