@@ -507,19 +507,10 @@
   background: #e9f6ef;
   border-color: #2c9c47;
 }
-
-/* Quick Unlock 成功后的 Enter Education Center — 上下居中 */
-#enterEduBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 10px 16px;
-  line-height: 1.25;
-  white-space: normal;   /* 允许英文换行 */
+/* 加入名单成功后的 Enter Education Center — 居中 */
+.btn-enter-edu .card-small-icon {
+  margin-right: 2px;
 }
-
-
 
   </style>
 
@@ -720,6 +711,7 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ========= 工具函数 ========= */
 function setButtonToEduCenter() {
   submitBtn.type = "button";
+  submitBtn.classList.add("btn-enter-edu");
 
   const icon = submitBtn.querySelector("use");
   const label = submitBtn.querySelector(".btn-label");
