@@ -508,6 +508,25 @@
   border-color: #2c9c47;
 }
 
+/* Express Interest / Join List — 左右居中 */
+.form-actions > button.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Quick Unlock 成功后的 Enter Education Center — 上下居中 */
+#enterEduBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  line-height: 1;
+}
+
+
+
   </style>
 
   <main>
@@ -779,6 +798,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     data-en="Unlock Content" data-zh="解锁内容">
               Unlock Content
             </button>
+            
             <button id="enterEduBtn" class="btn btn-outline" style="display:none"
                     data-en="Enter Education Center" data-zh="进入教育中心">
               Enter Education Center
