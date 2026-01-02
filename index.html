@@ -703,7 +703,7 @@
         </form>
       </div>
 
-<script>
+      <script>
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("registerForm");
   if (!form) return;
@@ -711,29 +711,32 @@ document.addEventListener("DOMContentLoaded", () => {
   const submitBtn = form.querySelector("button[type='submit']");
   const regStatus = document.getElementById("regStatus");
 
-  /* ========= 工具函数 ========= */
-function setButtonToEduCenter() {
-  submitBtn.type = "button";
-  submitBtn.classList.add("btn-enter-edu");
+  // ✅ 与 Quick Unlock / 注册页统一的 Email 正则
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const icon = submitBtn.querySelector("use");
-  const label = submitBtn.querySelector(".btn-label");
+  /* ========= 工具函数：按钮切换为 EduCenter ========= */
+  function setButtonToEduCenter() {
+    submitBtn.type = "button";
+    submitBtn.classList.add("btn-enter-edu");
 
-  icon.setAttribute("href", "#icon-edu");
+    const icon  = submitBtn.querySelector("use");
+    const label = submitBtn.querySelector(".btn-label");
 
-  label.setAttribute("data-en", "Enter EduCenter");
-  label.setAttribute("data-zh", "进入教育中心");
-  label.textContent = "Enter EduCenter";
+    icon.setAttribute("href", "#icon-edu");
 
-  submitBtn.onclick = () => {
-    window.location.href = "/education.html";
-  };
+    label.setAttribute("data-en", "Enter EduCenter");
+    label.setAttribute("data-zh", "进入教育中心");
+    label.textContent = "Enter EduCenter";
 
-  // ⭐ 关键：通知语言系统刷新
-  if (window.refreshLang) window.refreshLang();
-}
+    submitBtn.onclick = () => {
+      window.location.href = "/education.html";
+    };
 
-  /* ========= 页面加载时检查角色 ========= */
+    // ⭐ 通知语言系统刷新
+    if (window.refreshLang) window.refreshLang();
+  }
+
+  /* ========= 页面加载：已有权限 ========= */
   const role =
     localStorage.getItem("snovaRole") ||
     sessionStorage.getItem("snovaRole") ||
@@ -746,13 +749,27 @@ function setButtonToEduCenter() {
   /* ========= 表单提交（加入名单） ========= */
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+    regStatus.textContent = "";
 
     const first = document.getElementById("r-first").value.trim();
     const last  = document.getElementById("r-last").value.trim();
     const email = document.getElementById("r-email").value.trim();
 
+    // ① 必填校验
     if (!first || !last || !email) {
-      regStatus.textContent = "Please fill all required fields.";
+      regStatus.textContent =
+        document.documentElement.lang === "zh"
+          ? "请填写所有必填项"
+          : "Please fill all required fields.";
+      return;
+    }
+
+    // ② Email 全格式校验（关键修复点）
+    if (!emailPattern.test(email)) {
+      regStatus.textContent =
+        document.documentElement.lang === "zh"
+          ? "请输入正确的邮箱地址"
+          : "Please enter a valid email address.";
       return;
     }
 
@@ -760,14 +777,15 @@ function setButtonToEduCenter() {
     localStorage.setItem("snovaRole", "lead");
 
     regStatus.textContent =
-      "Successfully joined! You can now access EduCenter.";
+      document.documentElement.lang === "zh"
+        ? "加入成功！现在可以进入教育中心"
+        : "Successfully joined! You can now access EduCenter.";
 
-    /* ✅ 复用原按钮 → 变为进入 EduCenter */
+    /* ✅ 复用原按钮 → 进入 EduCenter */
     setButtonToEduCenter();
   });
 });
 </script>
-
 
        <!-- ② Quick Unlock -->
 <div class="card tool-card unlock-card" id="unlockCard">
