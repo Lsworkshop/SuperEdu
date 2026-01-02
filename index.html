@@ -640,12 +640,7 @@
 
       <!-- ① Registration -->
       <div class="card tool-card registration-card" id="registrationCard">
-        <input id="r-email"
-       name="email"
-       type="email"
-       required
-       placeholder="you@domain.com / 您的邮箱" />
-
+      
         <h3>
           <svg class="sub-icon" viewBox="0 0 24 24">
             <use href="#icon-club"></use>
@@ -675,7 +670,15 @@
           <input id="r-last" name="lastName" type="text" required placeholder="e.g. Smith / 例如：张" />
 
           <label for="r-email" data-en="Email" data-zh="邮箱">Email</label>
-          <input id="r-email" name="email" type="email" required placeholder="you@domain.com / 您的邮箱" />
+          <input
+  id="r-email"
+  type="email"
+  inputmode="email"
+  autocomplete="email"
+  required
+  placeholder="Email / 邮箱"
+/>
+
 
           <label for="r-ref" data-en="Referral code (optional)" data-zh="推荐码（可选）">
             Referral code (optional)
@@ -768,10 +771,6 @@ function setButtonToEduCenter() {
 
        <!-- ② Quick Unlock -->
 <div class="card tool-card unlock-card" id="unlockCard">
-  <input id="u-email"
-       type="email"
-       required
-       placeholder="Email / 邮箱" />
 
   <h3>
     <svg class="sub-icon" viewBox="0 0 24 24">
@@ -792,7 +791,15 @@ function setButtonToEduCenter() {
   <div class="quick-unlock-vertical">
     <input id="u-first" placeholder="First name / 名" />
     <input id="u-last" placeholder="Last name / 姓" />
-    <input id="u-email" placeholder="Email / 邮箱" />
+    <input
+  id="u-email"
+  type="email"
+  inputmode="email"
+  autocomplete="email"
+  required
+  placeholder="Email / 邮箱"
+/>
+
 
     <div class="form-actions" style="margin-top:10px;">
       <button id="unlockBtn" class="btn"
@@ -812,30 +819,6 @@ function setButtonToEduCenter() {
 </div>
 
 <script>
-
-function isValidEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
-unlockBtn.addEventListener("click", () => {
-  statusEl.textContent = "";
-
-  if (!first.value || !last.value) {
-    statusEl.textContent = "Please fill all fields.";
-    return;
-  }
-
-  if (!isValidEmail(email.value.trim())) {
-    statusEl.textContent =
-      document.documentElement.lang === "zh"
-        ? "请输入正确的邮箱地址"
-        : "Please enter a valid email address.";
-    return;
-  }
-
-  // ✅ 通过校验，继续解锁逻辑
-});
-
 document.addEventListener("DOMContentLoaded", () => {
   const unlockBtn = document.getElementById("unlockBtn");
   const enterBtn  = document.getElementById("enterEduBtn");
@@ -844,6 +827,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const first = document.getElementById("u-first");
   const last  = document.getElementById("u-last");
   const email = document.getElementById("u-email");
+
+  // ✅ 与注册页一致的 Email 正则
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   /* ========= 页面加载：如果已解锁 ========= */
   const role =
@@ -859,23 +845,42 @@ document.addEventListener("DOMContentLoaded", () => {
   unlockBtn.addEventListener("click", () => {
     statusEl.textContent = "";
 
-    if (!first.value || !last.value || !email.value) {
-      statusEl.textContent = "Please fill all fields.";
+    const firstVal = first.value.trim();
+    const lastVal  = last.value.trim();
+    const emailVal = email.value.trim();
+
+    // ① 必填校验
+    if (!firstVal || !lastVal || !emailVal) {
+      statusEl.textContent =
+        document.documentElement.lang === "zh"
+          ? "请填写所有必填项"
+          : "Please fill all required fields.";
       return;
     }
 
-    // === 核心授权 ===
+    // ② Email 全格式校验（关键修复）
+    if (!emailPattern.test(emailVal)) {
+      statusEl.textContent =
+        document.documentElement.lang === "zh"
+          ? "请输入正确的邮箱地址"
+          : "Please enter a valid email address.";
+      return;
+    }
+
+    // ③ 授权成功
     localStorage.setItem("snovaRole", "quick");
 
     localStorage.setItem(
       "edu_unlocked_token",
-      JSON.stringify({ email: email.value, ts: Date.now() })
+      JSON.stringify({ email: emailVal, ts: Date.now() })
     );
 
     statusEl.textContent =
-      "Unlocked! You may enter the Education Center.";
+      document.documentElement.lang === "zh"
+        ? "解锁成功！可以进入教育中心"
+        : "Unlocked! You may enter the Education Center.";
 
-    // ⭐⭐ 关键修复：切换，而不是新增
+    // ⭐ 切换按钮（不新增，不挤布局）
     unlockBtn.style.display = "none";
     enterBtn.style.display  = "inline-flex";
 
@@ -889,7 +894,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 </script>
-
 
       <!-- ③ Apply — clickable service-style card -->
       <div class="card tool-card apply-card clickable"
