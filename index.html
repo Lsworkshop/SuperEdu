@@ -762,46 +762,47 @@ function setButtonToEduCenter() {
 
 
        <!-- ② Quick Unlock -->
-      <div class="card tool-card unlock-card" id="unlockCard">
+<div class="card tool-card unlock-card" id="unlockCard">
 
-        <h3>
-          <svg class="sub-icon" viewBox="0 0 24 24">
-            <use href="#icon-unlock"></use>
-          </svg>
-          <span data-en="Quick Unlock — Education Center"
-                data-zh="快速解锁 — 进入教育中心">
-            快速解锁 — 进入教育中心
-          </span>
-        </h3>
+  <h3>
+    <svg class="sub-icon" viewBox="0 0 24 24">
+      <use href="#icon-unlock"></use>
+    </svg>
+    <span data-en="Quick Unlock — Education Center"
+          data-zh="快速解锁 — 进入教育中心">
+      快速解锁 — 进入教育中心
+    </span>
+  </h3>
 
-        <p class="muted"
-           data-en="Submit name & email to unlock the Education Center and get a free consultation opportunity."
-           data-zh="提交姓名与邮箱以解锁教育中心获取信息资料，并获得免费咨询机会。">
-          Submit name & email to unlock the Education Center and get a free consultation opportunity.
-        </p>
+  <p class="muted"
+     data-en="Submit name & email to unlock the Education Center and get a free consultation opportunity."
+     data-zh="提交姓名与邮箱以解锁教育中心获取信息资料，并获得免费咨询机会。">
+    Submit name & email to unlock the Education Center and get a free consultation opportunity.
+  </p>
 
-        <div class="quick-unlock-vertical">
-          <input id="u-first" placeholder="First name / 名" />
-          <input id="u-last" placeholder="Last name / 姓" />
-          <input id="u-email" placeholder="Email / 邮箱" />
+  <div class="quick-unlock-vertical">
+    <input id="u-first" placeholder="First name / 名" />
+    <input id="u-last" placeholder="Last name / 姓" />
+    <input id="u-email" placeholder="Email / 邮箱" />
 
-          <div class="form-actions" style="margin-top:10px;">
-            <button id="unlockBtn" class="btn"
-                    data-en="Unlock Content" data-zh="解锁内容">
-              Unlock Content
-            </button>
-            
-            <button id="enterEduBtn" class="btn btn-outline" style="display:none"
-                    data-en="Enter EduCenter" data-zh="进入教育中心">
-              Enter Education Center
-            </button>
-          </div>
+    <div class="form-actions" style="margin-top:10px;">
+      <button id="unlockBtn" class="btn"
+              data-en="Unlock Content" data-zh="解锁内容">
+        Unlock Content
+      </button>
 
-          <div id="unlockStatus" class="form-status"></div>
-        </div>
-      </div>
+      <button id="enterEduBtn" class="btn btn-outline"
+              style="display:none"
+              data-en="Enter EduCenter" data-zh="进入教育中心">
+        Enter EduCenter
+      </button>
+    </div>
 
-      <script>
+    <div id="unlockStatus" class="form-status"></div>
+  </div>
+</div>
+
+<script>
 document.addEventListener("DOMContentLoaded", () => {
   const unlockBtn = document.getElementById("unlockBtn");
   const enterBtn  = document.getElementById("enterEduBtn");
@@ -811,17 +812,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const last  = document.getElementById("u-last");
   const email = document.getElementById("u-email");
 
-  // ===== 页面加载时：如果已解锁，直接显示 Enter =====
+  /* ========= 页面加载：如果已解锁 ========= */
   const role =
     localStorage.getItem("snovaRole") ||
     sessionStorage.getItem("snovaRole");
 
   if (["quick", "lead", "member"].includes(role)) {
-    enterBtn.style.display = "inline-block";
+    unlockBtn.style.display = "none";
+    enterBtn.style.display  = "inline-flex";
   }
 
-  // ===== 点击 Unlock =====
-  unlockBtn?.addEventListener("click", async () => {
+  /* ========= 点击 Unlock ========= */
+  unlockBtn.addEventListener("click", () => {
     statusEl.textContent = "";
 
     if (!first.value || !last.value || !email.value) {
@@ -829,29 +831,27 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    try {
-      // 👉 如果你有后端，就在这里调用 /api/unlock
-      // 这里保持你原先的行为即可
+    // === 核心授权 ===
+    localStorage.setItem("snovaRole", "quick");
 
-      // ===== 核心一行（必须有）=====
-      localStorage.setItem("snovaRole", "quick");
+    localStorage.setItem(
+      "edu_unlocked_token",
+      JSON.stringify({ email: email.value, ts: Date.now() })
+    );
 
-      // （可选）如果你也在用 token
-      localStorage.setItem(
-        "edu_unlocked_token",
-        JSON.stringify({ email: email.value, ts: Date.now() })
-      );
+    statusEl.textContent =
+      "Unlocked! You may enter the Education Center.";
 
-      statusEl.textContent = "Unlocked! You may enter the Education Center.";
-      enterBtn.style.display = "inline-block";
+    // ⭐⭐ 关键修复：切换，而不是新增
+    unlockBtn.style.display = "none";
+    enterBtn.style.display  = "inline-flex";
 
-    } catch (e) {
-      statusEl.textContent = "Unlock failed. Please try again.";
-    }
+    // 通知语言系统刷新
+    if (window.refreshLang) window.refreshLang();
   });
 
-  // ===== Enter EduCenter =====
-  enterBtn?.addEventListener("click", () => {
+  /* ========= Enter EduCenter ========= */
+  enterBtn.addEventListener("click", () => {
     window.location.href = "/education.html";
   });
 });
