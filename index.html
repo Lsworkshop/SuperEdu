@@ -789,6 +789,63 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </div>
 
+      <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const unlockBtn = document.getElementById("unlockBtn");
+  const enterBtn  = document.getElementById("enterEduBtn");
+  const statusEl  = document.getElementById("unlockStatus");
+
+  const first = document.getElementById("u-first");
+  const last  = document.getElementById("u-last");
+  const email = document.getElementById("u-email");
+
+  // ===== 页面加载时：如果已解锁，直接显示 Enter =====
+  const role =
+    localStorage.getItem("snovaRole") ||
+    sessionStorage.getItem("snovaRole");
+
+  if (["quick", "lead", "member"].includes(role)) {
+    enterBtn.style.display = "inline-block";
+  }
+
+  // ===== 点击 Unlock =====
+  unlockBtn?.addEventListener("click", async () => {
+    statusEl.textContent = "";
+
+    if (!first.value || !last.value || !email.value) {
+      statusEl.textContent = "Please fill all fields.";
+      return;
+    }
+
+    try {
+      // 👉 如果你有后端，就在这里调用 /api/unlock
+      // 这里保持你原先的行为即可
+
+      // ===== 核心一行（必须有）=====
+      localStorage.setItem("snovaRole", "quick");
+
+      // （可选）如果你也在用 token
+      localStorage.setItem(
+        "edu_unlocked_token",
+        JSON.stringify({ email: email.value, ts: Date.now() })
+      );
+
+      statusEl.textContent = "Unlocked! You may enter the Education Center.";
+      enterBtn.style.display = "inline-block";
+
+    } catch (e) {
+      statusEl.textContent = "Unlock failed. Please try again.";
+    }
+  });
+
+  // ===== Enter EduCenter =====
+  enterBtn?.addEventListener("click", () => {
+    window.location.href = "/education.html";
+  });
+});
+</script>
+
+
       <!-- ③ Apply — clickable service-style card -->
       <div class="card tool-card apply-card clickable"
            onclick="location.href='/apply.html'">
