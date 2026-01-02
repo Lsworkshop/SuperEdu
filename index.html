@@ -509,12 +509,11 @@
 }
 
 /* Express Interest / Join List — 左右居中 */
-.form-actions > button.btn-primary {
+.join-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  text-align: center;
 }
 
 /* Quick Unlock 成功后的 Enter Education Center — 上下居中 */
@@ -707,6 +706,19 @@
               </svg>
               Join the Club
             </button>
+
+            <button type="submit" class="btn btn-primary join-btn">
+  <svg class="card-small-icon" viewBox="0 0 24 24">
+    <use href="#icon-register"></use>
+  </svg>
+
+  <span class="btn-label"
+        data-en="Join the Club"
+        data-zh="加入俱乐部">
+    Join the Club
+  </span>
+</button>
+
             <div id="regStatus" class="form-status"></div>
           </div>
         </form>
@@ -721,18 +733,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const regStatus = document.getElementById("regStatus");
 
   /* ========= 工具函数 ========= */
-  function setButtonToEduCenter() {
-    submitBtn.type = "button";
-    submitBtn.innerHTML = `
-  <svg class="card-small-icon" viewBox="0 0 24 24">
-    <use href="#icon-edu"></use>
-  </svg>Enter EduCenter 进入教育中心
-`;
+function setButtonToEduCenter() {
+  submitBtn.type = "button";
 
-    submitBtn.onclick = () => {
-      window.location.href = "/education.html";
-    };
-  }
+  const icon = submitBtn.querySelector("use");
+  const label = submitBtn.querySelector(".btn-label");
+
+  icon.setAttribute("href", "#icon-edu");
+
+  label.setAttribute("data-en", "Enter EduCenter");
+  label.setAttribute("data-zh", "进入教育中心");
+  label.textContent = "Enter EduCenter";
+
+  submitBtn.onclick = () => {
+    window.location.href = "/education.html";
+  };
+
+  // ⭐ 关键：通知语言系统刷新
+  if (window.refreshLang) window.refreshLang();
+}
 
   /* ========= 页面加载时检查角色 ========= */
   const role =
