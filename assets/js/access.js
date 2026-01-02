@@ -43,20 +43,19 @@
     const isMember = role === "member";
 
     /* ===============================
-       2. Page Guard (核心修正点)
+       2. Page Guard（唯一跳转源）
     =============================== */
 
     const pageType = document.body?.dataset?.page;
-    if (pageType) {
-      const path = window.location.pathname;
 
-      // Quick-required → EduCenter
+    if (pageType) {
+      // EduCenter
       if (pageType === "quick-required" && !isQuick) {
         window.location.replace("/quick-unlock.html");
         return;
       }
 
-      // Lead-required → EduCommunity
+      // EduCommunity（lead 以上）
       if (pageType === "lead-required" && !isLead) {
         window.location.replace("/education.html");
         return;
@@ -70,78 +69,71 @@
     }
 
     /* ===============================
-       3. Navigation Control (主菜单)
+       3. Navigation Control（只拦截，不跳转）
     =============================== */
 
-    function bindNav(id, target, condition, fallback) {
+    function guardNav(id, allowFn, denyMsg) {
       const el = document.getElementById(id);
       if (!el) return;
 
       el.addEventListener("click", (e) => {
-        e.preventDefault();
-        window.location.href = condition ? target : fallback;
+        if (!allowFn()) {
+          e.preventDefault();
+          if (denyMsg) alert(denyMsg);
+        }
       });
     }
 
-    // EduCenter 菜单
-    bindNav(
+    // EduCenter
+    guardNav(
       "navEduCenter",
-      "/education.html",
-      isQuick,
-      "/quick-unlock.html"
+      () => isQuick,
+      "Please unlock Education Center first."
     );
 
-    bindNav(
+    guardNav(
       "mobileEduCenter",
-      "/education.html",
-      isQuick,
-      "/quick-unlock.html"
+      () => isQuick,
+      "Please unlock Education Center first."
     );
 
-    // EduCommunity 菜单（只读）
-    bindNav(
+    // EduCommunity
+    guardNav(
       "navEduCommunity",
-      "/educommunity.html",
-      isLead,
-      "/education.html"
+      () => isLead,
+      "EduCommunity requires Join List access."
     );
 
-    bindNav(
+    guardNav(
       "mobileEduCommunity",
-      "/educommunity.html",
-      isLead,
-      "/education.html"
+      () => isLead,
+      "EduCommunity requires Join List access."
     );
 
     /* ===============================
-       4. Upgrade APIs（全站可用）
+       4. Upgrade APIs（全站调用）
     =============================== */
 
-    // Quick Unlock（一次或设备级都可）
     window.unlockQuick = function (redirect = "/education.html") {
       setRole("quick");
       window.location.replace(redirect);
     };
 
-    // Join List / Express Interest
     window.upgradeToLead = function (redirect = "/education.html") {
       setRole("lead");
       window.location.replace(redirect);
     };
 
-    // Member
     window.upgradeToMember = function (redirect = "/education.html") {
       setRole("member");
       window.location.replace(redirect);
     };
 
-    // Logout
     window.logoutMember = function () {
       clearRole();
       window.location.replace("/");
     };
 
     // console.log("Snova Role:", role);
-
   });
 })();
