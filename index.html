@@ -1109,8 +1109,11 @@ document.addEventListener("DOMContentLoaded", () => {
   <script src="/assets/js/lang.js"></script>
   <script src="/assets/js/menu.js"></script>
 
+
+  
   <script>
-    // Inline behaviors for register/unlock forms and anchors (kept from original)
+
+        // Inline behaviors for register/unlock forms and anchors (kept from original)
     function scrollToEl(id){ const el = document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth', block:'center'}); }
 
     // CTA buttons -> scroll to appropriate section
@@ -1180,6 +1183,29 @@ document.addEventListener("DOMContentLoaded", () => {
       card.setAttribute('tabindex','0');
       card.addEventListener('keydown', (e)=> { if(e.key==='Enter') card.click(); });
     });
+
+
+    
+document.getElementById("consultForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const res = await fetch("/api/consultation", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      first_name: "...",
+      last_name: "...",
+      email: "...",
+      phone: "...",
+      grad_year: "...",
+      message: "...",
+      source: "homepage"
+    })
+  });
+
+  const data = await res.json();
+});
+
   </script>
 </body>
 </html>
