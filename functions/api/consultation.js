@@ -23,7 +23,7 @@ export async function onRequestPost({ request, env }) {
     // ===== 写入 D1 =====
     const stmt = env.DB.prepare(`
       INSERT INTO consultations
-      (first_name, last_name, email, phone, grad_year, message, source)
+      (first_name, last_name, email, phone, grad_year, message, source, created_at)
       VALUES (?, ?, ?, ?, ?, ?, ?)
     `);
 
