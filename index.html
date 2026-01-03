@@ -1050,13 +1050,35 @@ document.addEventListener("DOMContentLoaded", () => {
     Book a Consultation or Send a Message
   </h3>
 <div class="contact-form-wrapper">
+
+  <form id="consultForm">
+  <input id="c-first" required />
+  <input id="c-last" required />
+  <input id="c-email" type="email" required />
+  <input id="c-phone" />
+  <input id="c-grad" />
+  <textarea id="c-message"></textarea>
+
+  <button type="submit" class="btn btn-primary">Send</button>
+  <div id="consultStatus" class="form-status"></div>
+</form>
+
         <form id="consultForm" autocomplete="off">
+
+          
 
 <input type="text" name="firstName" placeholder="First name" required>
 
 <input type="text" name="lastName" placeholder="Last name" required>
 
-<input type="email" name="email" placeholder="Email address" required>
+<input
+  id="c-email"
+  type="email"
+  inputmode="email"
+  autocomplete="email"
+  required
+  placeholder="Email address"
+/>
 
 <input type="tel" name="phone" placeholder="Phone number (optional)">
 
@@ -1185,28 +1207,72 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    
-document.getElementById("consultForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
 
-  const res = await fetch("/api/consultation", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      first_name: "...",
-      last_name: "...",
-      email: "...",
-      phone: "...",
-      grad_year: "...",
-      message: "...",
-      source: "homepage"
-    })
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("consultForm");
+  if (!form) return;
+
+  const statusEl = document.getElementById("consultStatus");
+
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    statusEl.textContent = "";
+
+    const firstName = document.getElementById("c-first").value.trim();
+    const lastName  = document.getElementById("c-last").value.trim();
+    const email     = document.getElementById("c-email").value.trim();
+    const phone     = document.getElementById("c-phone")?.value.trim() || null;
+    const gradYear  = document.getElementById("c-grad")?.value.trim() || null;
+    const message   = document.getElementById("c-message")?.value.trim() || null;
+
+    /* ===== 基础校验 ===== */
+    if (!firstName || !lastName || !email) {
+      statusEl.textContent = "Please fill all required fields.";
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      statusEl.textContent = "Please enter a valid email address.";
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/consultation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          phone,
+          grad_year: gradYear,
+          message,
+          source: "homepage"
+        })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Submission failed.");
+      }
+
+      statusEl.textContent = "Thank you! We will contact you shortly.";
+      form.reset();
+
+    } catch (err) {
+      console.error(err);
+      statusEl.textContent = "Submission failed. Please try again later.";
+    }
   });
-
-  const data = await res.json();
 });
+</script>
 
-  </script>
+
 </body>
 </html>
 
