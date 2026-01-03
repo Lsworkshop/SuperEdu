@@ -1040,20 +1040,17 @@ document.addEventListener("DOMContentLoaded", () => {
         </p>
       </div>
     </div>
-     
-
      <!-- Consultation Form Card -->
-<div class="contact-card form-card">
 
-  <h3 class="contact-form-title"
-      data-en="Book a Consultation or Send a Message"
-      data-zh="预约咨询或发送信息">
+      <div class="contact-card form-card">
+
+<h3 class="contact-form-title" data-en="Book a Consultation or Send a Message" data-zh="预约咨询或发送信息">
     Book a Consultation or Send a Message
   </h3>
+<div class="contact-form-wrapper">
 
-  <div class="contact-form-wrapper">
-    <form id="consultForm" autocomplete="off">
-
+     <form id="consultForm" autocomplete="off">
+           
       <input
         id="c-first"
         type="text"
@@ -1095,22 +1092,11 @@ document.addEventListener("DOMContentLoaded", () => {
         placeholder="Tell us a bit about your situation, goals, or questions (optional)">
       </textarea>
 
-      <button
-        type="submit"
-        class="btn btn-primary"
-        data-en="Send"
-        data-zh="发送">
-        Send
-      </button>
-
-      <div id="consultStatus" class="form-status"></div>
-
-    </form>
-  </div>
-</div>
- 
-
-
+          <button type="submit" class="btn btn-primary" data-en="Send" data-zh="发送">Send</button>
+          <div id="consultStatus" class="form-status"></div>
+        </form>
+      </div>
+    </div>
   </div>
  </div>
 </section>
