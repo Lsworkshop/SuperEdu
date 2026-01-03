@@ -1039,47 +1039,75 @@ document.addEventListener("DOMContentLoaded", () => {
           Feel free to reach out anytime for consultation!
         </p>
       </div>
-    </div>
-     <!-- Consultation Form Card -->
 
-      <div class="contact-card form-card">
+     
+<!-- Consultation Form Card -->
+<div class="contact-card form-card">
 
-<h3 class="contact-form-title" data-en="Book a Consultation or Send a Message" data-zh="预约咨询或发送信息">
+  <h3 class="contact-form-title"
+      data-en="Book a Consultation or Send a Message"
+      data-zh="预约咨询或发送信息">
     Book a Consultation or Send a Message
   </h3>
-<div class="contact-form-wrapper">
 
-     <form id="consultForm" autocomplete="off">
+  <div class="contact-form-wrapper">
+    <form id="consultForm" autocomplete="off">
 
-           
+      <input
+        id="c-first"
+        type="text"
+        placeholder="First name"
+        required
+      />
 
-<input type="text" name="firstName" placeholder="First name" required>
+      <input
+        id="c-last"
+        type="text"
+        placeholder="Last name"
+        required
+      />
 
-<input type="text" name="lastName" placeholder="Last name" required>
+      <input
+        id="c-email"
+        type="email"
+        inputmode="email"
+        autocomplete="email"
+        placeholder="Email address"
+        required
+      />
 
-<input
-  id="c-email"
-  type="email"
-  inputmode="email"
-  autocomplete="email"
-  required
-  placeholder="Email address"
-/>
+      <input
+        id="c-phone"
+        type="tel"
+        placeholder="Phone number (optional)"
+      />
 
-<input type="tel" name="phone" placeholder="Phone number (optional)">
+      <input
+        id="c-grad"
+        type="text"
+        placeholder="High school graduation year (optional)"
+      />
 
-<input type="text" name="gradYear" placeholder="High school graduation year (optional)">
+      <textarea
+        id="c-message"
+        rows="4"
+        placeholder="Tell us a bit about your situation, goals, or questions (optional)">
+      </textarea>
 
-<textarea name="message" rows="4"
-  placeholder="Tell us a bit about your situation, goals, or questions (optional)">
-</textarea>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        data-en="Send"
+        data-zh="发送">
+        Send
+      </button>
 
+      <div id="consultStatus" class="form-status"></div>
 
-          <button type="submit" class="btn btn-primary" data-en="Send" data-zh="发送">Send</button>
-          <div id="consultStatus" class="form-status"></div>
-        </form>
-      </div>
-    </div>
+    </form>
+  </div>
+</div>
+
   </div>
  </div>
 </section>
