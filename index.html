@@ -1050,47 +1050,30 @@ document.addEventListener("DOMContentLoaded", () => {
 <div class="contact-form-wrapper">
 
      <form id="consultForm" autocomplete="off">
+
            
-      <input
-        id="c-first"
-        type="text"
-        placeholder="First name"
-        required
-      />
 
-      <input
-        id="c-last"
-        type="text"
-        placeholder="Last name"
-        required
-      />
+<input type="text" name="firstName" placeholder="First name" required>
 
-      <input
-        id="c-email"
-        type="email"
-        inputmode="email"
-        autocomplete="email"
-        placeholder="Email address"
-        required
-      />
+<input type="text" name="lastName" placeholder="Last name" required>
 
-      <input
-        id="c-phone"
-        type="tel"
-        placeholder="Phone number (optional)"
-      />
+<input
+  id="c-email"
+  type="email"
+  inputmode="email"
+  autocomplete="email"
+  required
+  placeholder="Email address"
+/>
 
-      <input
-        id="c-grad"
-        type="text"
-        placeholder="High school graduation year (optional)"
-      />
+<input type="tel" name="phone" placeholder="Phone number (optional)">
 
-      <textarea
-        id="c-message"
-        rows="4"
-        placeholder="Tell us a bit about your situation, goals, or questions (optional)">
-      </textarea>
+<input type="text" name="gradYear" placeholder="High school graduation year (optional)">
+
+<textarea name="message" rows="4"
+  placeholder="Tell us a bit about your situation, goals, or questions (optional)">
+</textarea>
+
 
           <button type="submit" class="btn btn-primary" data-en="Send" data-zh="发送">Send</button>
           <div id="consultStatus" class="form-status"></div>
