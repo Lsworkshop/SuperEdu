@@ -1051,7 +1051,8 @@ document.addEventListener("DOMContentLoaded", () => {
   </h3>
 <div class="contact-form-wrapper">
 
-  <form id="consultForm">
+     <form id="consultForm" autocomplete="off">
+
   <input id="c-first" required />
   <input id="c-last" required />
   <input id="c-email" type="email" required />
@@ -1061,9 +1062,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   <button type="submit" class="btn btn-primary">Send</button>
   <div id="consultStatus" class="form-status"></div>
-</form>
-
-        <form id="consultForm" autocomplete="off">
 
           
 
