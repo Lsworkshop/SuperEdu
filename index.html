@@ -1089,10 +1089,11 @@ document.addEventListener("DOMContentLoaded", () => {
       />
 
       <textarea
-        id="c-message"
-        rows="4"
-        placeholder="Tell us a bit about your situation, goals, or questions (optional)">
-      </textarea>
+  id="c-message"
+  rows="4"
+  placeholder="Tell us a bit about your situation, goals, or questions (optional)"
+  aria-label="Consultation message"></textarea>
+
 
       <button
         type="submit"
@@ -1221,7 +1222,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("consultForm");
   if (!form) return;
@@ -1239,11 +1239,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const firstName = document.getElementById("c-first").value.trim();
     const lastName  = document.getElementById("c-last").value.trim();
     const email     = document.getElementById("c-email").value.trim();
-    const phone     = document.getElementById("c-phone")?.value.trim() || null;
-    const gradYear  = document.getElementById("c-grad")?.value.trim() || null;
-    const message   = document.getElementById("c-message")?.value.trim() || null;
+    const phone     = document.getElementById("c-phone")?.value.trim() || "";
+    const gradYear  = document.getElementById("c-grad")?.value.trim() || "";
+    const message   = document.getElementById("c-message")?.value.trim() || "";
 
-    /* ===== 基础校验 ===== */
+    /* ===== 校验 ===== */
     if (!firstName || !lastName || !email) {
       statusEl.textContent = "Please fill all required fields.";
       return;
@@ -1259,11 +1259,11 @@ document.addEventListener("DOMContentLoaded", () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          first_name: firstName,
-          last_name: lastName,
+          firstName,
+          lastName,
           email,
           phone,
-          grad_year: gradYear,
+          gradYear,
           message,
           source: "homepage"
         })
@@ -1284,6 +1284,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
 </script>
 
 

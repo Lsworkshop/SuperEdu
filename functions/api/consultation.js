@@ -1,112 +1,57 @@
 export async function onRequestPost({ request, env }) {
-
-  /* ===============================
-     0. Content-Type 校验
-  =============================== */
-  const contentType = request.headers.get("content-type") || "";
-  if (!contentType.includes("application/json")) {
-    return jsonError("Invalid content type", 400);
-  }
-
-  /* ===============================
-     1. 解析 JSON
-  =============================== */
-  let data;
   try {
-    data = await request.json();
-  } catch {
-    return jsonError("Invalid JSON body", 400);
-  }
+    const body = await request.json();
 
-  /* ===============================
-     2. 字段解构 + 清洗
-  =============================== */
-  const firstName = (data.firstName || "").trim();
-  const lastName  = (data.lastName  || "").trim();
-  const email     = (data.email     || "").trim();
-  const phone     = (data.phone     || "").trim();
-  const gradYear  = (data.gradYear  || "").trim();
-  const message   = (data.message   || "").trim();
-  const source    = (data.source    || "homepage").trim();
+    const {
+      firstName,
+      lastName,
+      email,
+      phone = "",
+      gradYear = "",
+      message = "",
+      source = "homepage"
+    } = body;
 
-  /* ===============================
-     3. 必填字段校验
-  =============================== */
-  if (!firstName || !lastName || !email) {
-    return jsonError("Missing required fields", 400);
-  }
+    // ===== 基础校验 =====
+    if (!firstName || !lastName || !email) {
+      return new Response(
+        JSON.stringify({ error: "Missing required fields" }),
+        { status: 400 }
+      );
+    }
 
-  /* ===============================
-     4. Email 全格式校验（严格）
-  =============================== */
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-  if (!emailRegex.test(email)) {
-    return jsonError("Invalid email format", 400);
-  }
+    // ===== 写入 D1 =====
+    const stmt = env.DB.prepare(`
+      INSERT INTO consultations
+      (first_name, last_name, email, phone, grad_year, message, source)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `);
 
-  /* ===============================
-     5. 写入 D1 数据库
-  =============================== */
-  try {
-    await env.DB
-      .prepare(`
-        INSERT INTO consultations
-        (first_name, last_name, email, phone, grad_year, message, source)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-      `)
-      .bind(
-        firstName,
-        lastName,
-        email,
-        phone || null,
-        gradYear || null,
-        message || null,
-        source
-      )
-      .run();
+    await stmt.run(
+      firstName,
+      lastName,
+      email,
+      phone,
+      gradYear,
+      message,
+      source
+    );
+
+    return new Response(
+      JSON.stringify({ success: true }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json" }
+      }
+    );
+
   } catch (err) {
-    console.error("D1 insert failed:", err);
-    return jsonError("Database error", 500);
+    return new Response(
+      JSON.stringify({
+        error: "Server error",
+        detail: err.message
+      }),
+      { status: 500 }
+    );
   }
-
-  /* ===============================
-     6. 成功返回
-  =============================== */
-  return jsonSuccess({
-    message: "Consultation request submitted successfully"
-  });
-}
-
-/* ===============================
-   工具函数
-=============================== */
-
-function jsonError(message, status = 400) {
-  return new Response(
-    JSON.stringify({
-      success: false,
-      message
-    }),
-    {
-      status,
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }
-  );
-}
-
-function jsonSuccess(data = {}) {
-  return new Response(
-    JSON.stringify({
-      success: true,
-      ...data
-    }),
-    {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }
-  );
 }
