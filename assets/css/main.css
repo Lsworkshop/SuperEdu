@@ -1298,34 +1298,52 @@ body.register-page .register-card {
 
 
 /* ===============================
-   Our Services Section – 微调背景色
+   Our Services Section – 最终背景微调
 ================================ */
 #services.section--services {
-  background-color: #f9fafb; /* 微调为比原先更浅更干净的灰白色 */
-  padding: 60px 0;           /* 保持上下空间 */
-  transition: background-color 0.3s ease; /* 页面切换时平滑 */
+  background: #f3f4f6; /* 比之前深一点的浅灰，突出大卡片 */
+  padding: 60px 0;
+  transition: background-color 0.3s ease;
 }
 
-/* 可选：给背景加一点轻微渐变，更有层次感 */
+/* 可选轻微渐变增强层次感 */
 #services.section--services {
-  background: linear-gradient(180deg, #f9fafb 0%, #f7f8f9 100%);
+  background: linear-gradient(180deg, #f4f5f7 0%, #f2f3f6 100%);
 }
 
 /* ===============================
-   Core Cards (大卡片) – 保持现有风格
+   Core Cards (大卡片) – 增加暖色差
 ================================ */
 .core-card {
-  background: #ffffff;
+  background: #fcfcf9; /* 略带暖色调，和整体灰色区分 */
   border-radius: 20px;
   padding: 32px;
   margin-bottom: 40px;
   box-shadow: 0 20px 48px rgba(9,30,66,0.08); /* 立体阴影 */
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 
 .core-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 24px 56px rgba(9,30,66,0.10);
+}
+
+/* 大卡片标题和副标题 */
+.core-card-header {
+  max-width: 720px;
+  margin-bottom: 24px;
+}
+
+.core-card-header h3 {
+  font-size: 1.35rem;
+  margin-bottom: 8px;
+  color: var(--brand-2);
+}
+
+.core-card-header p {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.6;
 }
 
 /* ===============================
@@ -1338,8 +1356,9 @@ body.register-page .register-card {
   margin-top: 20px;
 }
 
+/* 小卡片 – 原先淡黄色渐变 */
 .sub-services-grid .service-card {
-  background: linear-gradient(180deg, #fff, #FAF5E9); /* 恢复原先淡黄棕色渐变 */
+  background: linear-gradient(180deg, #fff, #FAF5E9); /* 原先淡黄棕色渐变 */
   border-radius: 12px;
   padding: 18px;
   border: 1px solid rgba(10,10,10,0.03);
@@ -1351,18 +1370,21 @@ body.register-page .register-card {
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
+/* 小卡片 hover 效果 */
 .sub-services-grid .service-card:hover {
   transform: scale(1.02);
   box-shadow: 0 10px 28px rgba(9,30,66,0.08);
   border-color: #3B82F6;
 }
 
+/* 小卡片标题 */
 .sub-services-grid .service-card h3 {
   margin: 0 0 8px;
   font-size: 18px;
   color: var(--brand-2);
 }
 
+/* 小卡片描述 */
 .sub-services-grid .service-card .desc {
   color: var(--muted);
   line-height: 1.45;
