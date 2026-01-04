@@ -1222,6 +1222,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
+
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("consultForm");
   if (!form) return;
@@ -1243,7 +1244,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const gradYear  = document.getElementById("c-grad")?.value.trim() || "";
     const message   = document.getElementById("c-message")?.value.trim() || "";
 
-    /* ===== 校验 ===== */
     if (!firstName || !lastName || !email) {
       statusEl.textContent = "Please fill all required fields.";
       return;
@@ -1272,7 +1272,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Submission failed.");
+        throw new Error(data.message || data.error || "Submission failed");
       }
 
       statusEl.textContent = "Thank you! We will contact you shortly.";
