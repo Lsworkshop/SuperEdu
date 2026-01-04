@@ -1297,26 +1297,29 @@ body.register-page .register-card {
 }
 
 
-
 /* ===============================
-   Our Services Section
+   Our Services Section – 微调背景色
 ================================ */
-
-/* Services section background (slightly lighter, original tone) */
 #services.section--services {
-  background-color: #f8f9fa; /* 原先浅灰色系，轻微淡化 */
-  padding: 60px 0; /* 可根据设计调整上下间距 */
+  background-color: #f9fafb; /* 微调为比原先更浅更干净的灰白色 */
+  padding: 60px 0;           /* 保持上下空间 */
+  transition: background-color 0.3s ease; /* 页面切换时平滑 */
+}
+
+/* 可选：给背景加一点轻微渐变，更有层次感 */
+#services.section--services {
+  background: linear-gradient(180deg, #f9fafb 0%, #f7f8f9 100%);
 }
 
 /* ===============================
-   Core Service Categories (大卡片)
+   Core Cards (大卡片) – 保持现有风格
 ================================ */
 .core-card {
   background: #ffffff;
   border-radius: 20px;
   padding: 32px;
   margin-bottom: 40px;
-  box-shadow: 0 20px 48px rgba(9,30,66,0.08); /* 加重阴影，更明显立体 */
+  box-shadow: 0 20px 48px rgba(9,30,66,0.08); /* 立体阴影 */
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -1325,62 +1328,41 @@ body.register-page .register-card {
   box-shadow: 0 24px 56px rgba(9,30,66,0.10);
 }
 
-.core-card-header {
-  max-width: 720px;
-  margin-bottom: 24px;
-}
-
-.core-card-header h3 {
-  font-size: 1.35rem;
-  margin-bottom: 8px;
-  color: var(--brand-2);
-}
-
-.core-card-header p {
-  font-size: 0.95rem;
-  color: #555;
-  line-height: 1.6;
-}
-
 /* ===============================
    Sub Services Grid (小卡片)
 ================================ */
 .sub-services-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 固定 2x2 */
+  grid-template-columns: repeat(2, 1fr);
   gap: 18px;
   margin-top: 20px;
 }
 
-/* Service card (小卡片) */
 .sub-services-grid .service-card {
-  background: linear-gradient(180deg, #fff, #FAF5E9); /* ✅ 恢复原先淡黄棕色渐变 */
+  background: linear-gradient(180deg, #fff, #FAF5E9); /* 恢复原先淡黄棕色渐变 */
   border-radius: 12px;
   padding: 18px;
   border: 1px solid rgba(10,10,10,0.03);
   box-shadow: 0 8px 24px rgba(9,30,66,0.04);
   cursor: pointer;
-  display: flex;       /* 保持原有布局 */
+  display: flex;
   flex-direction: column;
-  min-width: 0;        /* 防止网格跨列 */
+  min-width: 0;
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-/* 小卡片 hover 效果 */
 .sub-services-grid .service-card:hover {
   transform: scale(1.02);
   box-shadow: 0 10px 28px rgba(9,30,66,0.08);
-  border-color: #3B82F6; /* 蓝色边框 */
+  border-color: #3B82F6;
 }
 
-/* 小卡片标题 */
 .sub-services-grid .service-card h3 {
   margin: 0 0 8px;
   font-size: 18px;
   color: var(--brand-2);
 }
 
-/* 小卡片描述 */
 .sub-services-grid .service-card .desc {
   color: var(--muted);
   line-height: 1.45;
