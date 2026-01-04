@@ -1298,17 +1298,31 @@ body.register-page .register-card {
 
 
 
-
 /* ===============================
-   Core Service Categories
+   Our Services Section
 ================================ */
 
+/* Services section background (slightly lighter, original tone) */
+#services.section--services {
+  background-color: #f8f9fa; /* 原先浅灰色系，轻微淡化 */
+  padding: 60px 0; /* 可根据设计调整上下间距 */
+}
+
+/* ===============================
+   Core Service Categories (大卡片)
+================================ */
 .core-card {
   background: #ffffff;
   border-radius: 20px;
   padding: 32px;
   margin-bottom: 40px;
-  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 20px 48px rgba(9,30,66,0.08); /* 加重阴影，更明显立体 */
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.core-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 56px rgba(9,30,66,0.10);
 }
 
 .core-card-header {
@@ -1319,6 +1333,7 @@ body.register-page .register-card {
 .core-card-header h3 {
   font-size: 1.35rem;
   margin-bottom: 8px;
+  color: var(--brand-2);
 }
 
 .core-card-header p {
@@ -1327,117 +1342,56 @@ body.register-page .register-card {
   line-height: 1.6;
 }
 
-/* Sub services grid */
+/* ===============================
+   Sub Services Grid (小卡片)
+================================ */
 .sub-services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-}
-
-/* Slightly soften existing service cards when nested */
-.sub-services-grid .service-card {
-  background: #fafafa;
-  border-radius: 14px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.sub-services-grid .service-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
-}
-
-/* ===== Services Section Background ===== */
-#services.section--services {
-  background: linear-gradient(180deg, #fdfefe 0%, #f7f9fb 100%);
-}
-
-/* ===== Core Cards ===== */
-.core-card {
-  background: #ffffff;
-  border-radius: 20px;
-  padding: 32px;
-  margin-bottom: 40px;
-  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.06);
-}
-
-/* ===== Sub Services Grid (2x2) ===== */
-.sub-services-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
-
-/* ===== Restore Service Card Gradient ===== */
-.sub-services-grid .service-card {
-  background: linear-gradient(135deg, #f6f1e7 0%, #ede3d2 100%);
-  border-radius: 14px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.sub-services-grid .service-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
-}
-
-
-/* ===== Services Section Background (Original, Slightly Lighter) ===== */
-#services.section--services {
-  background-color: #f7f8f9;
-}
-
-/* ===== Core Cards (Stronger but Elegant Shadow) ===== */
-.core-card {
-  background: #ffffff;
-  border-radius: 20px;
-  padding: 32px;
-  margin-bottom: 40px;
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.08);
-}
-
-/* ===== Sub Services Grid (2 x 2) ===== */
-.sub-services-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
-
-/* ===== Restore Original Service Card Gradient ===== */
-.sub-services-grid .service-card {
-  background: linear-gradient(135deg, #f3ecd8 0%, #e7dbc2 100%);
-  border-radius: 14px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.sub-services-grid .service-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.10);
-}
-
-
-/* ===== Services Section Background (Original tone, slightly lighter) ===== */
-#services.section--services {
-  background-color: #f8f9fa;
-}
-
-/* ===== Core Cards – stronger but elegant ===== */
-.core-card {
-  background: #ffffff;
-  border-radius: 20px;
-  padding: 32px;
-  margin-bottom: 40px;
-  box-shadow: 0 20px 48px rgba(9,30,66,0.08);
-}
-
-/* ===== Sub Services Grid: always 2 x 2 ===== */
-.sub-services-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 1fr); /* 固定 2x2 */
   gap: 18px;
+  margin-top: 20px;
 }
 
-/* ===== Mobile ===== */
+/* Service card (小卡片) */
+.sub-services-grid .service-card {
+  background: linear-gradient(180deg, #fff, #FAF5E9); /* ✅ 恢复原先淡黄棕色渐变 */
+  border-radius: 12px;
+  padding: 18px;
+  border: 1px solid rgba(10,10,10,0.03);
+  box-shadow: 0 8px 24px rgba(9,30,66,0.04);
+  cursor: pointer;
+  display: flex;       /* 保持原有布局 */
+  flex-direction: column;
+  min-width: 0;        /* 防止网格跨列 */
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+/* 小卡片 hover 效果 */
+.sub-services-grid .service-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 10px 28px rgba(9,30,66,0.08);
+  border-color: #3B82F6; /* 蓝色边框 */
+}
+
+/* 小卡片标题 */
+.sub-services-grid .service-card h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: var(--brand-2);
+}
+
+/* 小卡片描述 */
+.sub-services-grid .service-card .desc {
+  color: var(--muted);
+  line-height: 1.45;
+  margin-bottom: 12px;
+}
+
+/* ===============================
+   Responsive
+================================ */
 @media (max-width: 768px) {
   .sub-services-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr; /* 手机单列 */
   }
 }
