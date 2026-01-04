@@ -537,45 +537,40 @@
   </style>
 
   <main>
-    <!-- SERVICES: big icon above title -->
-    <section id="services" class="section section--services">
-      <div class="section-inner">
-      <div class="section-title-wrapper">
-        <svg class="section-title-icon" viewBox="0 0 48 48" aria-hidden="true">
-          <use href="#bg-rounded"></use>
-          <use href="#line-book"></use>
-        </svg>
-        <h2 class="section-title" data-en="Our Services" data-zh="我们的服务">Our Services</h2>
-        <p class="section-sub" data-en="Click any service to read the detailed page and apply." data-zh="点击任意服务查看详细信息并提交申请。">Click any service to read the detailed page and apply.</p>
-      </div>
+         <!-- SERVICES: Core Categories + Sub Services -->
+<section id="services" class="section section--services">
+  <div class="section-inner">
 
-      <div class="services-grid">
-        <!-- 11 service cards (small icon on left, title & desc on right) -->
-        <article class="service-card" onclick="location.href='/apply.html'">
-          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-book"></use></svg>
-          <div class="service-content">
-            <h3 data-en="1. U.S. Education — Comparative Analysis" data-zh="1. 美国教育的优势与比较">1. U.S. Education — Comparative Analysis</h3>
-            <p class="desc" data-en="Macro analysis of US K12 & higher education vs. mainland China; system differences and outcomes." data-zh="美国 K12 与高等教育与中国大陆教育体系的宏观比较分析，侧重于系统差异与结果。">Macro analysis of US K12 & higher education vs. mainland China; system differences and outcomes.</p>
-            </div>
-        </article>
+    <!-- Section Title -->
+    <div class="section-title-wrapper">
+      <svg class="section-title-icon" viewBox="0 0 48 48" aria-hidden="true">
+        <use href="#bg-rounded"></use>
+        <use href="#line-book"></use>
+      </svg>
+      <h2 class="section-title" data-en="Our Services" data-zh="我们的服务">Our Services</h2>
+      <p class="section-sub"
+         data-en="Our work focuses on four education-centered pillars."
+         data-zh="我们的工作围绕四个以教育为核心的支持方向展开。">
+        Our work focuses on four education-centered pillars.
+      </p>
+    </div>
 
-        <article class="service-card" onclick="location.href='/apply.html'">
-          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-target"></use></svg>
-          <div class="service-content">
-            <h3 data-en="2. College Application Overview" data-zh="2. 美国大学申请总体情况">2. College Application Overview</h3>
-            <p class="desc" data-en="Overview of mainstream universities, application process, curricula, platforms and tuition; consulting & resources." data-zh="主流大学简介、申请流程、课程平台与学费信息；提供咨询与资源支持。">Overview of mainstream universities, application process, curricula, platforms and tuition; consulting & resources.</p>
-                  </div>
-        </article>
+    <!-- ================= Core Category 1 ================= -->
+    <article class="core-card">
+      <header class="core-card-header">
+        <h3 data-en="Education Affordability & Funding Support"
+            data-zh="教育可负担性与资助支持">
+          Education Affordability & Funding Support
+        </h3>
+        <p data-en="Helping families access financial aid, scholarships, and sustainable education funding pathways."
+           data-zh="帮助家庭系统性理解并获取助学金、奖学金与长期教育资金支持，使优质教育在经济上可实现。">
+          Helping families access financial aid, scholarships, and sustainable education funding pathways.
+        </p>
+      </header>
 
-        <article class="service-card" onclick="location.href='/apply.html'">
-          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-certificate"></use></svg>
-          <div class="service-content">
-            <h3 data-en="3. Pre-College Profile (AP / Summer)" data-zh="3. 升学档案构建（AP/暑期）">3. Pre-College Profile (AP / Summer)</h3>
-            <p class="desc" data-en="Course selection, AP planning, summer programs and extracurricular strategy to strengthen profile." data-zh="课程选择、AP 规划、暑期项目与课外活动策略，提升升学竞争力。">Course selection, AP planning, summer programs and extracurricular strategy to strengthen profile.</p>
-                 </div>
-        </article>
+      <div class="sub-services-grid">
 
-        <article class="service-card" onclick="location.href='/apply.html'">
+         <article class="service-card" onclick="location.href='/apply.html'">
           <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-dollar"></use></svg>
           <div class="service-content">
             <h3 data-en="4. Financial Aid (FAFSA / CSS) — One-on-One" data-zh="4. 助学金（FAFSA/CSS）一对一">4. Financial Aid (FAFSA / CSS) — One-on-One</h3>
@@ -589,14 +584,6 @@
             <h3 data-en="5. Scholarship Application Support" data-zh="5. 奖学金申请支持">5. Scholarship Application Support</h3>
             <p class="desc" data-en="Merit & need-based scholarship search, essay strategy and application management for HS and college." data-zh="成绩型与需求型奖学金研究、文书策略与申请管理，覆盖高中与大学的奖学金。">Merit & need-based scholarship search, essay strategy and application management for HS and college.</p>
              </div>
-        </article>
-
-        <article class="service-card" onclick="location.href='/apply.html'">
-          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-family"></use></svg>
-          <div class="service-content">
-            <h3 data-en="6. Family & Long-term Education Planning" data-zh="6. 家庭与长期教育规划">6. Family & Long-term Education Planning</h3>
-            <p class="desc" data-en="Holistic K12 → college planning to maximize outcomes across siblings and family situations." data-zh="从 K12 到大学的一体化规划，兼顾兄弟姐妹与家庭情境，最大化助学金与结果。">Holistic K12 → college planning to maximize outcomes across siblings and family situations.</p>
-            </div>
         </article>
 
         <article class="service-card" onclick="location.href='/apply.html'">
@@ -614,23 +601,24 @@
             <p class="desc" data-en="Design long-term college funding strategies, investment allocation, and risk planning aligned to family goals." data-zh="定制长期大学资助方案、投资配置与风险管理，使之契合家庭目标。">Design long-term college funding strategies, investment allocation, and risk planning aligned to family goals.</p>
             </div>
         </article>
+       
+      </div>
+    </article>
 
-        <article class="service-card" onclick="location.href='/apply.html'">
-          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-building"></use></svg>
-          <div class="service-content">
-            <h3 data-en="9. Family Foundation / 501(c)(3) Setup" data-zh="9. 设立家族基金会 / 501(c)(3)">9. Family Foundation / 501(c)(3) Setup</h3>
-            <p class="desc" data-en="Establish compliant charitable entities: governance, filing, tax rules and operational considerations." data-zh="设立合规慈善实体：治理架构、申报流程、税法与运营注意事项的一站式咨询。">Establish compliant charitable entities: governance, filing, tax rules and operational considerations.</p>
-            </div>
-        </article>
+    <!-- ================= Core Category 2 ================= -->
+    <article class="core-card">
+      <header class="core-card-header">
+        <h3 data-en="Volunteer & Social Impact Programs"
+            data-zh="公益项目与志愿者计划">
+          Volunteer & Social Impact Programs
+        </h3>
+        <p data-en="Volunteerism and social impact initiatives that foster responsibility and leadership."
+           data-zh="通过志愿服务与公益项目，鼓励学生参与社会、服务他人并获得成长。">
+          Volunteerism and social impact initiatives that foster responsibility and leadership.
+        </p>
+      </header>
 
-        <article class="service-card" onclick="location.href='/apply.html'">
-          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-shield"></use></svg>
-          <div class="service-content">
-            <h3 data-en="10. Education + Wealth & Trust Planning" data-zh="10. 教育与财富 / 信托规划">10. Education + Wealth & Trust Planning</h3>
-            <p class="desc" data-en="Trust design and intergenerational planning that coordinates education goals with wealth preservation strategies." data-zh="信托设计與代际财务规划，协调教育目标与财富传承策略。">Trust design and intergenerational planning that coordinates education goals with wealth preservation strategies.</p>
-            </div>
-        </article>
-
+      <div class="sub-services-grid">
         <article class="service-card" onclick="location.href='/apply.html'">
           <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-house"></use></svg>
           <div class="service-content">
@@ -647,8 +635,92 @@
             </div>
         </article>
       </div>
+    </article>
+
+    <!-- ================= Core Category 3 ================= -->
+    <article class="core-card">
+      <header class="core-card-header">
+        <h3 data-en="Education-Centered Family & Community Support"
+            data-zh="以教育为核心的家庭与社会支持">
+          Education-Centered Family & Community Support
+        </h3>
+        <p data-en="Education-centered guidance for families and communities to plan and sustain long-term missions."
+           data-zh="围绕教育目标，协助家庭与社会力量进行长期规划与制度化支持。">
+          Education-centered guidance for families and communities to plan and sustain long-term missions.
+        </p>
+      </header>
+
+      <div class="sub-services-grid">
+
+        <article class="service-card" onclick="location.href='/apply.html'">
+          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-book"></use></svg>
+          <div class="service-content">
+            <h3 data-en="1. U.S. Education — Comparative Analysis" data-zh="1. 美国教育的优势与比较">1. U.S. Education — Comparative Analysis</h3>
+            <p class="desc" data-en="Macro analysis of US K12 & higher education vs. mainland China; system differences and outcomes." data-zh="美国 K12 与高等教育与中国大陆教育体系的宏观比较分析，侧重于系统差异与结果。">Macro analysis of US K12 & higher education vs. mainland China; system differences and outcomes.</p>
+            </div>
+        </article>
+
+         <article class="service-card" onclick="location.href='/apply.html'">
+          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-family"></use></svg>
+          <div class="service-content">
+            <h3 data-en="6. Family & Long-term Education Planning" data-zh="6. 家庭与长期教育规划">6. Family & Long-term Education Planning</h3>
+            <p class="desc" data-en="Holistic K12 → college planning to maximize outcomes across siblings and family situations." data-zh="从 K12 到大学的一体化规划，兼顾兄弟姐妹与家庭情境，最大化助学金与结果。">Holistic K12 → college planning to maximize outcomes across siblings and family situations.</p>
+            </div>
+        </article>
+
+        <article class="service-card" onclick="location.href='/apply.html'">
+          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-building"></use></svg>
+          <div class="service-content">
+            <h3 data-en="9. Family Foundation / 501(c)(3) Setup" data-zh="9. 设立家族基金会 / 501(c)(3)">9. Family Foundation / 501(c)(3) Setup</h3>
+            <p class="desc" data-en="Establish compliant charitable entities: governance, filing, tax rules and operational considerations." data-zh="设立合规慈善实体：治理架构、申报流程、税法与运营注意事项的一站式咨询。">Establish compliant charitable entities: governance, filing, tax rules and operational considerations.</p>
+            </div>
+        </article>
+
+         <article class="service-card" onclick="location.href='/apply.html'">
+          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-shield"></use></svg>
+          <div class="service-content">
+            <h3 data-en="10. Education + Wealth & Trust Planning" data-zh="10. 教育与财富 / 信托规划">10. Education + Wealth & Trust Planning</h3>
+            <p class="desc" data-en="Trust design and intergenerational planning that coordinates education goals with wealth preservation strategies." data-zh="信托设计與代际财务规划，协调教育目标与财富传承策略。">Trust design and intergenerational planning that coordinates education goals with wealth preservation strategies.</p>
+            </div>
+        </article>
+
+       </div>
+    </article>
+
+    <!-- ================= Core Category 4 ================= -->
+    <article class="core-card">
+      <header class="core-card-header">
+        <h3 data-en="Academic & College Readiness Support (Through Partners)"
+            data-zh="课程与升学支持（合作机构提供）">
+          Academic & College Readiness Support (Through Partners)
+        </h3>
+        <p data-en="Academic planning and college readiness support provided through partner organizations."
+           data-zh="通过合作机构，为学生提供课程规划与升学认知支持。">
+          Academic planning and college readiness support provided through partner organizations.
+        </p>
+      </header>
+
+      <div class="sub-services-grid">
+        <article class="service-card" onclick="location.href='/apply.html'">
+          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-target"></use></svg>
+          <div class="service-content">
+            <h3 data-en="2. College Application Overview" data-zh="2. 美国大学申请总体情况">2. College Application Overview</h3>
+            <p class="desc" data-en="Overview of mainstream universities, application process, curricula, platforms and tuition; consulting & resources." data-zh="主流大学简介、申请流程、课程平台与学费信息；提供咨询与资源支持。">Overview of mainstream universities, application process, curricula, platforms and tuition; consulting & resources.</p>
+                  </div>
+        </article>
+
+        <article class="service-card" onclick="location.href='/apply.html'">
+          <svg class="card-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#card-certificate"></use></svg>
+          <div class="service-content">
+            <h3 data-en="3. Pre-College Profile (AP / Summer)" data-zh="3. 升学档案构建（AP/暑期）">3. Pre-College Profile (AP / Summer)</h3>
+            <p class="desc" data-en="Course selection, AP planning, summer programs and extracurricular strategy to strengthen profile." data-zh="课程选择、AP 规划、暑期项目与课外活动策略，提升升学竞争力。">Course selection, AP planning, summer programs and extracurricular strategy to strengthen profile.</p>
+                 </div>
+        </article>
+      </div>
+    </article>
+
   </div>
-    </section>
+</section>
 
     
 <!-- TOOLS (Register / Unlock / Apply) -->
