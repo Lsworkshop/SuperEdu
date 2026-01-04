@@ -1296,8 +1296,12 @@ body.register-page .register-card {
     0 16px 36px rgba(0, 0, 0, 0.16);
 }
 
+/* =====================================================
+   Our Services – Final Polished Version
+===================================================== */
+
 /* ===============================
-   Services Section – Background
+   Section Background
 ================================ */
 #services.section--services {
   background: linear-gradient(180deg, #f1f3f6 0%, #eef1f5 100%);
@@ -1305,21 +1309,22 @@ body.register-page .register-card {
 }
 
 /* ===============================
-   Core Cards (大卡片) – 明亮 + 可点击
+   Core Cards (大卡片)
+   —— 更亮 / 更干净 / 强可点击
 ================================ */
 .core-card {
   background: linear-gradient(
     180deg,
     #ffffff 0%,
-    #fffdf6 100%
-  ); /* 更明亮、微暖 */
+    #f9faf6 100%
+  ); /* 明亮中性白，与小卡片形成色差 */
 
   border-radius: 22px;
   padding: 34px;
   margin-bottom: 44px;
 
+  border: 1px solid rgba(59, 130, 246, 0.10);
   box-shadow: 0 18px 42px rgba(9, 30, 66, 0.10);
-  border: 1px solid rgba(59, 130, 246, 0.08);
 
   cursor: pointer;
 
@@ -1330,21 +1335,37 @@ body.register-page .register-card {
     background 0.25s ease;
 }
 
-/* 大卡片 Hover：整体浮起 + 高亮边框 */
+/* Hover：整体浮起 + 高亮边框 */
 .core-card:hover {
-  transform: translateY(-6px) scale(1.01);
+  transform: translateY(-6px);
   box-shadow: 0 26px 64px rgba(9, 30, 66, 0.16);
   border-color: #3B82F6;
 }
 
 /* ===============================
-   Core Card Header – 字体 Hover 提示
+   Core Card Header
 ================================ */
+.core-card-header {
+  max-width: 720px;
+  margin-bottom: 24px;
+}
+
 .core-card-header h3 {
   font-size: 1.4rem;
   margin-bottom: 10px;
   color: var(--brand-2);
-  transition: color 0.2s ease, transform 0.2s ease;
+
+  transition:
+    color 0.2s ease,
+    font-weight 0.2s ease,
+    letter-spacing 0.2s ease;
+}
+
+/* Hover 时标题强调（不位移） */
+.core-card:hover .core-card-header h3 {
+  color: #2563EB;
+  font-weight: 600;
+  letter-spacing: 0.2px;
 }
 
 .core-card-header p {
@@ -1354,19 +1375,12 @@ body.register-page .register-card {
   transition: color 0.2s ease;
 }
 
-/* 当鼠标悬停在整个大卡片时，文字也有明显反馈 */
-.core-card:hover .core-card-header h3 {
-  color: #2563EB;            /* 更亮的蓝 */
-  transform: scale(1.05);    /* 字体微放大 */
-}
-
 .core-card:hover .core-card-header p {
   color: #333;
 }
 
 /* ===============================
-   Sub Services Grid (小卡片)
-   —— 保持原先淡黄棕色渐变
+   Sub Services Grid (小卡片容器)
 ================================ */
 .sub-services-grid {
   display: grid;
@@ -1375,17 +1389,22 @@ body.register-page .register-card {
   margin-top: 22px;
 }
 
+/* ===============================
+   Service Cards (小卡片)
+   —— 原先淡黄棕色渐变，完全恢复
+================================ */
 .sub-services-grid .service-card {
-  background: linear-gradient(180deg, #fff, #FAF5E9);
+  background: linear-gradient(180deg, #ffffff 0%, #FAF5E9 100%);
   border-radius: 12px;
   padding: 18px;
-  border: 1px solid rgba(10,10,10,0.03);
-  box-shadow: 0 8px 24px rgba(9,30,66,0.04);
 
-  cursor: pointer;
+  border: 1px solid rgba(10, 10, 10, 0.03);
+  box-shadow: 0 8px 24px rgba(9, 30, 66, 0.04);
+
   display: flex;
   flex-direction: column;
   min-width: 0;
+  cursor: pointer;
 
   transition:
     transform 0.25s ease,
@@ -1395,19 +1414,36 @@ body.register-page .register-card {
 
 .sub-services-grid .service-card:hover {
   transform: scale(1.02);
-  box-shadow: 0 12px 30px rgba(9,30,66,0.08);
+  box-shadow: 0 12px 30px rgba(9, 30, 66, 0.08);
   border-color: #3B82F6;
 }
 
+/* 小卡片文字 */
+.sub-services-grid .service-card h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: var(--brand-2);
+}
+
+.sub-services-grid .service-card .desc {
+  color: var(--muted);
+  line-height: 1.45;
+  margin-bottom: 12px;
+}
+
 /* ===============================
-   Responsive
+   Responsive (Mobile)
 ================================ */
 @media (max-width: 768px) {
-  .sub-services-grid {
-    grid-template-columns: 1fr;
+  #services.section--services {
+    padding: 48px 0;
   }
 
   .core-card {
     padding: 28px;
+  }
+
+  .sub-services-grid {
+    grid-template-columns: 1fr;
   }
 }
