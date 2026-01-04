@@ -1342,3 +1342,43 @@ body.register-page .register-card {
   transform: translateY(-4px);
   box-shadow: 0 10px 24px rgba(0,0,0,0.08);
 }
+
+/* ===== Services Section Background ===== */
+#services.section--services {
+  background: linear-gradient(180deg, #fdfefe 0%, #f7f9fb 100%);
+}
+
+/* ===== Core Cards ===== */
+.core-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 40px;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.06);
+}
+
+/* ===== Sub Services Grid (2x2) ===== */
+.sub-services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+/* ===== Restore Service Card Gradient ===== */
+.sub-services-grid .service-card {
+  background: linear-gradient(135deg, #f6f1e7 0%, #ede3d2 100%);
+  border-radius: 14px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.sub-services-grid .service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+}
+
+/* ===== Mobile ===== */
+@media (max-width: 768px) {
+  .sub-services-grid {
+    grid-template-columns: 1fr;
+  }
+}
