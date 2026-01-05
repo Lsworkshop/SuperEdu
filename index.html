@@ -1160,7 +1160,14 @@ document.addEventListener("DOMContentLoaded", () => {
   </h3>
 
   <div class="contact-form-wrapper">
-    <form id="consultForm" autocomplete="off">
+
+<!-- 语言切换 -->
+<div class="lang-switch">
+  <button type="button" onclick="switchLanguage('en')">EN</button>
+  <button type="button" onclick="switchLanguage('zh')">中文</button>
+</div>
+
+<form id="consultForm" autocomplete="off">
 
 
       <input
@@ -1417,10 +1424,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // 默认语言
-  switchLanguage('en'); // 页面默认英文
-
-  // 示例：语言切换按钮
-  // switchLanguage('zh'); // 切换中文测试
+  switchLanguage('en'); 
 });
 
 </script>
