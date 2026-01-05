@@ -254,130 +254,114 @@
 
 <script>
 /* ===============================
-      Service Labels List
+   Service Labels List (4 Core Categories)
 ================================ */
-const serviceItems = [
-  {id:'s1', en:'🎓 Education Affordability & Funding Support', zh:'🎓 教育可负担性与资助支持'}, 
-  <p data-en="U.S. Education & Comparative Analysis." data-zh="美国教育体系与比较分析"> Education</p>
 
-  {id:'s2', en:'College Application Strategy & Planning', zh:'大学申请策略与规划'},
-  {id:'s3', en:'Pre-College Profile Development (AP/Summer Programs)', zh:'大学前背景打造（AP/夏校）'},
-  {id:'s4', en:'Financial Aid (FAFSA/CSS) — One-on-One', zh:'助学金（FAFSA/CSS）一对一辅导'},
-  {id:'s5', en:'Scholarship Application Support', zh:'奖学金申请辅导'},
-  {id:'s6', en:'Family & Long-term Education Planning', zh:'家庭与长期教育规划'},
-  {id:'s7', en:'Education Savings & Tax (ESA / 529)', zh:'教育储蓄与税务（ESA / 529）'},
-  {id:'s8', en:'College Fund Design & Financial Strategy', zh:'大学基金设计与资金策略'},
-  {id:'s9', en:'Family Foundation / 501(c)(3) Setup', zh:'家庭基金会 / 501(c)(3) 设立辅导'},
-  {id:'s10', en:'Education + Wealth & Trust Planning', zh:'教育与财富信托规划'}
+const serviceItems = [
+  {
+    id: 's1',
+    en: '🎓 Education Affordability & Funding Support',
+    zh: '🎓 教育可负担性与资助支持'
+  },
+  {
+    id: 's2',
+    en: '📘 Academic & College Readiness Support',
+    zh: '📘 学术与大学升学支持'
+  },
+  {
+    id: 's3',
+    en: '🤝 Volunteer & Social Impact Programs',
+    zh: '🤝 志愿服务与社会公益项目'
+  },
+  {
+    id: 's4',
+    en: '🏠 Education-Centered Family & Community Support',
+    zh: '🏠 以教育为核心的家庭与社区支持'
+  }
 ];
 
 let lang = localStorage.getItem('superedu-lang') || 'en';
 
-/* Render checkboxes */
+/* ===============================
+   Render Service Checkboxes
+================================ */
 function renderServices(){
   const wrap = document.getElementById('servicesList');
+  if(!wrap) return;
+
   wrap.innerHTML = '';
   serviceItems.forEach(s=>{
-    const text = lang==='en' ? s.en : s.zh;
-    // value set to english key for consistent backend handling, but label text is localized
+    const text = lang === 'en' ? s.en : s.zh;
     wrap.innerHTML += `
-      <label>
-        <input type="checkbox" name="services" value="${s.en}">
+      <label class="service-checkbox-item">
+        <input type="checkbox" name="services" value="${s.id}">
         <span>${text}</span>
       </label>
     `;
   });
 }
 
-/* Language switching UI + behavior */
+/* ===============================
+   Language Switching
+================================ */
 function setLang(l){
   lang = l;
-  localStorage.setItem('superedu-lang',l);
+  localStorage.setItem('superedu-lang', l);
 
-  // update all elements that have data-en / data-zh
   document.querySelectorAll('[data-en]').forEach(el=>{
-    // skip inputs / textareas placeholders (we could handle placeholders if needed)
-    if(el.tagName==='INPUT' || el.tagName==='TEXTAREA') return;
-    el.innerText = (l==='en') ? el.dataset.en : el.dataset.zh;
+    if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') return;
+    el.innerText = (l === 'en') ? el.dataset.en : el.dataset.zh;
   });
 
-  // Update submit button text specifically (in case innerText wasn't covered)
   const submitBtn = document.getElementById('submitBtn');
-  if(submitBtn) submitBtn.innerText = (l==='en') ? submitBtn.dataset.en : submitBtn.dataset.zh;
+  if(submitBtn){
+    submitBtn.innerText = (l === 'en')
+      ? submitBtn.dataset.en
+      : submitBtn.dataset.zh;
+  }
 
-  // render localized services list
   renderServices();
 
-  // update language toggle button label to show opposite (UX choice)
   const langBtn = document.getElementById('langToggle');
-  if(langBtn) langBtn.innerText = (l==='en') ? '中文' : 'EN';
+  if(langBtn){
+    langBtn.innerText = (l === 'en') ? '中文' : 'EN';
+  }
 }
 
-/* Toggle language when user clicks the top button */
+/* ===============================
+   Init on Load
+================================ */
 document.addEventListener('DOMContentLoaded', () => {
-  // initialize UI
   setLang(lang);
 
   const langBtn = document.getElementById('langToggle');
   if(langBtn){
-    // ensure label shows opposite language as the toggle (common pattern)
     langBtn.addEventListener('click', () => {
-      const next = (lang === 'en') ? 'zh' : 'en';
-      setLang(next);
-    });
-    // set initial label according to current language
-    langBtn.innerText = (lang==='en') ? '中文' : 'EN';
-  }
-
-  // Hook: mobile hamburger toggling (simple)
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  if(hamburger && mobileMenu){
-    hamburger.addEventListener('click', () => {
-      const expanded = hamburger.getAttribute('aria-expanded') === 'true';
-      hamburger.setAttribute('aria-expanded', (!expanded).toString());
-      if(expanded){
-        mobileMenu.setAttribute('aria-hidden','true');
-        hamburger.classList.remove('open');
-      } else {
-        mobileMenu.setAttribute('aria-hidden','false');
-        hamburger.classList.add('open');
-      }
-    });
-
-    // Close mobile menu when any menu link is clicked (helps UX)
-    mobileMenu.querySelectorAll('a').forEach(a=>{
-      a.addEventListener('click', ()=> {
-        mobileMenu.setAttribute('aria-hidden','true');
-        hamburger.setAttribute('aria-expanded','false');
-        hamburger.classList.remove('open');
-      });
+      setLang(lang === 'en' ? 'zh' : 'en');
     });
   }
 });
 
-/* initial render of services */
-renderServices();
-
 /* ===============================
-      SUBMIT FORM
+   Submit Form
 ================================ */
 document.getElementById('applyForm').addEventListener('submit', async e =>{
   e.preventDefault();
 
-  // ---- Email format validation ----
   const email = document.getElementById('email').value.trim();
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if(!emailPattern.test(email)){
-    alert(lang==='zh' ? "请输入有效的邮箱地址" : "Please enter a valid email address");
+    alert(lang === 'zh'
+      ? '请输入有效的邮箱地址'
+      : 'Please enter a valid email address');
     return;
   }
 
   const status = document.getElementById('formStatus');
-  status.innerText = lang==='en' ? 'Submitting...' : '提交中...';
+  status.innerText = lang === 'en' ? 'Submitting...' : '提交中...';
 
   const services = [...document.querySelectorAll('input[name="services"]:checked')]
-        .map(i=>i.value);
+    .map(i => i.value);
 
   const payload = {
     firstName: document.getElementById('firstName').value.trim(),
@@ -385,32 +369,31 @@ document.getElementById('applyForm').addEventListener('submit', async e =>{
     email,
     phone: document.getElementById('phone').value.trim(),
     country: document.getElementById('country').value.trim(),
-    services,
+    services, // e.g. ['s1','s3']
     notes: document.getElementById('notes').value.trim(),
     lang,
-    source:'apply_form',
-    created_at:new Date().toISOString()
+    source: 'apply_form',
+    created_at: new Date().toISOString()
   };
 
   try{
-    const res = await fetch('/api/apply',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(payload)
+    const res = await fetch('/api/apply', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
     });
-
-    const out = await res.json();
 
     if(res.ok){
       window.location.href = '/thank-you.html';
     } else {
-      status.innerText = out.message || (lang==='en'?'Submission failed':'提交失败');
+      status.innerText = lang === 'en' ? 'Submission failed' : '提交失败';
     }
-  }catch(err){
+  } catch(err){
     console.error(err);
-    status.innerText = lang==='en'?'Submission failed':'提交失败';
+    status.innerText = lang === 'en' ? 'Submission failed' : '提交失败';
   }
 });
 </script>
+
 </body>
 </html>
