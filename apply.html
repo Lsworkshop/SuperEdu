@@ -135,6 +135,81 @@
   @media (max-width:720px){
     .services-checkbox-grid { grid-template-columns:1fr; }
   }
+
+  /* ===== Service Options (Apply Page) ===== */
+
+.services-checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin: 14px 0 24px;
+}
+
+@media (max-width: 768px) {
+  .services-checkbox-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.service-option-card {
+  display: block;
+  cursor: pointer;
+}
+
+.service-option-card input {
+  display: none;
+}
+
+/* Card body */
+.service-option-body {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 16px 18px;
+  border: 2px solid #e5e7eb;
+  transition: all .25s ease;
+}
+
+/* Hover */
+.service-option-card:hover .service-option-body {
+  border-color: #3b82f6;
+  box-shadow: 0 10px 28px rgba(59,130,246,0.18);
+  transform: translateY(-2px);
+}
+
+/* Checked */
+.service-option-card input:checked + .service-option-body {
+  border-color: #2563eb;
+  background: linear-gradient(180deg,#ffffff,#f4f8ff);
+  box-shadow: 0 12px 32px rgba(37,99,235,0.22);
+}
+
+/* Title */
+.service-option-title {
+  font-weight: 600;
+  font-size: 1.02rem;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.service-order {
+  font-weight: 700;
+  margin-right: 6px;
+  color: #2563eb;
+}
+
+/* Sub list */
+.service-sub-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 0.88rem;
+  color: #4b5563;
+  line-height: 1.45;
+}
+
+.service-sub-list li {
+  margin: 2px 0;
+}
+
 </style>
 
 <link rel="stylesheet" href="/assets/css/main.css">
@@ -260,25 +335,66 @@
 const serviceItems = [
   {
     id: 's1',
+    order: '1',
     en: '🎓 Education Affordability & Funding Support',
-    zh: '🎓 教育可负担性与资助支持'
+    zh: '🎓 教育可负担性与资助支持',
+    subs_en: [
+      'Financial Aid (FAFSA / CSS)',
+      'Scholarships & Grants',
+      'Education Savings & Funding Strategy'
+    ],
+    subs_zh: [
+      '助学金（FAFSA / CSS）',
+      '奖学金与资助项目',
+      '教育储蓄与资金规划'
+    ]
   },
   {
     id: 's2',
+    order: '2',
     en: '📘 Academic & College Readiness Support',
-    zh: '📘 学术与大学升学支持'
+    zh: '📘 学术与大学升学支持',
+    subs_en: [
+      'U.S. Education System Overview',
+      'College Application Strategy',
+      'Pre-College Profile (AP / Summer)'
+    ],
+    subs_zh: [
+      '美国教育体系与比较',
+      '大学申请策略',
+      '大学前背景打造（AP / 夏校）'
+    ]
   },
   {
     id: 's3',
+    order: '3',
     en: '🤝 Volunteer & Social Impact Programs',
-    zh: '🤝 志愿服务与社会公益项目'
+    zh: '🤝 志愿服务与社会公益项目',
+    subs_en: [
+      'Edunova Volunteer Programs',
+      'Community & Social Impact Initiatives'
+    ],
+    subs_zh: [
+      'Edunova 志愿者项目',
+      '社区与社会影响力项目'
+    ]
   },
   {
     id: 's4',
+    order: '4',
     en: '🏠 Education-Centered Family & Community Support',
-    zh: '🏠 以教育为核心的家庭与社区支持'
+    zh: '🏠 以教育为核心的家庭与社区支持',
+    subs_en: [
+      'Family Education Planning',
+      'Education + Wealth / Trust Coordination'
+    ],
+    subs_zh: [
+      '家庭教育整体规划',
+      '教育与财富 / 信托协同'
+    ]
   }
 ];
+
 
 let lang = localStorage.getItem('superedu-lang') || 'en';
 
@@ -291,15 +407,26 @@ function renderServices(){
 
   wrap.innerHTML = '';
   serviceItems.forEach(s=>{
-    const text = lang === 'en' ? s.en : s.zh;
+    const title = lang === 'en' ? s.en : s.zh;
+    const subs  = lang === 'en' ? s.subs_en : s.subs_zh;
+
     wrap.innerHTML += `
-      <label class="service-checkbox-item">
+      <label class="service-option-card">
         <input type="checkbox" name="services" value="${s.id}">
-        <span>${text}</span>
+        <div class="service-option-body">
+          <div class="service-option-title">
+            <span class="service-order">${s.order}.</span>
+            ${title}
+          </div>
+          <ul class="service-sub-list">
+            ${subs.map(item => `<li>${item}</li>`).join('')}
+          </ul>
+        </div>
       </label>
     `;
   });
 }
+
 
 /* ===============================
    Language Switching
