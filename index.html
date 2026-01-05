@@ -1162,48 +1162,61 @@ document.addEventListener("DOMContentLoaded", () => {
   <div class="contact-form-wrapper">
     <form id="consultForm" autocomplete="off">
 
-      <input
-        id="c-first"
-        type="text"
-        placeholder="First name"
-        required
-      />
 
       <input
-        id="c-last"
-        type="text"
-        placeholder="Last name"
-        required
-      />
+  id="c-first"
+  type="text"
+  required
+  placeholder="First name"
+  data-en="First name"
+  data-zh="名字"
+/>
 
-      <input
-        id="c-email"
-        type="email"
-        inputmode="email"
-        autocomplete="email"
-        placeholder="Email address"
-        required
-      />
+<input
+  id="c-last"
+  type="text"
+  required
+  placeholder="Last name"
+  data-en="Last name"
+  data-zh="姓氏"
+/>
 
-      <input
-        id="c-phone"
-        type="tel"
-        placeholder="Phone number (optional)"
-      />
+<input
+  id="c-email"
+  type="email"
+  required
+  placeholder="Email address"
+  data-en="Email address"
+  data-zh="电子邮箱"
+/>
 
-      <input
-        id="c-grad"
-        type="text"
-        placeholder="High school graduation year (optional)"
-      />
+<input
+  id="c-phone"
+  type="tel"
+  placeholder="Phone number (optional)"
+  data-en="Phone number (optional)"
+  data-zh="电话号码（可选）"
+/>
 
-      <textarea
+<input
+  id="c-grad"
+  type="text"
+  placeholder="High school graduation year (optional)"
+  data-en="High school graduation year (optional)"
+  data-zh="高中毕业年份（可选）"
+/>
+
+<textarea
   id="c-message"
   rows="4"
+  aria-label="Consultation message"
   placeholder="Tell us a bit about your situation, goals, or questions (optional)"
-  aria-label="Consultation message"></textarea>
+  data-en="Tell us a bit about your situation, goals, or questions (optional)"
+  data-zh="请简单介绍您的情况、目标或疑问（可选）"
+></textarea>
 
 
+      
       <button
         type="submit"
         class="btn btn-primary"
@@ -1393,6 +1406,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+<!-- 你的页面内容 -->
+  function switchLanguage(lang) {
+    document.querySelectorAll('[data-en]').forEach(el => {
+      if (el.placeholder) {
+        el.placeholder = el.dataset[lang];
+      }
+      if (!el.placeholder && el.textContent) {
+        el.textContent = el.dataset[lang];
+      }
+    });
+  }
+
 
 </script>
 
