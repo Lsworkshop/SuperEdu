@@ -1210,7 +1210,6 @@ document.addEventListener("DOMContentLoaded", () => {
   id="c-message"
   type="text"
   rows="4"
-  aria-label="Consultation message"
   placeholder="Tell us a bit about your situation, goals, or questions (optional)"
   data-en="Tell us a bit about your situation, goals, or questions (optional)"
   data-zh="请简单介绍您的情况、目标或疑问（可选）"
@@ -1408,27 +1407,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
-function switchLanguage(lang) {
-  document
-    .querySelectorAll('[data-en][data-zh]')
-    .forEach(el => {
-
-      // input / textarea：只改 placeholder
-      if (
-        (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') &&
-        el.hasAttribute('placeholder')
-      ) {
-        el.placeholder = el.dataset[lang];
-        return;
-      }
-
-      // 其他元素（标题、按钮）
-      if (el.childNodes.length === 1) {
-        el.textContent = el.dataset[lang];
-      }
-    });
-}
 
 
 </script>
