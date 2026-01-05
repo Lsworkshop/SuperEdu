@@ -1400,7 +1400,28 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  // 确保 textarea 初始值为空
+  const t = document.getElementById('c-message');
+  if(t) t.value = '';
 
+  // 语言切换函数
+  window.switchLanguage = function(lang) {
+    document.querySelectorAll('[data-en][data-zh]').forEach(el => {
+      if ((el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') && el.hasAttribute('placeholder')) {
+        el.placeholder = el.dataset[lang];
+      } else {
+        el.textContent = el.dataset[lang];
+      }
+    });
+  };
+
+  // 默认语言
+  switchLanguage('en'); // 页面默认英文
+
+  // 示例：语言切换按钮
+  // switchLanguage('zh'); // 切换中文测试
+});
 
 </script>
 
