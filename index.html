@@ -1408,17 +1408,22 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-  function switchLanguage(lang) {
-    document
-      .querySelectorAll('[data-en][data-zh]')
-      .forEach(el => {
-        if (el.hasAttribute('placeholder')) {
-          el.setAttribute('placeholder', el.dataset[lang]);
-        } else {
-          el.textContent = el.dataset[lang];
-        }
-      });
-  }
+function switchLanguage(lang) {
+  document
+    .querySelectorAll('[data-en][data-zh]')
+    .forEach(el => {
+      if (el.hasAttribute('placeholder')) {
+        el.setAttribute('placeholder', el.dataset[lang]);
+      } else {
+        el.textContent = el.dataset[lang];
+      }
+    });
+
+  // 可选：记录当前语言
+  document.documentElement.lang = lang;
+}
+
+
 </script>
 
 
