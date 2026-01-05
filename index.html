@@ -1409,6 +1409,28 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+function switchLanguage(lang) {
+  document
+    .querySelectorAll('[data-en][data-zh]')
+    .forEach(el => {
+
+      // input / textarea：只改 placeholder
+      if (
+        (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') &&
+        el.hasAttribute('placeholder')
+      ) {
+        el.placeholder = el.dataset[lang];
+        return;
+      }
+
+      // 其他元素（标题、按钮）
+      if (el.childNodes.length === 1) {
+        el.textContent = el.dataset[lang];
+      }
+    });
+}
+
+
 </script>
 
 
