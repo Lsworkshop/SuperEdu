@@ -1407,37 +1407,24 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-<!-- 你的页面内容 -->
+
   function switchLanguage(lang) {
-    document.querySelectorAll('[data-en]').forEach(el => {
-      if (el.placeholder) {
-        el.placeholder = el.dataset[lang];
-      }
-      if (!el.placeholder && el.textContent) {
-        el.textContent = el.dataset[lang];
-      }
-    });
+    document
+      .querySelectorAll('[data-en][data-zh]')
+      .forEach(el => {
+        if (el.hasAttribute('placeholder')) {
+          el.setAttribute('placeholder', el.dataset[lang]);
+        } else {
+          el.textContent = el.dataset[lang];
+        }
+      });
   }
 
+  // 示例：默认中文
+  switchLanguage('zh');
 
 </script>
 
 
 </body>
 </html>
-
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const elements = document.querySelectorAll(".reveal");
-
-  const observer = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        entry.target.classList.add("visible");
-      }
-    });
-  }, { threshold: 0.18 });
-
-  elements.forEach(el => observer.observe(el));
-});
-</script>
