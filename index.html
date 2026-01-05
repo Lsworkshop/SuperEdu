@@ -1208,6 +1208,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 <textarea
   id="c-message"
+  type="text"
   rows="4"
   aria-label="Consultation message"
   placeholder="Tell us a bit about your situation, goals, or questions (optional)"
@@ -1406,22 +1407,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-
-
-function switchLanguage(lang) {
-  document
-    .querySelectorAll('[data-en][data-zh]')
-    .forEach(el => {
-      if (el.hasAttribute('placeholder')) {
-        el.setAttribute('placeholder', el.dataset[lang]);
-      } else {
-        el.textContent = el.dataset[lang];
-      }
-    });
-
-  // 可选：记录当前语言
-  document.documentElement.lang = lang;
-}
 
 
 </script>
