@@ -31,7 +31,9 @@ body.register-page {
   max-width: 520px;
   margin: 120px auto 80px;
   padding: 0 20px;
+  padding-bottom: 64px;
 }
+
 
 .register-title {
   text-align: center;
@@ -522,24 +524,19 @@ body.register-page {
       </div>
 
       <!-- Referral Code -->
-      <div class="form-group">
-        <label
-          for="referral_code"
-          data-en="Referral code (optional)"
-          data-zh="推荐码（可选）"
-        >
-          Referral code <span class="optional">(optional)</span>
-        </label>
-        <input
-          type="text"
-          id="referral_code"
-          name="referral_code"
-          placeholder="Enter referral code if you have one"
-          data-en-placeholder="Enter referral code if you have one"
-          data-zh-placeholder="如有推荐码请输入"
-          autocomplete="off"
-        />
-      </div>
+      <label for="referral_code"
+       data-en="Referral Code (optional)"
+       data-zh="推荐码（可选）">
+  Referral Code <span class="optional">(optional)</span>
+</label>
+
+<input
+  type="text"
+  id="referral_code"
+  name="referral_code"
+  placeholder="Enter referral code if you have one / 如有推荐码请输入"
+  autocomplete="off"
+/>
 
       <!-- Submit -->
       <button
