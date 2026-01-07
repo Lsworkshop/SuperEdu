@@ -44,7 +44,14 @@ function generateMemberId() {
 export async function onRequestPost({ request, env }) {
   try {
     const body = await request.json();
-    const { first_name, last_name, email, password } = body;
+
+    const {
+      first_name,
+      last_name,
+      email,
+      password,
+      referral_code   // ✅ NEW
+    } = body;
 
     /* ---------- Required Fields ---------- */
     if (!first_name || !last_name || !email || !password) {
@@ -103,8 +110,6 @@ export async function onRequestPost({ request, env }) {
         .first();
     } while (idExists);
 
-    const now = new Date().toISOString();
-
     /* ---------- Insert Member ---------- */
     await env.DB.prepare(`
       INSERT INTO members (
@@ -113,13 +118,12 @@ export async function onRequestPost({ request, env }) {
         email,
         member_id,
         password_hash,
+        referral_code,
         role,
         source,
         status,
-        is_verified,
-        created_at,
-        updated_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        is_verified
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `)
       .bind(
         first_name,
@@ -127,12 +131,11 @@ export async function onRequestPost({ request, env }) {
         email,
         member_id,
         password_hash,
-        "member",        // role
-        "register",      // source
-        "active",        // status
-        0,               // is_verified
-        now,
-        now
+        referral_code || null, // ✅ optional
+        "member",              // role
+        "register",            // source
+        "active",              // status
+        0                      // is_verified
       )
       .run();
 
@@ -146,7 +149,7 @@ export async function onRequestPost({ request, env }) {
     );
 
   } catch (err) {
-    console.error(err);
+    console.error("Register API Error:", err);
 
     return new Response(
       JSON.stringify({ error: "Registration failed." }),
