@@ -729,9 +729,12 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
       status.className = "form-status success";
 
-      setTimeout(() => {
-        window.location.href = "/welcome.html";
-      }, 1600);
+      status.innerHTML = `
+  Account created successfully.<br>
+  <strong>Your Member ID:</strong> ${data.member_id}<br><br>
+  📧 Please check your email to verify your account before logging in.
+`;
+status.className = "form-status success";
 
     } catch (err) {
       status.textContent = "Network error. Please try again.";
