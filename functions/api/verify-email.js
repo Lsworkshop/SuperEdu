@@ -7,7 +7,6 @@ export async function onRequestGet({ request, env }) {
       return new Response("Invalid verification link.", { status: 400 });
     }
 
-    // 查 token
     const record = await env.DB.prepare(`
       SELECT id, member_id, expires_at, used
       FROM email_verifications
@@ -18,13 +17,12 @@ export async function onRequestGet({ request, env }) {
       return new Response("Verification link not found.", { status: 404 });
     }
 
-    // 已使用 → 直接跳
+    // 已使用，直接跳首页
     if (record.used === 1) {
+      const redirectUrl = new URL("/welcome.html", request.url).toString();
       return new Response(null, {
         status: 302,
-        headers: {
-          Location: "/welcome.html"
-        }
+        headers: { Location: redirectUrl }
       });
     }
 
@@ -48,12 +46,15 @@ export async function onRequestGet({ request, env }) {
       WHERE id = ?
     `).bind(record.id).run();
 
-    // ✅ 成功跳转（稳定写法）
+    // ✅ 成功后跳转（绝对 URL，永不抛错）
+    const successUrl = new URL(
+      "/welcome.html?verified=1",
+      request.url
+    ).toString();
+
     return new Response(null, {
       status: 302,
-      headers: {
-        Location: "/welcome.html?verified=1"
-      }
+      headers: { Location: successUrl }
     });
 
   } catch (err) {
