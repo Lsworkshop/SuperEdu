@@ -49,8 +49,11 @@ function generateVerificationToken() {
    Send Verification Email
 ========================= */
 async function sendVerificationEmail({ env, email, token }) {
-  const verifyUrl =
-    `https://edu.lsfinova.com/verify-email.html?token=${token}`;
+  
+  const baseUrl = "https://edu.lsfinova.com";
+  const verifyLink =
+  `${baseUrl}/api/verify-email?token=${token}`;
+
 
   const body = new URLSearchParams();
   body.append("from", "Edunova Education <team@edunovafdn.org>");
