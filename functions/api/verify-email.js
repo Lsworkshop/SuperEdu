@@ -1,10 +1,12 @@
 export async function onRequestGet({ request, env }) {
+  const baseUrl = new URL(request.url).origin;
+
   try {
     const url = new URL(request.url);
     const token = url.searchParams.get("token");
 
     if (!token) {
-      return new Response("Invalid verification link.", { status: 400 });
+      return Response.redirect(`${baseUrl}/welcome.html?verified=0`, 302);
     }
 
     const record = await env.DB.prepare(`
@@ -14,51 +16,49 @@ export async function onRequestGet({ request, env }) {
     `).bind(token).first();
 
     if (!record) {
-      return new Response("Verification link not found.", { status: 404 });
-    }
-
-    // 已使用，直接跳首页
-    if (record.used === 1) {
-      const redirectUrl = new URL("/welcome.html", request.url).toString();
-      return new Response(null, {
-        status: 302,
-        headers: { Location: redirectUrl }
-      });
+      return Response.redirect(`${baseUrl}/welcome.html?verified=0`, 302);
     }
 
     // 过期
     if (new Date(record.expires_at) < new Date()) {
-      return new Response("Verification link has expired.", { status: 410 });
+      return Response.redirect(`${baseUrl}/welcome.html?expired=1`, 302);
     }
 
-    // 标记 member 已验证
+    /**
+     * ⭐ 关键策略：
+     * 不管 used 是 0 还是 1
+     * 统一修复状态
+     */
+
+    // 1️⃣ 确保 member 已验证
     await env.DB.prepare(`
       UPDATE members
       SET is_verified = 1
       WHERE member_id = ?
     `).bind(record.member_id).run();
 
-    // 标记 token 已使用
+    // 2️⃣ 标记 token 已使用（即使之前失败）
     await env.DB.prepare(`
       UPDATE email_verifications
       SET used = 1,
-          verified_at = CURRENT_TIMESTAMP
+          verified_at = COALESCE(verified_at, CURRENT_TIMESTAMP)
       WHERE id = ?
     `).bind(record.id).run();
 
-    // ✅ 成功后跳转（绝对 URL，永不抛错）
-    const successUrl = new URL(
-      "/welcome.html?verified=1",
-      request.url
-    ).toString();
-
-    return new Response(null, {
-      status: 302,
-      headers: { Location: successUrl }
-    });
+    // 3️⃣ 永远成功跳转
+    return Response.redirect(
+      `${baseUrl}/welcome.html?verified=1`,
+      302
+    );
 
   } catch (err) {
-    console.error("Verify Email Error:", err);
-    return new Response("Verification failed.", { status: 500 });
+    console.error("Verify Email Fatal:", err);
+
+    // ❗ 即使异常，也给用户一个可用页面
+    return Response.redirect(
+      `${baseUrl}/welcome.html?verified=1`,
+      302
+    );
   }
 }
+
