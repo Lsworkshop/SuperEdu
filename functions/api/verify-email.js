@@ -3,126 +3,48 @@ export async function onRequestGet({ request, env }) {
     const url = new URL(request.url);
     const token = url.searchParams.get("token");
 
-    /* ---------- Token Required ---------- */
     if (!token) {
-      return new Response(
-        "Invalid verification link.",
-        { status: 400 }
-      );
+      return new Response("Invalid verification link.", { status: 400 });
     }
 
-    /* ---------- Find Verification Record ---------- */
-    const record = await env.DB
-      .prepare(`
-        SELECT
-          ev.id,
-          ev.member_id,
-          ev.email,
-          ev.expires_at,
-          ev.used
-        FROM email_verifications ev
-        WHERE ev.token = ?
-      `)
-      .bind(token)
-      .first();
+    // 查 token
+    const record = await env.DB.prepare(`
+      SELECT id, member_id, expires_at, used
+      FROM email_verifications
+      WHERE token = ?
+    `).bind(token).first();
 
     if (!record) {
-      return new Response(
-        "This verification link is invalid or has already been used.",
-        { status: 400 }
-      );
+      return new Response("Verification link not found.", { status: 404 });
     }
 
-    /* ---------- Already Used ---------- */
     if (record.used === 1) {
-      return new Response(
-        "This verification link has already been used.",
-        { status: 400 }
-      );
+      return Response.redirect("/welcome.html", 302);
     }
 
-    /* ---------- Expired ---------- */
-    const now = Date.now();
-    const expiresAt = new Date(record.expires_at).getTime();
-
-    if (now > expiresAt) {
-      return new Response(
-        "This verification link has expired. Please register again.",
-        { status: 400 }
-      );
+    if (new Date(record.expires_at) < new Date()) {
+      return new Response("Verification link has expired.", { status: 410 });
     }
 
-    /* ---------- Mark Member Verified ---------- */
-    await env.DB
-      .prepare(`
-        UPDATE members
-        SET is_verified = 1,
-            updated_at = CURRENT_TIMESTAMP
-        WHERE member_id = ?
-      `)
-      .bind(record.member_id)
-      .run();
+    // 标记 member 为已验证
+    await env.DB.prepare(`
+      UPDATE members
+      SET is_verified = 1
+      WHERE member_id = ?
+    `).bind(record.member_id).run();
 
-    /* ---------- Mark Token Used ---------- */
-    await env.DB
-      .prepare(`
-        UPDATE email_verifications
-        SET used = 1
-        WHERE id = ?
-      `)
-      .bind(record.id)
-      .run();
+    // 标记 token 已使用
+    await env.DB.prepare(`
+      UPDATE email_verifications
+      SET used = 1, verified_at = CURRENT_TIMESTAMP
+      WHERE id = ?
+    `).bind(record.id).run();
 
-    /* ---------- Success Page ---------- */
-    return new Response(
-      `
-      <html>
-        <head>
-          <meta charset="UTF-8" />
-          <title>Email Verified</title>
-          <meta http-equiv="refresh" content="3;url=/login.html" />
-          <style>
-            body {
-              font-family: system-ui, -apple-system, BlinkMacSystemFont;
-              background: #f8fafc;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              height: 100vh;
-            }
-            .box {
-              background: #fff;
-              padding: 32px;
-              border-radius: 12px;
-              box-shadow: 0 10px 30px rgba(0,0,0,.08);
-              text-align: center;
-              max-width: 420px;
-            }
-            h1 { color: #16a34a; }
-            p { color: #334155; }
-          </style>
-        </head>
-        <body>
-          <div class="box">
-            <h1>✅ Email Verified</h1>
-            <p>Your email has been successfully verified.</p>
-            <p>Redirecting to login…</p>
-          </div>
-        </body>
-      </html>
-      `,
-      {
-        status: 200,
-        headers: { "Content-Type": "text/html" }
-      }
-    );
+    // ✅ 验证成功后跳转
+    return Response.redirect("/welcome.html?verified=1", 302);
 
   } catch (err) {
     console.error("Verify Email Error:", err);
-
-    return new Response(
-      "Verification failed. Please try again later.",
-      { status: 500 }
-    );
+    return new Response("Verification failed.", { status: 500 });
   }
 }
