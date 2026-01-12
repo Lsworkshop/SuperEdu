@@ -50,9 +50,8 @@ function generateVerificationToken() {
 ========================= */
 async function sendVerificationEmail({ env, email, token }) {
   
-  const baseUrl = "https://edu.lsfinova.com";
   const verifyLink =
-  `${baseUrl}/api/verify-email?token=${token}`;
+  `https://edu.lsfinova.com/api/verify-email?token=${token}`;
 
 
   const body = new URLSearchParams();
