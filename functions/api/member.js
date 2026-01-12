@@ -13,7 +13,6 @@ async function hashPassword(password) {
    Helpers
 ========================= */
 
-// Password: at least 8 chars, letters + numbers
 function isValidPassword(pw) {
   return (
     typeof pw === "string" &&
@@ -23,13 +22,10 @@ function isValidPassword(pw) {
   );
 }
 
-// Email format check
 function isValidEmail(email) {
-  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return pattern.test(email);
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-// Generate EDU-XX1234 style Member ID
 function generateMemberId() {
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const l1 = letters[Math.floor(Math.random() * 26)];
@@ -38,7 +34,6 @@ function generateMemberId() {
   return `EDU-${l1}${l2}${num}`;
 }
 
-// Generate secure verification token
 function generateVerificationToken() {
   const arr = new Uint8Array(32);
   crypto.getRandomValues(arr);
@@ -49,10 +44,9 @@ function generateVerificationToken() {
    Send Verification Email
 ========================= */
 async function sendVerificationEmail({ env, email, token }) {
-  
+  const baseUrl = "https://edu.lsfinova.com";
   const verifyLink =
-  `https://edu.lsfinova.com/api/verify-email?token=${token}`;
-
+    `${baseUrl}/api/verify-email?token=${token}`;
 
   const body = new URLSearchParams();
   body.append("from", "Edunova Education <team@edunovafdn.org>");
@@ -62,41 +56,29 @@ async function sendVerificationEmail({ env, email, token }) {
     "html",
     `
       <p>Hello,</p>
-
       <p>Thank you for registering with <strong>Edunova Education</strong>.</p>
-
       <p>Please click the link below to verify your email address:</p>
-
-      <p>
-        <a href="${verifyUrl}" target="_blank">
-          Verify My Email
-        </a>
-      </p>
-
+      <p><a href="${verifyLink}" target="_blank">Verify My Email</a></p>
       <p>This link will expire in 24 hours.</p>
 
       <hr>
 
       <p>您好，</p>
       <p>感谢您注册超能教育平台，请点击下方链接完成邮箱验证：</p>
-
-      <p>
-        <a href="${verifyUrl}" target="_blank">
-          点击验证邮箱
-        </a>
-      </p>
-
+      <p><a href="${verifyLink}" target="_blank">点击验证邮箱</a></p>
       <p>该链接 24 小时内有效。</p>
     `
   );
+
+  const auth =
+    "Basic " + btoa(`api:${env.MAILGUN_API_KEY}`);
 
   const res = await fetch(
     `https://api.mailgun.net/v3/${env.MAILGUN_DOMAIN}/messages`,
     {
       method: "POST",
       headers: {
-        Authorization:
-          "Basic " + btoa("api:" + env.MAILGUN_API_KEY),
+        Authorization: auth,
         "Content-Type": "application/x-www-form-urlencoded"
       },
       body
@@ -123,7 +105,6 @@ export async function onRequestPost({ request, env }) {
       referral_code
     } = body;
 
-    /* ---------- Required Fields ---------- */
     if (!first_name || !last_name || !email || !password) {
       return new Response(
         JSON.stringify({ error: "Missing required fields." }),
@@ -131,7 +112,6 @@ export async function onRequestPost({ request, env }) {
       );
     }
 
-    /* ---------- Email Format ---------- */
     if (!isValidEmail(email)) {
       return new Response(
         JSON.stringify({ error: "Invalid email format." }),
@@ -139,7 +119,6 @@ export async function onRequestPost({ request, env }) {
       );
     }
 
-    /* ---------- Password Rule ---------- */
     if (!isValidPassword(password)) {
       return new Response(
         JSON.stringify({
@@ -150,7 +129,6 @@ export async function onRequestPost({ request, env }) {
       );
     }
 
-    /* ---------- Email Uniqueness ---------- */
     const emailExists = await env.DB
       .prepare("SELECT 1 FROM members WHERE email = ?")
       .bind(email)
@@ -159,27 +137,24 @@ export async function onRequestPost({ request, env }) {
     if (emailExists) {
       return new Response(
         JSON.stringify({
-          error: "This email is already registered. Please log in instead."
+          error: "This email is already registered."
         }),
         { status: 409 }
       );
     }
 
-    /* ---------- Password Hash ---------- */
     const password_hash = await hashPassword(password);
 
-    /* ---------- Generate Member ID ---------- */
     let member_id;
-    let idExists;
+    let exists;
     do {
       member_id = generateMemberId();
-      idExists = await env.DB
+      exists = await env.DB
         .prepare("SELECT 1 FROM members WHERE member_id = ?")
         .bind(member_id)
         .first();
-    } while (idExists);
+    } while (exists);
 
-    /* ---------- Insert Member ---------- */
     await env.DB.prepare(`
       INSERT INTO members (
         first_name,
@@ -206,7 +181,6 @@ export async function onRequestPost({ request, env }) {
       0
     ).run();
 
-    /* ---------- Email Verification ---------- */
     const token = generateVerificationToken();
     const expiresAt = new Date(
       Date.now() + 24 * 60 * 60 * 1000
@@ -226,13 +200,8 @@ export async function onRequestPost({ request, env }) {
       expiresAt
     ).run();
 
-    await sendVerificationEmail({
-      env,
-      email,
-      token
-    });
+    await sendVerificationEmail({ env, email, token });
 
-    /* ---------- Success ---------- */
     return new Response(
       JSON.stringify({
         success: true,
@@ -245,7 +214,6 @@ export async function onRequestPost({ request, env }) {
 
   } catch (err) {
     console.error("Register API Error:", err);
-
     return new Response(
       JSON.stringify({ error: "Registration failed." }),
       { status: 500 }
