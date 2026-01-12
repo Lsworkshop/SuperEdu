@@ -18,15 +18,22 @@ export async function onRequestGet({ request, env }) {
       return new Response("Verification link not found.", { status: 404 });
     }
 
+    // 已使用 → 直接跳
     if (record.used === 1) {
-      return Response.redirect("/welcome.html", 302);
+      return new Response(null, {
+        status: 302,
+        headers: {
+          Location: "/welcome.html"
+        }
+      });
     }
 
+    // 过期
     if (new Date(record.expires_at) < new Date()) {
       return new Response("Verification link has expired.", { status: 410 });
     }
 
-    // 标记 member 为已验证
+    // 标记 member 已验证
     await env.DB.prepare(`
       UPDATE members
       SET is_verified = 1
@@ -36,12 +43,18 @@ export async function onRequestGet({ request, env }) {
     // 标记 token 已使用
     await env.DB.prepare(`
       UPDATE email_verifications
-      SET used = 1, verified_at = CURRENT_TIMESTAMP
+      SET used = 1,
+          verified_at = CURRENT_TIMESTAMP
       WHERE id = ?
     `).bind(record.id).run();
 
-    // ✅ 验证成功后跳转
-    return Response.redirect("/welcome.html?verified=1", 302);
+    // ✅ 成功跳转（稳定写法）
+    return new Response(null, {
+      status: 302,
+      headers: {
+        Location: "/welcome.html?verified=1"
+      }
+    });
 
   } catch (err) {
     console.error("Verify Email Error:", err);
