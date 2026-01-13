@@ -94,6 +94,45 @@
   margin-top: 12px;
 }
 
+.card{
+  background: linear-gradient(
+    180deg,
+    #FFFDF8 0%,
+    #FAF5E9 100%
+  );
+  padding:36px 28px;
+  border-radius:16px;
+
+  /* 立体感 */
+  box-shadow:
+    0 12px 28px rgba(9, 30, 66, 0.08),
+    0 4px 10px rgba(9, 30, 66, 0.04);
+
+  border:1px solid rgba(110, 75, 255, 0.08);
+}
+body{
+  background: linear-gradient(
+    180deg,
+    #F9F4E8 0%,
+    #F3EEDF 100%
+  );
+}
+.card h1{
+  color:#2C9C47;
+  letter-spacing:-0.01em;
+}
+.card p{
+  color:#555;
+}
+
+.selected-services ul ul {
+  margin-top: 6px;
+  padding-left: 18px;
+  color: #555;
+  font-size: 14px;
+}
+
+
 </style>
 </head>
 
@@ -176,61 +215,68 @@
     </div>
   </div>
 </main>
+
 <script>
 /* ===============================
    Thank You – Selected Services
+   Supports EN / ZH switching
 ================================ */
 
+/* -------- 1️⃣ Service Map -------- */
 const serviceMap = {
   s1: {
-    en: '🎓 Education Affordability & Funding Support',
-    zh: '🎓 教育可负担性与资助支持',
-    subs_en: [
-      'Financial Aid (FAFSA / CSS)',
-      'Scholarships & Grants',
-      'Education Savings & Funding Strategy'
-    ],
-    subs_zh: [
-      '助学金（FAFSA / CSS）',
-      '奖学金与资助项目',
-      '教育储蓄与资金规划'
-    ]
+    en: {
+      title: '🎓 Education Affordability & Funding Support',
+      subs: [
+        'Financial Aid (FAFSA / CSS)',
+        'Scholarships & Grants',
+        'Education Savings & Funding Strategy'
+      ]
+    },
+    zh: {
+      title: '🎓 教育可负担性与资助支持',
+      subs: [
+        '助学金（FAFSA / CSS）',
+        '奖学金与资助项目',
+        '教育储蓄与资金规划'
+      ]
+    }
   },
 
-   s2: {
+  s2: {
     en: {
       title: '🤝 Volunteer & Social Impact Programs',
       subs: [
-      'Edunova Volunteer Programs',
-      'Webinar & courses for students',
-      'Community & Social Impact Initiatives'
+        'Edunova Volunteer Programs',
+        'Webinars & Courses for Students',
+        'Community & Social Impact Initiatives'
       ]
     },
     zh: {
       title: '🤝 志愿服务与社会公益项目',
       subs: [
-      'Edunova 志愿者项目',
-      '计算机讲座与课程',
-      '社区与社会影响力项目'
+        'Edunova 志愿者项目',
+        '学生讲座与课程',
+        '社区与社会影响力项目'
       ]
     }
   },
 
-   s3: {
+  s3: {
     en: {
       title: '🏠 Education-Centered Family & Community Support',
       subs: [
-      'Family Education Planning',
-      'Education Foundation NPO 501C(3)', 
-      'EduWealth Trust Coordination',
+        'Family Education Planning',
+        'Education Foundation / NPO 501(c)(3)',
+        'Education + Wealth / Trust Coordination'
       ]
     },
     zh: {
       title: '🏠 以教育为核心的家庭与社区支持',
       subs: [
-      '家庭教育整体规划',
-      '教育基金会 公益组织501C(3)',
-      '教育财富 信托',
+        '家庭教育整体规划',
+        '教育基金会 / 公益组织 501(c)(3)',
+        '教育与财富 / 信托协同规划'
       ]
     }
   },
@@ -239,58 +285,84 @@ const serviceMap = {
     en: {
       title: '📘 Academic & College Readiness Support',
       subs: [
-      'U.S. Education System Overview',
-      'College Application Strategy',
-      'Pre-College Profile (AP / Summer)'
+        'U.S. Education System Overview',
+        'College Application Strategy',
+        'Pre-College Profile (AP / Summer Programs)'
       ]
     },
     zh: {
       title: '📘 学术与大学升学支持',
       subs: [
-      '美国教育体系与比较',
-      '大学申请策略',
-      '大学前背景打造（AP / 夏校）'
+        '美国教育体系与比较分析',
+        '大学申请策略',
+        '大学前背景打造（AP / 夏校）'
       ]
     }
   }
- 
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  const data = sessionStorage.getItem('selectedServices');
-  if(!data) return;
-
-  const selected = JSON.parse(data);
-  if(!selected.length) return;
-
-  const lang = localStorage.getItem('superedu-lang') || 'en';
-
+/* -------- 2️⃣ Render Function -------- */
+function renderSelectedServices() {
   const box = document.getElementById('selectedServicesBox');
   const list = document.getElementById('selectedServicesList');
-  if(!box || !list) return;
+  if (!box || !list) return;
 
+  const lang = localStorage.getItem('superedu-lang') || 'en';
+  const selected = JSON.parse(localStorage.getItem('selectedServices') || '[]');
+
+  // 没有选择服务 → 不显示整个区块
+  if (!selected.length) {
+    box.style.display = 'none';
+    return;
+  }
+
+  box.style.display = 'block';
   list.innerHTML = '';
 
   selected.forEach(id => {
     const item = serviceMap[id];
-    if(!item) return;
+    if (!item) return;
 
-    const block = document.createElement('li');
-    block.innerHTML = `
-      <strong>${item[lang].title}</strong>
+    const data = item[lang];
+
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <strong>${data.title}</strong>
       <ul>
-        ${item[lang].subs.map(s => `<li>${s}</li>`).join('')}
+        ${data.subs.map(s => `<li>${s}</li>`).join('')}
       </ul>
     `;
-    list.appendChild(block);
+    list.appendChild(li);
   });
 
-  box.style.display = 'block';
+  // 附加说明（可选，但很加分）
+  const note = document.createElement('li');
+  note.style.marginTop = '12px';
+  note.style.color = '#666';
+  note.innerHTML = lang === 'zh'
+    ? '如您还有其他相关需求，欢迎随时与我们联系，我们将很乐意进一步协助您。'
+    : 'If you have any other related needs, please feel free to contact us — we are happy to assist you further.';
+  list.appendChild(note);
+}
 
-  // Optional: clean after use
-  sessionStorage.removeItem('selectedServices');
+
+
+/* -------- 3️⃣ Initial Render -------- */
+document.addEventListener('DOMContentLoaded', () => {
+  renderSelectedServices();
 });
+
+/* -------- 4️⃣ Hook into Language Switch -------- */
+const originalSetLang = window.setLang;
+
+window.setLang = function (l) {
+  if (typeof originalSetLang === 'function') {
+    originalSetLang(l);
+  }
+  renderSelectedServices();
+};
 </script>
+
 
 </body>
 </html>

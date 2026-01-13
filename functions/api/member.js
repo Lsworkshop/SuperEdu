@@ -58,7 +58,7 @@ async function sendVerificationEmail({
   const body = new URLSearchParams();
   body.append("from", "Edunova Education <team@edunovafdn.org>");
   body.append("to", email);
-  body.append("subject", "✅✉️Please verify your email | 请验证您的邮箱");
+  body.append("subject", "✅Please verify your email | 请验证您的邮箱");
 
   body.append(
   "html",
