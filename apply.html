@@ -515,8 +515,12 @@ document.getElementById('applyForm').addEventListener('submit', async e =>{
     });
 
     if(res.ok){
-      window.location.href = '/thank-you.html';
-    } else {
+  // store selected services for thank-you page
+  sessionStorage.setItem('selectedServices', JSON.stringify(services));
+  window.location.href = '/thank-you.html';
+}
+
+    else {
       status.innerText = lang === 'en' ? 'Submission failed' : '提交失败';
     }
   } catch(err){

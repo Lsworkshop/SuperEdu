@@ -43,7 +43,14 @@ function generateVerificationToken() {
 /* =========================
    Send Verification Email
 ========================= */
-async function sendVerificationEmail({ env, email, token }) {
+async function sendVerificationEmail({
+  env,
+  email,
+  token,
+  firstName,
+  lastName
+}) {
+
   const baseUrl = "https://edu.lsfinova.com";
   const verifyLink =
     `${baseUrl}/api/verify-email?token=${token}`;
@@ -51,24 +58,101 @@ async function sendVerificationEmail({ env, email, token }) {
   const body = new URLSearchParams();
   body.append("from", "Edunova Education <team@edunovafdn.org>");
   body.append("to", email);
-  body.append("subject", "Please verify your email | 请验证您的邮箱");
+  body.append("subject", "✅✉️Please verify your email | 请验证您的邮箱");
+
   body.append(
-    "html",
-    `
-      <p>Hello,</p>
-      <p>Thank you for registering with <strong>Edunova Education</strong>.</p>
-      <p>Please click the link below to verify your email address:</p>
-      <p><a href="${verifyLink}" target="_blank">Verify My Email</a></p>
-      <p>This link will expire in 24 hours.</p>
+  "html",
+  `
+  <div style="
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    color: #1f2937;
+  ">
 
-      <hr>
+    <p>
+      Hello <strong>${firstName} ${lastName}</strong>,
+    </p>
 
-      <p>您好，</p>
-      <p>感谢您注册超能教育平台，请点击下方链接完成邮箱验证：</p>
-      <p><a href="${verifyLink}" target="_blank">点击验证邮箱</a></p>
-      <p>该链接 24 小时内有效。</p>
-    `
-  );
+    <p>
+      Thank you for registering with <strong>Edunova Education</strong>.
+    </p>
+
+    <p>
+      To complete your registration, please verify your email address by clicking the button below:
+    </p>
+
+    <p style="margin: 24px 0;">
+      <a href="${verifyUrl}"
+         target="_blank"
+         style="
+           display: inline-block;
+           padding: 12px 26px;
+           background-color: #2563eb;
+           color: #ffffff;
+           text-decoration: none;
+           border-radius: 6px;
+           font-size: 18px;
+           font-weight: 600;
+         ">
+        Verify My Email
+      </a>
+    </p>
+
+    <p>
+      This verification link will expire in <strong>24 hours</strong>.
+    </p>
+
+    <hr style="margin: 32px 0; border: none; border-top: 1px solid #e5e7eb;" />
+
+    <p>
+      您好，<strong>${firstName} ${lastName}</strong>：
+    </p>
+
+    <p>
+      感谢您注册 <strong>超能教育（Edunova Education）</strong>。
+    </p>
+
+    <p>
+      请点击下方按钮完成邮箱验证，以正式激活您的账户：
+    </p>
+
+    <p style="margin: 24px 0;">
+      <a href="${verifyUrl}"
+         target="_blank"
+         style="
+           display: inline-block;
+           padding: 12px 26px;
+           background-color: #2563eb;
+           color: #ffffff;
+           text-decoration: none;
+           border-radius: 6px;
+           font-size: 18px;
+           font-weight: 600;
+         ">
+        点击验证邮箱
+      </a>
+    </p>
+
+    <p>
+      该验证链接将在 <strong>24 小时后失效</strong>。
+    </p>
+
+    <p style="margin-top: 32px;">
+      如有任何问题，欢迎直接回复本邮件，或联系：
+      <br />
+      <strong>team@edunovafdn.org</strong>
+    </p>
+
+    <p style="margin-top: 24px;">
+      ——<br />
+      <strong>超能教育 · Edunova Education</strong>
+    </p>
+
+  </div>
+  `
+);
+
 
   const auth =
     "Basic " + btoa(`api:${env.MAILGUN_API_KEY}`);
@@ -200,7 +284,14 @@ export async function onRequestPost({ request, env }) {
       expiresAt
     ).run();
 
-    await sendVerificationEmail({ env, email, token });
+    await sendVerificationEmail({
+  env,
+  email,
+  token,
+  firstName: first_name,
+  lastName: last_name
+});
+
 
     return new Response(
       JSON.stringify({

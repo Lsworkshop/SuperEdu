@@ -64,6 +64,36 @@
   .btn:hover{
     background:#23853c;
   }
+
+  .selected-services {
+  margin-top: 28px;
+  text-align: left;
+}
+
+.selected-services h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.selected-services ul {
+  padding-left: 18px;
+  margin-bottom: 12px;
+}
+
+.selected-services > ul > li {
+  margin-bottom: 10px;
+}
+
+.selected-services strong {
+  color: #111;
+}
+
+.small-note {
+  font-size: 14px;
+  color: #666;
+  margin-top: 12px;
+}
+
 </style>
 </head>
 
@@ -120,10 +150,28 @@
         Thank you — Application received
       </h1>
 
-      <p data-en="We have received your request. A member of SuperEdu Team will contact you shortly."
-         data-zh="我们已收到您的申请。SuperEdu 团队会尽快与您联系。">
-        We have received your request. A member of SuperEdu Team will contact you shortly.
-      </p>
+
+     <div id="selectedServicesBox" class="selected-services" style="display:none">
+  <h3 data-en="You have applied for:" data-zh="您本次申请的服务包括：">
+    You have applied for:
+  </h3>
+  <ul id="selectedServicesList"></ul>
+
+  <p class="small-note"
+     data-en="If you have any additional questions or needs, feel free to reach out to us."
+     data-zh="如您还有其他需求或想进一步咨询，欢迎随时与我们联系。">
+    If you have any additional questions or needs, feel free to reach out to us.
+  </p>
+</div>
+
+
+     <p class="small-note"
+     data-en="If you have any additional questions or needs, feel free to reach out to us."
+     data-zh="如您还有其他需求或想进一步咨询，欢迎随时与我们联系。">
+    If you have any additional questions or needs, feel free to reach out to us.
+  </p>
+</div>
+
 
       <a class="btn" href="/index.html"
          data-en="Return to Home"
@@ -133,6 +181,125 @@
     </div>
   </div>
 </main>
+<script>
+/* ===============================
+   Thank You – Selected Services
+================================ */
+
+const serviceMap = {
+  s1: {
+    en: {
+      title: '🎓 Education Affordability & Funding Support',
+      subs: [
+        'Financial Aid (FAFSA / CSS)',
+        'Scholarships & Grants',
+        'Education Savings & Funding Strategy'
+      ]
+    },
+    zh: {
+      title: '🎓 教育可负担性与资助支持',
+      subs: [
+        '助学金（FAFSA / CSS）',
+        '奖学金与资助项目',
+        '教育储蓄与资金规划'
+      ]
+    }
+  },
+
+   s2: {
+    en: {
+      title: '🤝 Volunteer & Social Impact Programs',
+      subs: [
+      'Edunova Volunteer Programs',
+      'Webinar & courses for students',
+      'Community & Social Impact Initiatives'
+      ]
+    },
+    zh: {
+      title: '🤝 志愿服务与社会公益项目',
+      subs: [
+      'Edunova 志愿者项目',
+      '计算机讲座与课程',
+      '社区与社会影响力项目'
+      ]
+    }
+  },
+
+   s3: {
+    en: {
+      title: '🏠 Education-Centered Family & Community Support',
+      subs: [
+      'Family Education Planning',
+      'Education Foundation NPO 501C(3)', 
+      'EduWealth Trust Coordination',
+      ]
+    },
+    zh: {
+      title: '🏠 以教育为核心的家庭与社区支持',
+      subs: [
+      '家庭教育整体规划',
+      '教育基金会 公益组织501C(3)',
+      '教育财富 信托',
+      ]
+    }
+  },
+
+  s4: {
+    en: {
+      title: '📘 Academic & College Readiness Support',
+      subs: [
+      'U.S. Education System Overview',
+      'College Application Strategy',
+      'Pre-College Profile (AP / Summer)'
+      ]
+    },
+    zh: {
+      title: '📘 学术与大学升学支持',
+      subs: [
+      '美国教育体系与比较',
+      '大学申请策略',
+      '大学前背景打造（AP / 夏校）'
+      ]
+    }
+  }
+ 
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  const data = sessionStorage.getItem('selectedServices');
+  if(!data) return;
+
+  const selected = JSON.parse(data);
+  if(!selected.length) return;
+
+  const lang = localStorage.getItem('superedu-lang') || 'en';
+
+  const box = document.getElementById('selectedServicesBox');
+  const list = document.getElementById('selectedServicesList');
+  if(!box || !list) return;
+
+  list.innerHTML = '';
+
+  selected.forEach(id => {
+    const item = serviceMap[id];
+    if(!item) return;
+
+    const block = document.createElement('li');
+    block.innerHTML = `
+      <strong>${item[lang].title}</strong>
+      <ul>
+        ${item[lang].subs.map(s => `<li>${s}</li>`).join('')}
+      </ul>
+    `;
+    list.appendChild(block);
+  });
+
+  box.style.display = 'block';
+
+  // Optional: clean after use
+  sessionStorage.removeItem('selectedServices');
+});
+</script>
 
 </body>
 </html>

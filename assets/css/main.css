@@ -1,7 +1,7 @@
 /* main.css — SuperEdu modern tech style (blue→purple gradient) */
 :root{
   --brand-1:#4B89FF;
-  --brand-2:#6E4BFF;
+  --brand-2:#5A47E0;
   --grad: linear-gradient(135deg,var(--brand-1) 0%,var(--brand-2) 100%);
   --bg:#F7F9FF;
   --muted:#6B7280;
@@ -272,20 +272,19 @@ footer{background:#0f1724;color:#cbd5e1;padding:40px 20px;margin-top:40px}
   }
 }
 
-
 /* =========================================
    SECTION BACKGROUND COLORS (Enhanced Contrast)
    ========================================= */
 /* 色彩更明显：蓝系、紫系交替，提升视觉区隔 */
-section#about { background: #E8EEFF; }        /* 更亮的浅蓝 */
-section#services { background: #EFE4FF; }     /* 明显浅紫 */
-section#planning { background: #E4F1FF; }     /* 更清的浅蓝 */
-section#tax { background: #F0E8FF; }          /* 淡紫更明显 */
-section#legal { background: #E9F3FF; }        /* 亮浅蓝白混合 */
-section#real-estate { background: #EDF1FF; }  /* 淡灰蓝 */
-section#contact { background: #EEE9FF; }      /* 更明显的浅灰紫 */
-section#faq { background: #E9F0FF; }          /* 亮浅蓝紫 */
-section#hero { background: #FFFFFF; }         /* 保持纯白，不变 */
+ /*section#about { background: #E8EEFF; }        /* 更亮的浅蓝 */
+ /*section#services { background: #EFE4FF; }     /* 明显浅紫 */
+ /*section#planning { background: #E4F1FF; }     /* 更清的浅蓝 */
+ /*section#tax { background: #F0E8FF; }          /* 淡紫更明显 */
+ /*section#legal { background: #E9F3FF; }        /* 亮浅蓝白混合 */
+ /*section#real-estate { background: #EDF1FF; }  /* 淡灰蓝 */
+ /*section#contact { background: #EEE9FF; }      /* 更明显的浅灰紫 */
+ /*section#faq { background: #E9F0FF; }          /* 亮浅蓝紫 */
+ /*section#hero { background: #FFFFFF; }         /* 保持纯白，不变 */
 
 /* =========================================
    SECTION SPACING (Reduced More)
@@ -1235,7 +1234,7 @@ footer::before {
 
 /* Hover 时保持高级、不侵入 */
 .resource-pill.resource-emphasis:hover {
-  color: var(--brand-2);
+  color:#6E4BFF; /* hover 才用原亮色 */
   transform: translateY(-2px);
 }
 
@@ -1358,7 +1357,7 @@ body.register-page .register-card {
 
 /* Hover 时强调标题（不位移） */
 .core-card:hover .core-card-header h3 {
-  color: #2563EB;
+  color:#6E4BFF;
   font-weight: 600;
   letter-spacing: 0.2px;
 }
