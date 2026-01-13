@@ -83,7 +83,7 @@ async function sendVerificationEmail({
     </p>
 
     <p style="margin: 24px 0;">
-      <a href="${verifyUrl}"
+      <a href="${verifyLink}"
          target="_blank"
          style="
            display: inline-block;
@@ -118,7 +118,7 @@ async function sendVerificationEmail({
     </p>
 
     <p style="margin: 24px 0;">
-      <a href="${verifyUrl}"
+      <a href="${verifyLink}"
          target="_blank"
          style="
            display: inline-block;

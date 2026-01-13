@@ -1,7 +1,7 @@
 /* main.css — SuperEdu modern tech style (blue→purple gradient) */
 :root{
   --brand-1:#4B89FF;
-  --brand-2:#5A47E0;
+  --brand-2:#6E4BFF;
   --grad: linear-gradient(135deg,var(--brand-1) 0%,var(--brand-2) 100%);
   --bg:#F7F9FF;
   --muted:#6B7280;
@@ -1346,7 +1346,7 @@ body.register-page .register-card {
 .core-card-header h3 {
   font-size: 1.42rem;
   margin-bottom: 10px;
-  color: var(--brand-2);
+  color:#5A47E0;
   line-height: 1.35;
 
   transition:
