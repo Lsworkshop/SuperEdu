@@ -1,6 +1,8 @@
 /* =========================
-   Password Hash (Web Crypto)
+   Helpers
 ========================= */
+
+// Password hash (Web Crypto)
 async function hashPassword(password) {
   const encoder = new TextEncoder();
   const data = encoder.encode(password);
@@ -9,9 +11,7 @@ async function hashPassword(password) {
   return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
-/* =========================
-   Cookie Builder
-========================= */
+// Cookie builder
 function buildSessionCookie(token, maxAgeSeconds = 60 * 60 * 24 * 7) {
   return [
     `session=${token}`,
@@ -19,9 +19,21 @@ function buildSessionCookie(token, maxAgeSeconds = 60 * 60 * 24 * 7) {
     `Secure`,
     `SameSite=Lax`,
     `Path=/`,
-    `Domain=edu.lsfinova.com`,  // ✅ 确保跨子域可用
     `Max-Age=${maxAgeSeconds}`
   ].join("; ");
+}
+
+// Generate secure session token
+function generateSessionToken() {
+  const arr = new Uint8Array(32);
+  crypto.getRandomValues(arr);
+  return Array.from(arr, b => b.toString(16).padStart(2, "0")).join("");
+}
+
+// Email format check
+function isValidEmail(email) {
+  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return pattern.test(email);
 }
 
 /* =========================
@@ -32,64 +44,70 @@ export async function onRequestPost({ request, env }) {
     const body = await request.json();
     const { email, password } = body;
 
+    // Validate input
     if (!email || !password) {
       return new Response(
-        JSON.stringify({ error: "Please enter email and password." }),
-        { status: 400 }
+        JSON.stringify({ error: "Please provide email and password." }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
       );
     }
 
-    // 查找成员
-    const member = await env.DB
-      .prepare("SELECT member_id, password_hash, is_verified FROM members WHERE email = ?")
-      .bind(email)
-      .first();
+    if (!isValidEmail(email)) {
+      return new Response(
+        JSON.stringify({ error: "Invalid email format." }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    // Fetch member from DB
+    const member = await env.DB.prepare(`
+      SELECT member_id, password_hash, is_verified
+      FROM members
+      WHERE email = ?
+    `).bind(email).first();
 
     if (!member) {
       return new Response(
-        JSON.stringify({ error: "Invalid email or password." }),
-        { status: 401 }
+        JSON.stringify({ error: "Email not registered." }),
+        { status: 401, headers: { "Content-Type": "application/json" } }
       );
     }
 
-    // 校验密码
-    const password_hash = await hashPassword(password);
-    if (password_hash !== member.password_hash) {
+    // Hash input password
+    const inputHash = await hashPassword(password);
+
+    if (inputHash !== member.password_hash) {
       return new Response(
-        JSON.stringify({ error: "Invalid email or password." }),
-        { status: 401 }
+        JSON.stringify({ error: "Incorrect password." }),
+        { status: 401, headers: { "Content-Type": "application/json" } }
       );
     }
 
-    // 校验邮箱是否验证
-    if (member.is_verified === 0) {
+    // Check email verified
+    if (member.is_verified !== 1) {
       return new Response(
         JSON.stringify({ error: "Please verify your email before logging in." }),
-        { status: 403 }
+        { status: 403, headers: { "Content-Type": "application/json" } }
       );
     }
 
-    // 生成 session token
-    const session_token = crypto.randomUUID();
+    // Generate session token
+    const session_token = generateSessionToken();
 
-    // 插入到 sessions 表
+    // Insert session into DB
     await env.DB.prepare(`
-      INSERT INTO sessions (
-        session_token,
-        member_id,
-        created_at,
-        expires_at
-      ) VALUES (?, ?, CURRENT_TIMESTAMP, datetime('now', '+7 day'))
-    `).bind(session_token, member.member_id).run();
+      INSERT INTO sessions (member_id, session_token, created_at, expires_at)
+      VALUES (?, ?, CURRENT_TIMESTAMP, datetime('now', '+7 days'))
+    `).bind(member.member_id, session_token).run();
 
-    // 返回成功并设置 cookie
+    // Success: set cookie
     return new Response(
       JSON.stringify({ success: true }),
       {
         status: 200,
         headers: {
-          "Set-Cookie": buildSessionCookie(session_token),
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Set-Cookie": buildSessionCookie(session_token)
         }
       }
     );
@@ -98,8 +116,7 @@ export async function onRequestPost({ request, env }) {
     console.error("Login API Error:", err);
     return new Response(
       JSON.stringify({ error: "Login failed." }),
-      { status: 500 }
+      { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
 }
-
