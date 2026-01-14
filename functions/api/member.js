@@ -95,28 +95,31 @@ async function sendVerificationEmail({
            font-size: 18px;
            font-weight: 600;
          ">
-        Verify My Email
+        👉Verify My Email
       </a>
     </p>
-
     <p>
       This verification link will expire in <strong>24 hours</strong>.
     </p>
+    <p style="margin-top: 32px;">
+      If you have any questions, please feel free to reply to this email directly：
+      <strong>team@edunovafdn.org</strong>
+    </p>
+    <p style="margin-top: 24px;">
+          ——<strong>超能教育 · Edunova Education</strong>
+    </p>
+    If you have any questions, please feel free to reply to this email directly.
 
     <hr style="margin: 32px 0; border: none; border-top: 1px solid #e5e7eb;" />
-
     <p>
       您好，<strong>${firstName} ${lastName}</strong>：
     </p>
-
     <p>
       感谢您注册 <strong>超能教育（Edunova Education）</strong>。
     </p>
-
     <p>
       请点击下方按钮完成邮箱验证，以正式激活您的账户：
     </p>
-
     <p style="margin: 24px 0;">
       <a href="${verifyLink}"
          target="_blank"
@@ -130,25 +133,20 @@ async function sendVerificationEmail({
            font-size: 18px;
            font-weight: 600;
          ">
-        点击验证邮箱
+        👉点击验证邮箱
       </a>
     </p>
-
     <p>
       该验证链接将在 <strong>24 小时后失效</strong>。
     </p>
-
     <p style="margin-top: 32px;">
-      如有任何问题，欢迎直接回复本邮件，或联系：
+      如有任何问题，欢迎直接回复本邮件：
       <br />
       <strong>team@edunovafdn.org</strong>
     </p>
-
     <p style="margin-top: 24px;">
-      ——<br />
-      <strong>超能教育 · Edunova Education</strong>
+          ——<strong>超能教育 · Edunova Education</strong>
     </p>
-
   </div>
   `
 );
