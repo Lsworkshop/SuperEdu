@@ -422,17 +422,6 @@ if (!emailRegex.test(email)) {
   return;
 }
 
-
-  /* ===== Demo logic (replace with real backend later) ===== */
-  localStorage.setItem("snovaAuth", "member");
-  localStorage.setItem("snovaUserEmail", email);
-
-  status.textContent = "Login successful. Redirecting…";
-  status.style.color = "#15803d";
-
-  setTimeout(() => {
-    window.location.href = "/membership.html";
-  }, 900);
 });
 
 
@@ -467,6 +456,59 @@ togglePassword.addEventListener("click", () => {
   passwordInput.type = isHidden ? "text" : "password";
   togglePassword.textContent = isHidden ? "🙈" : "👁";
 });
+
+
+document.getElementById("loginForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const email = document.getElementById("login-email").value.trim();
+  const password = document.getElementById("login-password").value;
+  const status = document.getElementById("loginStatus");
+
+  if (!email || !password) {
+    status.textContent = "Please enter email and password.";
+    status.style.color = "#b45309";
+    return;
+  }
+
+  if (!emailRegex.test(email)) {
+    status.textContent = "Invalid email format.";
+    status.style.color = "#dc2626";
+    return;
+  }
+
+  status.textContent = "Logging in…";
+  status.style.color = "#374151";
+
+  try {
+    const res = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include", // ⭐ 非常关键
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      status.textContent = data.error || "Login failed.";
+      status.style.color = "#dc2626";
+      return;
+    }
+
+    status.textContent = "Login successful. Redirecting…";
+    status.style.color = "#15803d";
+
+    setTimeout(() => {
+      window.location.href = "/dashboard.html";
+    }, 800);
+
+  } catch (err) {
+    status.textContent = "Network error. Please try again.";
+    status.style.color = "#dc2626";
+  }
+});
+
 
 </script>
 
