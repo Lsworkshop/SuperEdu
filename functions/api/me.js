@@ -1,64 +1,86 @@
+/* =========================
+   Get Current Member (/api/me)
+   登录保护 API
+========================= */
 export async function onRequestGet({ request, env }) {
   try {
-    // 1️⃣ 读取 cookie
+    // 1️⃣ 获取 Cookie
     const cookieHeader = request.headers.get("Cookie") || "";
-    const match = cookieHeader.match(/session=([^;]+)/);
-    const sessionToken = match ? match[1] : null;
+    const cookies = Object.fromEntries(
+      cookieHeader.split(";").map(c => {
+        const [k, v] = c.trim().split("=");
+        return [k, v];
+      })
+    );
+
+    const sessionToken = cookies.session;
 
     if (!sessionToken) {
       return new Response(
-        JSON.stringify({ loggedIn: false }),
-        { status: 401 }
+        JSON.stringify({ error: "Not authenticated." }),
+        { status: 401, headers: { "Content-Type": "application/json" } }
       );
     }
 
-    // 2️⃣ 查询 session
+    // 2️⃣ 查找 Session
     const session = await env.DB.prepare(`
-      SELECT s.member_id, s.expires_at, m.email, m.name
-      FROM sessions s
-      JOIN members m ON m.member_id = s.member_id
-      WHERE s.session_token = ?
+      SELECT member_id, expires_at
+      FROM sessions
+      WHERE token = ?
     `).bind(sessionToken).first();
 
     if (!session) {
       return new Response(
-        JSON.stringify({ loggedIn: false }),
-        { status: 401 }
+        JSON.stringify({ error: "Session not found." }),
+        { status: 401, headers: { "Content-Type": "application/json" } }
       );
     }
 
-    // 3️⃣ 判断是否过期
+    // 3️⃣ 检查过期
     if (new Date(session.expires_at) < new Date()) {
-      // 清理过期 session
-      await env.DB.prepare(`
-        DELETE FROM sessions WHERE session_token = ?
-      `).bind(sessionToken).run();
-
       return new Response(
-        JSON.stringify({ loggedIn: false }),
-        { status: 401 }
+        JSON.stringify({ error: "Session expired." }),
+        { status: 401, headers: { "Content-Type": "application/json" } }
       );
     }
 
-    // 4️⃣ 登录有效，返回用户信息
+    // 4️⃣ 查找 Member 信息
+    const member = await env.DB.prepare(`
+      SELECT member_id, first_name, last_name, email, role, status, is_verified, last_login_at
+      FROM members
+      WHERE member_id = ?
+    `).bind(session.member_id).first();
+
+    if (!member) {
+      return new Response(
+        JSON.stringify({ error: "Member not found." }),
+        { status: 404, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    // 5️⃣ 返回会员信息
     return new Response(
       JSON.stringify({
-        loggedIn: true,
+        success: true,
         member: {
-          email: session.email,
-          name: session.name
+          member_id: member.member_id,
+          first_name: member.first_name,
+          last_name: member.last_name,
+          email: member.email,
+          role: member.role,
+          status: member.status,
+          is_verified: member.is_verified,
+          last_login_at: member.last_login_at
         }
       }),
-      {
-        headers: { "Content-Type": "application/json" }
-      }
+      { status: 200, headers: { "Content-Type": "application/json" } }
     );
 
   } catch (err) {
-    console.error("API /me error:", err);
+    console.error("API /me Error:", err);
     return new Response(
-      JSON.stringify({ loggedIn: false }),
-      { status: 500 }
+      JSON.stringify({ error: "Failed to fetch member info." }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
 }

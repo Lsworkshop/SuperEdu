@@ -1,14 +1,23 @@
-/* =========================
-   Helpers
+/* ========================= 
+   Password Hash (Web Crypto)
 ========================= */
-
-// Password hash (Web Crypto)
 async function hashPassword(password) {
   const encoder = new TextEncoder();
   const data = encoder.encode(password);
   const hashBuffer = await crypto.subtle.digest("SHA-256", data);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+/* =========================
+   Helpers
+========================= */
+
+// Generate secure session token
+function generateSessionToken() {
+  const arr = new Uint8Array(32);
+  crypto.getRandomValues(arr);
+  return Array.from(arr, b => b.toString(16).padStart(2, "0")).join("");
 }
 
 // Cookie builder
@@ -19,21 +28,9 @@ function buildSessionCookie(token, maxAgeSeconds = 60 * 60 * 24 * 7) {
     `Secure`,
     `SameSite=Lax`,
     `Path=/`,
+    `Domain=edu.lsfinova.com`,  // ⚡ 指定域名
     `Max-Age=${maxAgeSeconds}`
   ].join("; ");
-}
-
-// Generate secure session token
-function generateSessionToken() {
-  const arr = new Uint8Array(32);
-  crypto.getRandomValues(arr);
-  return Array.from(arr, b => b.toString(16).padStart(2, "0")).join("");
-}
-
-// Email format check
-function isValidEmail(email) {
-  const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return pattern.test(email);
 }
 
 /* =========================
@@ -44,70 +41,90 @@ export async function onRequestPost({ request, env }) {
     const body = await request.json();
     const { email, password } = body;
 
-    // Validate input
+    /* ---------- Required ---------- */
     if (!email || !password) {
       return new Response(
-        JSON.stringify({ error: "Please provide email and password." }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
+        JSON.stringify({ error: "Email and password are required." }),
+        { status: 400 }
       );
     }
 
-    if (!isValidEmail(email)) {
-      return new Response(
-        JSON.stringify({ error: "Invalid email format." }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
-    }
-
-    // Fetch member from DB
+    /* ---------- Find Member ---------- */
     const member = await env.DB.prepare(`
-      SELECT member_id, password_hash, is_verified
+      SELECT
+        member_id,
+        email,
+        password_hash,
+        is_verified,
+        status
       FROM members
       WHERE email = ?
     `).bind(email).first();
 
     if (!member) {
       return new Response(
-        JSON.stringify({ error: "Email not registered." }),
-        { status: 401, headers: { "Content-Type": "application/json" } }
+        JSON.stringify({ error: "Invalid email or password." }),
+        { status: 401 }
       );
     }
 
-    // Hash input password
-    const inputHash = await hashPassword(password);
-
-    if (inputHash !== member.password_hash) {
+    /* ---------- Status Check ---------- */
+    if (member.status !== "active") {
       return new Response(
-        JSON.stringify({ error: "Incorrect password." }),
-        { status: 401, headers: { "Content-Type": "application/json" } }
+        JSON.stringify({ error: "This account is inactive." }),
+        { status: 403 }
       );
     }
 
-    // Check email verified
     if (member.is_verified !== 1) {
       return new Response(
         JSON.stringify({ error: "Please verify your email before logging in." }),
-        { status: 403, headers: { "Content-Type": "application/json" } }
+        { status: 403 }
       );
     }
 
-    // Generate session token
+    /* ---------- Password Verify ---------- */
+    const password_hash = await hashPassword(password);
+
+    if (password_hash !== member.password_hash) {
+      return new Response(
+        JSON.stringify({ error: "Invalid email or password." }),
+        { status: 401 }
+      );
+    }
+
+    /* ---------- Create Session ---------- */
     const session_token = generateSessionToken();
+    const expiresAt = new Date(
+      Date.now() + 7 * 24 * 60 * 60 * 1000
+    ).toISOString();
 
-    // Insert session into DB
     await env.DB.prepare(`
-      INSERT INTO sessions (member_id, session_token, created_at, expires_at)
-      VALUES (?, ?, CURRENT_TIMESTAMP, datetime('now', '+7 days'))
-    `).bind(member.member_id, session_token).run();
+      INSERT INTO sessions (
+        member_id,
+        token,
+        expires_at
+      ) VALUES (?, ?, ?)
+    `).bind(member.member_id, session_token, expiresAt).run();
 
-    // Success: set cookie
+    /* ---------- Update Last Login ---------- */
+    await env.DB.prepare(`
+      UPDATE members
+      SET last_login_at = CURRENT_TIMESTAMP
+      WHERE member_id = ?
+    `).bind(member.member_id).run();
+
+    /* ---------- Success ---------- */
     return new Response(
-      JSON.stringify({ success: true }),
+      JSON.stringify({
+        success: true,
+        message: "Login successful."
+      }),
       {
         status: 200,
         headers: {
-          "Content-Type": "application/json",
-          "Set-Cookie": buildSessionCookie(session_token)
+          "Set-Cookie": buildSessionCookie(session_token),
+          "Content-Type": "application/json"
         }
       }
     );
@@ -116,7 +133,7 @@ export async function onRequestPost({ request, env }) {
     console.error("Login API Error:", err);
     return new Response(
       JSON.stringify({ error: "Login failed." }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
+      { status: 500 }
     );
   }
 }
