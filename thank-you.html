@@ -217,12 +217,15 @@ body{
 </main>
 
 <script>
-/* ===============================
-   Thank You – Selected Services
-   Supports EN / ZH switching
-================================ */
+/* =====================================
+   Thank You Page – Selected Services
+   Final Version (EN / 中文)
+===================================== */
 
-/* -------- 1️⃣ Service Map -------- */
+/* ---------- Global Language ---------- */
+let lang = localStorage.getItem('superedu-lang') || 'en';
+
+/* ---------- Service Map ---------- */
 const serviceMap = {
   s1: {
     en: {
@@ -267,16 +270,16 @@ const serviceMap = {
       title: '🏠 Education-Centered Family & Community Support',
       subs: [
         'Family Education Planning',
-        'Education Foundation / NPO 501(c)(3)',
-        'Education + Wealth / Trust Coordination'
+        'Education Foundation / 501(c)(3)',
+        'Education & Trust Coordination'
       ]
     },
     zh: {
       title: '🏠 以教育为核心的家庭与社区支持',
       subs: [
         '家庭教育整体规划',
-        '教育基金会 / 公益组织 501(c)(3)',
-        '教育与财富 / 信托协同规划'
+        '教育基金会 / 501(c)(3)',
+        '教育与信托协调规划'
       ]
     }
   },
@@ -287,13 +290,13 @@ const serviceMap = {
       subs: [
         'U.S. Education System Overview',
         'College Application Strategy',
-        'Pre-College Profile (AP / Summer Programs)'
+        'Pre-College Profile (AP / Summer)'
       ]
     },
     zh: {
       title: '📘 学术与大学升学支持',
       subs: [
-        '美国教育体系与比较分析',
+        '美国教育体系与比较',
         '大学申请策略',
         '大学前背景打造（AP / 夏校）'
       ]
@@ -301,18 +304,17 @@ const serviceMap = {
   }
 };
 
-/* -------- 2️⃣ Render Function -------- */
+/* ---------- Render Selected Services ---------- */
 function renderSelectedServices() {
+  const selected = JSON.parse(
+    localStorage.getItem('selectedServices') || '[]'
+  );
+
   const box = document.getElementById('selectedServicesBox');
   const list = document.getElementById('selectedServicesList');
-  if (!box || !list) return;
 
-  const lang = localStorage.getItem('superedu-lang') || 'en';
-  const selected = JSON.parse(localStorage.getItem('selectedServices') || '[]');
-
-  // 没有选择服务 → 不显示整个区块
-  if (!selected.length) {
-    box.style.display = 'none';
+  if (!box || !list || !selected.length) {
+    if (box) box.style.display = 'none';
     return;
   }
 
@@ -320,10 +322,10 @@ function renderSelectedServices() {
   list.innerHTML = '';
 
   selected.forEach(id => {
-    const item = serviceMap[id];
-    if (!item) return;
+    const svc = serviceMap[id];
+    if (!svc) return;
 
-    const data = item[lang];
+    const data = svc[lang];
 
     const li = document.createElement('li');
     li.innerHTML = `
@@ -334,33 +336,41 @@ function renderSelectedServices() {
     `;
     list.appendChild(li);
   });
-
-  // 附加说明（可选，但很加分）
-  const note = document.createElement('li');
-  note.style.marginTop = '12px';
-  note.style.color = '#666';
-  note.innerHTML = lang === 'zh'
-    ? '如您还有其他相关需求，欢迎随时与我们联系，我们将很乐意进一步协助您。'
-    : 'If you have any other related needs, please feel free to contact us — we are happy to assist you further.';
-  list.appendChild(note);
 }
 
+/* ---------- Language Switching ---------- */
+function setLang(l) {
+  lang = l;
+  localStorage.setItem('superedu-lang', l);
 
+  // Switch static text
+  document.querySelectorAll('[data-en]').forEach(el => {
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') return;
+    el.innerText = (l === 'en') ? el.dataset.en : el.dataset.zh;
+  });
 
-/* -------- 3️⃣ Initial Render -------- */
+  // Update language button
+  const langBtn = document.getElementById('langToggle');
+  if (langBtn) {
+    langBtn.innerText = (l === 'en') ? '中文' : 'EN';
+  }
+
+  // ⭐ KEY: re-render dynamic services
+  renderSelectedServices();
+}
+
+/* ---------- Init ---------- */
 document.addEventListener('DOMContentLoaded', () => {
   renderSelectedServices();
-});
 
-/* -------- 4️⃣ Hook into Language Switch -------- */
-const originalSetLang = window.setLang;
-
-window.setLang = function (l) {
-  if (typeof originalSetLang === 'function') {
-    originalSetLang(l);
+  const langBtn = document.getElementById('langToggle');
+  if (langBtn) {
+    langBtn.addEventListener('click', () => {
+      const next = (lang === 'en') ? 'zh' : 'en';
+      setLang(next);
+    });
   }
-  renderSelectedServices();
-};
+});
 </script>
 
 
