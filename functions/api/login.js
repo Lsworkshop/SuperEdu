@@ -10,17 +10,8 @@ async function hashPassword(password) {
 }
 
 /* =========================
-   Helpers
+   Cookie Builder
 ========================= */
-
-// Generate secure session token
-function generateSessionToken() {
-  const arr = new Uint8Array(32);
-  crypto.getRandomValues(arr);
-  return Array.from(arr, b => b.toString(16).padStart(2, "0")).join("");
-}
-
-// Cookie builder
 function buildSessionCookie(token, maxAgeSeconds = 60 * 60 * 24 * 7) {
   return [
     `session=${token}`,
@@ -28,6 +19,7 @@ function buildSessionCookie(token, maxAgeSeconds = 60 * 60 * 24 * 7) {
     `Secure`,
     `SameSite=Lax`,
     `Path=/`,
+    `Domain=edu.lsfinova.com`,  // ✅ 确保跨子域可用
     `Max-Age=${maxAgeSeconds}`
   ].join("; ");
 }
@@ -40,25 +32,18 @@ export async function onRequestPost({ request, env }) {
     const body = await request.json();
     const { email, password } = body;
 
-    /* ---------- Required ---------- */
     if (!email || !password) {
       return new Response(
-        JSON.stringify({ error: "Email and password are required." }),
+        JSON.stringify({ error: "Please enter email and password." }),
         { status: 400 }
       );
     }
 
-    /* ---------- Find Member ---------- */
-    const member = await env.DB.prepare(`
-      SELECT
-        member_id,
-        email,
-        password_hash,
-        is_verified,
-        status
-      FROM members
-      WHERE email = ?
-    `).bind(email).first();
+    // 查找成员
+    const member = await env.DB
+      .prepare("SELECT member_id, password_hash, is_verified FROM members WHERE email = ?")
+      .bind(email)
+      .first();
 
     if (!member) {
       return new Response(
@@ -67,26 +52,8 @@ export async function onRequestPost({ request, env }) {
       );
     }
 
-    /* ---------- Status Check ---------- */
-    if (member.status !== "active") {
-      return new Response(
-        JSON.stringify({ error: "This account is inactive." }),
-        { status: 403 }
-      );
-    }
-
-    if (member.is_verified !== 1) {
-      return new Response(
-        JSON.stringify({
-          error: "Please verify your email before logging in."
-        }),
-        { status: 403 }
-      );
-    }
-
-    /* ---------- Password Verify ---------- */
+    // 校验密码
     const password_hash = await hashPassword(password);
-
     if (password_hash !== member.password_hash) {
       return new Response(
         JSON.stringify({ error: "Invalid email or password." }),
@@ -94,36 +61,30 @@ export async function onRequestPost({ request, env }) {
       );
     }
 
-    /* ---------- Create Session ---------- */
-    const session_token = generateSessionToken();
-    const expiresAt = new Date(
-      Date.now() + 7 * 24 * 60 * 60 * 1000
-    ).toISOString();
+    // 校验邮箱是否验证
+    if (member.is_verified === 0) {
+      return new Response(
+        JSON.stringify({ error: "Please verify your email before logging in." }),
+        { status: 403 }
+      );
+    }
 
+    // 生成 session token
+    const session_token = crypto.randomUUID();
+
+    // 插入到 sessions 表
     await env.DB.prepare(`
       INSERT INTO sessions (
+        session_token,
         member_id,
-        token,
+        created_at,
         expires_at
-      ) VALUES (?, ?, ?)
-    `).bind(
-      member.member_id,
-      session_token,
-      expiresAt
-    ).run();
+      ) VALUES (?, ?, CURRENT_TIMESTAMP, datetime('now', '+7 day'))
+    `).bind(session_token, member.member_id).run();
 
-    /* ---------- Update Last Login ---------- */
-    await env.DB.prepare(`
-      UPDATE members
-      SET last_login_at = CURRENT_TIMESTAMP
-      WHERE member_id = ?
-    `).bind(member.member_id).run();
-
-    /* ---------- Success ---------- */
+    // 返回成功并设置 cookie
     return new Response(
-      JSON.stringify({
-        success: true
-      }),
+      JSON.stringify({ success: true }),
       {
         status: 200,
         headers: {
@@ -141,3 +102,4 @@ export async function onRequestPost({ request, env }) {
     );
   }
 }
+
