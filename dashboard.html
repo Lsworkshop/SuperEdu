@@ -4,129 +4,282 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Dashboard | Edunova Education</title>
-<link rel="stylesheet" href="/assets/css/dashboard.css" />
+
 <style>
-  body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-    background-color: #f9fafb;
-  }
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 24px;
-    height: 60px;
-    background-color: #2563eb;
-    color: #fff;
-  }
-  header .logo { font-weight: bold; font-size: 20px; }
-  header nav a {
-    margin-left: 16px;
-    color: #fff;
-    text-decoration: none;
-    font-weight: 500;
-  }
-  .container {
-    display: flex;
-    min-height: calc(100vh - 60px);
-  }
-  .sidebar {
-    width: 220px;
-    background-color: #1e40af;
-    color: #fff;
-    flex-shrink: 0;
-    padding-top: 24px;
-  }
-  .sidebar a {
-    display: block;
-    padding: 12px 20px;
-    color: #fff;
-    text-decoration: none;
-    margin: 4px 0;
-    border-radius: 4px;
-  }
-  .sidebar a:hover { background-color: #3b82f6; }
-  .content {
-    flex-grow: 1;
-    padding: 24px;
-  }
-  .welcome {
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 16px;
-  }
+/* =========================
+   Base
+========================= */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  background-color: #f9fafb;
+  color: #1f2937;
+}
+
+/* =========================
+   Sidebar
+========================= */
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-inner {
+  padding: 24px 18px;
+  flex: 1;
+}
+
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.divider {
+  height: 1px;
+  background-color: #e5e7eb;
+  margin: 18px 0;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  color: #1f2937;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  transition: background 0.15s ease;
+}
+
+.nav-item:hover {
+  background-color: rgba(99, 102, 241, 0.08);
+}
+
+.nav-item.active {
+  background-color: rgba(99, 102, 241, 0.14);
+  color: #4338ca;
+  font-weight: 600;
+}
+
+/* Logout */
+.sidebar-footer {
+  padding: 16px 18px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.logout-btn {
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: #fee2e2;
+  color: #991b1b;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background-color: #fecaca;
+}
+
+/* =========================
+   Main Content
+========================= */
+.main-content {
+  margin-left: 250px;
+  padding: 32px;
+}
+
+.welcome {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.sub-welcome {
+  color: #6b7280;
+  margin-bottom: 28px;
+}
+
+/* =========================
+   Dashboard Cards
+========================= */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.dashboard-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 22px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.dashboard-card:hover {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+  transform: translateY(-2px);
+}
+
+.card-icon {
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.card-desc {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 14px;
+}
+
+.card-link {
+  text-decoration: none;
+  font-weight: 600;
+  color: #2563eb;
+}
 </style>
 </head>
+
 <body>
 
-<header>
-  <div class="logo">Edunova</div>
-  <nav>
-    <a href="/index.html">Home</a>
-    <a href="/edu-center.html">EduCenter</a>
-    <a href="/edu-community.html">EduCommunity</a>
-    <a href="/forum.html">Forum</a>
-    <a href="/volunteer.html">🤝 Volunteer</a>
-    <a href="/donation.html">💖 Donation</a>
-    <a href="/profile.html">Profile</a>
-    <a href="/settings.html">Settings</a>
-    <a href="/logout.html">Logout</a>
-  </nav>
-</header>
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-inner">
 
-<div class="container">
-  <aside class="sidebar">
-    <a href="/edu-center.html">EduCenter</a>
-    <a href="/edu-community.html">EduCommunity</a>
-    <a href="/forum.html">Forum</a>
-    <a href="/volunteer.html">🤝 Volunteer</a>
-    <a href="/donation.html">💖 Donation</a>
-    <a href="/profile.html">Profile</a>
-    <a href="/settings.html">Settings</a>
-  </aside>
+    <div class="sidebar-section">
+      <a href="/dashboard.html" class="nav-item active">📊 Dashboard</a>
+      <a href="#" class="nav-item">🧭 My Journey</a>
+    </div>
 
-  <main class="content">
-    <div class="welcome" id="welcomeMessage">Welcome!</div>
-    <div id="memberInfo"></div>
-  </main>
-</div>
+    <div class="divider"></div>
+
+    <div class="sidebar-section">
+      <a href="/edu-center.html" class="nav-item">🎓 EduCenter</a>
+      <a href="/edu-community.html" class="nav-item">💬 EduCommunity</a>
+      <a href="/forum.html" class="nav-item">🧠 Forum</a>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="sidebar-section">
+      <a href="/volunteer.html" class="nav-item">🤝 Volunteer</a>
+      <a href="/donation.html" class="nav-item">💖 Donate</a>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="sidebar-section">
+      <a href="/profile.html" class="nav-item">👤 Profile</a>
+      <a href="/settings.html" class="nav-item">⚙️ Settings</a>
+    </div>
+
+  </div>
+
+  <div class="sidebar-footer">
+    <button id="logoutBtn" class="logout-btn">🚪 Logout</button>
+  </div>
+</aside>
+
+<!-- Main -->
+<main class="main-content">
+
+  <div class="welcome" id="welcomeMessage">Welcome!</div>
+  <div class="sub-welcome">Your learning and contribution dashboard</div>
+
+  <!-- Cards -->
+  <section class="dashboard-grid">
+
+    <div class="dashboard-card">
+      <div class="card-icon">🎓</div>
+      <div class="card-title">EduCenter</div>
+      <div class="card-desc">
+        Courses, webinars, and academic resources tailored for you.
+      </div>
+      <a href="/edu-center.html" class="card-link">Go to EduCenter →</a>
+    </div>
+
+    <div class="dashboard-card">
+      <div class="card-icon">💬</div>
+      <div class="card-title">EduCommunity</div>
+      <div class="card-desc">
+        Connect, discuss, and grow with the Edunova community.
+      </div>
+      <a href="/edu-community.html" class="card-link">Join Community →</a>
+    </div>
+
+    <div class="dashboard-card">
+      <div class="card-icon">🧠</div>
+      <div class="card-title">Forum</div>
+      <div class="card-desc">
+        Ask questions, share insights, and exchange ideas.
+      </div>
+      <a href="/forum.html" class="card-link">Visit Forum →</a>
+    </div>
+
+    <div class="dashboard-card">
+      <div class="card-icon">🤝</div>
+      <div class="card-title">Volunteer & Donate</div>
+      <div class="card-desc">
+        Contribute your time or support our educational mission.
+      </div>
+      <a href="/volunteer.html" class="card-link">Get Involved →</a>
+    </div>
+
+  </section>
+</main>
 
 <script>
-  async function fetchMemberInfo() {
-    try {
-      const res = await fetch("/api/me");
-      const data = await res.json();
+/* =========================
+   Auth Check
+========================= */
+async function fetchMemberInfo() {
+  try {
+    const res = await fetch("/api/me");
+    const data = await res.json();
 
-      if (!res.ok || !data.success) {
-        // 未登录或 session 失效，跳转回 login.html
-        window.location.href = "/login.html";
-        return;
-      }
-
-      const member = data.member;
-
-      // 更新欢迎信息
-      const welcomeEl = document.getElementById("welcomeMessage");
-      welcomeEl.textContent = `Welcome, ${member.first_name} ${member.last_name}!`;
-
-      // 显示更多会员信息
-      const infoEl = document.getElementById("memberInfo");
-      infoEl.innerHTML = `
-        <p><strong>Member ID:</strong> ${member.member_id}</p>
-        <p><strong>Email:</strong> ${member.email}</p>
-        <p><strong>Role:</strong> ${member.role}</p>
-        <p><strong>Status:</strong> ${member.status}</p>
-        <p><strong>Last Login:</strong> ${member.last_login_at || "N/A"}</p>
-      `;
-    } catch (err) {
-      console.error("Dashboard fetch error:", err);
+    if (!res.ok || !data.success) {
       window.location.href = "/login.html";
+      return;
     }
-  }
 
-  // 初始化
-  fetchMemberInfo();
+    const m = data.member;
+    document.getElementById("welcomeMessage").textContent =
+      `Welcome, ${m.first_name} ${m.last_name}!`;
+
+  } catch (err) {
+    window.location.href = "/login.html";
+  }
+}
+
+/* =========================
+   Logout
+========================= */
+document.getElementById("logoutBtn").addEventListener("click", async () => {
+  await fetch("/api/logout", { method: "POST" });
+  window.location.href = "/login.html";
+});
+
+fetchMemberInfo();
 </script>
 
 </body>

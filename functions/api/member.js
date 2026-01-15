@@ -108,8 +108,6 @@ async function sendVerificationEmail({
     <p style="margin-top: 24px;">
           ——<strong>超能教育 · Edunova Education</strong>
     </p>
-    If you have any questions, please feel free to reply to this email directly.
-
     <hr style="margin: 32px 0; border: none; border-top: 1px solid #e5e7eb;" />
     <p>
       您好，<strong>${firstName} ${lastName}</strong>：
@@ -140,9 +138,7 @@ async function sendVerificationEmail({
       该验证链接将在 <strong>24 小时后失效</strong>。
     </p>
     <p style="margin-top: 32px;">
-      如有任何问题，欢迎直接回复本邮件：
-      <br />
-      <strong>team@edunovafdn.org</strong>
+      如有任何问题，欢迎直接回复本邮件：<strong>team@edunovafdn.org</strong>
     </p>
     <p style="margin-top: 24px;">
           ——<strong>超能教育 · Edunova Education</strong>
