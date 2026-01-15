@@ -1,0 +1,41 @@
+<script>
+/* =========================
+   Logout Logic
+========================= */
+
+// 封装 Logout 函数
+async function logout() {
+  try {
+    // 调用后台 API 清除 session
+    const res = await fetch("/api/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+
+    if (!res.ok) {
+      console.error("Logout failed:", await res.text());
+      alert("Logout failed. Please try again.");
+      return;
+    }
+
+    // 可选：清理本地存储（如果有使用 localStorage/sessionStorage 保存状态）
+    localStorage.removeItem("snovaAuth");
+    localStorage.removeItem("snovaUserEmail");
+
+    // 跳转回登录页面
+    window.location.href = "/login.html";
+
+  } catch (err) {
+    console.error("Logout error:", err);
+    alert("Logout error. Please try again.");
+  }
+}
+
+/* =========================
+   Attach to Logout Buttons
+========================= */
+document.getElementById("logoutBtn")?.addEventListener("click", logout);
+document.getElementById("logoutSidebarBtn")?.addEventListener("click", logout);
+</script>
