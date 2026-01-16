@@ -1443,3 +1443,90 @@ body.register-page .register-card {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ===============================
+   Desktop dropdown (Programs / Get Involved)
+=============================== */
+.nav-item.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 120%;
+  left: 0;
+  min-width: 200px;
+  background: rgba(20, 20, 25, 0.95);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  padding: 8px 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: all 0.25s ease;
+  z-index: 999;
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 10px 16px;
+  font-size: 14px;
+  color: #eee;
+  white-space: nowrap;
+}
+
+.dropdown-menu a:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Disabled / Coming soon */
+.dropdown-menu a.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.dropdown-menu .coming-soon {
+  font-size: 11px;
+  margin-left: 6px;
+  opacity: 0.7;
+}
+
+/* ===============================
+   Mobile accordion (details / summary)
+=============================== */
+.mobile-menu details {
+  margin: 6px 0;
+}
+
+.mobile-menu summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 10px 0;
+  font-weight: 500;
+}
+
+.mobile-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.mobile-menu details[open] summary {
+  opacity: 0.85;
+}
+
+.mobile-menu details a {
+  padding-left: 16px;
+}
