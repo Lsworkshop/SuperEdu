@@ -102,8 +102,8 @@ body {
   <div class="nav-inner">
     <div class="brand">
       <a href="/index.html#home" class="brand">
-        <img src="/assets/img/superedu-logo.png" alt="SnovaEdu" class="logo-img" />
-        <span class="brand-text">SnovaEdu</span>
+        <img src="/assets/img/superedu-logo.png" alt="Edunova" class="logo-img" />
+        <span class="brand-text">Edunova</span>
       </a>
     </div>
 
@@ -119,12 +119,39 @@ body {
       <span class="nav-underline"></span>
     </div>
 
+    <!-- Right side -->
     <div class="nav-right">
-      <button id="langToggle" class="lang-toggle">中文</button>
-      <button id="hamburger" class="hamburger"><span></span><span></span><span></span></button>
+      <button id="langToggle" class="lang-toggle" aria-label="Language toggle">中文</button>
+      <button id="hamburger" class="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
+
+  <!-- Mobile slide menu -->
+  <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+      <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
+      <a href="/index.html#services" data-en="Services" data-zh="服务">Services</a>
+
+      <a href="/education.html" id="navEduCenter" data-en="EduCenter" data-zh="教育中心">EduCenter</a>
+      <a href="/community.html" id="navEduCommunity" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
+
+      <a href="/membership.html" data-en="Membership" data-zh="会员">Membership</a>
+
+      <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
+      <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
+
+      <a href="/login.html" data-en="Login" data-zh="登录">Login</a>
+
+      <div class="mobile-actions">
+        <button class="btn btn-ghost" id="mobileRegister" data-en="Register/Join" data-zh="注册/加入">Register / Join</button>
+        <button class="btn" id="mobileUnlock" data-en="Unlock Education" data-zh="解锁教育">Unlock Education</button>
+      </div>
+  </div>
 </nav>
+
+
+
 
 <main class="community-container">
 

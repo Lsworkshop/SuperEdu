@@ -7,160 +7,151 @@
 
 <style>
 /* =========================
-   Design Tokens (来自主页 Service 区)
-========================= */
-:root {
-  --bg-page: #f9faf8;
-
-  --card-bg-start: #f5efe6;
-  --card-bg-end: #efe6d8;
-
-  --text-main: #1f2937;
-  --text-muted: #6b7280;
-
-  --accent: #b59b6a;
-  --border-soft: #e5e7eb;
-}
-
-/* =========================
-   Base
+   Base (与官网正文一致)
 ========================= */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background-color: var(--bg-page);
-  color: var(--text-main);
+    "Segoe UI", Roboto, Arial, sans-serif;
+  background-color: #fafafa;
+  color: #1f2937;
+  line-height: 1.65;
 }
 
 /* 预留主菜单空间 */
 .top-offset {
-  height: 72px;
+  height: 80px;
 }
 
 /* =========================
-   Page Wrapper
+   Layout
 ========================= */
-.dashboard-wrapper {
+.dashboard-wrap {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 28px 20px 60px;
+  padding: 32px 20px 72px;
 }
 
 /* =========================
    Welcome
 ========================= */
 .welcome-title {
-  font-size: 26px;
-  font-weight: 600;
-  margin-bottom: 6px;
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 4px;
 }
 
 .welcome-sub {
   font-size: 15px;
-  color: var(--text-muted);
-  margin-bottom: 32px;
+  color: #6b7280;
+  margin-bottom: 36px;
 }
 
 /* =========================
-   Service Cards (核心)
+   Section
 ========================= */
-.service-grid {
+.section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 18px;
+  color: #374151;
+}
+
+/* =========================
+   Card Grid
+========================= */
+.card-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 20px;
+  gap: 18px;
 }
 
 @media (min-width: 640px) {
-  .service-grid {
+  .card-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (min-width: 1024px) {
-  .service-grid {
+  .card-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-.service-card {
-  background: linear-gradient(
-    160deg,
-    var(--card-bg-start),
-    var(--card-bg-end)
-  );
-  border-radius: 18px;
-  padding: 26px 24px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+/* =========================
+   Card
+========================= */
+.card {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 22px 22px 24px;
+  transition: border-color 0.15s ease;
 }
 
-.service-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 26px rgba(0,0,0,0.08);
+.card:hover {
+  border-color: #d1d5db;
 }
 
-.service-icon {
-  font-size: 30px;
-  margin-bottom: 12px;
+.card-icon {
+  font-size: 22px;
+  margin-bottom: 10px;
 }
 
-.service-title {
-  font-size: 18px;
+.card-title {
+  font-size: 17px;
   font-weight: 600;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
-.service-desc {
+.card-desc {
   font-size: 14.5px;
-  color: var(--text-muted);
-  line-height: 1.5;
-  margin-bottom: 14px;
+  color: #6b7280;
+  margin-bottom: 10px;
 }
 
-.service-link {
+.card a {
   font-size: 14.5px;
-  font-weight: 600;
-  color: var(--accent);
+  color: #2563eb;
   text-decoration: none;
 }
 
 /* =========================
-   Secondary Section
+   Footer Links
 ========================= */
-.secondary-section {
+.footer-links {
   margin-top: 48px;
-  border-top: 1px solid var(--border-soft);
-  padding-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid #e5e7eb;
   display: flex;
   flex-wrap: wrap;
   gap: 18px;
 }
 
-.secondary-link {
+.footer-links a {
+  font-size: 14.5px;
   text-decoration: none;
-  font-weight: 500;
-  color: var(--text-main);
+  color: #374151;
 }
 
 /* =========================
    Logout
 ========================= */
-.logout-wrap {
-  margin-top: 48px;
+.logout {
+  margin-top: 36px;
 }
 
-.logout-btn {
+.logout button {
   background: none;
-  border: 1px solid #e5cfc8;
-  color: #8b3a2b;
-  padding: 10px 18px;
+  border: 1px solid #e5e7eb;
+  padding: 8px 16px;
   border-radius: 999px;
   font-size: 14px;
   cursor: pointer;
-}
-
-.logout-btn:hover {
-  background-color: #f3e6e1;
 }
 </style>
 </head>
@@ -169,70 +160,94 @@ body {
 
 <div class="top-offset"></div>
 
-<main class="dashboard-wrapper">
+<main class="dashboard-wrap">
 
-  <h1 class="welcome-title" id="welcomeMessage">Welcome!</h1>
+  <h1 class="welcome-title" id="welcomeMessage">Welcome</h1>
   <div class="welcome-sub">
-    Your personalized education & community space
+    This is your personal space within Edunova Education.
   </div>
 
-  <!-- Core Services -->
-  <section class="service-grid">
-
-    <div class="service-card">
-      <div class="service-icon">🎓</div>
-      <div class="service-title">EduCenter</div>
-      <div class="service-desc">
-        Structured courses, webinars, and academic resources.
+  <!-- Core Education -->
+  <section class="section">
+    <div class="section-title">Education & Community</div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🎓</div>
+        <div class="card-title">EduCenter</div>
+        <div class="card-desc">
+          Courses, academic programs, and structured learning resources.
+        </div>
+        <a href="/edu-center.html">Learn more →</a>
       </div>
-      <a href="/edu-center.html" class="service-link">Explore →</a>
-    </div>
 
-    <div class="service-card">
-      <div class="service-icon">💬</div>
-      <div class="service-title">EduCommunity</div>
-      <div class="service-desc">
-        Learn together, share insights, and connect with peers.
+      <div class="card">
+        <div class="card-icon">💬</div>
+        <div class="card-title">EduCommunity</div>
+        <div class="card-desc">
+          Discussions, shared learning, and peer connections.
+        </div>
+        <a href="/edu-community.html">Enter →</a>
       </div>
-      <a href="/edu-community.html" class="service-link">Join →</a>
-    </div>
 
-    <div class="service-card">
-      <div class="service-icon">🧠</div>
-      <div class="service-title">Forum</div>
-      <div class="service-desc">
-        Ask questions, exchange ideas, and deepen understanding.
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <div class="card-title">Forum</div>
+        <div class="card-desc">
+          Ask questions, exchange ideas, and deepen understanding.
+        </div>
+        <a href="/forum.html">Visit forum →</a>
       </div>
-      <a href="/forum.html" class="service-link">Visit →</a>
     </div>
-
-    <div class="service-card">
-      <div class="service-icon">🤝</div>
-      <div class="service-title">Volunteer & Donate</div>
-      <div class="service-desc">
-        Support education through action and contribution.
-      </div>
-      <a href="/volunteer.html" class="service-link">Get involved →</a>
-    </div>
-
   </section>
 
-  <!-- Secondary -->
-  <section class="secondary-section">
-    <a href="/profile.html" class="secondary-link">👤 Profile</a>
-    <a href="/settings.html" class="secondary-link">⚙️ Settings</a>
-    <a href="#" class="secondary-link">🧭 My Journey</a>
+  <!-- Engagement -->
+  <section class="section">
+    <div class="section-title">Get Involved</div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🤝</div>
+        <div class="card-title">Volunteer</div>
+        <div class="card-desc">
+          Participate in educational and community initiatives.
+        </div>
+        <a href="/volunteer.html">Join →</a>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">💖</div>
+        <div class="card-title">Donate</div>
+        <div class="card-desc">
+          Support education and公益 initiatives through donation.
+        </div>
+        <a href="/donation.html">Support →</a>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">📅</div>
+        <div class="card-title">Events</div>
+        <div class="card-desc">
+          Talks, workshops, webinars, and community activities.
+        </div>
+        <a href="/events.html">View events →</a>
+      </div>
+    </div>
   </section>
 
-  <!-- Logout -->
-  <div class="logout-wrap">
-    <button id="logoutBtn" class="logout-btn">Log out</button>
+  <!-- Personal -->
+  <div class="footer-links">
+    <a href="/profile.html">👤 Profile</a>
+    <a href="/settings.html">⚙️ Settings</a>
+    <a href="#">🧭 My Journey</a>
+  </div>
+
+  <div class="logout">
+    <button id="logoutBtn">Log out</button>
   </div>
 
 </main>
 
 <script>
-async function fetchMemberInfo() {
+async function init() {
   try {
     const res = await fetch("/api/me");
     const data = await res.json();
@@ -242,23 +257,23 @@ async function fetchMemberInfo() {
       return;
     }
 
-    const m = data.member;
     document.getElementById("welcomeMessage").textContent =
-      `Welcome, ${m.first_name}!`;
+      `Welcome, ${data.member.first_name}`;
   } catch {
     window.location.href = "/login.html";
   }
 }
 
-document.getElementById("logoutBtn").addEventListener("click", async () => {
+document.getElementById("logoutBtn").onclick = async () => {
   await fetch("/api/logout", { method: "POST" });
   window.location.href = "/login.html";
-});
+};
 
-fetchMemberInfo();
+init();
 </script>
 
 </body>
 </html>
+
 
 
