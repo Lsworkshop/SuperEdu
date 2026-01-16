@@ -7,25 +7,19 @@
 
 <style>
 /* =========================
-   Base (与官网正文一致)
+   Base
 ========================= */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, Arial, sans-serif;
-  background-color: #fafafa;
+  background-color: #f5f5f4;
   color: #1f2937;
   line-height: 1.65;
 }
 
-/* 预留主菜单空间 */
-.top-offset {
-  height: 80px;
-}
+.top-offset { height: 80px; }
 
-/* =========================
-   Layout
-========================= */
 .dashboard-wrap {
   max-width: 1100px;
   margin: 0 auto;
@@ -38,26 +32,40 @@ body {
 .welcome-title {
   font-size: 24px;
   font-weight: 500;
-  margin-bottom: 4px;
 }
 
 .welcome-sub {
   font-size: 15px;
   color: #6b7280;
-  margin-bottom: 36px;
+  margin: 6px 0 36px;
 }
 
 /* =========================
-   Section
+   Section Wrapper
 ========================= */
 .section {
-  margin-bottom: 40px;
+  margin-bottom: 48px;
+  padding: 28px 26px 32px;
+  border-radius: 18px;
+}
+
+/* 不同区块背景 */
+.section-edu {
+  background-color: #fafaf9;
+}
+
+.section-engage {
+  background-color: #fff7ed;
+}
+
+.section-personal {
+  background-color: #ffffff;
 }
 
 .section-title {
   font-size: 16px;
   font-weight: 600;
-  margin-bottom: 18px;
+  margin-bottom: 22px;
   color: #374151;
 }
 
@@ -67,19 +75,15 @@ body {
 .card-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 18px;
+  gap: 20px;
 }
 
 @media (min-width: 640px) {
-  .card-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .card-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (min-width: 1024px) {
-  .card-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  .card-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 /* =========================
@@ -88,12 +92,16 @@ body {
 .card {
   background-color: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 14px;
-  padding: 22px 22px 24px;
-  transition: border-color 0.15s ease;
+  border-radius: 16px;
+  padding: 22px 22px 26px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  transition: all 0.18s ease;
+  cursor: pointer;
 }
 
 .card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
   border-color: #d1d5db;
 }
 
@@ -111,31 +119,37 @@ body {
 .card-desc {
   font-size: 14.5px;
   color: #6b7280;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .card a {
   font-size: 14.5px;
   color: #2563eb;
   text-decoration: none;
+  font-weight: 500;
+}
+
+.card a:hover {
+  text-decoration: underline;
 }
 
 /* =========================
    Footer Links
 ========================= */
 .footer-links {
-  margin-top: 48px;
-  padding-top: 24px;
-  border-top: 1px solid #e5e7eb;
   display: flex;
   flex-wrap: wrap;
-  gap: 18px;
+  gap: 20px;
 }
 
 .footer-links a {
   font-size: 14.5px;
   text-decoration: none;
   color: #374151;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
 }
 
 /* =========================
@@ -146,12 +160,18 @@ body {
 }
 
 .logout button {
-  background: none;
-  border: 1px solid #e5e7eb;
-  padding: 8px 16px;
+  background-color: transparent;
+  border: 1px solid #d1d5db;
+  padding: 8px 18px;
   border-radius: 999px;
   font-size: 14px;
   cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.logout button:hover {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
 }
 </style>
 </head>
@@ -164,109 +184,93 @@ body {
 
   <h1 class="welcome-title" id="welcomeMessage">Welcome</h1>
   <div class="welcome-sub">
-    This is your personal space within Edunova Education.
+    Your personal space within Edunova Education.
   </div>
 
-  <!-- Core Education -->
-  <section class="section">
+  <!-- Education -->
+  <section class="section section-edu">
     <div class="section-title">Education & Community</div>
     <div class="card-grid">
-      <div class="card">
+      <div class="card" onclick="location.href='/edu-center.html'">
         <div class="card-icon">🎓</div>
         <div class="card-title">EduCenter</div>
-        <div class="card-desc">
-          Courses, academic programs, and structured learning resources.
-        </div>
-        <a href="/edu-center.html">Learn more →</a>
+        <div class="card-desc">Structured learning and academic programs.</div>
+        <a href="/edu-center.html">Explore →</a>
       </div>
 
-      <div class="card">
+      <div class="card" onclick="location.href='/edu-community.html'">
         <div class="card-icon">💬</div>
         <div class="card-title">EduCommunity</div>
-        <div class="card-desc">
-          Discussions, shared learning, and peer connections.
-        </div>
+        <div class="card-desc">Discussion, sharing, and peer learning.</div>
         <a href="/edu-community.html">Enter →</a>
       </div>
 
-      <div class="card">
+      <div class="card" onclick="location.href='/forum.html'">
         <div class="card-icon">🧠</div>
         <div class="card-title">Forum</div>
-        <div class="card-desc">
-          Ask questions, exchange ideas, and deepen understanding.
-        </div>
-        <a href="/forum.html">Visit forum →</a>
+        <div class="card-desc">Ask, discuss, and deepen understanding.</div>
+        <a href="/forum.html">Visit →</a>
       </div>
     </div>
   </section>
 
   <!-- Engagement -->
-  <section class="section">
+  <section class="section section-engage">
     <div class="section-title">Get Involved</div>
     <div class="card-grid">
-      <div class="card">
+      <div class="card" onclick="location.href='/volunteer.html'">
         <div class="card-icon">🤝</div>
         <div class="card-title">Volunteer</div>
-        <div class="card-desc">
-          Participate in educational and community initiatives.
-        </div>
+        <div class="card-desc">Participate in education initiatives.</div>
         <a href="/volunteer.html">Join →</a>
       </div>
 
-      <div class="card">
+      <div class="card" onclick="location.href='/donation.html'">
         <div class="card-icon">💖</div>
         <div class="card-title">Donate</div>
-        <div class="card-desc">
-          Support education and公益 initiatives through donation.
-        </div>
+        <div class="card-desc">Support education through donation.</div>
         <a href="/donation.html">Support →</a>
       </div>
 
-      <div class="card">
+      <div class="card" onclick="location.href='/events.html'">
         <div class="card-icon">📅</div>
         <div class="card-title">Events</div>
-        <div class="card-desc">
-          Talks, workshops, webinars, and community activities.
-        </div>
-        <a href="/events.html">View events →</a>
+        <div class="card-desc">Talks, workshops, and activities.</div>
+        <a href="/events.html">View →</a>
       </div>
     </div>
   </section>
 
   <!-- Personal -->
-  <div class="footer-links">
-    <a href="/profile.html">👤 Profile</a>
-    <a href="/settings.html">⚙️ Settings</a>
-    <a href="#">🧭 My Journey</a>
-  </div>
+  <section class="section section-personal">
+    <div class="footer-links">
+      <a href="/profile.html">👤 Profile</a>
+      <a href="/settings.html">⚙️ Settings</a>
+      <a href="#">🧭 My Journey</a>
+    </div>
 
-  <div class="logout">
-    <button id="logoutBtn">Log out</button>
-  </div>
+    <div class="logout">
+      <button id="logoutBtn">Log out</button>
+    </div>
+  </section>
 
 </main>
 
 <script>
 async function init() {
-  try {
-    const res = await fetch("/api/me");
-    const data = await res.json();
-
-    if (!res.ok || !data.success) {
-      window.location.href = "/login.html";
-      return;
-    }
-
-    document.getElementById("welcomeMessage").textContent =
-      `Welcome, ${data.member.first_name}`;
-  } catch {
-    window.location.href = "/login.html";
+  const res = await fetch("/api/me");
+  const data = await res.json();
+  if (!res.ok || !data.success) {
+    location.href = "/login.html";
+    return;
   }
+  document.getElementById("welcomeMessage").textContent =
+    `Welcome, ${data.member.first_name}`;
 }
 
 document.getElementById("logoutBtn").onclick = async () => {
   await fetch("/api/logout", { method: "POST" });
-  window.location.href = "/login.html";
+  location.href = "/login.html";
 };
 
 init();
@@ -274,6 +278,5 @@ init();
 
 </body>
 </html>
-
 
 
