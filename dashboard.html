@@ -7,21 +7,19 @@
 
 <style>
 /* =========================
-   Design Tokens (统一风格)
+   Design Tokens (来自主页 Service 区)
 ========================= */
 :root {
-  --bg-page: #f7f6f3;
-  --bg-sidebar-top: #f9faf7;
-  --bg-sidebar-bottom: #eef0ea;
+  --bg-page: #f9faf8;
 
-  --card-grad-start: #f5efe6;
-  --card-grad-end: #ede4d6;
+  --card-bg-start: #f5efe6;
+  --card-bg-end: #efe6d8;
 
-  --text-main: #2b2b2b;
-  --text-muted: #6b6b6b;
+  --text-main: #1f2937;
+  --text-muted: #6b7280;
 
-  --border-soft: #e3e0d9;
-  --accent-soft: #c9b89b;
+  --accent: #b59b6a;
+  --border-soft: #e5e7eb;
 }
 
 /* =========================
@@ -29,260 +27,208 @@
 ========================= */
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-               Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background-color: var(--bg-page);
   color: var(--text-main);
 }
 
-/* =========================
-   Layout Offset (预留主菜单)
-========================= */
-.layout-offset {
-  height: 72px; /* 未来主菜单高度 */
+/* 预留主菜单空间 */
+.top-offset {
+  height: 72px;
 }
 
 /* =========================
-   Sidebar
+   Page Wrapper
 ========================= */
-.sidebar {
-  width: 250px;
-  height: calc(100vh - 72px);
-  position: fixed;
-  top: 72px;
-  left: 0;
-  background: linear-gradient(
-    180deg,
-    var(--bg-sidebar-top),
-    var(--bg-sidebar-bottom)
-  );
-  border-right: 1px solid var(--border-soft);
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebar-inner {
-  padding: 26px 20px;
-  flex: 1;
-}
-
-.sidebar-section {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 20px;
-}
-
-.divider {
-  height: 1px;
-  background-color: var(--border-soft);
-  margin: 20px 0;
-}
-
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  border-radius: 10px;
-  color: var(--text-main);
-  text-decoration: none;
-  font-size: 15px;
-  font-weight: 500;
-}
-
-.nav-item:hover {
-  background-color: rgba(201, 184, 155, 0.18);
-}
-
-.nav-item.active {
-  background-color: rgba(201, 184, 155, 0.32);
-  font-weight: 600;
-}
-
-/* Logout */
-.sidebar-footer {
-  padding: 16px 20px;
-  border-top: 1px solid var(--border-soft);
-}
-
-.logout-btn {
-  width: 100%;
-  padding: 10px 14px;
-  border-radius: 10px;
-  border: none;
-  background-color: #f3e6e1;
-  color: #8a3d2c;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.logout-btn:hover {
-  background-color: #ecd3cc;
+.dashboard-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 20px 60px;
 }
 
 /* =========================
-   Main Content
+   Welcome
 ========================= */
-.main-content {
-  margin-left: 250px;
-  padding: 36px 40px;
-  padding-top: 40px;
-}
-
-.welcome {
+.welcome-title {
   font-size: 26px;
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 6px;
 }
 
-.sub-welcome {
+.welcome-sub {
+  font-size: 15px;
   color: var(--text-muted);
   margin-bottom: 32px;
 }
 
 /* =========================
-   Dashboard Cards
+   Service Cards (核心)
 ========================= */
-.dashboard-grid {
+.service-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
+  grid-template-columns: 1fr;
+  gap: 20px;
 }
 
-.dashboard-card {
+@media (min-width: 640px) {
+  .service-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .service-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.service-card {
   background: linear-gradient(
     160deg,
-    var(--card-grad-start),
-    var(--card-grad-end)
+    var(--card-bg-start),
+    var(--card-bg-end)
   );
   border-radius: 18px;
-  padding: 26px;
+  padding: 26px 24px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.dashboard-card:hover {
+.service-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 14px 30px rgba(0,0,0,0.08);
+  box-shadow: 0 12px 26px rgba(0,0,0,0.08);
 }
 
-.card-icon {
+.service-icon {
   font-size: 30px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
-.card-title {
-  font-size: 19px;
+.service-title {
+  font-size: 18px;
   font-weight: 600;
   margin-bottom: 8px;
 }
 
-.card-desc {
+.service-desc {
   font-size: 14.5px;
   color: var(--text-muted);
   line-height: 1.5;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
-.card-link {
-  text-decoration: none;
+.service-link {
+  font-size: 14.5px;
   font-weight: 600;
-  color: #7b6a4a;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* =========================
+   Secondary Section
+========================= */
+.secondary-section {
+  margin-top: 48px;
+  border-top: 1px solid var(--border-soft);
+  padding-top: 28px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.secondary-link {
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+/* =========================
+   Logout
+========================= */
+.logout-wrap {
+  margin-top: 48px;
+}
+
+.logout-btn {
+  background: none;
+  border: 1px solid #e5cfc8;
+  color: #8b3a2b;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background-color: #f3e6e1;
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🔹 未来主菜单预留区 -->
-<div class="layout-offset"></div>
+<div class="top-offset"></div>
 
-<!-- Sidebar -->
-<aside class="sidebar">
-  <div class="sidebar-inner">
+<main class="dashboard-wrapper">
 
-    <div class="sidebar-section">
-      <a href="/dashboard.html" class="nav-item active">📊 Dashboard</a>
-      <a href="#" class="nav-item">🧭 My Journey</a>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="sidebar-section">
-      <a href="/edu-center.html" class="nav-item">🎓 EduCenter</a>
-      <a href="/edu-community.html" class="nav-item">💬 EduCommunity</a>
-      <a href="/forum.html" class="nav-item">🧠 Forum</a>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="sidebar-section">
-      <a href="/volunteer.html" class="nav-item">🤝 Volunteer</a>
-      <a href="/donation.html" class="nav-item">💖 Donate</a>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="sidebar-section">
-      <a href="/profile.html" class="nav-item">👤 Profile</a>
-      <a href="/settings.html" class="nav-item">⚙️ Settings</a>
-    </div>
-
+  <h1 class="welcome-title" id="welcomeMessage">Welcome!</h1>
+  <div class="welcome-sub">
+    Your personalized education & community space
   </div>
 
-  <div class="sidebar-footer">
-    <button id="logoutBtn" class="logout-btn">🚪 Logout</button>
-  </div>
-</aside>
+  <!-- Core Services -->
+  <section class="service-grid">
 
-<!-- Main -->
-<main class="main-content">
-
-  <div class="welcome" id="welcomeMessage">Welcome!</div>
-  <div class="sub-welcome">
-    Your personal learning and contribution dashboard
-  </div>
-
-  <section class="dashboard-grid">
-
-    <div class="dashboard-card">
-      <div class="card-icon">🎓</div>
-      <div class="card-title">EduCenter</div>
-      <div class="card-desc">
-        Courses, webinars, and structured academic resources.
+    <div class="service-card">
+      <div class="service-icon">🎓</div>
+      <div class="service-title">EduCenter</div>
+      <div class="service-desc">
+        Structured courses, webinars, and academic resources.
       </div>
-      <a href="/edu-center.html" class="card-link">Explore EduCenter →</a>
+      <a href="/edu-center.html" class="service-link">Explore →</a>
     </div>
 
-    <div class="dashboard-card">
-      <div class="card-icon">💬</div>
-      <div class="card-title">EduCommunity</div>
-      <div class="card-desc">
+    <div class="service-card">
+      <div class="service-icon">💬</div>
+      <div class="service-title">EduCommunity</div>
+      <div class="service-desc">
         Learn together, share insights, and connect with peers.
       </div>
-      <a href="/edu-community.html" class="card-link">Join Community →</a>
+      <a href="/edu-community.html" class="service-link">Join →</a>
     </div>
 
-    <div class="dashboard-card">
-      <div class="card-icon">🧠</div>
-      <div class="card-title">Forum</div>
-      <div class="card-desc">
+    <div class="service-card">
+      <div class="service-icon">🧠</div>
+      <div class="service-title">Forum</div>
+      <div class="service-desc">
         Ask questions, exchange ideas, and deepen understanding.
       </div>
-      <a href="/forum.html" class="card-link">Visit Forum →</a>
+      <a href="/forum.html" class="service-link">Visit →</a>
     </div>
 
-    <div class="dashboard-card">
-      <div class="card-icon">🤝</div>
-      <div class="card-title">Volunteer & Donate</div>
-      <div class="card-desc">
-        Support education through volunteering or contribution.
+    <div class="service-card">
+      <div class="service-icon">🤝</div>
+      <div class="service-title">Volunteer & Donate</div>
+      <div class="service-desc">
+        Support education through action and contribution.
       </div>
-      <a href="/volunteer.html" class="card-link">Get Involved →</a>
+      <a href="/volunteer.html" class="service-link">Get involved →</a>
     </div>
 
   </section>
+
+  <!-- Secondary -->
+  <section class="secondary-section">
+    <a href="/profile.html" class="secondary-link">👤 Profile</a>
+    <a href="/settings.html" class="secondary-link">⚙️ Settings</a>
+    <a href="#" class="secondary-link">🧭 My Journey</a>
+  </section>
+
+  <!-- Logout -->
+  <div class="logout-wrap">
+    <button id="logoutBtn" class="logout-btn">Log out</button>
+  </div>
+
 </main>
 
 <script>
@@ -298,7 +244,7 @@ async function fetchMemberInfo() {
 
     const m = data.member;
     document.getElementById("welcomeMessage").textContent =
-      `Welcome, ${m.first_name} ${m.last_name}!`;
+      `Welcome, ${m.first_name}!`;
   } catch {
     window.location.href = "/login.html";
   }
@@ -314,4 +260,5 @@ fetchMemberInfo();
 
 </body>
 </html>
+
 
