@@ -1598,52 +1598,50 @@ body.register-page .register-card {
   opacity: 1;
 }
 /* ======================================================
-   DROPDOWN STABILITY FIX (Caret + Hover Gap)
+   DROPDOWN – STABLE & NO-FLICKER VERSION
 ====================================================== */
 
-/* 1️⃣ dropdown 整体作为 hover 区域 */
+/* 1️⃣ dropdown 父容器：唯一 hover 判定 */
 .nav-item.dropdown {
   position: relative;
   display: inline-flex;
   align-items: center;
 }
 
-/* 2️⃣ 触发器扩大为完整 hover 区 */
+/* 2️⃣ 触发文字：强制单行 + 足够点击区 */
 .dropdown-toggle {
   display: inline-flex;
   align-items: center;
-  padding: 6px 4px;
+  gap: 6px;
+
+  padding: 6px 6px;
   cursor: pointer;
+
+  white-space: nowrap;      /* ✅ 英文绝不换行 */
 }
 
-/* 3️⃣ 用 ::after 强制生成向下箭头（不依赖 HTML） */
-.dropdown-toggle::after {
-  content: "▾";
-  display: inline-block;
-  margin-left: 6px;
-
-  font-size: 11px;
+/* 3️⃣ 箭头：明确放大，稳定显示 */
+.dropdown-toggle .caret {
+  font-size: 13px;          /* ✅ 明显但不夸张 */
   line-height: 1;
-
-  opacity: 0.65;
+  opacity: 0.6;
   transform: translateY(1px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 /* hover 时箭头更清楚 */
-.nav-item.dropdown:hover .dropdown-toggle::after {
+.nav-item.dropdown:hover .caret {
   opacity: 1;
-  transform: translateY(2px);
 }
 
-/* 4️⃣ 下拉菜单：紧贴触发器，消除 hover 断层 */
+/* 4️⃣ 下拉菜单：紧贴触发器（无任何 gap） */
 .dropdown-menu {
   position: absolute;
-  top: 100%;            /* ❗ 不再用 120% */
+  top: 100%;                /* ❗ 紧贴 */
   left: 0;
-  margin-top: 6px;      /* 用 margin 而不是 gap */
 
-  min-width: 200px;
+  margin-top: 2px;          /* 极小缓冲，不会断 hover */
+
+  min-width: 210px;
 
   background: rgba(245, 247, 250, 0.96);
   backdrop-filter: blur(10px);
@@ -1655,13 +1653,13 @@ body.register-page .register-card {
 
   opacity: 0;
   visibility: hidden;
-  transform: translateY(6px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform: translateY(4px);
 
+  transition: opacity 0.18s ease, transform 0.18s ease;
   z-index: 999;
 }
 
-/* 5️⃣ hover 命中区域 = 文字 + 菜单整体 */
+/* 5️⃣ hover 判定只看父容器 */
 .nav-item.dropdown:hover .dropdown-menu,
 .nav-item.dropdown:focus-within .dropdown-menu {
   opacity: 1;
@@ -1669,15 +1667,16 @@ body.register-page .register-card {
   transform: translateY(0);
 }
 
-/* 6️⃣ 防止 hover 抖动（关键） */
+/* 6️⃣ 菜单项：稳定可选 */
 .dropdown-menu a {
   display: block;
   padding: 10px 18px;
-  white-space: nowrap;
+
+  white-space: nowrap;      /* ✅ 防止子菜单换行 */
 }
 
-/* 7️⃣ 移除 HTML caret span 的视觉影响（可选但推荐） */
-.dropdown-toggle .caret {
-  display: none !important;
+/* hover 高亮 */
+.dropdown-menu a:hover {
+  background: rgba(80, 130, 255, 0.12);
+  color: #1e4ed8;
 }
-
