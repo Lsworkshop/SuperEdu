@@ -1517,32 +1517,6 @@ body.register-page .register-card {
   opacity: 0.6;
 }
 
-/* ===============================
-   Mobile menu container
-=============================== */
-.mobile-menu {
-  display: none;
-  flex-direction: column;
-  padding: 14px 20px;
-
-  background: rgba(245, 247, 250, 0.98); /* ✅ 恢复浅色 */
-  backdrop-filter: blur(12px);
-}
-
-/* Mobile 普通链接 */
-.mobile-menu a {
-  display: block;
-  padding: 10px 14px;
-  color: #333;
-  text-decoration: none;
-  border-radius: 8px;
-  transition: background 0.2s ease;
-}
-
-.mobile-menu a:hover {
-  background: rgba(80, 130, 255, 0.12);
-  color: #1e4ed8;
-}
 
 /* ===============================
    Mobile accordion (折叠)
@@ -1596,4 +1570,81 @@ body.register-page .register-card {
 .mobile-actions .btn {
   width: 100%;
   text-align: center;
+}
+
+
+/* ======================================================
+   DESKTOP NAV – POLISH & ALIGNMENT
+====================================================== */
+
+/* ===============================
+   统一主菜单间距
+=============================== */
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 28px; /* ✅ 所有前 7 个菜单等距 */
+}
+
+/* dropdown toggle 对齐 */
+.dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* caret 样式 */
+.caret {
+  font-size: 11px;
+  opacity: 0.6;
+  transform: translateY(1px);
+}
+
+/* ===============================
+   Login 菜单：视觉上“稍微独立”
+=============================== */
+.menu a[href*="login"] {
+  margin-left: 36px;              /* ✅ 与 Contact 拉开距离 */
+  padding: 6px 14px;
+  border-radius: 20px;
+
+  border: 1px solid rgba(80,130,255,0.35);
+  color: #1e4ed8;
+  font-weight: 500;
+}
+
+.menu a[href*="login"]:hover {
+  background: rgba(80,130,255,0.12);
+}
+
+/* ===============================
+   Logo & Language hover
+=============================== */
+.brand a,
+.lang-toggle {
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.brand a:hover {
+  transform: translateY(-1px);
+  opacity: 0.85;
+}
+
+.lang-toggle:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
+/* ===============================
+   Dropdown menu spacing refine
+=============================== */
+.dropdown-menu a {
+  line-height: 1.4;
+}
+
+/* Desktop only */
+@media (max-width: 900px) {
+  .menu {
+    gap: 20px;
+  }
 }
