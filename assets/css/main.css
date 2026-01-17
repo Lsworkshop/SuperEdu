@@ -1444,9 +1444,9 @@ body.register-page .register-card {
   }
 }
 
-
 /* ===============================
    Desktop dropdown (Programs / Get Involved)
+   完全覆盖之前所有菜单相关样式
 =============================== */
 .nav-item.dropdown {
   position: relative;
@@ -1456,6 +1456,7 @@ body.register-page .register-card {
   cursor: pointer;
   display: inline-flex;
   align-items: center;
+  user-select: none;
 }
 
 .dropdown-menu {
@@ -1463,7 +1464,7 @@ body.register-page .register-card {
   top: 120%;
   left: 0;
   min-width: 200px;
-  background: rgba(20, 20, 25, 0.95);
+  background: rgba(50, 50, 60, 0.95); /* 浅化底色 */
   backdrop-filter: blur(8px);
   border-radius: 10px;
   padding: 8px 0;
@@ -1475,93 +1476,8 @@ body.register-page .register-card {
   z-index: 999;
 }
 
-.nav-item.dropdown:hover .dropdown-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.dropdown-menu a {
-  display: block;
-  padding: 10px 16px;
-  font-size: 14px;
-  color: #eee;
-  white-space: nowrap;
-}
-
-.dropdown-menu a:hover {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-/* Disabled / Coming soon */
-.dropdown-menu a.disabled {
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-.dropdown-menu .coming-soon {
-  font-size: 11px;
-  margin-left: 6px;
-  opacity: 0.7;
-}
-
-/* ===============================
-   Mobile accordion (details / summary)
-=============================== */
-.mobile-menu details {
-  margin: 6px 0;
-}
-
-.mobile-menu summary {
-  list-style: none;
-  cursor: pointer;
-  padding: 10px 0;
-  font-weight: 500;
-}
-
-.mobile-menu summary::-webkit-details-marker {
-  display: none;
-}
-
-.mobile-menu details[open] summary {
-  opacity: 0.85;
-}
-
-.mobile-menu details a {
-  padding-left: 16px;
-}
-
-/* ===============================
-   Desktop dropdown (Programs / Get Involved)
-=============================== */
-.nav-item.dropdown {
-  position: relative;
-}
-
-.dropdown-toggle {
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 120%;
-  left: 0;
-  min-width: 200px;
-  background: rgba(50, 50, 60, 0.95); /* 底色浅化 */
-  backdrop-filter: blur(8px);
-  border-radius: 10px;
-  padding: 8px 0;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(6px);
-  transition: all 0.25s ease;
-  z-index: 999;
-}
-
-.nav-item.dropdown:hover .dropdown-menu {
+.nav-item.dropdown:hover .dropdown-menu,
+.nav-item.dropdown:focus-within .dropdown-menu {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
@@ -1594,13 +1510,33 @@ body.register-page .register-card {
 }
 
 /* ===============================
-   Mobile accordion (horizontal layout)
+   Mobile menu general
+=============================== */
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  padding: 12px 20px;
+  background-color: rgba(25,25,30,0.98);
+}
+
+.mobile-menu a {
+  display: block;
+  padding: 10px 14px;
+  color: #eee;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.mobile-menu a:hover {
+  background: rgba(100, 150, 250, 0.15);
+  color: #fff;
+}
+
+/* ===============================
+   Mobile accordion (竖向折叠)
 =============================== */
 .mobile-menu details {
   margin: 6px 0;
-  display: flex;
-  flex-wrap: wrap; /* 横向展开 + 换行 */
-  gap: 6px;
 }
 
 .mobile-menu summary {
@@ -1608,6 +1544,9 @@ body.register-page .register-card {
   cursor: pointer;
   padding: 10px 0;
   font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .mobile-menu summary::-webkit-details-marker {
@@ -1615,11 +1554,10 @@ body.register-page .register-card {
 }
 
 .mobile-menu details[open] > a {
-  display: inline-block;
-  margin-right: 8px;
-  margin-bottom: 4px;
+  display: block; /* 保持竖向折叠 */
+  margin-left: 16px;
   padding: 6px 10px;
-  background: rgba(50, 50, 60, 0.95); /* 与 Desktop 统一底色 */
+  background: rgba(50, 50, 60, 0.95);
   border-radius: 6px;
   color: #eee;
   text-decoration: none;
@@ -1628,4 +1566,19 @@ body.register-page .register-card {
 .mobile-menu details[open] > a:hover {
   background: rgba(100, 150, 250, 0.15);
   color: #fff;
+}
+
+/* ===============================
+   Mobile action buttons
+=============================== */
+.mobile-actions {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mobile-actions .btn {
+  width: 100%;
+  text-align: center;
 }
