@@ -1530,3 +1530,102 @@ body.register-page .register-card {
 .mobile-menu details a {
   padding-left: 16px;
 }
+
+/* ===============================
+   Desktop dropdown (Programs / Get Involved)
+=============================== */
+.nav-item.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 120%;
+  left: 0;
+  min-width: 200px;
+  background: rgba(50, 50, 60, 0.95); /* 底色浅化 */
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  padding: 8px 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: all 0.25s ease;
+  z-index: 999;
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 10px 16px;
+  font-size: 14px;
+  color: #eee;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu a:focus {
+  background: rgba(100, 150, 250, 0.15); /* 浅蓝高亮 */
+  color: #fff;
+}
+
+.dropdown-menu a.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.dropdown-menu .coming-soon {
+  font-size: 11px;
+  margin-left: 6px;
+  opacity: 0.7;
+}
+
+/* ===============================
+   Mobile accordion (horizontal layout)
+=============================== */
+.mobile-menu details {
+  margin: 6px 0;
+  display: flex;
+  flex-wrap: wrap; /* 横向展开 + 换行 */
+  gap: 6px;
+}
+
+.mobile-menu summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 10px 0;
+  font-weight: 500;
+}
+
+.mobile-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.mobile-menu details[open] > a {
+  display: inline-block;
+  margin-right: 8px;
+  margin-bottom: 4px;
+  padding: 6px 10px;
+  background: rgba(50, 50, 60, 0.95); /* 与 Desktop 统一底色 */
+  border-radius: 6px;
+  color: #eee;
+  text-decoration: none;
+}
+
+.mobile-menu details[open] > a:hover {
+  background: rgba(100, 150, 250, 0.15);
+  color: #fff;
+}
