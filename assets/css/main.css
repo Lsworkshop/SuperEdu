@@ -1517,6 +1517,30 @@ body.register-page .register-card {
   opacity: 0.6;
 }
 
+/* ===============================
+   Mobile menu container
+=============================== */
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  padding: 14px 20px;
+  backdrop-filter: blur(12px);
+}
+
+/* Mobile 普通链接 */
+.mobile-menu a {
+  display: block;
+  padding: 10px 14px;
+  color: #333;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.mobile-menu a:hover {
+  background: rgba(80, 130, 255, 0.12);
+  color: #1e4ed8;
+}
 
 /* ===============================
    Mobile accordion (折叠)
@@ -1647,4 +1671,23 @@ body.register-page .register-card {
   .menu {
     gap: 20px;
   }
+}
+
+/* ======================================================
+   DESKTOP MENU – FINAL POSITION FINE-TUNE
+====================================================== */
+
+/* Desktop only */
+@media (min-width: 1024px) {
+
+  /* 1️⃣ 整个中间菜单组整体向右 */
+  .menu {
+    margin-left: 32px;   /* 👉 让 7 个菜单整体靠近 Login */
+  }
+
+  /* 2️⃣ Home 单独向左一点，靠近 About */
+  .menu > a[href*="#home"] {
+    margin-left: -12px;
+  }
+
 }
