@@ -359,8 +359,11 @@
       </a>
     </div>
 
-    <!-- Desktop Menu -->
+    <!-- =========================
+         Desktop Menu
+    ========================== -->
     <div class="menu" id="menu">
+
       <!-- Home -->
       <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
 
@@ -371,26 +374,48 @@
       <div class="nav-item dropdown">
         <span class="dropdown-toggle" role="button" aria-haspopup="true" tabindex="0"
               data-en="Programs" data-zh="项目">
-          <span class="dropdown-toggle">
-  Programs
-  <svg class="dropdown-icon" width="10" height="6" viewBox="0 0 10 6" aria-hidden="true">
-    <path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-  </svg>
-</span>
-
+          <span class="dropdown-label">Programs</span>
+          <svg class="dropdown-icon" viewBox="0 0 10 6" aria-hidden="true">
+            <path d="M1 1l4 4 4-4"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round" />
+          </svg>
         </span>
+
         <div class="dropdown-menu">
-          <a href="/education.html" data-en="EduCenter" data-zh="教育中心">EduCenter</a>
-          <a href="/community.html" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
-          <a href="/forum.html" class="disabled" data-en="Forum" data-zh="论坛">
+          <a href="/education.html"
+             id="navEduCenter"
+             data-en="EduCenter"
+             data-zh="教育中心">
+            EduCenter
+          </a>
+
+          <a href="/community.html"
+             id="navEduCommunity"
+             data-en="EduCommunity"
+             data-zh="教育社区">
+            EduCommunity
+          </a>
+
+          <a href="/forum.html"
+             class="disabled"
+             data-en="Forum"
+             data-zh="论坛">
             Forum <span class="coming-soon">Coming Soon</span>
           </a>
-          <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
+
+          <a href="/index.html#resources"
+             data-en="Resources"
+             data-zh="资源">
+            Resources
+          </a>
         </div>
       </div>
 
-      <!-- Service -->
-      <a href="/index.html#services" data-en="Service" data-zh="服务">Service</a>
+      <!-- Services -->
+      <a href="/index.html#services" data-en="Services" data-zh="服务">Services</a>
 
       <!-- Membership -->
       <a href="/membership.html" data-en="Membership" data-zh="会员">Membership</a>
@@ -399,17 +424,28 @@
       <div class="nav-item dropdown">
         <span class="dropdown-toggle" role="button" aria-haspopup="true" tabindex="0"
               data-en="Get Involved" data-zh="参与方式">
-          <span class="dropdown-toggle">
-  Get Involved
-  <svg class="dropdown-icon" width="10" height="6" viewBox="0 0 10 6" aria-hidden="true">
-    <path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-  </svg>
-</span>
-
+          <span class="dropdown-label">Get Involved</span>
+          <svg class="dropdown-icon" viewBox="0 0 10 6" aria-hidden="true">
+            <path d="M1 1l4 4 4-4"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round" />
+          </svg>
         </span>
+
         <div class="dropdown-menu">
-          <a href="/volunteer.html" data-en="Volunteer" data-zh="志愿者">Volunteer</a>
-          <a href="/donation.html" data-en="Donation" data-zh="捐赠">Donation</a>
+          <a href="/volunteer.html"
+             data-en="Volunteer"
+             data-zh="志愿者">
+            Volunteer
+          </a>
+
+          <a href="/donation.html"
+             data-en="Donation"
+             data-zh="捐赠">
+            Donation
+          </a>
         </div>
       </div>
 
@@ -417,69 +453,87 @@
       <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
 
       <!-- Login -->
-      <a href="/login.html" id="navLogin" data-en="Login" data-zh="登录">Login</a>
+      <a href="/login.html" data-en="Login" data-zh="登录">Login</a>
 
-      <!-- SLIDE UNDERLINE -->
+      <!-- Slide underline -->
       <span class="nav-underline"></span>
     </div>
 
     <!-- Right side -->
     <div class="nav-right">
-      <button id="langToggle" class="lang-toggle" aria-label="Language toggle">中文</button>
+      <button id="langToggle" class="lang-toggle" aria-label="Language toggle">
+        中文
+      </button>
+
       <button id="hamburger" class="hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
     </div>
   </div>
 
-  <!-- Mobile slide menu -->
+  <!-- =========================
+       Mobile slide menu
+  ========================== -->
   <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
-    <!-- Home -->
-    <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
 
-    <!-- About -->
+    <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
     <a href="/index.html#about" data-en="About" data-zh="关于我们">About</a>
 
-    <!-- Programs Accordion -->
-    <details class="mobile-group">
-      <summary data-en="Programs" data-zh="项目">Programs</summary>
-      <a href="/education.html" data-en="EduCenter" data-zh="教育中心">EduCenter</a>
-      <a href="/community.html" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
-      <a href="/forum.html" class="disabled" data-en="Forum" data-zh="论坛">Forum (Coming Soon)</a>
-      <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
-    </details>
+    <a href="/education.html"
+       id="navEduCenter"
+       data-en="EduCenter"
+       data-zh="教育中心">
+      EduCenter
+    </a>
 
-    <!-- Service -->
-    <a href="/index.html#services" data-en="Service" data-zh="服务">Service</a>
+    <a href="/community.html"
+       id="navEduCommunity"
+       data-en="EduCommunity"
+       data-zh="教育社区">
+      EduCommunity
+    </a>
 
-    <!-- Membership -->
-    <a href="/membership.html" data-en="Membership" data-zh="会员">Membership</a>
+    <a href="/membership.html" data-en="Membership" data-zh="会员">
+      Membership
+    </a>
 
-    <!-- Get Involved Accordion -->
-    <details class="mobile-group">
-      <summary data-en="Get Involved" data-zh="参与方式">Get Involved</summary>
-      <a href="/volunteer.html" data-en="Volunteer" data-zh="志愿者">Volunteer</a>
-      <a href="/donation.html" data-en="Donation" data-zh="捐赠">Donation</a>
-    </details>
+    <a href="/index.html#resources" data-en="Resources" data-zh="资源">
+      Resources
+    </a>
 
-    <!-- Contact -->
-    <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
+    <a href="/volunteer.html" data-en="Volunteer" data-zh="志愿者">
+      Volunteer
+    </a>
 
-    <!-- Login -->
-    <a href="/login.html" id="mobileLogin" data-en="Login" data-zh="登录">Login</a>
+    <a href="/donation.html" data-en="Donation" data-zh="捐赠">
+      Donation
+    </a>
 
-    <!-- Mobile action buttons -->
+    <a href="/index.html#contact" data-en="Contact" data-zh="联系">
+      Contact
+    </a>
+
+    <a href="/login.html" data-en="Login" data-zh="登录">
+      Login
+    </a>
+
     <div class="mobile-actions">
-      <button class="btn btn-ghost" id="mobileRegister" data-en="Register/Join" data-zh="注册/加入">
+      <button class="btn btn-ghost"
+              id="mobileRegister"
+              data-en="Register / Join"
+              data-zh="注册 / 加入">
         Register / Join
       </button>
-      <button class="btn" id="mobileUnlock" data-en="Unlock Education" data-zh="解锁教育">
+
+      <button class="btn"
+              id="mobileUnlock"
+              data-en="Unlock Education"
+              data-zh="解锁教育">
         Unlock Education
       </button>
     </div>
   </div>
 </nav>
-
 
 
   <!-- HERO -->

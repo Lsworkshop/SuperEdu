@@ -1464,7 +1464,11 @@ body.register-page .register-card {
     display: flex;
     align-items: center;
     gap: 32px;
-    margin-left: 56px;        /* 英文版与 Logo 拉开 */
+    margin-left: 60px;        /* 英文版与 Logo 拉开 */
+  }
+
+   .menu > a[href*="#home"] {
+    margin-left: 18px;    /* Home 再补一点 */
   }
 
   .menu a,
@@ -1574,3 +1578,31 @@ body.register-page .register-card {
    MOBILE NAV
    👉 完全不碰，用你原来稳定版本
 ====================================================== */
+
+/* Desktop dropdown toggle layout */
+.dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+/* Label 不换行 */
+.dropdown-label {
+  white-space: nowrap;
+}
+
+/* Arrow icon – 清晰、稳定 */
+.dropdown-icon {
+  width: 12px;
+  height: 7px;
+  opacity: 0.65;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Hover 时箭头反馈 */
+.nav-item.dropdown:hover .dropdown-icon,
+.nav-item.dropdown:focus-within .dropdown-icon {
+  opacity: 1;
+  transform: translateY(1px);
+}
