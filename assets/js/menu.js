@@ -43,23 +43,35 @@
   }
 
   /* ===============================
-     Close mobile menu on link click
-  =============================== */
-  if (mobileMenu) {
-    mobileMenu.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        mobileMenu.setAttribute('aria-hidden', 'true');
-        mobileMenu.style.display = 'none';
-        mobileMenu.style.opacity = '0';
-        hamburger && hamburger.classList.remove('open');
+   Close mobile menu on link click (NO JITTER)
+=============================== */
+if (mobileMenu) {
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', (e) => {
 
-        // reset accordion
-        mobileMenu
-          .querySelectorAll('details')
-          .forEach(d => (d.open = false));
-      });
+      // 只在 mobile 生效，desktop 不干预
+      if (window.innerWidth >= 1024) return;
+
+      e.preventDefault();
+      const href = a.getAttribute('href');
+
+      // 关闭菜单（不立刻破坏布局）
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      mobileMenu.style.opacity = '0';
+      hamburger && hamburger.classList.remove('open');
+
+      // reset accordion（保持你原有逻辑）
+      mobileMenu
+        .querySelectorAll('details')
+        .forEach(d => (d.open = false));
+
+      // 给浏览器一小段时间完成 repaint，再跳转
+      setTimeout(() => {
+        window.location.href = href;
+      }, 120);
     });
-  }
+  });
+}
 
   /* ===============================
      Scroll behavior (transparent → solid)
@@ -130,4 +142,21 @@ document.addEventListener('DOMContentLoaded', () => {
       window.location.href = '/quick-unlock.html';
     });
   }
+});
+
+// ===============================
+// Fix anchor navigation reliability (Desktop)
+// ===============================
+document.querySelectorAll('a[href^="/index.html#"], a[href^="#"]').forEach(link => {
+  link.addEventListener('click', e => {
+    const href = link.getAttribute('href');
+    const id = href.includes('#') ? href.split('#')[1] : null;
+    const target = id && document.getElementById(id);
+
+    if (target) {
+      e.preventDefault();
+      const y = target.getBoundingClientRect().top + window.pageYOffset - 80; // nav height
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  });
 });
