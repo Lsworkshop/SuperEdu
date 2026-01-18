@@ -1,86 +1,133 @@
-// menu.js — FINAL STABLE VERSION
-(function () {
+// menu.js — improved: ensure mobile menu is hidden by default and toggle uses aria-hidden
+(function(){
   const nav = document.getElementById('topNav');
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');
-  const maxTransparent = 60;
+  const maxTransparent = 60; // px scrolled when nav becomes more opaque
 
-  if (!nav) return;
+  // Safety: if elements missing, bail gracefully
+  if(!nav) return;
 
-  /* ===============================
-     Scroll behavior (PURE & SIMPLE)
-  =============================== */
-  function onScroll() {
-    const y = window.scrollY || window.pageYOffset;
-
-    if (y <= 5) {
-      // 顶部：完全透明
-      nav.classList.add('nav--transparent');
-      nav.classList.remove('nav--solid');
-    } else if (y <= maxTransparent) {
-      // 正常：半透明（由 CSS 控制）
-      nav.classList.add('nav--transparent');
-      nav.classList.remove('nav--solid');
+  // Ensure mobileMenu exists and has initial hidden state
+  if(mobileMenu) {
+    // If not explicitly set in HTML, set it now
+    if(!mobileMenu.hasAttribute('aria-hidden')) mobileMenu.setAttribute('aria-hidden','true');
+    // Ensure visual state matches aria on load
+    if(mobileMenu.getAttribute('aria-hidden') === 'true') {
+      mobileMenu.style.display = 'none';
+      mobileMenu.style.opacity = '0';
     } else {
-      // 下滑：更实
-      nav.classList.remove('nav--transparent');
-      nav.classList.add('nav--solid');
+      mobileMenu.style.display = 'block';
+      mobileMenu.style.opacity = '1';
     }
   }
 
-  window.addEventListener('scroll', onScroll);
-
-  // 页面加载完成后同步一次（不锁、不延迟）
-  window.addEventListener('load', onScroll);
-
-  /* ===============================
-     Mobile menu initial state
-  =============================== */
-  if (mobileMenu) {
-    mobileMenu.setAttribute('aria-hidden', 'true');
-    mobileMenu.style.display = 'none';
-    mobileMenu.style.opacity = '0';
-  }
-
-  /* ===============================
-     Hamburger toggle
-  =============================== */
-  if (hamburger && mobileMenu) {
-    hamburger.addEventListener('click', () => {
+  // toggle mobile menu on hamburger click
+  if(hamburger && mobileMenu){
+    hamburger.addEventListener('click', function(){
       const isOpen = mobileMenu.getAttribute('aria-hidden') === 'false';
-
-      mobileMenu.setAttribute('aria-hidden', String(!isOpen));
-      mobileMenu.style.display = isOpen ? 'none' : 'block';
-      mobileMenu.style.opacity = isOpen ? '0' : '1';
-
-      hamburger.classList.toggle('open', !isOpen);
-
-      if (isOpen) {
-        mobileMenu
-          .querySelectorAll('details')
-          .forEach(d => (d.open = false));
+      if(isOpen){
+        mobileMenu.setAttribute('aria-hidden','true');
+        mobileMenu.style.display = 'none';
+        mobileMenu.style.opacity = '0';
+      } else {
+        mobileMenu.setAttribute('aria-hidden','false');
+        mobileMenu.style.display = 'block';
+        mobileMenu.style.opacity = '1';
       }
+      // animate hamburger (toggle class)
+      hamburger.classList.toggle('open', !isOpen);
     });
   }
 
-  /* ===============================
-     Close mobile menu on link click
-     (NO animation interference)
-  =============================== */
-  if (mobileMenu) {
-    mobileMenu.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        if (window.innerWidth >= 1024) return;
-
-        mobileMenu.setAttribute('aria-hidden', 'true');
+  // close mobile menu on link click (if open)
+  if(mobileMenu){
+    mobileMenu.querySelectorAll('a').forEach(a=>{
+      a.addEventListener('click', ()=>{
+        mobileMenu.setAttribute('aria-hidden','true');
         mobileMenu.style.display = 'none';
-        mobileMenu.style.opacity = '0';
         hamburger && hamburger.classList.remove('open');
-
-        mobileMenu
-          .querySelectorAll('details')
-          .forEach(d => (d.open = false));
       });
     });
   }
+
+  // nav scroll behavior: semi-transparent -> more opaque on scroll
+  function onScroll(){
+    const y = window.scrollY || window.pageYOffset;
+    if(y > maxTransparent) {
+      nav.classList.remove('nav--transparent');
+      nav.classList.add('nav--solid'); // nav--solid should be the "more opaque" state
+    } else {
+      nav.classList.add('nav--transparent');
+      nav.classList.remove('nav--solid');
+    }
+  }
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+
+  // Adjust padding for mobile touch area
+  function adjustForMobile(){
+    const inner = document.querySelector('.nav-inner');
+    if(!inner) return;
+    if(window.innerWidth <= 720){
+      inner.style.padding = '12px 18px';
+    } else {
+      inner.style.padding = '14px 20px';
+      // When resized to desktop, ensure mobile menu is hidden and hamburger reset
+      if(mobileMenu){
+        mobileMenu.setAttribute('aria-hidden','true');
+        mobileMenu.style.display = 'none';
+      }
+      if(hamburger) hamburger.classList.remove('open');
+    }
+  }
+  window.addEventListener('resize', adjustForMobile);
+  adjustForMobile();
+
+  // Align brand text visually
+  const brandText = document.querySelector('.brand-text');
+  if(brandText){
+    brandText.style.transform = 'translateY(-2px)';
+  }
 })();
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const mobileRegister = document.getElementById("mobileRegister");
+  const mobileUnlock = document.getElementById("mobileUnlock");
+
+  if (mobileRegister) {
+    mobileRegister.addEventListener("click", () => {
+      window.location.href = "/membership.html";
+    });
+  }
+
+  if (mobileUnlock) {
+    mobileUnlock.addEventListener("click", () => {
+      window.location.href = "/quick-unlock.html";
+    });
+  }
+
+});
+
+// ===============================
+// Mobile action buttons routing
+// ===============================
+document.addEventListener("DOMContentLoaded", () => {
+
+  const mobileRegister = document.getElementById("mobileRegister");
+  const mobileUnlock = document.getElementById("mobileUnlock");
+
+  if (mobileRegister) {
+    mobileRegister.addEventListener("click", () => {
+      window.location.href = "/register.html";
+    });
+  }
+
+  if (mobileUnlock) {
+    mobileUnlock.addEventListener("click", () => {
+      window.location.href = "/quick-unlock.html";
+    });
+  }
+
+});
