@@ -1445,9 +1445,34 @@ body.register-page .register-card {
 }
 
 /* ======================================================
-   NAV MENU – FINAL STRUCTURAL FIX
+   NAV MENU – FINAL STABLE & NO-JITTER VERSION
 ====================================================== */
 
+/* ======================================================
+   NAV VISUAL STATES
+====================================================== */
+#topNav {
+  height: 72px;                     /* ✅ 固定高度，杜绝晃动 */
+  transition: background-color 0.25s ease, backdrop-filter 0.25s ease;
+}
+
+/* 顶部：几乎透明 */
+#topNav.nav--top {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(4px);
+}
+
+/* 正常滚动：半透明（默认状态） */
+#topNav.nav--transparent {
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(8px);
+}
+
+/* 下滑：更实 */
+#topNav.nav--solid {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+}
 
 /* ======================================================
    DESKTOP NAV (>=1024px)
@@ -1455,10 +1480,10 @@ body.register-page .register-card {
 @media (min-width: 1024px) {
 
   /* -------------------------------
-     Lock nav height (NO JITTER)
+     Lock inner spacing (KEY FIX)
   -------------------------------- */
-  #topNav {
-    min-height: 72px;
+  .nav-inner {
+    padding: 14px 28px;            /* 🔒 只由 CSS 控制 */
   }
 
   /* -------------------------------
@@ -1468,7 +1493,7 @@ body.register-page .register-card {
     display: flex;
     align-items: center;
     gap: 32px;
-    margin-left: 56px;        /* 英文版与 Logo 拉开 */
+    margin-left: 64px;             /* ✅ 英文版远离 Logo */
   }
 
   .menu a,
@@ -1477,33 +1502,26 @@ body.register-page .register-card {
   }
 
   /* -------------------------------
-     Dropdown container (KEY FIX)
+     Dropdown container (稳定版)
   -------------------------------- */
   .nav-item.dropdown {
     position: relative;
-    display: inline-block;    /* ❗ 不用 inline-flex */
-  }
-
-  /* Hover 判定扩大为整个容器 */
-  .nav-item.dropdown::before {
-    content: "";
-    position: absolute;
-    inset: -8px -12px;
+    display: inline-block;
   }
 
   .dropdown-toggle {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     padding: 6px 4px;
     cursor: pointer;
   }
 
-  /* SVG icon */
+  /* 折叠 icon（你现在用的 SVG） */
   .dropdown-icon {
-    width: 12px;              /* ⬅️ 比之前大 */
-    height: 7px;
-    opacity: 0.6;
+    width: 14px;
+    height: 8px;
+    opacity: 0.65;
     flex-shrink: 0;
   }
 
@@ -1512,14 +1530,14 @@ body.register-page .register-card {
   }
 
   /* -------------------------------
-     Dropdown menu (NO GAP)
+     Dropdown menu (已验证稳定)
   -------------------------------- */
   .dropdown-menu {
     position: absolute;
     top: 100%;
     left: 0;
 
-    margin-top: 2px;          /* 几乎无缝 */
+    margin-top: 2px;
     padding: 8px 0;
     min-width: 220px;
 
@@ -1532,8 +1550,8 @@ body.register-page .register-card {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-
     transform: translateY(4px);
+
     transition: opacity 0.15s ease, transform 0.15s ease;
     z-index: 999;
   }
@@ -1563,7 +1581,7 @@ body.register-page .register-card {
   }
 
   /* -------------------------------
-     Language toggle FIX
+     Language toggle
   -------------------------------- */
   .lang-toggle {
     white-space: nowrap;
@@ -1576,5 +1594,5 @@ body.register-page .register-card {
 
 /* ======================================================
    MOBILE NAV
-   👉 完全不碰，用你原来稳定版本
+   👉 完全不动，沿用你原来稳定版本
 ====================================================== */
