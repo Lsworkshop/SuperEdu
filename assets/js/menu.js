@@ -73,21 +73,29 @@ if (mobileMenu) {
   });
 }
 
-  /* ===============================
-     Scroll behavior (transparent → solid)
-  =============================== */
-  function onScroll() {
-    const y = window.scrollY || window.pageYOffset;
-    if (y > maxTransparent) {
-      nav.classList.remove('nav--transparent');
-      nav.classList.add('nav--solid');
-    } else {
-      nav.classList.add('nav--transparent');
-      nav.classList.remove('nav--solid');
-    }
+   // Prevent nav jitter on hash navigation
+let navLocked = true;
+
+window.addEventListener("load", () => {
+  // 给浏览器一点时间完成 hash scroll
+  setTimeout(() => {
+    navLocked = false;
+    onScroll(); // 再手动同步一次
+  }, 120);
+});
+
+function onScroll() {
+  if (navLocked) return;
+
+  const y = window.scrollY || window.pageYOffset;
+  if (y > maxTransparent) {
+    nav.classList.remove("nav--transparent");
+    nav.classList.add("nav--solid");
+  } else {
+    nav.classList.add("nav--transparent");
+    nav.classList.remove("nav--solid");
   }
-  window.addEventListener('scroll', onScroll);
-  onScroll();
+}
 
   /* ===============================
      Responsive padding + reset
