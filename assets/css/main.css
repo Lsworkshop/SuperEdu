@@ -1653,11 +1653,7 @@ body.register-page .register-card {
     opacity: 0.7;
   }
 
-  /* hover open */
-  .desktop-only:hover {
-    open: true;
-  }
-
+  
   /* dropdown menu */
   .desktop-only .dropdown-menu {
     position: absolute;
@@ -1724,4 +1720,34 @@ html[lang="zh"] .menu-item-disabled::after {
 /* show tooltip */
 .menu-item-disabled:hover::after {
   opacity: 1;
+}
+/* ======================================
+   Mobile disabled menu item (Forum)
+====================================== */
+.mobile-item-disabled {
+  display: block;
+  padding: 14px 18px;
+  font-size: 16px;
+  color: rgba(0,0,0,0.45);
+  cursor: not-allowed;
+  user-select: none;
+}
+
+.mobile-item-disabled .coming-soon {
+  margin-left: 8px;
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+/* Mobile tip (below text, not floating) */
+.mobile-item-disabled::after {
+  content: attr(data-en-tip);
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: rgba(0,0,0,0.45);
+}
+
+html[lang="zh"] .mobile-item-disabled::after {
+  content: attr(data-zh-tip);
 }
