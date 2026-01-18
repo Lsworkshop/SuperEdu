@@ -471,69 +471,54 @@
     </div>
   </div>
 
-  <!-- =========================
-       Mobile slide menu
-  ========================== -->
+  <!-- Mobile slide menu -->
   <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
-
+    <!-- Home -->
     <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
+
+    <!-- About -->
     <a href="/index.html#about" data-en="About" data-zh="关于我们">About</a>
 
-    <a href="/education.html"
-       id="navEduCenter"
-       data-en="EduCenter"
-       data-zh="教育中心">
-      EduCenter
-    </a>
+    <!-- Programs Accordion -->
+    <details class="mobile-group">
+      <summary data-en="Programs" data-zh="项目">Programs</summary>
+      <a href="/education.html" data-en="EduCenter" data-zh="教育中心">EduCenter</a>
+      <a href="/community.html" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
+      <a href="/forum.html" class="disabled" data-en="Forum" data-zh="论坛">Forum (Coming Soon)</a>
+      <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
+    </details>
 
-    <a href="/community.html"
-       id="navEduCommunity"
-       data-en="EduCommunity"
-       data-zh="教育社区">
-      EduCommunity
-    </a>
+    <!-- Service -->
+    <a href="/index.html#services" data-en="Service" data-zh="服务">Service</a>
 
-    <a href="/membership.html" data-en="Membership" data-zh="会员">
-      Membership
-    </a>
+    <!-- Membership -->
+    <a href="/membership.html" data-en="Membership" data-zh="会员">Membership</a>
 
-    <a href="/index.html#resources" data-en="Resources" data-zh="资源">
-      Resources
-    </a>
+    <!-- Get Involved Accordion -->
+    <details class="mobile-group">
+      <summary data-en="Get Involved" data-zh="参与方式">Get Involved</summary>
+      <a href="/volunteer.html" data-en="Volunteer" data-zh="志愿者">Volunteer</a>
+      <a href="/donation.html" data-en="Donation" data-zh="捐赠">Donation</a>
+    </details>
 
-    <a href="/volunteer.html" data-en="Volunteer" data-zh="志愿者">
-      Volunteer
-    </a>
+    <!-- Contact -->
+    <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
 
-    <a href="/donation.html" data-en="Donation" data-zh="捐赠">
-      Donation
-    </a>
+    <!-- Login -->
+    <a href="/login.html" id="mobileLogin" data-en="Login" data-zh="登录">Login</a>
 
-    <a href="/index.html#contact" data-en="Contact" data-zh="联系">
-      Contact
-    </a>
-
-    <a href="/login.html" data-en="Login" data-zh="登录">
-      Login
-    </a>
-
+    <!-- Mobile action buttons -->
     <div class="mobile-actions">
-      <button class="btn btn-ghost"
-              id="mobileRegister"
-              data-en="Register / Join"
-              data-zh="注册 / 加入">
+      <button class="btn btn-ghost" id="mobileRegister" data-en="Register/Join" data-zh="注册/加入">
         Register / Join
       </button>
-
-      <button class="btn"
-              id="mobileUnlock"
-              data-en="Unlock Education"
-              data-zh="解锁教育">
+      <button class="btn" id="mobileUnlock" data-en="Unlock Education" data-zh="解锁教育">
         Unlock Education
       </button>
     </div>
   </div>
 </nav>
+
 
 
   <!-- HERO -->

@@ -1464,11 +1464,11 @@ body.register-page .register-card {
     display: flex;
     align-items: center;
     gap: 32px;
-    margin-left: 60px;        /* 英文版与 Logo 拉开 */
+    margin-left: 62px;        /* 英文版与 Logo 拉开 */
   }
 
    .menu > a[href*="#home"] {
-    margin-left: 18px;    /* Home 再补一点 */
+    margin-left: 26px;    /* Home 再补一点 */
   }
 
   .menu a,
@@ -1579,30 +1579,43 @@ body.register-page .register-card {
    👉 完全不碰，用你原来稳定版本
 ====================================================== */
 
-/* Desktop dropdown toggle layout */
-.dropdown-toggle {
+/* ==============================
+   Logo hover (SAFE, no jitter)
+============================== */
+.brand a {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  cursor: pointer;
+  gap: 8px;
+  transition: transform 0.18s ease, opacity 0.18s ease;
 }
 
-/* Label 不换行 */
-.dropdown-label {
-  white-space: nowrap;
+.brand a:hover {
+  transform: scale(1.04);
+  opacity: 0.92;
 }
 
-/* Arrow icon – 清晰、稳定 */
-.dropdown-icon {
-  width: 12px;
-  height: 7px;
-  opacity: 0.65;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+/* Logo image */
+.logo-img {
+  transition: transform 0.18s ease;
 }
 
-/* Hover 时箭头反馈 */
-.nav-item.dropdown:hover .dropdown-icon,
-.nav-item.dropdown:focus-within .dropdown-icon {
-  opacity: 1;
-  transform: translateY(1px);
+.brand a:hover .logo-img {
+  transform: scale(1.05);
+}
+/* ==============================
+   Language toggle hover
+============================== */
+.lang-toggle {
+  border-radius: 16px;
+  padding: 6px 12px;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease;
+  order: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.lang-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.35);
 }
