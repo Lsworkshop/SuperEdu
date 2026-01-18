@@ -1464,11 +1464,11 @@ body.register-page .register-card {
     display: flex;
     align-items: center;
     gap: 32px;
-    margin-left: 62px;        /* 英文版与 Logo 拉开 */
+    margin-left: 65px;        /* 英文版与 Logo 拉开 */
   }
 
    .menu > a[href*="#home"] {
-    margin-left: 26px;    /* Home 再补一点 */
+    margin-left: 30px;    /* Home 再补一点 */
   }
 
   .menu a,
@@ -1612,10 +1612,116 @@ body.register-page .register-card {
     background-color 0.18s ease,
     border-color 0.18s ease,
     color 0.18s ease;
-  order: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .lang-toggle:hover {
   background-color: rgba(255, 255, 255, 0.12);
   border-color: rgba(255, 255, 255, 0.35);
+}
+
+/* ==============================
+   Desktop dropdown via <details>
+============================== */
+@media (min-width: 1024px) {
+
+  .desktop-only {
+    position: relative;
+  }
+
+  .desktop-only summary {
+    list-style: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* remove default arrow */
+  .desktop-only summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* arrow rotate */
+  .desktop-only[open] .dropdown-icon {
+    transform: rotate(180deg);
+  }
+
+  .dropdown-icon {
+    width: 12px;
+    height: 7px;
+    transition: transform 0.2s ease;
+    opacity: 0.7;
+  }
+
+  /* hover open */
+  .desktop-only:hover {
+    open: true;
+  }
+
+  /* dropdown menu */
+  .desktop-only .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 4px;
+    min-width: 220px;
+
+    background: rgba(245, 247, 250, 0.97);
+    backdrop-filter: blur(10px);
+
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+
+    padding: 8px 0;
+    z-index: 999;
+  }
+}
+/* ======================================
+   Disabled menu item (Forum)
+====================================== */
+.menu-item-disabled {
+  position: relative;
+  display: block;
+  padding: 10px 20px;
+  color: rgba(0,0,0,0.45);
+  cursor: not-allowed;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.menu-item-disabled .coming-soon {
+  margin-left: 6px;
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+/* Tooltip */
+.menu-item-disabled::after {
+  content: attr(data-en-tip);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 12px;
+
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+/* 中文状态（你已有语言切换逻辑时可自动切） */
+html[lang="zh"] .menu-item-disabled::after {
+  content: attr(data-zh-tip);
+}
+
+/* show tooltip */
+.menu-item-disabled:hover::after {
+  opacity: 1;
 }
