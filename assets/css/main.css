@@ -1443,3 +1443,147 @@ body.register-page .register-card {
     grid-template-columns: 1fr;
   }
 }
+
+/* ======================================================
+   NAV MENU – FINAL STABLE & NO-JITTER VERSION
+====================================================== */
+
+
+/* ======================================================
+   DESKTOP NAV (>=1024px)
+====================================================== */
+@media (min-width: 1024px) {
+
+  /* -------------------------------
+     Main menu layout (balanced)
+  -------------------------------- */
+  .menu {
+    display: flex;
+    align-items: center;
+    gap: 32px;                 /* 英文/中文都均匀 */
+    margin-left: 48px;         /* 与 Logo 拉开距离 */
+  }
+
+  /* 不再单独挤 Home，避免英文失衡 */
+  .menu > a[href*="#home"] {
+    margin-left: 0;
+  }
+
+  /* -------------------------------
+     Dropdown container (KEY FIX)
+  -------------------------------- */
+  .nav-item.dropdown {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 6px 4px;
+    cursor: pointer;
+    white-space: nowrap;       /* 英文绝不换行 */
+  }
+
+  /* SVG arrow */
+  .dropdown-icon {
+    width: 10px;
+    height: 6px;
+    opacity: 0.6;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .nav-item.dropdown:hover .dropdown-icon {
+    opacity: 1;
+    transform: translateY(1px);
+  }
+
+  /* -------------------------------
+     Dropdown menu – NO GAP
+  -------------------------------- */
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;                 /* ❗ 关键：紧贴 */
+    left: 0;
+    margin-top: 4px;           /* 极小缓冲 */
+
+    min-width: 210px;
+
+    background: rgba(245, 247, 250, 0.96);
+    backdrop-filter: blur(10px);
+
+    border-radius: 12px;
+    padding: 8px 0;
+
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(4px);
+
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    z-index: 999;
+  }
+
+  /* hover ONLY depends on parent */
+  .nav-item.dropdown:hover .dropdown-menu,
+  .nav-item.dropdown:focus-within .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .dropdown-menu a {
+    display: block;
+    padding: 10px 18px;
+    font-size: 14px;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  .dropdown-menu a:hover {
+    background: rgba(80, 130, 255, 0.12);
+    color: #1e4ed8;
+  }
+
+  /* -------------------------------
+     Login – special but stable
+  -------------------------------- */
+  .menu a[href*="login"] {
+    margin-left: 40px;
+    padding: 6px 16px;
+
+    border-radius: 20px;
+    border: 1px solid rgba(80, 130, 255, 0.35);
+
+    color: #1e4ed8;
+    font-weight: 500;
+
+    box-sizing: border-box;
+  }
+
+  .menu a[href*="login"]:hover {
+    background: rgba(80, 130, 255, 0.12);
+  }
+
+  /* -------------------------------
+     Logo & language hover (no move)
+  -------------------------------- */
+  .brand a,
+  .lang-toggle {
+    transition: opacity 0.2s ease;
+  }
+
+  .brand a:hover,
+  .lang-toggle:hover {
+    opacity: 0.8;
+  }
+}
+
+/* ======================================================
+   MOBILE NAV
+   👉 完全不动，继续用你原来 OK 的版本
+====================================================== */
