@@ -1445,8 +1445,7 @@ body.register-page .register-card {
 }
 
 /* ======================================================
-   NAV MENU – FINAL STABLE VERSION
-   Desktop & Mobile STRICTLY SEPARATED
+   NAV MENU – FINAL STABLE & NO-JITTER VERSION
 ====================================================== */
 
 
@@ -1456,61 +1455,80 @@ body.register-page .register-card {
 @media (min-width: 1024px) {
 
   /* -------------------------------
-     Main menu layout
+     Main menu layout (balanced)
   -------------------------------- */
   .menu {
     display: flex;
     align-items: center;
-    gap: 28px;              /* 所有主菜单等距 */
-    margin-left: 32px;      /* 中间菜单整体向 Login 靠拢 */
+    gap: 32px;                 /* 英文/中文都均匀 */
+    margin-left: 48px;         /* 与 Logo 拉开距离 */
   }
 
-  /* Home 单独微调，靠近 About */
+  /* 不再单独挤 Home，避免英文失衡 */
   .menu > a[href*="#home"] {
-    margin-left: -12px;
+    margin-left: 0;
   }
 
   /* -------------------------------
-     Dropdown (Programs / Involve)
+     Dropdown container (KEY FIX)
   -------------------------------- */
   .nav-item.dropdown {
     position: relative;
+    display: inline-flex;
+    align-items: center;
   }
 
   .dropdown-toggle {
     display: inline-flex;
     align-items: center;
     gap: 6px;
+
+    padding: 6px 4px;
     cursor: pointer;
+    white-space: nowrap;       /* 英文绝不换行 */
   }
 
-  .caret {
-    font-size: 11px;
+  /* SVG arrow */
+  .dropdown-icon {
+    width: 10px;
+    height: 6px;
     opacity: 0.6;
+    transition: transform 0.2s ease, opacity 0.2s ease;
   }
 
+  .nav-item.dropdown:hover .dropdown-icon {
+    opacity: 1;
+    transform: translateY(1px);
+  }
+
+  /* -------------------------------
+     Dropdown menu – NO GAP
+  -------------------------------- */
   .dropdown-menu {
     position: absolute;
-    top: 120%;
+    top: 100%;                 /* ❗ 关键：紧贴 */
     left: 0;
-    min-width: 200px;
+    margin-top: 4px;           /* 极小缓冲 */
+
+    min-width: 210px;
 
     background: rgba(245, 247, 250, 0.96);
     backdrop-filter: blur(10px);
 
     border-radius: 12px;
     padding: 8px 0;
+
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
 
     opacity: 0;
     visibility: hidden;
-    transform: translateY(8px);
+    transform: translateY(4px);
 
-    transition: opacity 0.25s ease, transform 0.25s ease;
-    will-change: opacity, transform;
+    transition: opacity 0.18s ease, transform 0.18s ease;
     z-index: 999;
   }
 
+  /* hover ONLY depends on parent */
   .nav-item.dropdown:hover .dropdown-menu,
   .nav-item.dropdown:focus-within .dropdown-menu {
     opacity: 1;
@@ -1523,9 +1541,7 @@ body.register-page .register-card {
     padding: 10px 18px;
     font-size: 14px;
     line-height: 1.4;
-    color: #333;
-    text-decoration: none;
-    transition: background 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
   }
 
   .dropdown-menu a:hover {
@@ -1533,30 +1549,20 @@ body.register-page .register-card {
     color: #1e4ed8;
   }
 
-  .dropdown-menu a.disabled {
-    opacity: 0.5;
-    pointer-events: none;
-  }
-
-  .dropdown-menu .coming-soon {
-    font-size: 11px;
-    margin-left: 6px;
-    opacity: 0.6;
-  }
-
   /* -------------------------------
-     Login – visually special, no jitter
+     Login – special but stable
   -------------------------------- */
   .menu a[href*="login"] {
-    margin-left: 36px;      /* 与 Contact 拉开 */
-    padding: 6px 14px;
-    border-radius: 20px;
+    margin-left: 40px;
+    padding: 6px 16px;
 
+    border-radius: 20px;
     border: 1px solid rgba(80, 130, 255, 0.35);
+
     color: #1e4ed8;
     font-weight: 500;
 
-    box-sizing: border-box; /* 防止 hover 尺寸变化 */
+    box-sizing: border-box;
   }
 
   .menu a[href*="login"]:hover {
@@ -1564,7 +1570,7 @@ body.register-page .register-card {
   }
 
   /* -------------------------------
-     Logo & language – hover without movement
+     Logo & language hover (no move)
   -------------------------------- */
   .brand a,
   .lang-toggle {
@@ -1578,22 +1584,6 @@ body.register-page .register-card {
 }
 
 /* ======================================================
-   MOBILE NAV (<1024px)
-   👉 恢复为“最初版本”，不再额外增强
+   MOBILE NAV
+   👉 完全不动，继续用你原来 OK 的版本
 ====================================================== */
-
-/* ⚠️ 这里不写任何 mobile-menu 结构 / accordion / details 样式
-   ⚠️ 完全依赖你原来已经验证 OK 的 mobile CSS
-*/
-
-/* Ensure caret always visible */
-.dropdown-toggle .caret {
-  display: inline-block;
-  margin-left: 4px;
-  font-size: 11px;
-  opacity: 0.65;
-  transform: translateY(1px);
-}
-.nav-item.dropdown:hover .caret {
-  opacity: 1;
-}
