@@ -1453,12 +1453,12 @@ body.register-page .register-card {
 
   .menu {
     margin-left: 0;     /* 不整体推 */
-    gap: 20px;
+    gap: 16px;
   }
 
   /* 只调整 Home */
   .menu > a[href*="#home"] {
-    margin-left: 40px;  /* 微调即可 */
+    margin-left: 46px;  /* 微调即可 */
   }
 
 
