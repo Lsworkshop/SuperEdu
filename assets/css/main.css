@@ -109,7 +109,7 @@ section .section-inner {
   padding: 0 20px;   /* 内容左右内边距 */
 }
 
-.section-title{font-size:30px;font-weight:800;color:var(--#5A47E0);text-align:center;margin:0}
+.section-title{font-size:30px;font-weight:800;color:var(--brand-2);text-align:center;margin:0}
 .section-sub{text-align:center;color:var(--muted);margin-top:8px;margin-bottom:28px}
 
 /* services grid */
@@ -1623,35 +1623,3 @@ body.register-page .register-card {
   transform: translateY(-1px);
 }
 
-/* ===============================
-   DESKTOP DROPDOWN ICON – FORCE FIX
-=============================== */
-@media (min-width: 1024px) {
-
-  .dropdown-toggle {
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-  }
-
-  .dropdown-icon {
-    display: inline-block !important;
-    width: 12px !important;
-    height: 8px !important;
-
-    color: currentColor !important;
-    opacity: 0.9 !important;
-
-    visibility: visible !important;
-    pointer-events: none;
-
-    transform: translateY(1px);
-  }
-
-  /* 防止被裁剪 */
-  .menu,
-  .menu > a,
-  .dropdown-toggle {
-    overflow: visible !important;
-  }
-}
