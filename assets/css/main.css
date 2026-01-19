@@ -1448,28 +1448,19 @@ body.register-page .register-card {
    NAV MENU – FINAL STABLE & NO-JITTER VERSION
 ====================================================== */
 
+/* Desktop only */
 @media (min-width: 1024px) {
 
-  /* -------------------------------
-     Lock nav height (NO JITTER)
-  -------------------------------- */
-  #topNav {
-    min-height: 72px;
-  }
-
-  /* -------------------------------
-     Main menu layout
-  -------------------------------- */
   .menu {
-    display: flex;
-    align-items: center;
+    margin-left: 0;     /* 不整体推 */
     gap: 32px;
-    margin-left: 56px;        /* 英文版与 Logo 拉开 */
   }
 
-   .menu > a[href*="#home"] {
-    margin-left: 28px;    /* Home 再补一点 */
+  /* 只调整 Home */
+  .menu > a[href*="#home"] {
+    margin-left: 24px;  /* 微调即可 */
   }
+
 
   .menu a,
   .dropdown-toggle {
@@ -1602,19 +1593,33 @@ body.register-page .register-card {
 .brand a:hover .logo-img {
   transform: scale(1.05);
 }
-/* ==============================
-   Language toggle hover
-============================== */
+/* ===============================
+   Language toggle (stable hover)
+=============================== */
 .lang-toggle {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25); /* ⭐ 先给一个“存在的边框” */
   border-radius: 16px;
   padding: 6px 12px;
+
+  color: inherit;
+  cursor: pointer;
+
   transition:
     background-color 0.18s ease,
     border-color 0.18s ease,
-    color 0.18s ease;
+    opacity 0.18s ease,
+    transform 0.18s ease;
 }
 
 .lang-toggle:hover {
-  background-color: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.35);
+  background-color: rgba(255, 255, 255, 0.18); /* ⭐ 比之前稍微明显 */
+  border-color: rgba(255, 255, 255, 0.45);
+  opacity: 0.9;
 }
+
+/* 可选：轻微抬起（和 Logo 一致） */
+.lang-toggle:hover {
+  transform: translateY(-1px);
+}
+
