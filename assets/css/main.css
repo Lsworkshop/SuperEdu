@@ -1458,7 +1458,7 @@ body.register-page .register-card {
 
   /* 只调整 Home */
   .menu > a[href*="#home"] {
-    margin-left: 30px;  /* 微调即可 */
+    margin-left: 36px;  /* 微调即可 */
   }
 
 
