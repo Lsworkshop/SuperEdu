@@ -370,23 +370,33 @@
       <!-- About -->
       <a href="/index.html#about" data-en="About" data-zh="关于我们">About</a>
 
-      <!-- Programs Dropdown -->
+    <!-- Programs Dropdown -->
 <div class="nav-item dropdown">
-  <span class="dropdown-toggle" role="button" aria-haspopup="true" tabindex="0"
-        data-en="Programs" data-zh="项目">
+
+  <span class="dropdown-toggle"
+        role="button"
+        aria-haspopup="true"
+        tabindex="0"
+        data-en="Programs"
+        data-zh="项目">
+
     <span class="dropdown-label">Programs</span>
 
-    <svg class="dropdown-icon" width="12" height="8"
-     viewBox="0 0 12 8" aria-hidden="true">
-  <path d="M1 1.5L6 6.5L11 1.5"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.8"
-        stroke-linecap="round"
-        stroke-linejoin="round"/>
-</svg>
+    <svg class="dropdown-icon"
+         width="12"
+         height="8"
+         viewBox="0 0 12 8"
+         aria-hidden="true">
+      <path d="M1 1.5L6 6.5L11 1.5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"/>
+    </svg>
 
-   
+  </span> <!-- ✅ 这个闭合非常关键 -->
+
   <div class="dropdown-menu">
     <a href="/education.html"
        id="navEduCenter"
@@ -402,7 +412,13 @@
       EduCommunity
     </a>
 
-     <a href="/forum.html" id="navForum" data-en="EduForum" data-zh="教育论坛">EduForum</a>
+    <a href="/forum.html"
+       id="navForum"
+       class="disabled"
+       data-en="EduForum"
+       data-zh="教育论坛">
+      EduForum <span class="member-only">Member Only</span>
+    </a>
 
     <a href="/index.html#resources"
        data-en="Resources"
@@ -410,6 +426,7 @@
       Resources
     </a>
   </div>
+
 </div>
 
       <!-- Services -->
