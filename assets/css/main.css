@@ -109,8 +109,8 @@ section .section-inner {
   padding: 0 20px;   /* 内容左右内边距 */
 }
 
-.section-title{font-size:30px;font-weight:800;color:var(--brand-2);text-align:center;margin:0}
-.section-sub{text-align:center;color:var(--muted);margin-top:8px;margin-bottom:28px}
+.section-title{font-size:30px;font-weight:800;color:var(--#5A47E0);text-align:center;margin:0}
+.section-sub{text-align:center;color:#5A47E0;margin-top:8px;margin-bottom:28px}
 
 /* services grid */
 .services-grid{
