@@ -1626,3 +1626,27 @@ body.register-page .register-card {
 .registration-card:hover h3 span {
   color: #6E4BFF;
 }
+
+.unlock-card h3 {
+  color: #5A47E0;
+}
+
+.unlock-card h3 .sub-icon {
+  fill: currentColor;
+}
+
+.unlock-card:hover h3 span {
+  color: #6E4BFF;
+}
+
+.apply-card h3 {
+  color: #5A47E0;
+}
+
+.apply-card h3 .sub-icon {
+  fill: currentColor;
+}
+
+.apply-card:hover h3 span {
+  color: #6E4BFF;
+}

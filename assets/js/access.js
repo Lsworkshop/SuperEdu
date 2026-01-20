@@ -1,4 +1,4 @@
-/* =====================================================
+/* ===================================================== 
    SnovaEdu Unified Access Control — FINAL STABLE
    Roles:
    - visitor
@@ -66,6 +66,12 @@
         window.location.replace("/login.html");
         return;
       }
+
+      // EduForum (Members Only)
+      if (pageType === "forum-required" && !isMember) {
+        window.location.replace("/login.html");
+        return;
+      }
     }
 
     /* ===============================
@@ -108,6 +114,19 @@
       "mobileEduCommunity",
       () => isLead,
       "EduCommunity requires Join List access."
+    );
+
+    // EduForum (Members only)
+    guardNav(
+      "navForum",
+      () => isMember,
+      "EduForum requires Member access. Please log in."
+    );
+
+    guardNav(
+      "mobileForum",
+      () => isMember,
+      "EduForum requires Member access. Please log in."
     );
 
     /* ===============================
