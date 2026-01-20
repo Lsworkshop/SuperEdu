@@ -110,7 +110,7 @@ section .section-inner {
 }
 
 .section-title{font-size:30px;font-weight:800;color:var(--#5A47E0);text-align:center;margin:0}
-.section-sub{text-align:center;color:#5A47E0;margin-top:8px;margin-bottom:28px}
+.section-sub{text-align:center;color:var(--muted);margin-top:8px;margin-bottom:28px}
 
 /* services grid */
 .services-grid{
@@ -1623,3 +1623,64 @@ body.register-page .register-card {
   transform: translateY(-1px);
 }
 
+/* ======================================================
+   DESKTOP DROPDOWN SVG — FORCE VISIBLE VERSION
+   覆盖原先所有 dropdown-icon / toggle 相关样式
+====================================================== */
+
+@media (min-width: 1024px) {
+
+  /* 下拉触发区 */
+  .nav-item.dropdown > .dropdown-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: flex-start;
+    gap: 8px;
+
+    position: relative;
+    overflow: visible !important;
+
+    line-height: normal !important;
+    white-space: nowrap;
+
+    cursor: pointer;
+    z-index: 5; /* 高于 underline */
+  }
+
+  /* 文本 */
+  .nav-item.dropdown .dropdown-label {
+    display: inline-block;
+    line-height: 1.2;
+  }
+
+  /* SVG 箭头 —— 强制显示 */
+  .nav-item.dropdown .dropdown-icon {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+
+    width: 12px;
+    height: 8px;
+
+    margin-top: 1px;        /* 微调对齐 */
+    flex-shrink: 0;
+
+    pointer-events: none;
+
+    stroke: #4b5563 !important; /* ❗强制颜色，不走 currentColor */
+    fill: none;
+
+    position: relative;
+    z-index: 6;
+  }
+
+  /* hover 时箭头略强调 */
+  .nav-item.dropdown:hover .dropdown-icon {
+    stroke: #2563eb !important;
+  }
+
+  /* underline 必须在下面 */
+  .menu .nav-underline {
+    z-index: 1 !important;
+  }
+}
