@@ -1490,18 +1490,6 @@ body.register-page .register-card {
     cursor: pointer;
   }
 
-  /* SVG icon */
-  .dropdown-icon {
-    width: 12px;              /* ⬅️ 比之前大 */
-    height: 7px;
-    opacity: 0.6;
-    flex-shrink: 0;
-  }
-
-  .nav-item.dropdown:hover .dropdown-icon {
-    opacity: 1;
-  }
-
   /* -------------------------------
      Dropdown menu (NO GAP)
   -------------------------------- */
@@ -1623,13 +1611,3 @@ body.register-page .register-card {
   transform: translateY(-1px);
 }
 
-.caret {
-  margin-left: 4px;
-  font-size: 0.9em;
-  opacity: 0.6;
-  transition: opacity 0.2s ease;
-}
-
-.nav-item.dropdown:hover .caret {
-  opacity: 1;
-}
