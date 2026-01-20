@@ -471,6 +471,7 @@ section .section-inner {
   flex: 0 0 38px;
   margin-right: 10px;    /* 图标与文字的间距 */
   vertical-align: middle;
+  color:#5A47E0;
 }
 
 /* 手机端（可选，但建议保留） */
