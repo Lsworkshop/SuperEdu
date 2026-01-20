@@ -473,10 +473,6 @@ section .section-inner {
   vertical-align: middle;
 }
 
-.sub-icon h3 {
-  color:#5A47E0;
-}
-
 
 /* 手机端（可选，但建议保留） */
 @media (max-width: 720px) {
@@ -1616,3 +1612,17 @@ body.register-page .register-card {
   transform: translateY(-1px);
 }
 
+
+/*主页 第二个大功能区 三个卡片的题目 文字 颜色*/
+
+.registration-card h3 {
+  color: #5A47E0;
+}
+
+.registration-card h3 .sub-icon {
+  fill: currentColor;
+}
+
+.registration-card:hover h3 span {
+  color: #6E4BFF;
+}
