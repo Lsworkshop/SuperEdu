@@ -1,4 +1,4 @@
-// menu.js — optimized & cleaned
+// menu.js — FINAL STABLE (no jitter, no logic change)
 (function () {
   const nav = document.getElementById('topNav');
   const hamburger = document.getElementById('hamburger');
@@ -33,61 +33,66 @@
 
       hamburger.classList.toggle('open', !isOpen);
 
-      // Reset mobile accordion (Programs / Get Involved)
       if (isOpen) {
-        mobileMenu
-          .querySelectorAll('details')
-          .forEach(d => (d.open = false));
+        mobileMenu.querySelectorAll('details').forEach(d => (d.open = false));
       }
     });
   }
 
   /* ===============================
-   Close mobile menu on link click (NO JITTER)
-=============================== */
-if (mobileMenu) {
-  mobileMenu.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', (e) => {
+     Close mobile menu on link click
+  =============================== */
+  if (mobileMenu) {
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', (e) => {
+        if (window.innerWidth >= 1024) return;
 
-      // 只在 mobile 生效，desktop 不干预
-      if (window.innerWidth >= 1024) return;
+        e.preventDefault();
+        const href = a.getAttribute('href');
 
-      e.preventDefault();
-      const href = a.getAttribute('href');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        mobileMenu.style.opacity = '0';
+        hamburger && hamburger.classList.remove('open');
 
-      // 关闭菜单（不立刻破坏布局）
-      mobileMenu.setAttribute('aria-hidden', 'true');
-      mobileMenu.style.opacity = '0';
-      hamburger && hamburger.classList.remove('open');
+        mobileMenu.querySelectorAll('details').forEach(d => (d.open = false));
 
-      // reset accordion（保持你原有逻辑）
-      mobileMenu
-        .querySelectorAll('details')
-        .forEach(d => (d.open = false));
-
-      // 给浏览器一小段时间完成 repaint，再跳转
-      setTimeout(() => {
-        window.location.href = href;
-      }, 120);
+        setTimeout(() => {
+          window.location.href = href;
+        }, 120);
+      });
     });
-  });
-}
+  }
 
   /* ===============================
-     Scroll behavior (transparent → solid)
+     Scroll behavior (SAFE)
   =============================== */
+  let ticking = false;
+
   function onScroll() {
-    const y = window.scrollY || window.pageYOffset;
-    if (y > maxTransparent) {
-      nav.classList.remove('nav--transparent');
-      nav.classList.add('nav--solid');
-    } else {
-      nav.classList.add('nav--transparent');
-      nav.classList.remove('nav--solid');
-    }
+    if (ticking) return;
+    ticking = true;
+
+    requestAnimationFrame(() => {
+      const y = window.scrollY || window.pageYOffset;
+
+      if (y > maxTransparent) {
+        nav.classList.remove('nav--transparent');
+        nav.classList.add('nav--solid');
+      } else {
+        nav.classList.add('nav--transparent');
+        nav.classList.remove('nav--solid');
+      }
+
+      ticking = false;
+    });
   }
+
   window.addEventListener('scroll', onScroll);
-  onScroll();
+
+  // ⚠️ 延迟首次执行，避免首屏闪
+  window.addEventListener('load', () => {
+    onScroll();
+  });
 
   /* ===============================
      Responsive padding + reset
@@ -105,15 +110,14 @@ if (mobileMenu) {
         mobileMenu.setAttribute('aria-hidden', 'true');
         mobileMenu.style.display = 'none';
         mobileMenu.style.opacity = '0';
-        mobileMenu
-          .querySelectorAll('details')
-          .forEach(d => (d.open = false));
+        mobileMenu.querySelectorAll('details').forEach(d => (d.open = false));
       }
       hamburger && hamburger.classList.remove('open');
     }
   }
+
   window.addEventListener('resize', adjustForMobile);
-  adjustForMobile();
+  window.addEventListener('load', adjustForMobile);
 
   /* ===============================
      Brand text alignment
@@ -144,9 +148,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// ===============================
-// Fix anchor navigation reliability (Desktop)
-// ===============================
+/* ===============================
+   Anchor navigation (Desktop safe)
+=============================== */
 document.querySelectorAll('a[href^="/index.html#"], a[href^="#"]').forEach(link => {
   link.addEventListener('click', e => {
     const href = link.getAttribute('href');
@@ -155,7 +159,7 @@ document.querySelectorAll('a[href^="/index.html#"], a[href^="#"]').forEach(link 
 
     if (target) {
       e.preventDefault();
-      const y = target.getBoundingClientRect().top + window.pageYOffset - 80; // nav height
+      const y = target.getBoundingClientRect().top + window.pageYOffset - 80;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
   });
