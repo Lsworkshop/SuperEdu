@@ -3,186 +3,114 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Dashboard | Edunova Education</title>
-
-<link rel="stylesheet" href="/assets/css/main.css">
-<script src="/assets/js/menu.js" defer></script>
-<script src="/assets/js/lang.js" defer></script>
+<title data-en="My Profile | Edunova Education" data-zh="个人资料 | 超能教育">
+  My Profile | Edunova Education
+</title>
 
 <style>
-/* =========================
-   Base
-========================= */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, Arial, sans-serif;
   background-color: #f5f5f4;
   color: #1f2937;
-  line-height: 1.65;
 }
 
-.top-offset { height: 80px; }
+/* Reserved for main header */
+.top-offset {
+  height: 88px;
+}
 
-.dashboard-wrap {
-  max-width: 1100px;
+/* Layout */
+.profile-wrap {
+  max-width: 920px;
   margin: 0 auto;
-  padding: 32px 20px 72px;
+  padding: 28px 20px 80px;
 }
 
-/* =========================
-   Welcome
-========================= */
-.welcome-title {
-  font-size: 24px;
+.profile-title {
+  font-size: 26px;
   font-weight: 500;
-}
-
-.welcome-sub {
-  font-size: 15px;
-  color: #6b7280;
-  margin: 6px 0 36px;
-}
-
-/* =========================
-   Section Wrapper
-========================= */
-.section {
-  margin-bottom: 48px;
-  padding: 28px 26px 32px;
-  border-radius: 18px;
-}
-
-/* 不同区块背景 */
-.section-edu {
-  background-color: #fafaf9;
-}
-
-.section-engage {
-  background-color: #fff7ed;
-}
-
-.section-personal {
-  background-color: #ffffff;
-}
-
-.section-title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 22px;
-  color: #374151;
-}
-
-/* =========================
-   Card Grid
-========================= */
-.card-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-}
-
-@media (min-width: 640px) {
-  .card-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (min-width: 1024px) {
-  .card-grid { grid-template-columns: repeat(3, 1fr); }
-}
-
-/* =========================
-   Card
-========================= */
-.card {
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  padding: 22px 22px 26px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-  transition: all 0.18s ease;
-  cursor: pointer;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-  border-color: #d1d5db;
-}
-
-.card-icon {
-  font-size: 22px;
-  margin-bottom: 10px;
-}
-
-.card-title {
-  font-size: 17px;
-  font-weight: 600;
   margin-bottom: 6px;
 }
 
-.card-desc {
+.profile-sub {
   font-size: 14.5px;
   color: #6b7280;
-  margin-bottom: 12px;
+  margin-bottom: 36px;
 }
 
-.card a {
+/* Section Card */
+.section {
+  background-color: #ffffff;
+  border-radius: 18px;
+  padding: 26px 28px 30px;
+  margin-bottom: 30px;
+  border: 1px solid #e5e7eb;
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 18px;
+  color: #111827;
+}
+
+/* Info rows */
+.info-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.info-label {
+  width: 200px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.info-value {
   font-size: 14.5px;
-  color: #2563eb;
-  text-decoration: none;
+  color: #111827;
   font-weight: 500;
 }
 
-.card a:hover {
-  text-decoration: underline;
+/* Actions */
+.actions {
+  margin-top: 18px;
 }
 
-/* =========================
-   Footer Links
-========================= */
-.footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.footer-links a {
-  font-size: 14.5px;
-  text-decoration: none;
-  color: #374151;
-}
-
-.footer-links a:hover {
-  text-decoration: underline;
-}
-
-/* =========================
-   Logout
-========================= */
-.logout {
-  margin-top: 36px;
-}
-
-.logout button {
-  background-color: transparent;
-  border: 1px solid #d1d5db;
-  padding: 8px 18px;
+.actions button {
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
   border-radius: 999px;
+  padding: 10px 22px;
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: background-color 0.2s ease;
 }
 
-.logout button:hover {
-  background-color: #f3f4f6;
-  border-color: #9ca3af;
+.actions button:hover {
+  background-color: #1d4ed8;
+}
+
+.actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .info-label {
+    width: 100%;
+    margin-bottom: 4px;
+  }
 }
 </style>
 </head>
 
 <body>
-
-
 <!-- NAV -->
 
 <html class="nav-preload">
@@ -353,108 +281,154 @@ body {
     </div>
   </div>
 </nav>
-
-
-
+<!-- Reserved space for main site header -->
 <div class="top-offset"></div>
 
-<main class="dashboard-wrap">
+<main class="profile-wrap">
 
-  <h1 class="welcome-title" id="welcomeMessage">Welcome</h1>
-  <div class="welcome-sub">
-    Your personal space within Edunova Education.
+  <h1 class="profile-title"
+      data-en="My Profile"
+      data-zh="个人资料">
+    My Profile
+  </h1>
+
+  <div class="profile-sub"
+       data-en="Your personal information and account details."
+       data-zh="您的个人信息与账户详情。">
+    Your personal information and account details.
   </div>
 
-  <!-- Education -->
-  <section class="section section-edu">
-    <div class="section-title">Education & Community</div>
-    <div class="card-grid">
-      <div class="card" onclick="location.href='/edu-center.html'">
-        <div class="card-icon">🎓</div>
-        <div class="card-title">EduCenter</div>
-        <div class="card-desc">Structured learning and academic programs.</div>
-        <a href="/edu-center.html">Explore →</a>
-      </div>
+  <!-- Basic Info -->
+  <section class="section">
+    <div class="section-title"
+         data-en="Basic Information"
+         data-zh="基本信息">
+      Basic Information
+    </div>
 
-      <div class="card" onclick="location.href='/edu-community.html'">
-        <div class="card-icon">💬</div>
-        <div class="card-title">EduCommunity</div>
-        <div class="card-desc">Discussion, sharing, and peer learning.</div>
-        <a href="/edu-community.html">Enter →</a>
+    <div class="info-row">
+      <div class="info-label"
+           data-en="Full Name"
+           data-zh="姓名">
+        Full Name
       </div>
+      <div class="info-value" id="name"></div>
+    </div>
 
-      <div class="card" onclick="location.href='/forum.html'">
-        <div class="card-icon">🧠</div>
-        <div class="card-title">Forum</div>
-        <div class="card-desc">Ask, discuss, and deepen understanding.</div>
-        <a href="/forum.html">Visit →</a>
+    <div class="info-row">
+      <div class="info-label"
+           data-en="Email"
+           data-zh="邮箱">
+        Email
       </div>
+      <div class="info-value" id="email"></div>
+    </div>
+
+    <div class="info-row">
+      <div class="info-label"
+           data-en="Member ID"
+           data-zh="会员编号">
+        Member ID
+      </div>
+      <div class="info-value" id="memberId"></div>
     </div>
   </section>
 
-  <!-- Engagement -->
-  <section class="section section-engage">
-    <div class="section-title">Get Involved</div>
-    <div class="card-grid">
-      <div class="card" onclick="location.href='/volunteer.html'">
-        <div class="card-icon">🤝</div>
-        <div class="card-title">Volunteer</div>
-        <div class="card-desc">Participate in education initiatives.</div>
-        <a href="/volunteer.html">Join →</a>
-      </div>
+  <!-- Account -->
+  <section class="section">
+    <div class="section-title"
+         data-en="Account Status"
+         data-zh="账户状态">
+      Account Status
+    </div>
 
-      <div class="card" onclick="location.href='/donation.html'">
-        <div class="card-icon">💖</div>
-        <div class="card-title">Donate</div>
-        <div class="card-desc">Support education through donation.</div>
-        <a href="/donation.html">Support →</a>
+    <div class="info-row">
+      <div class="info-label"
+           data-en="Role"
+           data-zh="角色">
+        Role
       </div>
+      <div class="info-value" id="role"></div>
+    </div>
 
-      <div class="card" onclick="location.href='/events.html'">
-        <div class="card-icon">📅</div>
-        <div class="card-title">Events</div>
-        <div class="card-desc">Talks, workshops, and activities.</div>
-        <a href="/events.html">View →</a>
+    <div class="info-row">
+      <div class="info-label"
+           data-en="Status"
+           data-zh="状态">
+        Status
       </div>
+      <div class="info-value" id="status"></div>
+    </div>
+
+    <div class="info-row">
+      <div class="info-label"
+           data-en="Email Verified"
+           data-zh="邮箱验证">
+        Email Verified
+      </div>
+      <div class="info-value" id="verified"></div>
+    </div>
+
+    <div class="info-row">
+      <div class="info-label"
+           data-en="Last Login"
+           data-zh="最近登录">
+        Last Login
+      </div>
+      <div class="info-value" id="lastLogin"></div>
     </div>
   </section>
 
-  <!-- Personal -->
-  <section class="section section-personal">
-    <div class="footer-links">
-      <a href="/profile.html">👤 Profile</a>
-      <a href="/settings.html">⚙️ Settings</a>
-      <a href="#">🧭 My Journey</a>
+  <!-- Actions -->
+  <section class="section">
+    <div class="section-title"
+         data-en="Actions"
+         data-zh="操作">
+      Actions
     </div>
 
-    <div class="logout">
-      <button id="logoutBtn">Log out</button>
+    <div class="actions">
+      <button disabled
+              data-en="Edit Profile (Coming Soon)"
+              data-zh="编辑资料（即将上线）">
+        Edit Profile (Coming Soon)
+      </button>
     </div>
   </section>
 
 </main>
 
 <script>
-async function init() {
-  const res = await fetch("/api/me");
-  const data = await res.json();
-  if (!res.ok || !data.success) {
+async function loadProfile() {
+  try {
+    const res = await fetch("/api/me");
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      location.href = "/login.html";
+      return;
+    }
+
+    const m = data.member;
+
+    document.getElementById("name").textContent =
+      `${m.first_name} ${m.last_name}`;
+    document.getElementById("email").textContent = m.email;
+    document.getElementById("memberId").textContent = m.member_id;
+    document.getElementById("role").textContent = m.role;
+    document.getElementById("status").textContent = m.status;
+    document.getElementById("verified").textContent =
+      m.is_verified ? "Yes / 已验证" : "No / 未验证";
+    document.getElementById("lastLogin").textContent =
+      m.last_login_at || "N/A";
+  } catch (err) {
+    console.error("Profile load error:", err);
     location.href = "/login.html";
-    return;
   }
-  document.getElementById("welcomeMessage").textContent =
-    `Welcome, ${data.member.first_name}`;
 }
 
-document.getElementById("logoutBtn").onclick = async () => {
-  await fetch("/api/logout", { method: "POST" });
-  location.href = "/login.html";
-};
-
-init();
+loadProfile();
 </script>
 
 </body>
 </html>
-
-
