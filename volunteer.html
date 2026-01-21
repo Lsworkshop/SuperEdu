@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Volunteer | Edunova Foundation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Main styles (reuse homepage style) -->
+  <link rel="stylesheet" href="/assets/css/main.css" />
+
+  <style>
+    /* Page-specific styles */
+    .hero {
+      padding: 140px 20px 80px;
+      text-align: center;
+      max-width: 960px;
+      margin: auto;
+    }
+
+    .hero h1 {
+      font-size: 2.6rem;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 20px;
+    }
+
+    section h2 {
+      font-size: 2rem;
+      margin-bottom: 24px;
+    }
+
+    section p {
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 28px;
+      backdrop-filter: blur(6px);
+    }
+
+    .card h3 {
+      margin-bottom: 12px;
+    }
+
+    .cta {
+      text-align: center;
+      padding: 100px 20px;
+    }
+
+    .cta a {
+      margin: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ======================
+     Navigation
+====================== -->
+<!-- NAV -->
+
+<html class="nav-preload">
+
+<nav id="topNav" class="nav--transparent">
+  <div class="nav-inner">
+
+    <!-- Logo -->
+    <div class="brand">
+      <a href="/index.html#home" class="brand">
+        <img src="/assets/img/superedu-logo.png" alt="Edunova" class="logo-img" />
+        <span class="brand-text">Edunova</span>
+      </a>
+    </div>
+
+    <!-- =========================
+         Desktop Menu
+    ========================== -->
+    <div class="menu" id="menu">
+
+      <!-- Home -->
+      <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
+
+      <!-- About -->
+      <a href="/index.html#about" data-en="About" data-zh="关于我们">About</a>
+
+    <!-- Programs Dropdown -->
+<div class="nav-item dropdown">
+
+  <span class="dropdown-toggle"
+        role="button"
+        aria-haspopup="true"
+        tabindex="0"
+        data-en="Programs ⬇︎"
+        data-zh="项目 ⬇︎">
+
+    
+  </span> <!-- ✅ 这个闭合非常关键 -->
+
+  <div class="dropdown-menu">
+    <a href="/education.html"
+       id="navEduCenter"
+       data-en="EduCenter"
+       data-zh="教育中心">
+      EduCenter
+    </a>
+
+    <a href="/community.html"
+       id="navEduCommunity"
+       data-en="EduCommunity"
+       data-zh="教育社区">
+      EduCommunity
+    </a>
+
+    <a href="/forum.html"
+       id="navForum"
+       class="disabled"
+       data-en="EduForum"
+       data-zh="教育论坛">
+      EduForum <span class="member-only">Member Only</span>
+    </a>
+
+    <a href="/index.html#resources"
+       data-en="Resources"
+       data-zh="资源">
+      Resources
+    </a>
+  </div>
+
+</div>
+
+      <!-- Services -->
+      <a href="/index.html#services" data-en="Services" data-zh="服务">Services</a>
+
+      <!-- Membership -->
+      <a href="/membership.html" data-en="Membership" data-zh="会员中心">Membership</a>
+
+      <!-- Get Involved Dropdown -->
+<div class="nav-item dropdown">
+  <span class="dropdown-toggle" role="button" aria-haspopup="true" tabindex="0"
+        data-en="Get Involved ⬇︎" data-zh="参与方式 ⬇︎">
+   
+</span>
+
+  <div class="dropdown-menu">
+    <a href="/volunteer.html"
+       data-en="Volunteer"
+       data-zh="志愿者">
+      Volunteer
+    </a>
+
+    <a href="/donation.html"
+       data-en="Donation"
+       data-zh="捐赠">
+      Donation
+    </a>
+  </div>
+</div>
+
+
+      <!-- Contact -->
+      <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
+
+      <!-- Login -->
+      <a href="/login.html" data-en="Login" data-zh="登录">Login</a>
+
+      <!-- Slide underline -->
+      <span class="nav-underline"></span>
+    </div>
+
+    <!-- Right side -->
+    <div class="nav-right">
+      <button id="langToggle" class="lang-toggle" aria-label="Language toggle">
+        中文
+      </button>
+
+      <button id="hamburger" class="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile slide menu -->
+  <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+    <!-- Home -->
+    <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
+
+    <!-- About -->
+    <a href="/index.html#about" data-en="About" data-zh="关于我们">About</a>
+
+    <!-- Programs Accordion -->
+    <details class="mobile-group">
+      <summary data-en="Programs" data-zh="项目">Programs</summary>
+      <a href="/education.html" id="navEduCenter" data-en="EduCenter" data-zh="教育中心">EduCenter</a>
+      <a href="/community.html" id="navEduCommunity" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
+      <a href="/forum.html" id="navForum" data-en="EduForum" data-zh="教育论坛">EduForum</a>
+
+      <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
+    </details>
+
+    <!-- Service -->
+    <a href="/index.html#services" data-en="Service" data-zh="服务">Service</a>
+
+    <!-- Membership -->
+    <a href="/membership.html" data-en="Membership" data-zh="会员中心">Membership</a>
+
+    <!-- Get Involved Accordion -->
+    <details class="mobile-group">
+      <summary data-en="Get Involved" data-zh="参与方式">Get Involved</summary>
+      <a href="/volunteer.html" data-en="Volunteer" data-zh="志愿者">Volunteer</a>
+      <a href="/donation.html" data-en="Donation" data-zh="捐赠">Donation</a>
+    </details>
+
+    <!-- Contact -->
+    <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
+
+    <!-- Login -->
+    <a href="/login.html" id="mobileLogin" data-en="Login" data-zh="登录">Login</a>
+
+    <!-- Mobile action buttons -->
+    <div class="mobile-actions">
+      <button class="btn btn-ghost" id="mobileRegister" data-en="Register/Join" data-zh="注册/加入">
+        Register / Join
+      </button>
+      <button class="btn" id="mobileUnlock" data-en="Unlock Education" data-zh="解锁教育">
+        Unlock Education
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ======================
+     Hero
+====================== -->
+<div class="hero">
+  <h1 data-en="Volunteer with Edunova Foundation"
+      data-zh="加入 Edunova 志愿者计划">
+    Volunteer with Edunova Foundation
+  </h1>
+
+  <p data-en="Empowering global education through student-led volunteer initiatives."
+     data-zh="通过学生主导的志愿者项目，推动全球教育公平。">
+    Empowering global education through student-led volunteer initiatives.
+  </p>
+</div>
+
+<!-- ======================
+     About
+====================== -->
+<section>
+  <h2 data-en="Who We Are"
+      data-zh="我们是谁">
+    Who We Are
+  </h2>
+
+  <p data-en="Edunova Foundation is a registered Non-Profit Organization (501(c)(3)) dedicated to expanding access to quality education for students worldwide."
+     data-zh="Edunova Foundation 是一家注册的非营利组织（501(c)(3)），致力于为全球学生提供公平、优质的教育机会。">
+    Edunova Foundation is a registered Non-Profit Organization (501(c)(3)) dedicated to expanding access to quality education for students worldwide.
+  </p>
+
+  <p data-en="Our volunteer programs are primarily led and organized by motivated High School students, fostering leadership, responsibility, and real-world impact."
+     data-zh="我们的志愿者项目主要由富有热情的高中生发起与组织，培养领导力、责任感和真实的社会影响力。">
+    Our volunteer programs are primarily led and organized by motivated High School students.
+  </p>
+</section>
+
+<!-- ======================
+     What Volunteers Do
+====================== -->
+<section>
+  <h2 data-en="What Our Volunteers Do"
+      data-zh="志愿者在做什么">
+    What Our Volunteers Do
+  </h2>
+
+  <div class="cards">
+    <div class="card">
+      <h3 data-en="Online Education"
+          data-zh="线上教育">
+        Online Education
+      </h3>
+      <p data-en="Volunteers provide free online courses and lectures in subjects such as Computer Science, English, and academic enrichment for students worldwide."
+         data-zh="志愿者为全球学生（尤其是华人学生）长期提供免费的计算机、英语等线上课程与讲座。">
+        Volunteers provide free online courses and lectures worldwide.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3 data-en="Community Support"
+          data-zh="社区支持">
+        Community Support
+      </h3>
+      <p data-en="Support global learning communities by mentoring, organizing workshops, and facilitating cross-cultural academic exchange."
+         data-zh="通过辅导、组织活动和跨文化交流，支持全球学习社区的发展。">
+        Support global learning communities.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3 data-en="Limited In-Person Activities"
+          data-zh="少量线下活动">
+        Limited In-Person Activities
+      </h3>
+      <p data-en="Selected in-person activities are organized in collaboration with High Schools and local educational institutions."
+         data-zh="少量线下活动主要在高中或教育机构中开展。">
+        Selected in-person activities with High Schools.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================
+     Certificates
+====================== -->
+<section>
+  <h2 data-en="Certificates & Recognition"
+      data-zh="证书与荣誉">
+    Certificates & Recognition
+  </h2>
+
+  <p data-en="Based on verified volunteer service hours, Edunova Foundation awards official certificates recognizing volunteer contributions."
+     data-zh="根据经认证的志愿服务时长，Edunova Foundation 将颁发官方志愿者证书。">
+    Based on verified volunteer service hours, Edunova Foundation awards official certificates.
+  </p>
+
+  <ul>
+    <li data-en="Volunteer Certificate"
+        data-zh="志愿者服务证书">
+      Volunteer Certificate
+    </li>
+    <li data-en="Outstanding Volunteer Award"
+        data-zh="杰出志愿者奖">
+      Outstanding Volunteer Award
+    </li>
+    <li data-en="Award Plus (Extended Leadership Recognition)"
+        data-zh="Award Plus（高级领导力认证）">
+      Award Plus (Extended Leadership Recognition)
+    </li>
+  </ul>
+
+  <p data-en="These recognitions are highly valuable for college applications, scholarships, and academic portfolios."
+     data-zh="这些证书与荣誉对大学申请、奖学金申请及学术背景提升具有重要价值。">
+    These recognitions are highly valuable for college applications and scholarships.
+  </p>
+</section>
+
+<!-- ======================
+     CTA
+====================== -->
+<section class="cta">
+  <h2 data-en="Get Involved"
+      data-zh="加入我们">
+    Get Involved
+  </h2>
+
+  <p data-en="Interested in volunteering with Edunova Foundation?"
+     data-zh="想成为 Edunova 志愿者吗？">
+    Interested in volunteering with Edunova Foundation?
+  </p>
+
+  <a href="/join.html" class="btn"
+     data-en="Express Interest"
+     data-zh="提交志愿意向">
+    Express Interest
+  </a>
+
+  <a href="/login.html" class="btn btn-outline"
+     data-en="Member Login"
+     data-zh="成员登录">
+    Member Login
+  </a>
+</section>
+
+<!-- ======================
+     Scripts
+====================== -->
+<script src="/assets/js/menu.js"></script>
+<script src="/assets/js/lang.js"></script>
+
+</body>
+</html>
