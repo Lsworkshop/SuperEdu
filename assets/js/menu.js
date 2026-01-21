@@ -165,8 +165,3 @@ document.querySelectorAll('a[href^="/index.html#"], a[href^="#"]').forEach(link 
   });
 });
 
-window.addEventListener('load', () => {
-  requestAnimationFrame(() => {
-    document.documentElement.classList.remove('nav-preload');
-  });
-});
