@@ -18,134 +18,100 @@
   <style>
       
 /* =========================
-   Volunteer Page CSS – 完整优化版 2.0
+   Volunteer Page CSS - 生产版
 ========================= */
 
 /* ---------- Body & Background ---------- */
 body {
   font-family: Inter, Arial, sans-serif;
-  background: #fdfaf3; /* 更浅米色背景 */
+  background: #F9F4E8;
   color: #333;
-  line-height: 1.75;
   margin: 0;
-  padding: 0;
 }
 
-/* ---------- Hero ---------- */
+/* ---------- Hero 区域（文字落地显示） ---------- */
 .hero {
-  padding: 100px 20px 60px; /* 缩小 padding */
+  max-width: 900px;
+  margin: 60px auto 20px;
+  padding: 0 20px;
   text-align: center;
-  max-width: 880px;
-  margin: 0 auto 30px;
-  position: relative;
-  z-index: 1;
-
-  /* Hero 背景优化 */
-  background: linear-gradient(135deg, #fffdf5, #faf5ea);
-  border-radius: 16px; /* 缩小圆角 */
-  box-shadow: 0 6px 22px rgba(0,0,0,0.06);
+  background: transparent; /* 去掉卡片背景 */
 }
 
 .hero h1 {
-  font-size: clamp(2rem, 3.5vw, 2.8rem); /* 字体适度缩小 */
+  font-size: clamp(2rem, 3.5vw, 2.4rem);
   font-weight: 600;
-  letter-spacing: -0.02em;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
   color: #2C9C47;
+  line-height: 1.3;
 }
 
 .hero p {
-  font-size: 1.1rem;
+  font-size: 1rem;
   max-width: 680px;
   margin: 0 auto;
+  line-height: 1.6;
   opacity: 0.85;
 }
 
-/* ---------- First Section ("Who We Are") ---------- */
-.hero + section {
-  margin-top: 30px;
-  padding: 50px 24px; /* 缩小间距 */
-  background: #fffdf7; /* 轻微卡片背景 */
-  border-radius: 16px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
-}
-
-.hero + section h2 {
-  font-size: 1.8rem;
-  margin-bottom: 18px;
-  color: #2C9C47;
-}
-
-.hero + section p {
-  font-size: 1.05rem;
-  opacity: 0.85;
-  line-height: 1.7;
-}
-
-/* ---------- Section 通用 ---------- */
+/* ---------- Section ---------- */
 section {
   max-width: 1100px;
-  margin: 0 auto 30px;
-  padding: 60px 24px;
+  margin: 40px auto;
+  padding: 50px 24px;
   position: relative;
 }
 
 section h2 {
   font-size: 2rem;
+  margin-bottom: 20px;
   font-weight: 600;
-  margin-bottom: 24px;
-  letter-spacing: -0.01em;
+  color: #2C9C47;
 }
 
 section p {
-  font-size: 1.05rem;
-  opacity: 0.85;
-  margin-bottom: 16px;
+  font-size: 1rem;
+  line-height: 1.65;
+  opacity: 0.82;
 }
 
-/* subtle overlay layer for sections */
-section::before {
+/* subtle overlay for sections except first */
+section:not(:first-of-type)::before {
   content: "";
   position: absolute;
   inset: 12px;
-  border-radius: 20px;
+  border-radius: 28px;
   background: linear-gradient(
     180deg,
-    rgba(255,255,255,0.02),
+    rgba(255,255,255,0.025),
     rgba(255,255,255,0)
   );
   pointer-events: none;
-}
-
-/* Remove overlay for first section under Hero */
-.hero + section::before {
-  display: none;
 }
 
 /* ---------- Cards ---------- */
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-  margin-top: 32px;
-  justify-items: center;
+  gap: 28px;
+  margin-top: 30px;
 }
 
+/* 中间卡片风格（浅淡棕黄色渐变） */
 .card {
-  background: linear-gradient(180deg, #FFFDF8 0%, #FAF5E9 100%); /* 淡棕黄色 */
+  background: linear-gradient(180deg, #FFFDF8 0%, #FAF5E9 100%);
   border-radius: 16px;
   padding: 28px;
+  backdrop-filter: blur(6px);
   box-shadow:
-    0 10px 24px rgba(9, 30, 66, 0.06),
-    0 4px 10px rgba(9, 30, 66, 0.04);
+    0 10px 28px rgba(9,30,66,0.08),
+    0 4px 10px rgba(9,30,66,0.04);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
-  backdrop-filter: blur(4px);
-  max-width: 300px; /* 限制宽度 */
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 36px rgba(0,0,0,0.12);
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.2);
 }
 
 .card h3 {
@@ -156,26 +122,35 @@ section::before {
 }
 
 .card p {
-  font-size: 1rem;
-  opacity: 0.85;
-  margin-bottom: 10px;
+  font-size: 0.98rem;
+  opacity: 0.82;
+  margin-bottom: 8px;
 }
 
-/* ---------- Certificates Section 调整横向排列 ---------- */
+/* ---------- Certificate System Section ---------- */
+section.certificates {
+  padding: 40px 24px;
+}
+
+/* Certificates cards layout */
 section.certificates .cards {
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* 横向排列合理 */
-  gap: 20px; /* 卡片间距自然 */
+  gap: 20px;
   margin-top: 24px;
 }
 
-/* ---------- CTA ---------- */
+/* 每个卡片最大宽度统一，避免撑满屏幕 */
+section.certificates .cards .card {
+  max-width: 300px;
+}
+
+/* ---------- CTA 区域（文字落地显示 + 按钮醒目） ---------- */
 .cta {
   text-align: center;
-  padding: 70px 20px 90px; /* 缩小间距 */
-  background: #fffaf2; /* 浅淡背景 */
-  border-radius: 16px;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+  padding: 60px 20px 80px;
+  background: transparent; /* 去掉卡片背景 */
 }
 
 .cta h2 {
@@ -186,140 +161,59 @@ section.certificates .cards {
 }
 
 .cta p {
-  font-size: 1.1rem;
+  font-size: 1rem;
   opacity: 0.85;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
-/* ---------- Express Interest 按钮 ---------- */
+/* Submit button (Express Interest) */
 .cta .btn {
-  margin: 10px 12px;
+  display: inline-block;
   padding: 14px 28px;
-  font-size: 1.1rem;
-  font-weight: 600;
   border-radius: 10px;
-  background: linear-gradient(135deg, #FFF4D9, #FAE8C3); /* 浅淡 */
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
   color: #2C9C47;
-  border: none;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  background: linear-gradient(90deg, #FFDD9E 0%, #FFF6E3 100%);
+  border: 2px solid #2C9C47;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .cta .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(0,0,0,0.14);
-  background: linear-gradient(135deg, #FAE8C3, #FFF4D9);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  background: linear-gradient(90deg, #FFF6E3 0%, #FFEDD1 100%);
 }
 
-/* Outline button for Member Login */
+/* Outline button */
 .cta .btn.btn-outline {
   background: transparent;
-  color: #2C9C47;
   border: 2px solid #2C9C47;
+  color: #2C9C47;
 }
 
 .cta .btn.btn-outline:hover {
-  background: #2C9C47;
-  color: #fff;
-}
-
-/* ---------- Responsive tweaks ---------- */
-@media screen and (max-width: 768px) {
-  .hero {
-    padding: 60px 16px 40px;
-  }
-
-  .hero h1 {
-    font-size: 2rem;
-  }
-
-  section {
-    padding: 40px 16px;
-  }
-
-  .cards {
-    gap: 16px;
-  }
-
-  .card {
-    padding: 24px;
-    max-width: 100%;
-  }
-
-  .cta {
-    padding: 50px 16px 60px;
-  }
-
-  .cta .btn {
-    width: 90%;
-    margin: 12px auto;
-  }
-}
-
-/* ---------- Certificates System Section ---------- */
-section.certificates {
-  padding: 50px 24px; /* 缩小间距 */
-}
-
-section.certificates h2 {
-  font-size: 2rem;
-  margin-bottom: 24px;
-  color: #2C9C47;
-}
-
-section.certificates .cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center; /* 居中对齐 */
-  gap: 20px; /* 卡片间距自然 */
-  margin-top: 24px;
-}
-
-/* 第一个和最后一个卡片直接落地显示 */
-section.certificates .cards .card:first-child,
-section.certificates .cards .card:last-child {
-  background: transparent; /* 去掉背景渐变 */
-  box-shadow: none;        /* 去掉阴影 */
-  border-radius: 0;        /* 去掉圆角 */
-  padding: 0;              /* 移除内边距 */
-  max-width: 100%;         /* 填充可用宽度 */
-}
-
-section.certificates .cards .card:first-child h3,
-section.certificates .cards .card:last-child h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #2C9C47;
-  margin-bottom: 6px;
-}
-
-section.certificates .cards .card:first-child p,
-section.certificates .cards .card:last-child p {
-  font-size: 1rem;
-  line-height: 1.7;
-  opacity: 0.85;
-  margin-bottom: 12px;
-}
-
-/* 中间卡片保持卡片风格 */
-section.certificates .cards .card:nth-child(2) {
-  background: linear-gradient(180deg, #FFFDF8 0%, #FAF5E9 100%);
-  border-radius: 16px;
-  padding: 28px;
-  box-shadow:
-    0 10px 24px rgba(9, 30, 66, 0.06),
-    0 4px 10px rgba(9, 30, 66, 0.04);
-  max-width: 300px;
+  background: #FAF5E9;
 }
 
 /* ---------- Responsive ---------- */
 @media screen and (max-width: 768px) {
+  .hero {
+    padding: 20px 16px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
   section.certificates .cards {
     flex-direction: column;
     gap: 16px;
   }
 
-  section.certificates .cards .card:nth-child(2) {
+  section.certificates .cards .card {
     max-width: 100%;
   }
 }
