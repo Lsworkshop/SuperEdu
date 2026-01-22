@@ -18,11 +18,9 @@
   <style>
       
 /* =========================
-   Volunteer Page CSS
-   FINAL PRODUCTION VERSION
+   Volunteer Page – FINAL FIX
 ========================= */
 
-/* ---------- Base ---------- */
 body {
   font-family: Inter, Arial, sans-serif;
   background: #F9F4E8;
@@ -30,10 +28,10 @@ body {
   margin: 0;
 }
 
-/* ---------- Hero（落地文字，紧凑） ---------- */
+/* ---------- Hero（不算功能区） ---------- */
 .hero {
   max-width: 900px;
-  margin: 48px auto 20px;   /* ⬅ 明显缩短 */
+  margin: 48px auto 32px;
   padding: 0 20px;
   text-align: center;
 }
@@ -43,7 +41,6 @@ body {
   font-weight: 600;
   margin-bottom: 12px;
   color: #2C9C47;
-  line-height: 1.3;
 }
 
 .hero p {
@@ -54,76 +51,63 @@ body {
   opacity: 0.85;
 }
 
-/* ---------- Section 基础（整体压缩） ---------- */
-section {
-  max-width: 1100px;
-  margin: 28px auto;        /* ⬅ 原来 40~60，已压缩 */
-  padding: 36px 22px;       /* ⬅ 原来 80~100，已压缩 */
-  border-radius: 14px;
-  position: relative;
+/* =========================
+   功能区容器（关键）
+========================= */
+.zone {
+  padding: 44px 20px;       /* ⬅ 功能区上下距离统一、压缩 */
 }
 
-section h2 {
+.zone-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* 四个功能区底色 */
+.zone-a { background: #FFFDF8; }
+.zone-b { background: #FFF7E8; }
+.zone-c { background: #FDF6E3; }
+.zone-d { background: #FFF9F0; }
+
+/* ---------- 通用标题 ---------- */
+.zone h2 {
   font-size: 1.85rem;
   margin-bottom: 16px;
   font-weight: 600;
   color: #2C9C47;
 }
 
-section p {
+.zone p {
   font-size: 1rem;
   line-height: 1.6;
   opacity: 0.82;
   margin-bottom: 10px;
 }
 
-/* ---------- 区块背景区分 ---------- */
-.section-light {
-  background: #FFFDF8;
-}
-
-.section-warm {
-  background: #FFF7E8;
-}
-
-.section-soft {
-  background: #FDF6E3;
-}
-
-/* ---------- Who We Are（卡片化） ---------- */
+/* ---------- Who We Are（卡片） ---------- */
 .who-we-are {
-  background: #FFF9F0;
-  padding: 28px 24px;
+  background: linear-gradient(180deg, #FFFDF8, #F7F0DF);
+  padding: 28px 26px;
   border-radius: 16px;
   box-shadow: 0 8px 22px rgba(0,0,0,0.08);
 }
 
-/* ---------- Cards（统一风格） ---------- */
+/* ---------- 通用卡片 ---------- */
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 22px;                /* ⬅ 间距缩小 */
-  margin-top: 20px;
+  gap: 22px;
+  margin-top: 22px;
 }
 
-/* 浅淡棕黄色渐变卡片 */
 .card {
-  background: linear-gradient(
-    180deg,
-    #FFFDF8 0%,
-    #F7F0DF 100%
-  );
+  background: linear-gradient(180deg, #FFFDF8, #F7F0DF);
   border-radius: 16px;
   padding: 24px;
   box-shadow:
     0 8px 20px rgba(0,0,0,0.08),
     0 2px 6px rgba(0,0,0,0.04);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 34px rgba(0,0,0,0.18);
 }
 
 .card h3 {
@@ -136,44 +120,38 @@ section p {
 .card p {
   font-size: 0.96rem;
   opacity: 0.82;
-  margin-bottom: 6px;
 }
 
-/* ---------- Certificate System Overview（竖向排列） ---------- */
-.certificate-list {
+/* =========================
+   Certificate System Overview
+   （竖排 + 居中 + 总宽度一致）
+========================= */
+.certificate-stack {
+  max-width: 1100px;    /* ⬅ 与页面主体一致 */
+  margin: 24px auto 0;
   display: flex;
-  flex-direction: column;   /* ⬅ 关键：竖排 */
-  gap: 16px;                /* ⬅ 间距明显缩小 */
-  margin-top: 20px;
-  align-items: center;
+  flex-direction: column;
+  gap: 18px;
 }
 
-.certificate-list .card {
+.certificate-stack .card {
   width: 100%;
-  max-width: 560px;         /* ⬅ 限制宽度，不再撑满 */
 }
 
-/* ---------- CTA（紧凑 + 亮色按钮） ---------- */
+/* ---------- CTA ---------- */
 .cta {
   text-align: center;
-  padding: 44px 20px 52px;  /* ⬅ 明显缩短 */
-  background: #FFF7E8;
 }
 
 .cta h2 {
   font-size: 1.9rem;
-  font-weight: 600;
   margin-bottom: 12px;
-  color: #2C9C47;
 }
 
 .cta p {
-  font-size: 1rem;
-  opacity: 0.85;
   margin-bottom: 20px;
 }
 
-/* 主按钮（提交志愿意向） */
 .cta .btn {
   display: inline-block;
   padding: 13px 30px;
@@ -182,11 +160,7 @@ section p {
   font-weight: 600;
   text-decoration: none;
   color: #2C9C47;
-  background: linear-gradient(
-    90deg,
-    #FFE8B8 0%,
-    #FFF4DC 100%
-  );
+  background: linear-gradient(90deg, #FFE8B8, #FFF4DC);
   border: 2px solid #2C9C47;
   transition: all 0.2s ease;
 }
@@ -196,32 +170,16 @@ section p {
   box-shadow: 0 6px 18px rgba(0,0,0,0.15);
 }
 
-/* 次按钮 */
-.cta .btn-outline {
-  background: transparent;
-  margin-left: 10px;
-}
-
 /* ---------- Mobile ---------- */
 @media (max-width: 768px) {
-  section {
-    margin: 22px auto;
-    padding: 30px 18px;
-  }
-
-  .hero {
-    margin-top: 36px;
-  }
-
   .cards {
     grid-template-columns: 1fr;
   }
 
-  .certificate-list .card {
-    max-width: 100%;
+  .certificate-stack {
+    padding: 0 10px;
   }
 }
-
 
   </style>
 </head>
@@ -420,7 +378,13 @@ section p {
 <!-- ======================
      About
 ====================== -->
-<section>
+
+<section class="zone zone-a">
+  <div class="zone-inner">
+
+    <div class="who-we-are">
+      <h2>Who We Are</h2>
+   
   <h2 data-en="Who We Are"
       data-zh="我们是谁">
     Who We Are
@@ -435,12 +399,18 @@ section p {
      data-zh="我们的志愿者项目主要由富有热情的高中生发起与组织，培养领导力、责任感和真实的社会影响力。">
     Our volunteer programs are primarily led and organized by motivated High School students.
   </p>
+
+     </div>
+
+  </div>
+
 </section>
 
 <!-- ======================
      What Volunteers Do
 ====================== -->
-<section>
+<section class="zone zone-b">
+  <div class="zone-inner">
   <h2 data-en="What Our Volunteers Do"
       data-zh="志愿者在做什么">
     What Our Volunteers Do
@@ -480,12 +450,14 @@ section p {
       </p>
     </div>
   </div>
+  </div>
 </section>
 
 <!-- ======================
      Certificates
 ====================== -->
-<section>
+<section class="zone zone-c">
+<div class="zone-inner">
   <h2 data-en="Certificates & Recognition"
       data-zh="证书与荣誉">
     Certificates & Recognition
@@ -541,7 +513,7 @@ section p {
      data-zh="这些证书与荣誉对大学申请、奖学金申请及学术背景提升具有重要价值。">
     These recognitions are highly valuable for college applications and scholarships.
   </p>
-</section>
+
 
 <section>
   <h2
@@ -618,14 +590,17 @@ section p {
       This recognition reflects responsibility and sustained impact.
     </p>
   </div>
-
+ </div>
 </div>
-
+</section>
 
 <!-- ======================
      CTA
 ====================== -->
-<section class="cta">
+
+<section class="zone zone-d">
+  <div class="zone-inner">
+
   <h2 data-en="Get Involved"
       data-zh="加入我们">
     Get Involved
@@ -647,6 +622,7 @@ section p {
      data-zh="成员登录">
     Member Login
   </a>
+</div>
 </section>
 
 <!-- ======================
