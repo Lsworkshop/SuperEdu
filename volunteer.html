@@ -256,6 +256,74 @@ section.certificates .cards {
   }
 }
 
+/* ---------- Certificates System Section ---------- */
+section.certificates {
+  padding: 50px 24px; /* 缩小间距 */
+}
+
+section.certificates h2 {
+  font-size: 2rem;
+  margin-bottom: 24px;
+  color: #2C9C47;
+}
+
+section.certificates .cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* 居中对齐 */
+  gap: 20px; /* 卡片间距自然 */
+  margin-top: 24px;
+}
+
+/* 第一个和最后一个卡片直接落地显示 */
+section.certificates .cards .card:first-child,
+section.certificates .cards .card:last-child {
+  background: transparent; /* 去掉背景渐变 */
+  box-shadow: none;        /* 去掉阴影 */
+  border-radius: 0;        /* 去掉圆角 */
+  padding: 0;              /* 移除内边距 */
+  max-width: 100%;         /* 填充可用宽度 */
+}
+
+section.certificates .cards .card:first-child h3,
+section.certificates .cards .card:last-child h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #2C9C47;
+  margin-bottom: 6px;
+}
+
+section.certificates .cards .card:first-child p,
+section.certificates .cards .card:last-child p {
+  font-size: 1rem;
+  line-height: 1.7;
+  opacity: 0.85;
+  margin-bottom: 12px;
+}
+
+/* 中间卡片保持卡片风格 */
+section.certificates .cards .card:nth-child(2) {
+  background: linear-gradient(180deg, #FFFDF8 0%, #FAF5E9 100%);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow:
+    0 10px 24px rgba(9, 30, 66, 0.06),
+    0 4px 10px rgba(9, 30, 66, 0.04);
+  max-width: 300px;
+}
+
+/* ---------- Responsive ---------- */
+@media screen and (max-width: 768px) {
+  section.certificates .cards {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  section.certificates .cards .card:nth-child(2) {
+    max-width: 100%;
+  }
+}
+
 
   </style>
 </head>
