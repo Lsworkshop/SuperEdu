@@ -108,6 +108,139 @@ section::before {
   margin-bottom: 36px;
 }
 
+
+/* =========================
+   Volunteer Page – Brand Alignment
+   ========================= */
+
+/* Page background consistency */
+body {
+  background: radial-gradient(
+      1200px 600px at 50% -200px,
+      rgba(255,255,255,0.06),
+      transparent 60%
+    ),
+    #0b0f19;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  padding: 180px 20px 120px;
+  text-align: center;
+  max-width: 960px;
+  margin: auto;
+}
+
+.hero h1 {
+  font-size: clamp(2.6rem, 4.5vw, 3.4rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.hero p {
+  font-size: 1.15rem;
+  max-width: 720px;
+  margin: 0 auto;
+  opacity: 0.78;
+}
+
+/* ---------- Section ---------- */
+section {
+  max-width: 1100px;
+  margin: 0 auto 40px;
+  padding: 90px 24px;
+  position: relative;
+}
+
+section h2 {
+  font-size: 2.1rem;
+  margin-bottom: 28px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+section p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  opacity: 0.82;
+}
+
+/* subtle background layer (like homepage) */
+section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.035),
+    rgba(255,255,255,0)
+  );
+  pointer-events: none;
+}
+
+/* ---------- Cards ---------- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px;
+  margin-top: 40px;
+}
+
+.card {
+  background: rgba(255,255,255,0.07);
+  border-radius: 22px;
+  padding: 36px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 48px rgba(0,0,0,0.35);
+}
+
+.card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.card p {
+  font-size: 0.98rem;
+  opacity: 0.78;
+}
+
+/* ---------- Certificate sections spacing ---------- */
+section + .cards {
+  max-width: 1100px;
+  margin: -20px auto 40px;
+  padding: 0 24px;
+}
+
+/* ---------- CTA ---------- */
+.cta {
+  text-align: center;
+  padding: 140px 20px 160px;
+}
+
+.cta h2 {
+  font-size: 2.4rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.cta p {
+  font-size: 1.1rem;
+  opacity: 0.8;
+  margin-bottom: 40px;
+}
+
+.cta .btn {
+  margin: 10px 14px;
+}
+
   </style>
 </head>
 
