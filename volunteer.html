@@ -3,6 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <title>Volunteer | Edunova Foundation</title>
+
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+<link rel="icon" href="/assets/icons/favicon.ico">
+
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Main styles (reuse homepage style) -->
@@ -140,6 +147,45 @@ section + .cards {
 
 .cta .btn {
   margin: 10px 14px;
+}
+
+/* =========================
+   FIX: Dark block on top
+   ========================= */
+
+/* Hero must stay clean */
+.hero {
+  position: relative;
+  background: transparent;
+  z-index: 1;
+}
+
+/* Do NOT apply glass overlay to first section */
+section:first-of-type::before {
+  display: none;
+}
+
+/* Reduce overlay strength for sections */
+section::before {
+  inset: 12px;                 /* ⬅ 不再整块铺满 */
+  border-radius: 28px;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.025),
+    rgba(255,255,255,0)
+  );
+}
+
+/* Add visual separation between hero and first section */
+.hero + section {
+  margin-top: 40px;
+}
+
+/* Slightly lift first section text for contrast */
+.hero + section h2,
+.hero + section p {
+  position: relative;
+  z-index: 1;
 }
 
   </style>
