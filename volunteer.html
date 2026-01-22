@@ -18,16 +18,13 @@
   <style>
       
 /* =========================
-   Volunteer Page – Brand Alignment
-   ========================= */
-/* =========================
-   Volunteer Page CSS – 生产版
+   Volunteer Page CSS – 完整优化版
 ========================= */
 
 /* ---------- Body & Background ---------- */
 body {
   font-family: Inter, Arial, sans-serif;
-  background: #f9f4e8; /* 浅米色背景，与主页统一 */
+  background: #f9f4e8; /* 浅米色背景 */
   color: #333;
   line-height: 1.75;
   margin: 0;
@@ -36,13 +33,18 @@ body {
 
 /* ---------- Hero ---------- */
 .hero {
-  padding: 120px 20px 80px; /* 上下间距缩小 */
+  padding: 120px 20px 80px;
   text-align: center;
   max-width: 960px;
-  margin: 0 auto;
-  background: #f9f4e8; /* 覆盖 body 深色 */
+  margin: 0 auto 40px;
   position: relative;
   z-index: 1;
+
+  /* hero 背景优化 */
+  background: linear-gradient(135deg, #fffaf3, #f9f4e8);
+  border-radius: 20px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+  padding: 140px 20px 100px;
 }
 
 .hero h1 {
@@ -50,10 +52,11 @@ body {
   font-weight: 600;
   letter-spacing: -0.02em;
   margin-bottom: 24px;
+  color: #2C9C47;
 }
 
 .hero p {
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   max-width: 720px;
   margin: 0 auto;
   opacity: 0.85;
@@ -62,8 +65,8 @@ body {
 /* ---------- Section ---------- */
 section {
   max-width: 1100px;
-  margin: 0 auto 30px; /* 下间距缩小 */
-  padding: 60px 24px;  /* 上下间距缩小 */
+  margin: 0 auto 30px;
+  padding: 60px 24px;
   position: relative;
 }
 
@@ -80,7 +83,7 @@ section p {
   margin-bottom: 16px;
 }
 
-/* subtle overlay layer for sections (轻微渐变) */
+/* subtle overlay layer for sections */
 section::before {
   content: "";
   position: absolute;
@@ -110,10 +113,11 @@ section::before {
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 24px;
   margin-top: 32px;
+  justify-items: center; /* 横向居中 */
 }
 
 .card {
-  background: linear-gradient(180deg, #FFFDF8 0%, #FAF5E9 100%); /* 浅淡棕黄色渐变 */
+  background: linear-gradient(180deg, #FFFDF8 0%, #FAF5E9 100%);
   border-radius: 20px;
   padding: 32px;
   box-shadow:
@@ -121,6 +125,7 @@ section::before {
     0 4px 10px rgba(9, 30, 66, 0.04);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   backdrop-filter: blur(6px);
+  max-width: 320px; /* 限制卡片最大宽度 */
 }
 
 .card:hover {
@@ -132,7 +137,7 @@ section::before {
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 14px;
-  color: #2C9C47; /* 与主页呼应的主色 */
+  color: #2C9C47;
 }
 
 .card p {
@@ -141,10 +146,12 @@ section::before {
   margin-bottom: 10px;
 }
 
-/* ---------- Certificate Cards ---------- */
-section + .cards {
-  margin-top: 16px;
-  padding: 0 12px;
+/* ---------- Certificate Cards 限宽优化 ---------- */
+section.certificates .cards {
+  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 32px;
 }
 
 /* ---------- CTA ---------- */
@@ -160,13 +167,41 @@ section + .cards {
 }
 
 .cta p {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   opacity: 0.85;
   margin-bottom: 36px;
 }
 
+/* ---------- Express Interest 按钮 ---------- */
 .cta .btn {
-  margin: 10px 12px;
+  margin: 12px 14px;
+  padding: 14px 28px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #FFD58B, #F5C97B);
+  color: #2C9C47;
+  border: none;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.cta .btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.28);
+  background: linear-gradient(135deg, #F5C97B, #FFD58B);
+}
+
+/* Outline button for Member Login */
+.cta .btn.btn-outline {
+  background: transparent;
+  color: #2C9C47;
+  border: 2px solid #2C9C47;
+}
+
+.cta .btn.btn-outline:hover {
+  background: #2C9C47;
+  color: #fff;
 }
 
 /* ---------- Responsive tweaks ---------- */
@@ -185,12 +220,19 @@ section + .cards {
 
   .card {
     padding: 28px;
+    max-width: 100%;
   }
 
   .cta {
     padding: 60px 16px 80px;
   }
+
+  .cta .btn {
+    width: 90%;
+    margin: 12px auto;
+  }
 }
+
 
   </style>
 </head>
