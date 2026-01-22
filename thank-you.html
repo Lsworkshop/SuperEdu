@@ -500,13 +500,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-if (localStorage.getItem('selectedServices')) {
-  renderSelectedServices();
+window.addEventListener('beforeunload', () => {
+  localStorage.removeItem('selectedServices');
+});
 
-  setTimeout(() => {
-    localStorage.removeItem('selectedServices');
-  }, 3000);
-}
 
 </script>
 
