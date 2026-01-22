@@ -54,12 +54,13 @@ body {
   opacity: 0.85;
 }
 
-/* ---------- Section ---------- */
+/* ---------- Section 基础 ---------- */
 section {
   max-width: 1100px;
   margin: 40px auto;
   padding: 50px 24px;
   position: relative;
+  border-radius: 12px;
 }
 
 section h2 {
@@ -79,7 +80,7 @@ section p {
 section:not(:first-of-type)::before {
   content: "";
   position: absolute;
-  inset: 12px;
+  inset: 0;
   border-radius: 28px;
   background: linear-gradient(
     180deg,
@@ -87,6 +88,14 @@ section:not(:first-of-type)::before {
     rgba(255,255,255,0)
   );
   pointer-events: none;
+}
+
+/* ---------- Who We Are 卡片 ---------- */
+section.who-we-are {
+  background: #FFF9F0;
+  border-radius: 16px;
+  padding: 32px 24px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
 }
 
 /* ---------- Cards ---------- */
@@ -129,6 +138,7 @@ section:not(:first-of-type)::before {
 
 /* ---------- Certificate System Section ---------- */
 section.certificates {
+  background: #FDF6E3; /* 浅黄色背景区分 */
   padding: 40px 24px;
 }
 
@@ -141,16 +151,17 @@ section.certificates .cards {
   margin-top: 24px;
 }
 
-/* 每个卡片最大宽度统一，避免撑满屏幕 */
+/* 每个证书卡片最大宽度统一，避免撑满屏幕 */
 section.certificates .cards .card {
-  max-width: 300px;
+  max-width: 280px;
+  flex: 1 1 280px;
 }
 
 /* ---------- CTA 区域（文字落地显示 + 按钮醒目） ---------- */
 .cta {
   text-align: center;
   padding: 60px 20px 80px;
-  background: transparent; /* 去掉卡片背景 */
+  background: #FFF7E8; /* 浅背景区分 */
 }
 
 .cta h2 {
@@ -217,7 +228,6 @@ section.certificates .cards .card {
     max-width: 100%;
   }
 }
-
 
   </style>
 </head>
