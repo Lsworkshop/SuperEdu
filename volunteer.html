@@ -29,26 +29,44 @@ body {
 }
 
 /* ---------- Hero（不算功能区） ---------- */
+/* =========================
+   HERO — Final Polished
+   ========================= */
+
 .hero {
-  max-width: 900px;
-  margin: 48px auto 32px;
-  padding: 0 20px;
+  position: relative;
+  padding: 120px 20px 80px;   /* ⬅ 明显缩小高度 */
+  max-width: 920px;
+  margin: 0 auto 40px;
   text-align: center;
 }
 
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -40px -60px;
+  background:
+    radial-gradient(
+      600px 260px at 50% 0%,
+      rgba(212, 175, 120, 0.18),
+      transparent 65%
+    );
+  z-index: -1;
+}
+
 .hero h1 {
-  font-size: clamp(1.9rem, 3vw, 2.3rem);
+  font-size: clamp(2rem, 3.2vw, 2.6rem);  /* ⬅ 不再夸张 */
   font-weight: 600;
-  margin-bottom: 12px;
-  color: #2C9C47;
+  letter-spacing: -0.015em;
+  margin-bottom: 18px;
 }
 
 .hero p {
-  font-size: 1rem;
-  max-width: 680px;
+  font-size: 1.05rem;
+  max-width: 620px;
   margin: 0 auto;
-  line-height: 1.55;
-  opacity: 0.85;
+  opacity: 0.82;
+  line-height: 1.7;
 }
 
 /* =========================
@@ -66,7 +84,7 @@ body {
 
 /* 四个功能区底色 */
 .zone-a { background: #FFFDF8; }
-.zone-b { background: #FFF7E8; }
+.zone-b { background: #FAF7E8; }
 .zone-c { background: #FCF6E3; }
 .zone-d { background: #FFF9F0; }
 
@@ -139,35 +157,62 @@ body {
 }
 
 /* ---------- CTA ---------- */
+/* =========================
+   CTA — Final Call To Action
+   ========================= */
+
 .cta {
   text-align: center;
+  padding: 72px 20px 90px;   /* ⬅ 明显收紧 */
+  margin-top: 40px;
 }
 
 .cta h2 {
-  font-size: 1.9rem;
-  margin-bottom: 12px;
+  font-size: 2.1rem;
+  font-weight: 600;
+  margin-bottom: 14px;
 }
 
 .cta p {
-  margin-bottom: 20px;
+  font-size: 1.05rem;
+  opacity: 0.82;
+  margin-bottom: 36px;
 }
 
-.cta .btn {
+/* CTA button group */
+.cta .btn,
+.cta .btn-outline {
   display: inline-block;
-  padding: 13px 30px;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 600;
-  text-decoration: none;
-  color: #2C9C47;
-  background: linear-gradient(90deg, #FFE8B8, #FFF4DC);
-  border: 2px solid #2C9C47;
-  transition: all 0.2s ease;
+  padding: 14px 32px;
+  margin: 10px 14px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 999px;
+  transition: all 0.25s ease;
+}
+.cta .btn {
+  background: linear-gradient(
+    135deg,
+    #f3e2c7,
+    #e6c89a
+  );
+  color: #2b2b2b;
+  box-shadow: 0 8px 22px rgba(230, 200, 154, 0.35);
 }
 
 .cta .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  box-shadow: 0 14px 34px rgba(230, 200, 154, 0.55);
+}
+.cta .btn-outline {
+  background: transparent;
+  border: 1px solid rgba(230, 200, 154, 0.5);
+  color: rgba(255,255,255,0.85);
+}
+
+.cta .btn-outline:hover {
+  background: rgba(230, 200, 154, 0.12);
+  border-color: rgba(230, 200, 154, 0.8);
 }
 
 /* ---------- Mobile ---------- */
