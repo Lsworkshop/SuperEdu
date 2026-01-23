@@ -43,7 +43,7 @@ body {
 =============================== */
 
 .zone {
-  padding: 56px 0;               /* 明显缩短上下距离 */
+  padding: 44px 0;               /* 明显缩短上下距离 */
 }
 
 .zone-inner {
@@ -60,7 +60,7 @@ body {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
   align-items: center;
-  gap: 3rem;
+  gap: 4rem;
 
   max-width: 1200px;
   margin: 0 auto;
@@ -188,14 +188,19 @@ body {
   color: #444;
 }
 
+.certificate-zone + .zone .cta {
+  margin-top: 1.2rem;
+}
+
+
 /* ======================
    CTA（居中 + 按钮优化）
 ====================== */
 
 .cta {
   max-width: 1100px;       /* ⭐ 解决“跑到最左边” */
-  margin: 4rem auto 0;
-  padding: 4rem 1.5rem;
+  margin: 1.6rem auto 0;
+  padding: 2rem 1.5rem;
   text-align: center;
 
   background: linear-gradient(
