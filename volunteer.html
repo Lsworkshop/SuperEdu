@@ -310,20 +310,22 @@ body {
   
 }
 
-/* ======================
-   Global Section Spacing
-====================== */
+/* ✅ 只让 zone 控制间距，不让普通 section 乱加 padding */
+section { padding: 0; margin: 0; }
 
-section {
-  padding-block: 3.5rem; /* 原来通常是 5~6rem */
+/* ✅ zone 才是功能区间距来源（你想更紧就继续减小） */
+.zone { padding: 22px 0; }
+
+/* ✅ CTA 作为最后一个区块，往上“明显靠近”上一块 */
+.cta {
+  margin: 0.8rem auto 0 !important; /* 关键：强制 */
+  padding: 1.8rem 1.5rem !important;
 }
 
-@media (max-width: 768px) {
-  section {
-    padding-block: 2.5rem;
-  }
-}
+/* ✅ 让 CTA 所在区块本身也更紧（如果你愿意把CTA包进zone） */
 
+.cta-zone { padding-top: 10px !important; padding-bottom: 22px !important; }
+.cta { margin: 0 auto !important; }
 
   </style>
 </head>
@@ -605,174 +607,146 @@ section {
      Certificates
 ====================== -->
 <section class="zone zone-c">
-<div class="zone-inner">
-  <h2 data-en="Certificates & Recognition"
-      data-zh="证书与荣誉">
-    Certificates & Recognition
-  </h2>
+  <div class="zone-inner">
+    <h2 data-en="Certificates & Recognition" data-zh="证书与荣誉">
+      Certificates & Recognition
+    </h2>
 
-  <p data-en="Based on verified volunteer service hours, Edunova Foundation awards official certificates recognizing volunteer contributions."
-     data-zh="根据经认证的志愿服务时长，Edunova Foundation 将颁发官方志愿者证书。">
-    Based on verified volunteer service hours, Edunova Foundation awards official certificates.
-  </p>
+    <p data-en="Based on verified volunteer service hours, Edunova Foundation awards official certificates recognizing volunteer contributions."
+       data-zh="根据经认证的志愿服务时长，Edunova Foundation 将颁发官方志愿者证书。">
+      Based on verified volunteer service hours, Edunova Foundation awards official certificates.
+    </p>
 
- <div class="cards">
-  <div class="card">
-    <h3
-      data-en="Volunteer Certificate"
-      data-zh="志愿者服务证书">
-      Volunteer Certificate
-    </h3>
-    <p
-      data-en="Official recognition of verified service hours."
-      data-zh="对经认证的志愿服务时长给予的官方认可。">
-      Official recognition of verified service hours.
+    <div class="cards">
+      <div class="card">
+        <h3 data-en="Volunteer Certificate" data-zh="志愿者服务证书">Volunteer Certificate</h3>
+        <p data-en="Official recognition of verified service hours."
+           data-zh="对经认证的志愿服务时长给予的官方认可。">
+          Official recognition of verified service hours.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 data-en="Outstanding Volunteer Award" data-zh="杰出志愿者奖">Outstanding Volunteer Award</h3>
+        <p data-en="Granted to volunteers with exceptional contribution."
+           data-zh="授予在志愿服务中表现突出的志愿者。">
+          Granted to volunteers with exceptional contribution.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 data-en="Award Plus" data-zh="Award Plus（高级志愿者认证）">Award Plus</h3>
+        <p data-en="Extended leadership and long-term impact recognition."
+           data-zh="用于表彰长期投入并展现领导力的高级志愿服务贡献。">
+          Extended leadership and long-term impact recognition.
+        </p>
+      </div>
+    </div>
+
+    <p data-en="These recognitions are highly valuable for college applications, scholarships, and academic portfolios."
+       data-zh="这些证书与荣誉对大学申请、奖学金申请及学术背景提升具有重要价值。">
+      These recognitions are highly valuable for college applications and scholarships.
     </p>
   </div>
-
-  <div class="card">
-    <h3
-      data-en="Outstanding Volunteer Award"
-      data-zh="杰出志愿者奖">
-      Outstanding Volunteer Award
-    </h3>
-    <p
-      data-en="Granted to volunteers with exceptional contribution."
-      data-zh="授予在志愿服务中表现突出的志愿者。">
-      Granted to volunteers with exceptional contribution.
-    </p>
-  </div>
-
-  <div class="card">
-    <h3
-      data-en="Award Plus"
-      data-zh="Award Plus（高级志愿者认证）">
-      Award Plus
-    </h3>
-    <p
-      data-en="Extended leadership and long-term impact recognition."
-      data-zh="用于表彰长期投入并展现领导力的高级志愿服务贡献。">
-      Extended leadership and long-term impact recognition.
-    </p>
-  </div>
-</div>
-
-  <p data-en="These recognitions are highly valuable for college applications, scholarships, and academic portfolios."
-     data-zh="这些证书与荣誉对大学申请、奖学金申请及学术背景提升具有重要价值。">
-    These recognitions are highly valuable for college applications and scholarships.
-  </p>
-
-
-<section class="zone zone-d">
-<div class="zone-inner">
-
-<section>
-  <h2
-    data-en="Certificate System Overview"
-    data-zh="志愿者证书体系说明">
-    Certificate System Overview
-  </h2>
-
-  <p
-    data-en="Edunova Foundation issues volunteer certificates based on verified service hours, level of responsibility, and demonstrated impact."
-    data-zh="Edunova Foundation 的志愿者证书基于经核实的服务时长、承担的责任层级以及实际产生的社会影响进行授予。">
-    Edunova Foundation issues volunteer certificates based on verified service hours, level of responsibility, and demonstrated impact.
-  </p>
-
-  <p
-    data-en="All recognitions emphasize authenticity, long-term engagement, and educational value rather than short-term participation."
-    data-zh="所有证书与荣誉均强调真实性、持续参与以及教育价值，而非短期或形式化参与。">
-    All recognitions emphasize authenticity, long-term engagement, and educational value rather than short-term participation.
-  </p>
 </section>
 
-<div class="cards">
+<!-- ======================
+     Certificate System Overview
+====================== -->
+<section class="zone zone-d certificate-zone">
+  <div class="zone-inner">
 
-  <div class="card">
-    <h3
-      data-en="Volunteer Certificate"
-      data-zh="志愿者服务证书">
-      Volunteer Certificate
-    </h3>
-    <p
-      data-en="Issued to volunteers who have completed verified service hours and fulfilled assigned responsibilities."
-      data-zh="颁发给完成规定志愿服务时长，并履行相应职责的志愿者。">
-      Issued to volunteers who have completed verified service hours.
-    </p>
-    <p
-      data-en="This certificate documents consistent participation in educational or community-focused initiatives."
-      data-zh="该证书用于记录志愿者在教育或社区相关项目中的持续参与。">
-      This certificate documents consistent participation.
-    </p>
-  </div>
+    <h2 data-en="Certificate System Overview" data-zh="志愿者证书体系说明">
+      Certificate System Overview
+    </h2>
 
-  <div class="card">
-    <h3
-      data-en="Outstanding Volunteer Award"
-      data-zh="杰出志愿者奖">
-      Outstanding Volunteer Award
-    </h3>
-    <p
-      data-en="Awarded to volunteers who demonstrate exceptional dedication, initiative, or impact beyond standard expectations."
-      data-zh="授予在志愿服务中展现出超出常规投入、主动性或显著影响力的志愿者。">
-      Awarded to volunteers with exceptional dedication.
+    <p data-en="Edunova Foundation issues volunteer certificates based on verified service hours, level of responsibility, and demonstrated impact."
+       data-zh="Edunova Foundation 的志愿者证书基于经核实的服务时长、承担的责任层级以及实际产生的社会影响进行授予。">
+      Edunova Foundation issues volunteer certificates based on verified service hours, level of responsibility, and demonstrated impact.
     </p>
-    <p
-      data-en="Selection is based on qualitative evaluation, not solely on service hours."
-      data-zh="评选标准基于综合表现评估，而非仅以服务时长为依据。">
-      Selection is based on qualitative evaluation.
-    </p>
-  </div>
 
-  <div class="card">
-    <h3
-      data-en="Award Plus"
-      data-zh="Award Plus（高级志愿者认证）">
-      Award Plus
-    </h3>
-    <p
-      data-en="Award Plus recognizes long-term commitment and leadership roles such as program coordination, mentoring, or project leadership."
-      data-zh="Award Plus 用于表彰长期参与，并在项目协调、指导或组织管理中承担领导角色的志愿者。">
-      Award Plus recognizes long-term commitment and leadership.
+    <p data-en="All recognitions emphasize authenticity, long-term engagement, and educational value rather than short-term participation."
+       data-zh="所有证书与荣誉均强调真实性、持续参与以及教育价值，而非短期或形式化参与。">
+      All recognitions emphasize authenticity, long-term engagement, and educational value rather than short-term participation.
     </p>
-    <p
-      data-en="This recognition reflects both responsibility and sustained impact within the organization."
-      data-zh="该认证体现志愿者在组织中的责任深度与持续影响力。">
-      This recognition reflects responsibility and sustained impact.
-    </p>
+
+    <div class="cards">
+      <div class="card">
+        <h3 data-en="Volunteer Certificate" data-zh="志愿者服务证书">Volunteer Certificate</h3>
+        <p data-en="Issued to volunteers who have completed verified service hours and fulfilled assigned responsibilities."
+           data-zh="颁发给完成规定志愿服务时长，并履行相应职责的志愿者。">
+          Issued to volunteers who have completed verified service hours and fulfilled assigned responsibilities.
+        </p>
+        <p data-en="This certificate documents consistent participation in educational or community-focused initiatives."
+           data-zh="该证书用于记录志愿者在教育或社区相关项目中的持续参与。">
+          This certificate documents consistent participation in educational or community-focused initiatives.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 data-en="Outstanding Volunteer Award" data-zh="杰出志愿者奖">Outstanding Volunteer Award</h3>
+        <p data-en="Awarded to volunteers who demonstrate exceptional dedication, initiative, or impact beyond standard expectations."
+           data-zh="授予在志愿服务中展现出超出常规投入、主动性或显著影响力的志愿者。">
+          Awarded to volunteers who demonstrate exceptional dedication, initiative, or impact beyond standard expectations.
+        </p>
+        <p data-en="Selection is based on qualitative evaluation, not solely on service hours."
+           data-zh="评选标准基于综合表现评估，而非仅以服务时长为依据。">
+          Selection is based on qualitative evaluation, not solely on service hours.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 data-en="Award Plus" data-zh="Award Plus（高级志愿者认证）">Award Plus</h3>
+        <p data-en="Award Plus recognizes long-term commitment and leadership roles such as program coordination, mentoring, or project leadership."
+           data-zh="Award Plus 用于表彰长期参与，并在项目协调、指导或组织管理中承担领导角色的志愿者。">
+          Award Plus recognizes long-term commitment and leadership roles such as program coordination, mentoring, or project leadership.
+        </p>
+        <p data-en="This recognition reflects both responsibility and sustained impact within the organization."
+           data-zh="该认证体现志愿者在组织中的责任深度与持续影响力。">
+          This recognition reflects both responsibility and sustained impact within the organization.
+        </p>
+      </div>
+    </div>
+
   </div>
- </div>
-</div>
-</div>
 </section>
+
 
 <!-- ======================
      CTA
 ====================== -->
+<section class="zone zone-a cta-zone">
+  <div class="zone-inner">
 
-<section class="cta">
-  <h2 data-en="Get Involved" data-zh="加入我们">Get Involved</h2>
+    <div class="cta">
+      <h2 data-en="Get Involved" data-zh="加入我们">Get Involved</h2>
 
-  <p data-en="Interested in volunteering with Edunova Foundation?"
-     data-zh="想成为 Edunova 志愿者吗？">
-    Interested in volunteering with Edunova Foundation?
-  </p>
+      <p data-en="Interested in volunteering with Edunova Foundation?"
+         data-zh="想成为 Edunova 志愿者吗？">
+        Interested in volunteering with Edunova Foundation?
+      </p>
 
-  <div class="cta-actions">
-    <a href="/apply.html" class="btn btn-primary"
-       data-en="Express Interest"
-       data-zh="提交志愿意向">
-      Express Interest
-    </a>
+      <div class="cta-actions">
+        <a href="/apply.html" class="btn btn-primary"
+           data-en="Express Interest"
+           data-zh="提交志愿意向">
+          Express Interest
+        </a>
 
-    <a href="/login.html" class="btn btn-secondary"
-       data-en="Member Login"
-       data-zh="成员登录">
-      Member Login
-    </a>
+        <a href="/login.html" class="btn btn-secondary"
+           data-en="Member Login"
+           data-zh="成员登录">
+          Member Login
+        </a>
+      </div>
+    </div>
+
   </div>
 </section>
 
+
+</div>
+</section>
 
 <!-- ======================
      Scripts
