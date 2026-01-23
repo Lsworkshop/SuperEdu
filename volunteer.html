@@ -17,8 +17,7 @@
 
   <style>
  /* =========================
-   Volunteer Page – FINAL PRODUCTION
-   (优化 Certificate System + CTA 按钮)
+   Volunteer Page – FINAL PRODUCTION – OPTIMIZED
 ========================= */
 
 body {
@@ -31,6 +30,7 @@ body {
 /* =========================
    HERO
 ========================= */
+
 .hero-split {
   display: grid;
   grid-template-columns: 1.05fr 1fr;
@@ -71,8 +71,9 @@ body {
 /* =========================
    ZONES
 ========================= */
+
 .zone {
-  padding: 36px 20px;
+  padding: 40px 0; /* ⬅ 压缩上下距离 */
 }
 
 .zone-inner {
@@ -90,6 +91,7 @@ body {
 /* =========================
    TITLES & TEXT
 ========================= */
+
 .zone h2 {
   font-size: 1.75rem;
   margin-bottom: 14px;
@@ -107,16 +109,19 @@ body {
 /* =========================
    WHO WE ARE
 ========================= */
+
 .who-we-are {
   background: linear-gradient(180deg, #FFFDF8, #F3EBD7);
   padding: 26px 24px;
   border-radius: 16px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
 }
 
 /* =========================
    GENERAL CARDS
 ========================= */
+
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -146,46 +151,47 @@ body {
 }
 
 /* =========================
-   CERTIFICATE SYSTEM OVERVIEW
+   CERTIFICATE SYSTEM – FIXED MOBILE WIDTH
 ========================= */
-.certificate-zone {
-  padding: 36px 0; /* 上下统一 */
-}
 
 .certificate-zone .zone-inner {
-  max-width: 100%;      /* 占满屏幕宽度 */
-  padding: 0 12px;      /* 手机左右留白 */
+  max-width: 100%;      /* ⬅ 占满屏幕宽度 */
+  padding: 0;
 }
 
 .certificate-stack {
-  width: 100%;
+  max-width: 900px;     /* ⬅ 桌面端收敛 */
+  margin: 22px auto 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin: 0 auto;
+  gap: 18px;
+  width: 100%;
 }
 
 .certificate-stack .card {
   width: 100%;
 }
 
-/* Mobile – certificate cards */
+/* Mobile – certificate cards full width */
 @media (max-width: 640px) {
+  .certificate-zone .zone-inner {
+    padding: 0 12px;     /* ⬅ 仅保留小间距 */
+  }
+
   .certificate-stack {
     max-width: 100%;
-    padding: 0 12px;  /* 手机端左右留白 */
-    gap: 14px;
+    gap: 16px;
   }
-  
+
   .certificate-stack .card {
-    width: 100%;
-    padding: 20px;
+    padding: 20px 18px;
   }
 }
 
 /* =========================
    CTA
 ========================= */
+
 .cta {
   text-align: center;
   padding: 56px 20px 72px;
@@ -209,69 +215,59 @@ body {
   flex-wrap: wrap;
 }
 
-/* Primary Button – 主页风格 */
+/* Primary Button – homepage style */
 .btn-primary {
-  background: linear-gradient(135deg, #f4e6cf, #e6c89a);
+  background: linear-gradient(135deg, #f7eedc, #edd6ad);
   color: #2b2b2b;
-  padding: 14px 36px;
+  padding: 13px 34px;
   border-radius: 999px;
   font-weight: 500;
   letter-spacing: 0.02em;
   transition: all 0.25s ease;
-  box-shadow: 0 6px 20px rgba(230,200,154,0.35);
+  box-shadow: 0 6px 18px rgba(237,214,173,0.35);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(230,200,154,0.55);
+  box-shadow: 0 12px 32px rgba(237,214,173,0.55);
 }
 
-/* Secondary Button – 主页风格 */
+/* Secondary Button – Blue Gradient */
 .btn-secondary {
-  background: linear-gradient(135deg, #f7eedc, #edd6ad);
-  color: #2b2b2b;
-  padding: 14px 36px;
+  background: linear-gradient(135deg, #5a9def, #3b6fd1);
+  color: #fff;
+  padding: 13px 34px;
   border-radius: 999px;
   font-weight: 500;
-  letter-spacing: 0.02em;
   transition: all 0.25s ease;
-  box-shadow: 0 6px 20px rgba(237,214,173,0.35);
+  box-shadow: 0 6px 18px rgba(59,111,209,0.35);
 }
 
 .btn-secondary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(237,214,173,0.55);
+  box-shadow: 0 12px 32px rgba(59,111,209,0.55);
 }
 
 /* =========================
-   MOBILE FIXES
+   Mobile Adjustments
 ========================= */
-@media (max-width: 860px) {
-  .hero-split {
-    grid-template-columns: 1fr;
-    gap: 26px;
-    text-align: center;
-  }
-}
 
 @media (max-width: 768px) {
   .cards {
     grid-template-columns: 1fr;
   }
-}
 
-@media (max-width: 640px) {
-  .certificate-stack {
-    padding: 0 12px;
-    gap: 12px;
+  .hero-split {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    text-align: center;
   }
 
-  .certificate-stack .card {
-    width: 100%;
-    padding: 18px 16px;
+  .cta-actions {
+    flex-direction: column;
+    gap: 14px;
   }
 }
-
 
   </style>
 </head>
