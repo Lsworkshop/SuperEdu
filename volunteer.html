@@ -18,18 +18,20 @@
   <style>
 
 /* ===============================
-   全局基础设置
-=============================== */
+   Volunteer Page – FINAL (Production)
+   Notes:
+   1) 所有“功能区上下距离”只由 .zone 控制
+   2) 禁止再写全局 section padding-block，否则会把 zone 的间距覆盖掉
+================================ */
 
+/* ---------- Base ---------- */
 * {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
@@ -38,12 +40,15 @@ body {
   color: #2B2B2B;
   line-height: 1.6;
 }
-/* ===============================
-   Zone 通用结构（四大功能区）
-=============================== */
 
+/* ✅ 关键：不要再给 section 全局 padding（会导致“间距怎么改都不变”） */
+section { padding: 0; margin: 0; }
+
+/* ===============================
+   ZONES (四大功能区)
+================================ */
 .zone {
-  padding: 28px 0;               /* 明显缩短上下距离 */
+  padding: 28px 0;             /* ✅ 全局控制上下距离（你要更短就改这里） */
 }
 
 .zone-inner {
@@ -52,10 +57,15 @@ body {
   padding: 0 20px;
 }
 
-/* ======================
-   HERO（修正尺寸 + 更自然）
-====================== */
+/* Zone 背景色（浅、淡、有层次） */
+.zone-a { background: #FFFFFF; }
+.zone-b { background: #F4EFE3; }  /* ✅ 方案 A 推荐 */
+.zone-c { background: #F2EAD3; }
+.zone-d { background: #FAF6EC; }  /* ✅ 方案 A 推荐 */
 
+/* ======================
+   HERO（不改图片大小，只调与菜单的距离）
+====================== */
 .hero.hero-split {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
@@ -64,20 +74,18 @@ body {
 
   max-width: 1200px;
   margin: 0 auto;
-  padding: 4rem 1.5rem;
 
-  /* 控制 Hero 不要过高 */
+  /* ✅ 只改“离菜单太近”的问题：增加顶部距离 */
+  padding: 5rem 1.5rem 3.2rem;
+
   min-height: 420px;
 }
 
-.hero-media {
-  width: 100%;
-  height: 100%;
-}
+.hero-media { width: 100%; height: 100%; }
 
 .hero-media img {
   width: 100%;
-  max-height: 380px;       /* ⭐ 关键：限制图片高度 */
+  max-height: 380px;     /* 你说别改图片大小：这保持不变 */
   object-fit: cover;
   border-radius: 18px;
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
@@ -85,7 +93,7 @@ body {
 
 .hero-content h1 {
   font-size: clamp(2rem, 3vw, 2.6rem);
-  margin-bottom: 1rem;
+  margin: 0 0 1rem 0;
 }
 
 .hero-content p {
@@ -93,6 +101,7 @@ body {
   line-height: 1.65;
   color: #555;
   max-width: 520px;
+  margin: 0;
 }
 
 /* Hero 手机端 */
@@ -100,70 +109,48 @@ body {
   .hero.hero-split {
     grid-template-columns: 1fr;
     text-align: center;
-    padding: 3rem 1.2rem;
+    padding: 4.2rem 1.2rem 2.2rem;
+    gap: 1.6rem;
   }
 
-  .hero-media img {
-    max-height: 240px;
-  }
+  .hero-media img { max-height: 240px; }
 
-  .hero-content p {
-    margin: 0 auto;
-  }
-}
-
-
-
-/* ===============================
-   About Zone（Who We Are）
-=============================== */
-
-.about-zone {
-  background: #FFFFFF;
-}
-
-.about-zone .card {
-  max-width: 900px;
-  margin: 0 auto;
+  .hero-content p { margin: 0 auto; }
 }
 
 /* ===============================
-   Certificate System Zone
-=============================== */
-
-.certificate-zone {
-  background: #F2EAD3;
+   Titles & Text
+================================ */
+.zone h2 {
+  font-size: 1.75rem;
+  margin: 0 0 14px 0;
+  font-weight: 600;
+  color: #256F3A;
 }
 
-.certificate-zone h2,
-.certificate-zone p {
-  text-align: center;
+.zone p {
+  font-size: 1rem;
+  line-height: 1.6;
+  opacity: 0.86;
+  margin: 0 0 10px 0;
 }
 
-.certificate-zone p {
-  max-width: 760px;
-  margin: 0 auto 24px;
-}
-
-/* 卡片容器：始终纵向排列，手机不变窄 */
+/* ===============================
+   Cards
+================================ */
 .cards {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
   width: 100%;
-  max-width: 100%;      /* 关键：防止手机端变窄 */
-  margin: 0 auto;
+  margin-top: 18px;
 }
-
-/* ===============================
-   卡片统一样式
-=============================== */
 
 .card {
   background: linear-gradient(180deg, #FFFDF8, #F2EAD3);
   border-radius: 18px;
-  padding: 26px;
-  transition: all 0.3s ease;
+  padding: 24px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
   box-shadow:
     0 8px 22px rgba(0,0,0,0.08),
     0 2px 6px rgba(0,0,0,0.04);
@@ -177,77 +164,95 @@ body {
 }
 
 .card h3 {
-  font-size: 1.15rem;
+  font-size: 1.12rem;
   font-weight: 600;
-  margin-bottom: 10px;
+  margin: 0 0 10px 0;
   color: #256F3A;
 }
 
 .card p {
   font-size: 0.95rem;
   color: #444;
+  margin: 0 0 10px 0;
 }
 
-.certificate-zone + .zone .cta {
-  margin-top: 0.75rem;
+/* ✅ “Who We Are 做成卡片”的专用样式（如果你后面包了 .who-we-are） */
+.who-we-are {
+  background: linear-gradient(180deg, #FFFDF8, #F3EBD7);
+  padding: 24px;
+  border-radius: 18px;
+  box-shadow:
+    0 8px 22px rgba(0,0,0,0.08),
+    0 2px 6px rgba(0,0,0,0.04);
 }
 
+/* ===============================
+   Certificate System Overview
+   ✅ 文字不要居中：只保留普通左对齐
+================================ */
+
+/* 如果你之前写过：.certificate-zone h2, p { text-align:center; }
+   ✅ 这里强制改回左对齐（避免遗留规则影响） */
+.zone-d h2,
+.zone-d p {
+  text-align: left;
+}
 
 /* ======================
-   CTA（居中 + 按钮优化）
+   CTA（建议放在 zone 里：.zone.cta-zone）
+   ✅ CTA 自己不额外撑大上下距离
 ====================== */
 
-.cta {
-  max-width: 1100px;       /* ⭐ 解决“跑到最左边” */
-  margin: 1.6rem auto 0;
-  padding: 2rem 1.5rem;
+/* 如果你把 CTA 包进了 zone：<section class="zone ... cta-zone"> */
+.cta-zone .cta {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0;            /* ✅ 防止 CTA 自己再撑高 */
   text-align: center;
+}
 
-  background: linear-gradient(
-    180deg,
-    #f8faff 0%,
-    #ffffff 100%
-  );
-  border-radius: 28px;
+/* 如果你 CTA 没包进 zone，也能正常显示 */
+.cta {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .cta h2 {
   font-size: 2rem;
-  margin-bottom: 0.75rem;
+  margin: 0 0 10px 0;
+  color: #1f2937;
 }
 
 .cta p {
   color: #555;
-  margin-bottom: 2.2rem;
+  margin: 0 0 18px 0;
 }
 
-/* CTA 按钮容器 */
+/* Buttons */
 .cta-actions {
   display: flex;
-  justify-content: center;   /* ⭐ 强制居中 */
-  gap: 1.2rem;
+  justify-content: center;
+  gap: 1rem;
   flex-wrap: wrap;
 }
 
-/* ======================
-   CTA 按钮（更像主页）
-====================== */
-
+/* 共用按钮基础 */
 .cta .btn {
-  padding: 0.7rem 1.6rem;    /* ⭐ 比之前小 */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.4rem;
   font-size: 0.95rem;
   border-radius: 999px;
   font-weight: 600;
-  transition: all 0.25s ease;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
 }
 
-/* 主按钮：亮蓝 → 亮紫 */
+/* ✅ 主按钮：亮蓝 → 亮紫（主页风格） */
 .cta .btn-primary {
-  background: linear-gradient(
-    135deg,
-    #3b82f6 0%,
-    #8b5cf6 100%
-  );
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
   color: #fff;
   box-shadow: 0 10px 24px rgba(99, 102, 241, 0.35);
 }
@@ -261,120 +266,34 @@ body {
 .cta .btn-secondary {
   background: #ffffff;
   color: #3b82f6;
-  border: 2px solid #3b82f6;
+  border: 2px solid rgba(59,130,246,0.85);
+  box-shadow: 0 8px 18px rgba(59,130,246,0.08);
 }
 
 .cta .btn-secondary:hover {
-  background: #3b82f6;
-  color: #fff;
+  background: rgba(59,130,246,0.08);
   transform: translateY(-2px);
 }
 
 /* CTA 手机端 */
 @media (max-width: 600px) {
-  .cta {
-    padding: 3rem 1.2rem;
-  }
+  .zone { padding: 22px 0; }     /* ✅ 手机端功能区间距再短一点 */
+
+  .cards { gap: 14px; margin-top: 14px; }
+  .card { padding: 20px 18px; }
 
   .cta-actions {
     flex-direction: column;
+    gap: 0.8rem;
   }
 
   .cta .btn {
     width: 100%;
-    max-width: 260px;
+    max-width: 280px;
     margin: 0 auto;
   }
 }
 
-/* ===============================
-   手机端优化（关键）
-=============================== */
-
-@media (max-width: 600px) {
-
-  .zone {
-    padding: 38px 0;
-  }
-
-  
-
-  .cards {
-    padding: 0 6px;     /* 让卡片几乎贴边，看起来“更宽” */
-  }
-
-  .card {
-    padding: 20px 18px;
-  }
-
-  
-}
-
-/* ✅ 只让 zone 控制间距，不让普通 section 乱加 padding */
-section { padding: 0; margin: 0; }
-
-/* ✅ zone 才是功能区间距来源（你想更紧就继续减小） */
-.zone { padding: 22px 0; }
-
-/* ✅ CTA 作为最后一个区块，往上“明显靠近”上一块 */
-.cta {
-  margin: 0.8rem auto 0 !important; /* 关键：强制 */
-  padding: 1.8rem 1.5rem !important;
-}
-
-/* ✅ 让 CTA 所在区块本身也更紧（如果你愿意把CTA包进zone） */
-
-.cta-zone { padding-top: 10px !important; padding-bottom: 22px !important; }
-.cta { margin: 0 auto !important; }
-
-
-
-/* Zone D 背景：更浅、更干净，与卡片形成色差 */
-.zone-b {
-  background: #F1F3EF; /* 比 #F2EAD3 更浅，和卡片更有层次 */
-}
-
-/* 可选：让 zone-d 内部的 zone-inner 更像主页“功能区容器” */
-.zone-b .zone-inner {
-  padding-top: 8px;
-}
-/* ===== Zone D: Certificate System Overview —— 全部左对齐 ===== */
-.zone-d h2,
-.zone-d p,
-.zone-d .card,
-.zone-d .card h3,
-.zone-d .card p {
-  text-align: left;
-}
-
-/* 如果 zone-d 里有你那段 <section>（没有 class），也一起覆盖 */
-.zone-d section h2,
-.zone-d section p {
-  text-align: left;
-}
-/* Zone D 背景：更浅、更干净，与卡片形成色差 */
-.zone-d {
-  background: #F8F9F6; /* 比 #F2EAD3 更浅，和卡片更有层次 */
-}
-
-/* 可选：让 zone-d 内部的 zone-inner 更像主页“功能区容器” */
-.zone-d .zone-inner {
-  padding-top: 8px;
-}
-
-/* Hero 距离导航更舒服（桌面 + 手机都生效） */
-.hero.hero-split {
-  margin-top: 56px;   /* 你可以调成 16~40px */
-  padding-top: 3.2rem; /* 如果你更想用内边距，也可以只用 padding-top */
-}
-
-/* 手机端略小一点 */
-@media (max-width: 768px) {
-  .hero.hero-split {
-    margin-top: 26px;
-    padding-top: 2.6rem;
-  }
-}
 
   </style>
 </head>
