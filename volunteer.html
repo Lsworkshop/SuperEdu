@@ -327,6 +327,45 @@ section { padding: 0; margin: 0; }
 .cta-zone { padding-top: 10px !important; padding-bottom: 22px !important; }
 .cta { margin: 0 auto !important; }
 
+
+/* ===== Zone D: Certificate System Overview —— 全部左对齐 ===== */
+.zone-d h2,
+.zone-d p,
+.zone-d .card,
+.zone-d .card h3,
+.zone-d .card p {
+  text-align: left;
+}
+
+/* 如果 zone-d 里有你那段 <section>（没有 class），也一起覆盖 */
+.zone-d section h2,
+.zone-d section p {
+  text-align: left;
+}
+/* Zone D 背景：更浅、更干净，与卡片形成色差 */
+.zone-d {
+  background: #FBF7EE; /* 比 #F2EAD3 更浅，和卡片更有层次 */
+}
+
+/* 可选：让 zone-d 内部的 zone-inner 更像主页“功能区容器” */
+.zone-d .zone-inner {
+  padding-top: 8px;
+}
+
+/* Hero 距离导航更舒服（桌面 + 手机都生效） */
+.hero.hero-split {
+  margin-top: 22px;   /* 你可以调成 16~40px */
+  padding-top: 3.2rem; /* 如果你更想用内边距，也可以只用 padding-top */
+}
+
+/* 手机端略小一点 */
+@media (max-width: 768px) {
+  .hero.hero-split {
+    margin-top: 14px;
+    padding-top: 2.6rem;
+  }
+}
+
   </style>
 </head>
 
