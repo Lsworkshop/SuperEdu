@@ -16,6 +16,42 @@
   <link rel="stylesheet" href="/assets/css/main.css" />
 
   <style>
+
+/* ===============================
+   全局基础设置
+=============================== */
+
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  background: #F9FAF7;
+  color: #2B2B2B;
+  line-height: 1.6;
+}
+/* ===============================
+   Zone 通用结构（四大功能区）
+=============================== */
+
+.zone {
+  padding: 56px 0;               /* 明显缩短上下距离 */
+}
+
+.zone-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
 /* ======================
    HERO（修正尺寸 + 更自然）
 ====================== */
@@ -74,6 +110,82 @@
   .hero-content p {
     margin: 0 auto;
   }
+}
+
+
+
+/* ===============================
+   About Zone（Who We Are）
+=============================== */
+
+.about-zone {
+  background: #FFFFFF;
+}
+
+.about-zone .card {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ===============================
+   Certificate System Zone
+=============================== */
+
+.certificate-zone {
+  background: #F2EAD3;
+}
+
+.certificate-zone h2,
+.certificate-zone p {
+  text-align: center;
+}
+
+.certificate-zone p {
+  max-width: 760px;
+  margin: 0 auto 24px;
+}
+
+/* 卡片容器：始终纵向排列，手机不变窄 */
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 100%;      /* 关键：防止手机端变窄 */
+  margin: 0 auto;
+}
+
+/* ===============================
+   卡片统一样式
+=============================== */
+
+.card {
+  background: linear-gradient(180deg, #FFFDF8, #F2EAD3);
+  border-radius: 18px;
+  padding: 26px;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 8px 22px rgba(0,0,0,0.08),
+    0 2px 6px rgba(0,0,0,0.04);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 16px 40px rgba(0,0,0,0.12),
+    0 4px 12px rgba(0,0,0,0.06);
+}
+
+.card h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #256F3A;
+}
+
+.card p {
+  font-size: 0.95rem;
+  color: #444;
 }
 
 /* ======================
@@ -168,6 +280,29 @@
     max-width: 260px;
     margin: 0 auto;
   }
+}
+
+/* ===============================
+   手机端优化（关键）
+=============================== */
+
+@media (max-width: 600px) {
+
+  .zone {
+    padding: 38px 0;
+  }
+
+  
+
+  .cards {
+    padding: 0 6px;     /* 让卡片几乎贴边，看起来“更宽” */
+  }
+
+  .card {
+    padding: 20px 18px;
+  }
+
+  
 }
 
   </style>
