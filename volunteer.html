@@ -16,9 +16,9 @@
   <link rel="stylesheet" href="/assets/css/main.css" />
 
   <style>
-      
-/* =========================
-   Volunteer Page – FINAL PRODUCTION (Optimized)
+ /* =========================
+   Volunteer Page – FINAL PRODUCTION
+   (优化 Certificate System + CTA 按钮)
 ========================= */
 
 body {
@@ -72,7 +72,7 @@ body {
    ZONES
 ========================= */
 .zone {
-  padding: 36px 20px; /* 压缩上下间距 */
+  padding: 36px 20px;
 }
 
 .zone-inner {
@@ -146,20 +146,23 @@ body {
 }
 
 /* =========================
-   CERTIFICATE SYSTEM
+   CERTIFICATE SYSTEM OVERVIEW
 ========================= */
+.certificate-zone {
+  padding: 36px 0; /* 上下统一 */
+}
+
 .certificate-zone .zone-inner {
-  max-width: 100%;
-  padding: 0;
+  max-width: 100%;      /* 占满屏幕宽度 */
+  padding: 0 12px;      /* 手机左右留白 */
 }
 
 .certificate-stack {
-  max-width: 100%;      /* 手机端宽度解锁 */
-  margin: 22px auto 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  padding: 0 12px;      /* 手机端左右留白 */
+  gap: 16px;
+  margin: 0 auto;
 }
 
 .certificate-stack .card {
@@ -169,12 +172,14 @@ body {
 /* Mobile – certificate cards */
 @media (max-width: 640px) {
   .certificate-stack {
-    gap: 16px;
-    padding: 0 16px;
+    max-width: 100%;
+    padding: 0 12px;  /* 手机端左右留白 */
+    gap: 14px;
   }
-
+  
   .certificate-stack .card {
-    padding: 22px 22px;
+    width: 100%;
+    padding: 20px;
   }
 }
 
@@ -204,8 +209,25 @@ body {
   flex-wrap: wrap;
 }
 
-/* Primary Button */
+/* Primary Button – 主页风格 */
 .btn-primary {
+  background: linear-gradient(135deg, #f4e6cf, #e6c89a);
+  color: #2b2b2b;
+  padding: 14px 36px;
+  border-radius: 999px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 20px rgba(230,200,154,0.35);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(230,200,154,0.55);
+}
+
+/* Secondary Button – 主页风格 */
+.btn-secondary {
   background: linear-gradient(135deg, #f7eedc, #edd6ad);
   color: #2b2b2b;
   padding: 14px 36px;
@@ -216,25 +238,9 @@ body {
   box-shadow: 0 6px 20px rgba(237,214,173,0.35);
 }
 
-.btn-primary:hover {
+.btn-secondary:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 32px rgba(237,214,173,0.55);
-}
-
-/* Secondary Button */
-.btn-secondary {
-  background: transparent;
-  border: 1px solid rgba(237,214,173,0.75);
-  color: #4a4a4a;
-  padding: 14px 36px;
-  border-radius: 999px;
-  font-weight: 500;
-  transition: all 0.25s ease;
-}
-
-.btn-secondary:hover {
-  background: rgba(237,214,173,0.18);
-  border-color: rgba(237,214,173,0.95);
 }
 
 /* =========================
@@ -255,17 +261,14 @@ body {
 }
 
 @media (max-width: 640px) {
-  .certificate-zone .zone-inner {
-    padding: 0 16px;
-  }
-
   .certificate-stack {
-    max-width: 100%;
-    gap: 16px;
+    padding: 0 12px;
+    gap: 12px;
   }
 
   .certificate-stack .card {
-    padding: 22px;
+    width: 100%;
+    padding: 18px 16px;
   }
 }
 
@@ -704,7 +707,7 @@ body {
   </p>
 
   <div class="cta-actions">
-    <a href="/join.html" class="btn btn-primary"
+    <a href="/apply.html" class="btn btn-primary"
        data-en="Express Interest"
        data-zh="提交志愿意向">
       Express Interest
