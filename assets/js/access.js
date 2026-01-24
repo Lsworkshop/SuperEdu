@@ -1,20 +1,21 @@
 /* =====================================================
-   SnovaEdu Unified Access Control — PRODUCTION (Upgraded)
-   Roles:
-   - visitor
-   - quick   (Quick Unlock)
-   - lead    (Join List / Express Interest)
-   - member  (Logged-in Member)  ✅ now synced with /api/me
+   SnovaEdu Unified Access Control — PRODUCTION
+   Priority:
+   1) If /api/me confirms session => role = "member"
+   2) Else fallback to local/session storage role:
+      visitor | quick | lead
+   Notes:
+   - Member (logged in) is the highest privilege.
+   - quick/lead are for pre-login gated access (Quick Unlock / Join List).
 ===================================================== */
 
 (function () {
-  document.addEventListener("DOMContentLoaded", () => {
-
+  document.addEventListener("DOMContentLoaded", async () => {
     /* ===============================
-       1) Role Core (Quick/Lead stored locally)
+       1) Local Role Core (quick/lead)
     =============================== */
 
-    function getRole() {
+    function getStoredRole() {
       return (
         localStorage.getItem("snovaRole") ||
         sessionStorage.getItem("snovaRole") ||
@@ -36,124 +37,78 @@
       sessionStorage.removeItem("snovaRole");
     }
 
-    // Role flags (local, fast)
-    let role = getRole();
-
-    function recomputeFlags() {
-      role = getRole();
-      return {
-        role,
-        isQuick: ["quick", "lead", "member"].includes(role),
-        isLead: ["lead", "member"].includes(role),
-        isMember: role === "member",
-      };
-    }
-
-    let flags = recomputeFlags();
-
     /* ===============================
-   5. Nav UI Switch (Login / Logout / Dashboard)
-=============================== */
-
-const loginLink = document.querySelector(
-  'a[href="/login.html"]'
-);
-
-const membershipLink = document.querySelector(
-  'a[href="/membership.html"]'
-);
-
-// ---- MEMBER 状态 ----
-if (isMember) {
-
-  // Login -> Logout
-  if (loginLink) {
-    loginLink.textContent = "Logout";
-    loginLink.dataset.en = "Logout";
-    loginLink.dataset.zh = "退出登录";
-
-    loginLink.href = "/logout.html";
-
-    loginLink.addEventListener("click", (e) => {
-      e.preventDefault();
-      logoutMember();   // 你 access.js 里已经定义
-    });
-  }
-
-  // Membership -> Dashboard
-  if (membershipLink) {
-    membershipLink.textContent = "Dashboard";
-    membershipLink.dataset.en = "Dashboard";
-    membershipLink.dataset.zh = "控制台";
-
-    membershipLink.href = "/dashboard.html";
-  }
-}
-
-
-    /* ===============================
-       2) Sync member role from backend session
-       - If /api/me success: upgrade to member silently
-       - If not logged-in: keep current role (visitor/quick/lead)
+       2) Server Auth Check (member)
     =============================== */
 
-    async function syncMemberFromSession() {
+    async function isLoggedInMember() {
       try {
         const res = await fetch("/api/me", { credentials: "include" });
         const data = await res.json().catch(() => ({}));
-
-        if (res.ok && data && data.success) {
-          // ✅ Logged in => make them member (highest)
-          if (getRole() !== "member") setRole("member");
-          flags = recomputeFlags();
-          return true;
-        }
-        return false;
-      } catch {
+        return !!(res.ok && data && data.success);
+      } catch (err) {
+        // Network / blocked / temporary error: treat as not logged-in
+        console.warn("access.js: /api/me check failed:", err);
         return false;
       }
     }
 
+    async function getEffectiveRole() {
+      // If server session is valid, treat as "member"
+      const loggedIn = await isLoggedInMember();
+      if (loggedIn) return "member";
+
+      // Else fallback to stored role (quick/lead/visitor)
+      return getStoredRole();
+    }
+
+    const role = await getEffectiveRole();
+
+    const isQuick = ["quick", "lead", "member"].includes(role);
+    const isLead = ["lead", "member"].includes(role);
+    const isMember = role === "member";
+
     /* ===============================
-       3) Page Guard (redirects)
+       3) Page Guard (唯一跳转源)
+       Use <body data-page="...">
+       - quick-required
+       - lead-required
+       - member-only
+       - forum-required
     =============================== */
 
     const pageType = document.body?.dataset?.page;
 
-    async function guardPage() {
-      // First sync member if possible
-      const loggedIn = await syncMemberFromSession();
-
-      // Refresh flags
-      flags = recomputeFlags();
-
-      if (!pageType) return;
-
+    if (pageType) {
       // EduCenter: quick+
-      if (pageType === "quick-required" && !flags.isQuick) {
+      if (pageType === "quick-required" && !isQuick) {
         window.location.replace("/quick-unlock.html");
         return;
       }
 
       // EduCommunity: lead+
-      if (pageType === "lead-required" && !flags.isLead) {
+      if (pageType === "lead-required" && !isLead) {
         window.location.replace("/education.html");
         return;
       }
 
-      // Member-only: must have backend session or member role
-      // (we treat "member" role as logged-in)
-      if ((pageType === "member-only" || pageType === "forum-required") && !loggedIn) {
+      // Member-only pages
+      if (pageType === "member-only" && !isMember) {
+        window.location.replace("/login.html");
+        return;
+      }
+
+      // EduForum (Members Only)
+      if (pageType === "forum-required" && !isMember) {
         window.location.replace("/login.html");
         return;
       }
     }
 
-    // Run guard
-    guardPage();
-
     /* ===============================
-       4) Navigation Control (block clicks only)
+       4) Navigation Control
+       - Only intercept; do NOT redirect automatically
+       - Keep IDs consistent with your nav HTML
     =============================== */
 
     function guardNav(id, allowFn, denyMsg) {
@@ -169,20 +124,46 @@ if (isMember) {
     }
 
     // EduCenter (quick+)
-    guardNav("navEduCenter", () => recomputeFlags().isQuick, "Please unlock Education Center first.");
-    guardNav("mobileEduCenter", () => recomputeFlags().isQuick, "Please unlock Education Center first.");
+    guardNav(
+      "navEduCenter",
+      () => isQuick,
+      "Please unlock Education Center first."
+    );
+    guardNav(
+      "mobileEduCenter",
+      () => isQuick,
+      "Please unlock Education Center first."
+    );
 
     // EduCommunity (lead+)
-    guardNav("navEduCommunity", () => recomputeFlags().isLead, "EduCommunity requires Join List access.");
-    guardNav("mobileEduCommunity", () => recomputeFlags().isLead, "EduCommunity requires Join List access.");
+    guardNav(
+      "navEduCommunity",
+      () => isLead,
+      "EduCommunity requires Join List access."
+    );
+    guardNav(
+      "mobileEduCommunity",
+      () => isLead,
+      "EduCommunity requires Join List access."
+    );
 
-    // EduForum (member-only = logged-in)
-    // ✅ Use backend session sync: if logged in, it will become member
-    guardNav("navForum", () => recomputeFlags().isMember, "EduForum requires Member access. Please log in.");
-    guardNav("mobileForum", () => recomputeFlags().isMember, "EduForum requires Member access. Please log in.");
+    // EduForum (member)
+    guardNav(
+      "navForum",
+      () => isMember,
+      "EduForum requires Member access. Please log in."
+    );
+    guardNav(
+      "mobileForum",
+      () => isMember,
+      "EduForum requires Member access. Please log in."
+    );
 
     /* ===============================
-       5) Upgrade APIs (global)
+       5) Upgrade APIs (全站调用)
+       Note:
+       - upgradeToMember sets local role but server session is the truth.
+       - After login via cookie, role becomes member automatically.
     =============================== */
 
     window.unlockQuick = function (redirect = "/education.html") {
@@ -195,17 +176,20 @@ if (isMember) {
       window.location.replace(redirect);
     };
 
-    // ✅ Member upgrade should not be used as "fake login"
-    // but it is still useful after successful backend login.
-    window.upgradeToMember = function (redirect = "/education.html") {
+    window.upgradeToMember = function (redirect = "/dashboard.html") {
+      // Optional fallback; true member is defined by /api/me
       setRole("member");
       window.location.replace(redirect);
     };
 
     window.logoutMember = function () {
+      // Local quick/lead cleanup
       clearRole();
+      // Real logout should be /logout.html -> /api/logout
       window.location.replace("/");
     };
 
+    // Debug (optional)
+    // console.log("Effective Role:", role);
   });
 })();
