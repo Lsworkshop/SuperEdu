@@ -196,8 +196,6 @@ body.login-page {
 
 <!-- NAV -->
 
-<html class="nav-preload">
-
 <nav id="topNav" class="nav--transparent">
   <div class="nav-inner">
 
@@ -228,10 +226,8 @@ body.login-page {
         aria-haspopup="true"
         tabindex="0"
         data-en="Programs ⬇︎"
-        data-zh="项目 ⬇︎">
-
-    
-  </span> <!-- ✅ 这个闭合非常关键 -->
+        data-zh="项目 ⬇︎"> 
+  </span> 
 
   <div class="dropdown-menu">
     <a href="/education.html"
@@ -250,13 +246,13 @@ body.login-page {
 
     <a href="/forum.html"
        id="navForum"
-       class="disabled"
        data-en="EduForum"
        data-zh="教育论坛">
-      EduForum <span class="member-only">Member Only</span>
+      EduForum 
     </a>
-     <a href="/events.html" data-en="Events" data-zh="活动">Events</a>
-   
+
+    <a href="/events.html" data-en="Events" data-zh="活动"> Events</a>
+    
   </div>
 
 </div>
@@ -265,7 +261,7 @@ body.login-page {
       <a href="/index.html#services" data-en="Services" data-zh="服务">Services</a>
 
       <!-- Membership -->
-      <a href="/membership.html" data-en="Membership" data-zh="会员中心">Membership</a>
+     <a href="/membership.html" id="navMembership" data-en="Membership" data-zh="会员中心">Membership</a>
 
       <!-- Get Involved Dropdown -->
 <div class="nav-item dropdown">
@@ -292,16 +288,14 @@ body.login-page {
        data-zh="资源">
       Resources
     </a>
-    
   </div>
 </div>
-
 
       <!-- Contact -->
       <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
 
       <!-- Login -->
-      <a href="/login.html" data-en="Login" data-zh="登录">Login</a>
+     <a href="/login.html" id="desktopAuth" data-en="Login" data-zh="登录">Login</a>
 
       <!-- Slide underline -->
       <span class="nav-underline"></span>
@@ -330,17 +324,17 @@ body.login-page {
     <!-- Programs Accordion -->
     <details class="mobile-group">
       <summary data-en="Programs" data-zh="项目">Programs</summary>
-      <a href="/education.html" id="navEduCenter" data-en="EduCenter" data-zh="教育中心">EduCenter</a>
-      <a href="/community.html" id="navEduCommunity" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
-      <a href="/forum.html" id="navForum" data-en="EduForum" data-zh="教育论坛">EduForum</a>
-      <a href="/events.html" data-en="Events" data-zh="活动">Resources</a>
+      <a href="/education.html" id="mobileEduCenter" data-en="EduCenter" data-zh="教育中心">EduCenter</a>
+      <a href="/community.html" id="mobileEduCommunity" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
+      <a href="/forum.html" id="mobileForum" data-en="EduForum" data-zh="教育论坛">EduForum</a>
+      <a href="/events.html" data-en="Events" data-zh="活动">Events</a>
     </details>
 
     <!-- Service -->
     <a href="/index.html#services" data-en="Service" data-zh="服务">Service</a>
 
     <!-- Membership -->
-    <a href="/membership.html" data-en="Membership" data-zh="会员中心">Membership</a>
+    <a href="/membership.html" id="mobileMembership" data-en="Membership" data-zh="会员中心">Membership</a>
 
     <!-- Get Involved Accordion -->
     <details class="mobile-group">
@@ -354,7 +348,7 @@ body.login-page {
     <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
 
     <!-- Login -->
-    <a href="/login.html" id="mobileLogin" data-en="Login" data-zh="登录">Login</a>
+    <a href="/login.html" id="mobileAuth" data-en="Login" data-zh="登录">Login</a>
 
     <!-- Mobile action buttons -->
     <div class="mobile-actions">
