@@ -1,17 +1,53 @@
 /* =====================================================
-   SnovaEdu Unified Access Control — PRODUCTION (Toast)
+   SnovaEdu Unified Access Control — PRODUCTION (Toast i18n)
    Priority:
    1) If /api/me confirms session => role = "member"
    2) Else fallback to local/session storage role:
       visitor | quick | lead
    UI:
    - Replace alert() with homepage-style toast
+   i18n:
+   - Reads localStorage "superedu-lang" ("en" | "zh")
 ===================================================== */
 
 (function () {
   document.addEventListener("DOMContentLoaded", async () => {
     /* ===============================
-       0) Toast (homepage-style)
+       0) i18n helper
+    =============================== */
+    function getLang() {
+      const raw = (localStorage.getItem("superedu-lang") || "en").toLowerCase();
+      return raw.startsWith("zh") ? "zh" : "en";
+    }
+
+    const I18N = {
+      en: {
+        accessRequired: "Access Required",
+        eduCenterTitle: "EduCenter",
+        eduCommunityTitle: "EduCommunity",
+        eduForumTitle: "EduForum",
+        msgQuick: "Please unlock Education Center first.",
+        msgLead: "EduCommunity requires Join List access.",
+        msgMemberForum: "EduForum requires Member access. Please log in."
+      },
+      zh: {
+        accessRequired: "需要权限",
+        eduCenterTitle: "EduCenter 教育中心",
+        eduCommunityTitle: "EduCommunity 教育社区",
+        eduForumTitle: "EduForum 教育论坛",
+        msgQuick: "请先完成 Quick Unlock 才能进入 EduCenter。",
+        msgLead: "EduCommunity 需要 Join List（Lead）权限。",
+        msgMemberForum: "EduForum 仅限会员（Member）访问，请先登录。"
+      }
+    };
+
+    function t(key) {
+      const lang = getLang();
+      return (I18N[lang] && I18N[lang][key]) || I18N.en[key] || key;
+    }
+
+    /* ===============================
+       1) Toast (homepage-style)
     =============================== */
 
     function ensureToastStyles() {
@@ -31,7 +67,7 @@
 
         #snovaToastHost{
           position: fixed;
-          top: 88px; /* avoid your sticky nav */
+          top: 88px;
           right: 16px;
           z-index: 99999;
           display: flex;
@@ -47,7 +83,7 @@
           border: 1px solid var(--snova-toast-border);
           border-radius: var(--snova-toast-radius);
           box-shadow: var(--snova-toast-shadow);
-          padding: 12px 12px 12px 12px;
+          padding: 12px;
           display: grid;
           grid-template-columns: 28px 1fr auto;
           gap: 10px;
@@ -146,11 +182,9 @@
         @keyframes snovaToastIn{
           to { transform: translateY(0); opacity: 1; }
         }
-
         @keyframes snovaToastOut{
           to { transform: translateY(-10px); opacity: 0; }
         }
-
         @keyframes snovaToastBar{
           from { transform: scaleX(1); }
           to { transform: scaleX(0); }
@@ -163,9 +197,7 @@
             left: 12px;
             align-items: stretch;
           }
-          .snova-toast{
-            width: 100%;
-          }
+          .snova-toast{ width: 100%; }
         }
       `;
       document.head.appendChild(style);
@@ -182,8 +214,8 @@
       ensureToastStyles();
 
       const {
-        title = "Access Required",
-        type = "warn", // "info" | "warn" | "danger"
+        title = t("accessRequired"),
+        type = "warn",
         icon = type === "danger" ? "⛔" : type === "info" ? "ℹ️" : "🔒",
         duration = 3200
       } = opts;
@@ -206,7 +238,6 @@
         <div class="snova-toast__bar" aria-hidden="true"><i style="animation-duration:${barDuration}ms"></i></div>
       `;
 
-      // close handler
       const closeBtn = toast.querySelector(".snova-toast__close");
       const remove = () => {
         toast.style.animation = "snovaToastOut 180ms ease forwards";
@@ -216,14 +247,13 @@
 
       host.appendChild(toast);
 
-      // auto remove
-      const t = setTimeout(remove, barDuration);
-      toast.addEventListener("mouseenter", () => clearTimeout(t), { once: true });
-
-      // Re-arm timer on mouseleave
-      toast.addEventListener("mouseleave", () => {
-        setTimeout(remove, 900);
-      }, { once: true });
+      const timer = setTimeout(remove, barDuration);
+      toast.addEventListener("mouseenter", () => clearTimeout(timer), { once: true });
+      toast.addEventListener(
+        "mouseleave",
+        () => setTimeout(remove, 900),
+        { once: true }
+      );
     }
 
     function escapeHtml(str) {
@@ -236,7 +266,7 @@
     }
 
     /* ===============================
-       1) Local Role Core (quick/lead)
+       2) Local Role Core (quick/lead)
     =============================== */
 
     function getStoredRole() {
@@ -262,7 +292,7 @@
     }
 
     /* ===============================
-       2) Server Auth Check (member)
+       3) Server Auth Check (member)
     =============================== */
 
     async function isLoggedInMember() {
@@ -289,12 +319,7 @@
     const isMember = role === "member";
 
     /* ===============================
-       3) Page Guard (唯一跳转源)
-       Use <body data-page="...">
-       - quick-required
-       - lead-required
-       - member-only
-       - forum-required
+       4) Page Guard
     =============================== */
 
     const pageType = document.body?.dataset?.page;
@@ -315,7 +340,7 @@
         return;
       }
 
-      // Forum: Members only
+      // Forum: members only
       if (pageType === "forum-required" && !isMember) {
         window.location.replace("/login.html");
         return;
@@ -323,22 +348,18 @@
     }
 
     /* ===============================
-       4) Navigation Control (Toast)
-       - Only intercept; do NOT redirect
-       - Use your IDs:
-         Desktop: navEduCenter navEduCommunity navForum
-         Mobile : mobileEduCenter mobileEduCommunity mobileForum
+       5) Navigation Control (Toast)
     =============================== */
 
-    function guardNav(id, allowFn, toastText, toastTitle, toastType) {
+    function guardNav(id, allowFn, messageKey, titleKey, toastType) {
       const el = document.getElementById(id);
       if (!el) return;
 
       el.addEventListener("click", (e) => {
         if (!allowFn()) {
           e.preventDefault();
-          showToast(toastText, {
-            title: toastTitle || "Access Required",
+          showToast(t(messageKey), {
+            title: t(titleKey),
             type: toastType || "warn",
             icon: "🔒",
             duration: 3600
@@ -348,55 +369,19 @@
     }
 
     // EduCenter (quick+)
-    guardNav(
-      "navEduCenter",
-      () => isQuick,
-      "Please unlock Education Center first.",
-      "EduCenter",
-      "warn"
-    );
-    guardNav(
-      "mobileEduCenter",
-      () => isQuick,
-      "Please unlock Education Center first.",
-      "EduCenter",
-      "warn"
-    );
+    guardNav("navEduCenter", () => isQuick, "msgQuick", "eduCenterTitle", "warn");
+    guardNav("mobileEduCenter", () => isQuick, "msgQuick", "eduCenterTitle", "warn");
 
     // EduCommunity (lead+)
-    guardNav(
-      "navEduCommunity",
-      () => isLead,
-      "EduCommunity requires Join List access.",
-      "EduCommunity",
-      "warn"
-    );
-    guardNav(
-      "mobileEduCommunity",
-      () => isLead,
-      "EduCommunity requires Join List access.",
-      "EduCommunity",
-      "warn"
-    );
+    guardNav("navEduCommunity", () => isLead, "msgLead", "eduCommunityTitle", "warn");
+    guardNav("mobileEduCommunity", () => isLead, "msgLead", "eduCommunityTitle", "warn");
 
     // EduForum (member only)
-    guardNav(
-      "navForum",
-      () => isMember,
-      "EduForum requires Member access. Please log in.",
-      "EduForum",
-      "danger"
-    );
-    guardNav(
-      "mobileForum",
-      () => isMember,
-      "EduForum requires Member access. Please log in.",
-      "EduForum",
-      "danger"
-    );
+    guardNav("navForum", () => isMember, "msgMemberForum", "eduForumTitle", "danger");
+    guardNav("mobileForum", () => isMember, "msgMemberForum", "eduForumTitle", "danger");
 
     /* ===============================
-       5) Upgrade APIs (全站调用)
+       6) Upgrade APIs (optional)
     =============================== */
 
     window.unlockQuick = function (redirect = "/education.html") {
@@ -410,7 +395,7 @@
     };
 
     window.upgradeToMember = function (redirect = "/dashboard.html") {
-      // Fallback only; true member is defined by /api/me
+      // fallback only; true member determined by /api/me
       setRole("member");
       window.location.replace(redirect);
     };
@@ -419,8 +404,5 @@
       clearRole();
       window.location.replace("/");
     };
-
-    // Optional debug:
-    // console.log("Effective Role:", role);
   });
 })();
