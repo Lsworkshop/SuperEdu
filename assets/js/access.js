@@ -52,6 +52,46 @@
     let flags = recomputeFlags();
 
     /* ===============================
+   5. Nav UI Switch (Login / Logout / Dashboard)
+=============================== */
+
+const loginLink = document.querySelector(
+  'a[href="/login.html"]'
+);
+
+const membershipLink = document.querySelector(
+  'a[href="/membership.html"]'
+);
+
+// ---- MEMBER 状态 ----
+if (isMember) {
+
+  // Login -> Logout
+  if (loginLink) {
+    loginLink.textContent = "Logout";
+    loginLink.dataset.en = "Logout";
+    loginLink.dataset.zh = "退出登录";
+
+    loginLink.href = "/logout.html";
+
+    loginLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      logoutMember();   // 你 access.js 里已经定义
+    });
+  }
+
+  // Membership -> Dashboard
+  if (membershipLink) {
+    membershipLink.textContent = "Dashboard";
+    membershipLink.dataset.en = "Dashboard";
+    membershipLink.dataset.zh = "控制台";
+
+    membershipLink.href = "/dashboard.html";
+  }
+}
+
+
+    /* ===============================
        2) Sync member role from backend session
        - If /api/me success: upgrade to member silently
        - If not logged-in: keep current role (visitor/quick/lead)
