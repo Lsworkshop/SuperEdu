@@ -170,3 +170,58 @@ window.addEventListener('load', () => {
     document.documentElement.classList.remove('nav-preload');
   });
 });
+
+async function syncAuthNav() {
+  const desktopAuth = document.getElementById("navAuth");
+  const mobileAuth = document.getElementById("mobileAuth");
+
+  // 可选：Membership 改 Dashboard
+  const desktopMembership = document.querySelector('a[href="/membership.html"]');
+  const mobileMembership  = document.querySelector('#mobileMenu a[href="/membership.html"]');
+
+  try {
+    const res = await fetch("/api/me", { credentials: "include" });
+    const data = await res.json();
+
+    const loggedIn = res.ok && data && data.success;
+
+    if (loggedIn) {
+      // Login -> Logout
+      if (desktopAuth) {
+        desktopAuth.href = "/logout.html";
+        desktopAuth.textContent = (localStorage.getItem("superedu-lang") === "zh") ? "退出" : "Logout";
+        desktopAuth.dataset.en = "Logout";
+        desktopAuth.dataset.zh = "退出";
+      }
+      if (mobileAuth) {
+        mobileAuth.href = "/logout.html";
+        mobileAuth.textContent = (localStorage.getItem("superedu-lang") === "zh") ? "退出" : "Logout";
+        mobileAuth.dataset.en = "Logout";
+        mobileAuth.dataset.zh = "退出";
+      }
+
+      // Membership -> Dashboard（如果你决定）
+      if (desktopMembership) {
+        desktopMembership.href = "/dashboard.html";
+        desktopMembership.textContent = (localStorage.getItem("superedu-lang") === "zh") ? "会员主页" : "Dashboard";
+        desktopMembership.dataset.en = "Dashboard";
+        desktopMembership.dataset.zh = "会员主页";
+      }
+      if (mobileMembership) {
+        mobileMembership.href = "/dashboard.html";
+        mobileMembership.textContent = (localStorage.getItem("superedu-lang") === "zh") ? "会员主页" : "Dashboard";
+        mobileMembership.dataset.en = "Dashboard";
+        mobileMembership.dataset.zh = "会员主页";
+      }
+
+    } else {
+      // 未登录：保持 Login
+      // （可按需把 Dashboard/会员改回 Membership）
+    }
+  } catch (e) {
+    // 网络/解析异常：不改变导航
+  }
+}
+
+document.addEventListener("DOMContentLoaded", syncAuthNav);
+

@@ -525,6 +525,18 @@ document.getElementById("loginForm").addEventListener("submit", async function (
   }
 });
 
+
+(async function(){
+  try{
+    const res = await fetch("/api/me", { credentials:"include" });
+    const data = await res.json();
+    if(res.ok && data.success){
+      location.replace("/dashboard.html");
+    }
+  }catch(e){}
+})();
+
+
 </script>
 
 </body>
