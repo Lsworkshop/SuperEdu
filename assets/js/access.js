@@ -211,50 +211,52 @@
     }
 
     function showToast(message, opts = {}) {
-      ensureToastStyles();
+  ensureToastStyles();
 
-      const {
-        title = t("accessRequired"),
-        type = "warn",
-        icon = type === "danger" ? "⛔" : type === "info" ? "ℹ️" : "🔒",
-        duration = 3200
-      } = opts;
+  const isMobile =
+    (window.matchMedia && window.matchMedia("(max-width: 640px)").matches) ||
+    window.innerWidth <= 640;
 
-      const host = document.getElementById("snovaToastHost");
-      if (!host) return;
+  const {
+    title = t("accessRequired"),
+    type = "warn",
+    icon = type === "danger" ? "⛔" : type === "info" ? "ℹ️" : "🔒",
+    duration = isMobile ? 6000 : 3600
+  } = opts;
 
-      const toast = document.createElement("div");
-      toast.className = `snova-toast snova-toast--${type}`;
+  const host = document.getElementById("snovaToastHost");
+  if (!host) return;
 
-      const barDuration = Math.max(1200, Math.min(8000, duration));
+  const toast = document.createElement("div");
+  toast.className = `snova-toast snova-toast--${type}`;
 
-      toast.innerHTML = `
-        <div class="snova-toast__icon" aria-hidden="true">${icon}</div>
-        <div>
-          <p class="snova-toast__title">${escapeHtml(title)}</p>
-          <p class="snova-toast__msg">${escapeHtml(message)}</p>
-        </div>
-        <button class="snova-toast__close" aria-label="Close">✕</button>
-        <div class="snova-toast__bar" aria-hidden="true"><i style="animation-duration:${barDuration}ms"></i></div>
-      `;
+  const barDuration = Math.max(1800, Math.min(12000, duration));
 
-      const closeBtn = toast.querySelector(".snova-toast__close");
-      const remove = () => {
-        toast.style.animation = "snovaToastOut 180ms ease forwards";
-        setTimeout(() => toast.remove(), 200);
-      };
-      closeBtn?.addEventListener("click", remove);
+  toast.innerHTML = `
+    <div class="snova-toast__icon" aria-hidden="true">${icon}</div>
+    <div>
+      <p class="snova-toast__title">${escapeHtml(title)}</p>
+      <p class="snova-toast__msg">${escapeHtml(message)}</p>
+    </div>
+    <button class="snova-toast__close" aria-label="Close">✕</button>
+    <div class="snova-toast__bar" aria-hidden="true"><i style="animation-duration:${barDuration}ms"></i></div>
+  `;
 
-      host.appendChild(toast);
+  const closeBtn = toast.querySelector(".snova-toast__close");
 
-      const timer = setTimeout(remove, barDuration);
-      toast.addEventListener("mouseenter", () => clearTimeout(timer), { once: true });
-      toast.addEventListener(
-        "mouseleave",
-        () => setTimeout(remove, 900),
-        { once: true }
-      );
-    }
+  const remove = () => {
+    toast.style.animation = "snovaToastOut 180ms ease forwards";
+    setTimeout(() => toast.remove(), 200);
+  };
+
+  closeBtn?.addEventListener("click", remove);
+
+  host.appendChild(toast);
+
+  // ✅ 手机端不会被 hover 逻辑影响，稳定显示足够久
+  setTimeout(remove, barDuration);
+}
+
 
     function escapeHtml(str) {
       return String(str)
