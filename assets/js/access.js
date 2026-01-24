@@ -1,17 +1,17 @@
-/* ===================================================== 
-   SnovaEdu Unified Access Control — FINAL STABLE
+/* =====================================================
+   SnovaEdu Unified Access Control — PRODUCTION (Upgraded)
    Roles:
    - visitor
    - quick   (Quick Unlock)
    - lead    (Join List / Express Interest)
-   - member  (Logged-in Member)
+   - member  (Logged-in Member)  ✅ now synced with /api/me
 ===================================================== */
 
 (function () {
   document.addEventListener("DOMContentLoaded", () => {
 
     /* ===============================
-       1. Role Core
+       1) Role Core (Quick/Lead stored locally)
     =============================== */
 
     function getRole() {
@@ -36,46 +36,84 @@
       sessionStorage.removeItem("snovaRole");
     }
 
-    const role = getRole();
+    // Role flags (local, fast)
+    let role = getRole();
 
-    const isQuick  = ["quick", "lead", "member"].includes(role);
-    const isLead   = ["lead", "member"].includes(role);
-    const isMember = role === "member";
+    function recomputeFlags() {
+      role = getRole();
+      return {
+        role,
+        isQuick: ["quick", "lead", "member"].includes(role),
+        isLead: ["lead", "member"].includes(role),
+        isMember: role === "member",
+      };
+    }
+
+    let flags = recomputeFlags();
 
     /* ===============================
-       2. Page Guard（唯一跳转源）
+       2) Sync member role from backend session
+       - If /api/me success: upgrade to member silently
+       - If not logged-in: keep current role (visitor/quick/lead)
+    =============================== */
+
+    async function syncMemberFromSession() {
+      try {
+        const res = await fetch("/api/me", { credentials: "include" });
+        const data = await res.json().catch(() => ({}));
+
+        if (res.ok && data && data.success) {
+          // ✅ Logged in => make them member (highest)
+          if (getRole() !== "member") setRole("member");
+          flags = recomputeFlags();
+          return true;
+        }
+        return false;
+      } catch {
+        return false;
+      }
+    }
+
+    /* ===============================
+       3) Page Guard (redirects)
     =============================== */
 
     const pageType = document.body?.dataset?.page;
 
-    if (pageType) {
-      // EduCenter
-      if (pageType === "quick-required" && !isQuick) {
+    async function guardPage() {
+      // First sync member if possible
+      const loggedIn = await syncMemberFromSession();
+
+      // Refresh flags
+      flags = recomputeFlags();
+
+      if (!pageType) return;
+
+      // EduCenter: quick+
+      if (pageType === "quick-required" && !flags.isQuick) {
         window.location.replace("/quick-unlock.html");
         return;
       }
 
-      // EduCommunity（lead 以上）
-      if (pageType === "lead-required" && !isLead) {
+      // EduCommunity: lead+
+      if (pageType === "lead-required" && !flags.isLead) {
         window.location.replace("/education.html");
         return;
       }
 
-      // Member-only
-      if (pageType === "member-only" && !isMember) {
-        window.location.replace("/login.html");
-        return;
-      }
-
-      // EduForum (Members Only)
-      if (pageType === "forum-required" && !isMember) {
+      // Member-only: must have backend session or member role
+      // (we treat "member" role as logged-in)
+      if ((pageType === "member-only" || pageType === "forum-required") && !loggedIn) {
         window.location.replace("/login.html");
         return;
       }
     }
 
+    // Run guard
+    guardPage();
+
     /* ===============================
-       3. Navigation Control（只拦截，不跳转）
+       4) Navigation Control (block clicks only)
     =============================== */
 
     function guardNav(id, allowFn, denyMsg) {
@@ -90,47 +128,21 @@
       });
     }
 
-    // EduCenter
-    guardNav(
-      "navEduCenter",
-      () => isQuick,
-      "Please unlock Education Center first."
-    );
+    // EduCenter (quick+)
+    guardNav("navEduCenter", () => recomputeFlags().isQuick, "Please unlock Education Center first.");
+    guardNav("mobileEduCenter", () => recomputeFlags().isQuick, "Please unlock Education Center first.");
 
-    guardNav(
-      "mobileEduCenter",
-      () => isQuick,
-      "Please unlock Education Center first."
-    );
+    // EduCommunity (lead+)
+    guardNav("navEduCommunity", () => recomputeFlags().isLead, "EduCommunity requires Join List access.");
+    guardNav("mobileEduCommunity", () => recomputeFlags().isLead, "EduCommunity requires Join List access.");
 
-    // EduCommunity
-    guardNav(
-      "navEduCommunity",
-      () => isLead,
-      "EduCommunity requires Join List access."
-    );
-
-    guardNav(
-      "mobileEduCommunity",
-      () => isLead,
-      "EduCommunity requires Join List access."
-    );
-
-    // EduForum (Members only)
-    guardNav(
-      "navForum",
-      () => isMember,
-      "EduForum requires Member access. Please log in."
-    );
-
-    guardNav(
-      "mobileForum",
-      () => isMember,
-      "EduForum requires Member access. Please log in."
-    );
+    // EduForum (member-only = logged-in)
+    // ✅ Use backend session sync: if logged in, it will become member
+    guardNav("navForum", () => recomputeFlags().isMember, "EduForum requires Member access. Please log in.");
+    guardNav("mobileForum", () => recomputeFlags().isMember, "EduForum requires Member access. Please log in.");
 
     /* ===============================
-       4. Upgrade APIs（全站调用）
+       5) Upgrade APIs (global)
     =============================== */
 
     window.unlockQuick = function (redirect = "/education.html") {
@@ -143,6 +155,8 @@
       window.location.replace(redirect);
     };
 
+    // ✅ Member upgrade should not be used as "fake login"
+    // but it is still useful after successful backend login.
     window.upgradeToMember = function (redirect = "/education.html") {
       setRole("member");
       window.location.replace(redirect);
@@ -153,6 +167,5 @@
       window.location.replace("/");
     };
 
-    // console.log("Snova Role:", role);
   });
 })();

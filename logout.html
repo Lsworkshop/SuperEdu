@@ -1,41 +1,30 @@
-<script>
+<<script>
 /* =========================
-   Logout Logic
+   Logout Logic — FINAL
 ========================= */
 
-// 封装 Logout 函数
-async function logout() {
+(async function logout() {
   try {
-    // 调用后台 API 清除 session
-    const res = await fetch("/api/logout", {
+    await fetch("/api/logout", {
       method: "POST",
+      credentials: "include",   // ⭐ 必须带 cookie
       headers: {
         "Content-Type": "application/json"
       }
     });
-
-    if (!res.ok) {
-      console.error("Logout failed:", await res.text());
-      alert("Logout failed. Please try again.");
-      return;
-    }
-
-    // 可选：清理本地存储（如果有使用 localStorage/sessionStorage 保存状态）
-    localStorage.removeItem("snovaAuth");
-    localStorage.removeItem("snovaUserEmail");
-
-    // 跳转回登录页面
-    window.location.href = "/login.html";
-
   } catch (err) {
     console.error("Logout error:", err);
-    alert("Logout error. Please try again.");
   }
-}
 
-/* =========================
-   Attach to Logout Buttons
-========================= */
-document.getElementById("logoutBtn")?.addEventListener("click", logout);
-document.getElementById("logoutSidebarBtn")?.addEventListener("click", logout);
+  // ⭐ 清除权限角色（非常重要）
+  localStorage.removeItem("snovaRole");
+  sessionStorage.removeItem("snovaRole");
+
+  // 可选：如果你还有其他状态
+  localStorage.removeItem("snovaAuth");
+  localStorage.removeItem("snovaUserEmail");
+
+  // 回到登录页
+  window.location.replace("/login.html");
+})();
 </script>
