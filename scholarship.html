@@ -309,38 +309,6 @@
       margin: 18px 0 10px;
     }
 
-    /* =========================
-   Scholarship HERO – HARD CENTER FIX
-   解决：桌面/iPad/Surface 靠左
-========================= */
-header.hero {
-  width: 100%;
-}
-
-/* 用更高 specificity 锁死居中（防止 main.css 覆盖 margin/max-width） */
-header.hero .hero-split{
-  max-width: 1100px !important;
-  width: min(1100px, calc(100% - 40px)) !important; /* 两侧留 20px */
-  margin-left: auto !important;
-  margin-right: auto !important;
-
-  display: grid !important;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr) !important;
-  gap: 42px !important;
-  align-items: center !important;
-
-  padding: 28px 0 26px !important;  /* 外层已经留白了，这里不再重复左右 padding */
-  box-sizing: border-box !important;
-}
-
-/* 防止列被限制宽度/浮动导致挤左 */
-header.hero .hero-media,
-header.hero .hero-content{
-  min-width: 0 !important;
-  width: 100% !important;
-  float: none !important;
-  justify-self: stretch !important;
-}
 /* Hero buttons spacing */
 .hero-actions{
   display: flex;
