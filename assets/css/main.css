@@ -1693,3 +1693,29 @@ body.register-page .register-card {
     padding-top: 12px;
   }
 }
+/* =========================================================
+   Drawer Backdrop (Overlay) — add to END of main.css
+========================================================= */
+.nav-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 80; /* 低于 nav(100+) 但高于页面内容 */
+  background: rgba(15, 23, 42, 0.35);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease;
+}
+
+.nav-drawer-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 只在“中间宽度抽屉模式”启用遮罩，避免影响桌面/手机 */
+@media (min-width: 721px) and (max-width: 980px) {
+  .nav-drawer-backdrop { display: block; }
+}
+@media (max-width: 720px), (min-width: 981px) {
+  .nav-drawer-backdrop { display: none; }
+}
