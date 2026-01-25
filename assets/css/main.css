@@ -1617,70 +1617,154 @@ body.register-page .register-card {
   color: #6E4BFF;
 }
 
-
 /* =========================================================
-   NAV — iPad/Surface Portrait FIX (FINAL OVERRIDE)
+   NAV — Mobile/Tablet Layout FIX (iPhone + iPad + Surface)
    Put this at the VERY END of main.css
 ========================================================= */
 
-/* 1) Keep consistent positioning behavior */
-nav#topNav{
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 60;
+/* ---------- 0) Hard-reset only the hamburger icon spans ---------- */
+#topNav .hamburger{
+  display: inline-flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 42px;
+  height: 42px;
+  padding: 6px !important;
+  gap: 5px !important;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* 2) Prevent desktop menu wrapping that pushes nav-right out */
+#topNav .hamburger span{
+  display: block !important;
+  width: 22px !important;
+  height: 2px !important;
+  margin: 0 !important;
+  border-radius: 999px !important;
+  background: #222 !important;
+  transform: none;
+  transition: transform .2s ease, opacity .2s ease;
+}
+
+/* When open (if your menu.js toggles aria-expanded) */
+#topNav .hamburger[aria-expanded="true"] span:nth-child(1){
+  transform: translateY(7px) rotate(45deg);
+}
+#topNav .hamburger[aria-expanded="true"] span:nth-child(2){
+  opacity: 0;
+}
+#topNav .hamburger[aria-expanded="true"] span:nth-child(3){
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ---------- 1) Keep nav-inner stable, never wrap ---------- */
 nav#topNav .nav-inner{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:12px;
-  flex-wrap: nowrap;
+  gap: 12px;
+  flex-wrap: nowrap !important;
 }
 
-/* Ensure menu doesn't force overflow */
-nav#topNav .menu{
-  min-width: 0;
-  flex: 1 1 auto;
-  flex-wrap: nowrap;
-}
-
-/* Keep right controls visible */
-nav#topNav .nav-right{
+/* Brand should not collapse weirdly */
+nav#topNav .brand{
   flex: 0 0 auto;
+  min-width: 0;
+}
+
+/* Right controls should always stay visible */
+nav#topNav .nav-right{
+  flex: 0 0 auto !important;
   display:flex;
   align-items:center;
-  gap:12px;
+  gap: 12px;
 }
 
-/* 3) Tablet breakpoint: treat iPad/Surface portrait as mobile */
+/* ---------- 2) Tablet portrait => force mobile mode ---------- */
+/* iPad portrait / Surface portrait lives here */
 @media (max-width: 1024px){
+  /* Hide desktop menu */
   nav#topNav .menu{ display:none !important; }
+
+  /* Ensure hamburger visible */
   nav#topNav .hamburger{ display:inline-flex !important; }
 
-  /* Mobile menu container */
-  #mobileMenu.mobile-menu[aria-hidden="false"]{
-    display:block !important;
-    opacity:1;
-    transform: translateY(0);
-    pointer-events:auto;
-  }
+  /* OPTIONAL: if tight width, hide brand-text but keep logo */
+  .brand-text{ display:none; }
 
-  /* Tighter nav padding */
+  /* Fix spacing so lang button doesn't get pushed off */
   nav#topNav .nav-inner{ padding: 12px 14px; }
 
-  /* Optional: hide brand text on narrower tablets to save space */
-  .brand-text{ display:none; }
+  /* ---------- Mobile menu as a full-width panel ---------- */
+  #mobileMenu.mobile-menu{
+    /* remove max-width centering that causes “left-top crowded” feeling */
+    max-width: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+
+    /* make it feel like a proper menu panel */
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(0,0,0,0.06);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+
+    padding: 12px 16px !important;
+  }
+
+  /* show/hide logic (your menu.js toggles aria-hidden) */
+  #mobileMenu.mobile-menu[aria-hidden="true"]{
+    display:none !important;
+  }
+  #mobileMenu.mobile-menu[aria-hidden="false"]{
+    display:block !important;
+  }
+
+  /* menu items: vertical, comfortable spacing */
+  #mobileMenu.mobile-menu a,
+  #mobileMenu.mobile-menu summary{
+    display:block;
+    width:100%;
+    padding: 12px 8px;
+    border-radius: 12px;
+  }
+
+  #mobileMenu.mobile-menu a:hover{
+    background: rgba(59,130,246,0.08);
+  }
+
+  /* details groups spacing */
+  #mobileMenu .mobile-group{
+    margin: 8px 0;
+    border-radius: 14px;
+    background: rgba(0,0,0,0.03);
+    padding: 6px;
+  }
+
+  #mobileMenu .mobile-group summary{
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  /* reduce “horizontal crowding” inside accordion */
+  #mobileMenu .mobile-group a{
+    padding: 10px 10px;
+    margin: 2px 0;
+  }
+
+  /* mobile actions stay full width and spaced */
+  #mobileMenu .mobile-actions{
+    display:flex;
+    gap: 10px;
+    flex-direction: column;
+    padding-top: 12px;
+  }
 }
 
-/* 4) Touch devices: disable hover-open dropdown to avoid sticky hover */
-@media (hover: none){
-  .nav-item.dropdown:hover .dropdown-menu{
-    opacity:0 !important;
-    visibility:hidden !important;
-    pointer-events:none !important;
-  }
+/* ---------- 3) iPhone small screens: slightly tighter ---------- */
+@media (max-width: 420px){
+  #topNav .nav-inner{ padding: 10px 12px; }
+  #mobileMenu.mobile-menu{ padding: 10px 12px !important; }
 }
