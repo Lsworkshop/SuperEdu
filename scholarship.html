@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-en="Scholarships | Edunova Foundation" data-zh="奖学金 | Edunova 基金会">
+    Scholarships | Edunova Foundation
+  </title>
+
+  <!-- icons -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+  <link rel="icon" href="/assets/icons/favicon.ico">
+
+  <!-- Main styles -->
+  <link rel="stylesheet" href="/assets/css/main.css" />
+  <script src="/assets/js/menu.js" defer></script>
+  <script src="/assets/js/lang.js" defer></script>
+
+  <style>
+    /* ======================================================
+       Scholarship Page – Production (Match Volunteer/Donation)
+       Notes:
+       - 中文坚决不用黑体：使用更细、更现代的中文字体栈
+       - Zones: same palette as Events/Forum
+    ====================================================== */
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body{
+      margin:0;
+      /* ✅ English + Chinese (NO 黑体/Heiti) */
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        "Segoe UI",
+        Roboto,
+        "Helvetica Neue",
+        Arial,
+        /* Chinese: lighter modern, avoid 黑体 */
+        "PingFang SC",
+        "HarmonyOS Sans SC",
+        "Source Han Sans SC",
+        "Noto Sans CJK SC",
+        "Noto Sans SC",
+        "Microsoft YaHei UI",
+        sans-serif;
+      background:#F9FAF7;
+      color:#2B2B2B;
+      line-height:1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Leave space for fixed nav */
+    .top-offset{ height: 86px; }
+
+    /* ===============================
+       Zone Backgrounds (as requested)
+    ================================ */
+    .zone{ padding: 52px 0; }
+    .zone-inner{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .zone-a { background: #FFFFFF; }
+    .zone-b { background: #E8EEFF; }
+    .zone-c { background: #EFE4FF; }
+    .zone-d { background: #F8F9F6; }
+
+    /* ===============================
+       Hero (image + text)
+    ================================ */
+    .hero{
+      padding: 34px 0 10px;
+      background:
+        radial-gradient(900px 380px at 12% 0%, rgba(59,130,246,0.12), transparent 60%),
+        radial-gradient(900px 380px at 88% 0%, rgba(139,92,246,0.12), transparent 60%);
+    }
+
+    .hero-split{
+      display:grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 42px;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 20px 26px;
+    }
+
+    .hero-media img{
+      width:100%;
+      border-radius: 18px;
+      object-fit: cover;
+      box-shadow: 0 16px 38px rgba(0,0,0,0.16);
+      border: 1px solid rgba(20,30,60,0.08);
+      background:#fff;
+    }
+
+    .hero-kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.76);
+      border: 1px solid rgba(20,30,60,0.08);
+      box-shadow: 0 8px 22px rgba(20,30,60,0.06);
+      font-size: 13px;
+      color:#334155;
+      margin-bottom: 14px;
+    }
+
+    .hero h1{
+      font-size: clamp(2rem, 3vw, 2.65rem);
+      margin: 0 0 12px;
+      letter-spacing: -0.02em;
+      color:#1f2937;
+    }
+
+    .hero p{
+      margin: 0 0 18px;
+      color:#4b5563;
+      font-size: 1.05rem;
+      max-width: 560px;
+    }
+
+    /* hero actions */
+    .hero-actions{
+      display:flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      text-decoration:none;
+      border-radius: 999px;
+      font-weight: 600;
+      padding: 12px 18px;
+      font-size: 0.98rem;
+      transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease, border-color .18s ease;
+      user-select:none;
+      cursor:pointer;
+    }
+
+    .btn-primary{
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      color:#fff;
+      box-shadow: 0 12px 26px rgba(99,102,241,0.28);
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .btn-primary:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px rgba(99,102,241,0.42);
+    }
+
+    .btn-secondary{
+      background: rgba(255,255,255,0.82);
+      color:#2563eb;
+      border: 1px solid rgba(37,99,235,0.26);
+      box-shadow: 0 10px 22px rgba(20,30,60,0.08);
+    }
+    .btn-secondary:hover{
+      transform: translateY(-2px);
+      border-color: rgba(37,99,235,0.40);
+      box-shadow: 0 14px 30px rgba(20,30,60,0.12);
+    }
+
+    /* ===============================
+       Typography & section title
+    ================================ */
+    h2{
+      margin: 0 0 12px;
+      font-size: 1.85rem;
+      letter-spacing: -0.01em;
+      color:#1f2937;
+    }
+
+    .muted{
+      color:#4b5563;
+      margin: 0 0 18px;
+      max-width: 820px;
+    }
+
+    /* ===============================
+       Cards (match Volunteer/Donation style)
+    ================================ */
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 18px;
+      margin-top: 16px;
+    }
+
+    .card{
+      grid-column: span 4;
+      background: linear-gradient(180deg, #FFFDF8, #F2EAD3);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow:
+        0 10px 24px rgba(0,0,0,0.08),
+        0 2px 8px rgba(0,0,0,0.04);
+      border: 1px solid rgba(20,30,60,0.07);
+      transition: transform .22s ease, box-shadow .22s ease;
+    }
+
+    .card:hover{
+      transform: translateY(-4px);
+      box-shadow:
+        0 18px 36px rgba(0,0,0,0.12),
+        0 6px 14px rgba(0,0,0,0.06);
+    }
+
+    .card .icon{
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .card h3{
+      margin: 0 0 8px;
+      font-size: 1.15rem;
+      color:#256F3A;
+      letter-spacing: -0.01em;
+    }
+
+    .card p{
+      margin: 0;
+      color:#374151;
+      font-size: 0.96rem;
+    }
+
+    /* split highlights */
+    .highlight{
+      background: rgba(255,255,255,0.65);
+      border: 1px solid rgba(20,30,60,0.08);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: 0 10px 24px rgba(20,30,60,0.06);
+    }
+
+    .bullet{
+      margin: 14px 0 0;
+      padding-left: 18px;
+      color:#374151;
+    }
+    .bullet li{ margin: 8px 0; }
+
+    /* ===============================
+       CTA Zone (contact donate)
+    ================================ */
+    .cta{
+      text-align:center;
+      border-radius: 26px;
+      padding: 34px 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.90), rgba(255,255,255,0.70));
+      border: 1px solid rgba(20,30,60,0.08);
+      box-shadow: 0 14px 34px rgba(20,30,60,0.08);
+    }
+
+    .cta h2{ margin-bottom: 10px; }
+    .cta p{ margin: 0 auto 18px; max-width: 760px; color:#4b5563; }
+
+    .cta-actions{
+      display:flex;
+      justify-content:center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    /* ===============================
+       Responsive
+    ================================ */
+    @media (max-width: 980px){
+      .hero-split{ grid-template-columns: 1fr; text-align:center; }
+      .hero p{ margin-left:auto; margin-right:auto; }
+      .hero-actions{ justify-content:center; }
+    }
+
+    @media (max-width: 920px){
+      .card{ grid-column: span 6; }
+    }
+
+    @media (max-width: 620px){
+      .zone{ padding: 40px 0; }
+      .card{ grid-column: span 12; }
+      .btn{ width: 100%; max-width: 320px; }
+    }
+
+    /* small visual separators */
+    .divider{
+      height: 1px;
+      background: rgba(20,30,60,0.08);
+      margin: 18px 0 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAV (keep your existing nav from other pages) -->
+  <html class="nav-preload"></html>
+  <!-- 你已有统一导航，这里直接复用你当前项目的 nav 代码块即可 -->
+ <!-- NAV -->
+
+<nav id="topNav" class="nav--transparent">
+  <div class="nav-inner">
+
+    <!-- Logo -->
+    <div class="brand">
+      <a href="/index.html#home" class="brand">
+        <img src="/assets/img/superedu-logo.png" alt="Edunova" class="logo-img" />
+        <span class="brand-text">Edunova</span>
+      </a>
+    </div>
+
+    <!-- =========================
+         Desktop Menu
+    ========================== -->
+    <div class="menu" id="menu">
+
+      <!-- Home -->
+      <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
+
+      <!-- About -->
+      <a href="/index.html#about" data-en="About" data-zh="关于我们">About</a>
+
+    <!-- Programs Dropdown -->
+<div class="nav-item dropdown">
+
+  <span class="dropdown-toggle"
+        role="button"
+        aria-haspopup="true"
+        tabindex="0"
+        data-en="Programs ⬇︎"
+        data-zh="项目 ⬇︎"> 
+  </span> 
+
+  <div class="dropdown-menu">
+    <a href="/education.html"
+       id="navEduCenter"
+       data-en="EduCenter"
+       data-zh="教育中心">
+      EduCenter
+    </a>
+
+    <a href="/community.html"
+       id="navEduCommunity"
+       data-en="EduCommunity"
+       data-zh="教育社区">
+      EduCommunity
+    </a>
+
+    <a href="/forum.html"
+       id="navForum"
+       data-en="EduForum"
+       data-zh="教育论坛">
+      EduForum 
+    </a>
+
+    <a href="/events.html" data-en="Events" data-zh="活动"> Events</a>
+    
+  </div>
+
+</div>
+
+      <!-- Services -->
+      <a href="/index.html#services" data-en="Services" data-zh="服务">Services</a>
+
+      <!-- Membership -->
+     <a href="/membership.html" id="navMembership" data-en="Membership" data-zh="会员中心">Membership</a>
+
+      <!-- Get Involved Dropdown -->
+<div class="nav-item dropdown">
+  <span class="dropdown-toggle" role="button" aria-haspopup="true" tabindex="0"
+        data-en="Get Involved ⬇︎" data-zh="参与方式 ⬇︎">
+   
+</span>
+
+  <div class="dropdown-menu">
+    <a href="/volunteer.html"
+       data-en="Volunteer"
+       data-zh="志愿者">
+      Volunteer
+    </a>
+
+    <a href="/donation.html"
+       data-en="Donation"
+       data-zh="捐赠">
+      Donation
+    </a>
+
+    <a href="/scholarship.html"
+       data-en="scholarship"
+       data-zh="奖学金">
+      scholarship
+    </a>
+
+    <a href="/index.html#resources"
+       data-en="Resources"
+       data-zh="资源">
+      Resources
+    </a>
+  </div>
+</div>
+
+      <!-- Contact -->
+      <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
+
+      <!-- Login -->
+     <a href="/login.html" id="desktopAuth" data-en="Login" data-zh="登录">Login</a>
+
+      <!-- Slide underline -->
+      <span class="nav-underline"></span>
+    </div>
+
+    <!-- Right side -->
+    <div class="nav-right">
+      <button id="langToggle" class="lang-toggle" aria-label="Language toggle">
+        中文
+      </button>
+
+      <button id="hamburger" class="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile slide menu -->
+  <div id="mobileMenu" class="mobile-menu" aria-hidden="true">
+    <!-- Home -->
+    <a href="/index.html#home" data-en="Home" data-zh="首页">Home</a>
+
+    <!-- About -->
+    <a href="/index.html#about" data-en="About" data-zh="关于我们">About</a>
+
+    <!-- Programs Accordion -->
+    <details class="mobile-group">
+      <summary data-en="Programs" data-zh="项目">Programs</summary>
+      <a href="/education.html" id="mobileEduCenter" data-en="EduCenter" data-zh="教育中心">EduCenter</a>
+      <a href="/community.html" id="mobileEduCommunity" data-en="EduCommunity" data-zh="教育社区">EduCommunity</a>
+      <a href="/forum.html" id="mobileForum" data-en="EduForum" data-zh="教育论坛">EduForum</a>
+      <a href="/events.html" data-en="Events" data-zh="活动">Events</a>
+    </details>
+
+    <!-- Service -->
+    <a href="/index.html#services" data-en="Service" data-zh="服务">Service</a>
+
+    <!-- Membership -->
+    <a href="/membership.html" id="mobileMembership" data-en="Membership" data-zh="会员中心">Membership</a>
+
+    <!-- Get Involved Accordion -->
+    <details class="mobile-group">
+      <summary data-en="Get Involved" data-zh="参与方式">Get Involved</summary>
+      <a href="/volunteer.html" data-en="Volunteer" data-zh="志愿者">Volunteer</a>
+      <a href="/donation.html" data-en="Donation" data-zh="捐赠">Donation</a>
+      <a href="/scholarship.html"
+       data-en="scholarship"
+       data-zh="奖学金">
+      scholarship
+    </a>
+      <a href="/index.html#resources" data-en="Resources" data-zh="资源">Resources</a>
+    </details>
+
+    <!-- Contact -->
+    <a href="/index.html#contact" data-en="Contact" data-zh="联系">Contact</a>
+
+    <!-- Login -->
+    <a href="/login.html" id="mobileAuth" data-en="Login" data-zh="登录">Login</a>
+
+    <!-- Mobile action buttons -->
+    <div class="mobile-actions">
+      <button class="btn btn-ghost" id="mobileRegister" data-en="Register/Join" data-zh="注册/加入">
+        Register / Join
+      </button>
+      <button class="btn" id="mobileUnlock" data-en="Unlock Education" data-zh="解锁教育">
+        Unlock Education
+      </button>
+    </div>
+  </div>
+</nav>
+
+  <!-- Reserved space for fixed nav -->
+  <div class="top-offset"></div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-split">
+      <div class="hero-media">
+        <img src="/assets/img/scholarship-hero.jpg" alt="Scholarship Program" />
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-kicker"
+             data-en="Edunova Foundation • Scholarship Program"
+             data-zh="Edunova 基金会 • 奖学金计划">
+          Edunova Foundation • Scholarship Program
+        </div>
+
+        <h1 data-en="Scholarships that motivate learning and support families"
+            data-zh="用奖学金激励学习，也支持每一个重视教育的家庭">
+          Scholarships that motivate learning and support families
+        </h1>
+
+        <p data-en="We provide scholarships for middle school, high school, college, and university students—rewarding academic effort, leadership, and long-term growth, while offering special aid based on family financial need."
+           data-zh="我们面向初中、高中、本科与大学学生发放奖学金，鼓励学业努力与长期成长；同时也提供基于家庭经济情况的特别奖助学金。">
+          We provide scholarships for middle school, high school, college, and university students—rewarding academic effort, leadership, and long-term growth, while offering special aid based on family financial need.
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/donation.html"
+             data-en="Donate to Scholarships"
+             data-zh="捐助奖学金基金">
+            Donate to Scholarships
+          </a>
+
+          <a class="btn btn-secondary" href="/apply.html"
+             data-en="Apply / Express Interest"
+             data-zh="申请 / 提交意向">
+            Apply / Express Interest
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Zone A: Overview -->
+  <section class="zone zone-a">
+    <div class="zone-inner">
+      <h2 data-en="Program Overview" data-zh="项目概览">Program Overview</h2>
+      <p class="muted"
+         data-en="Edunova scholarships are designed to encourage disciplined learning, celebrate authentic effort, and reduce barriers for families who face heavy educational expenses."
+         data-zh="Edunova 奖学金旨在鼓励自律学习、认可真实努力，并帮助学费压力较大的家庭减轻教育负担。">
+        Edunova scholarships are designed to encourage disciplined learning, celebrate authentic effort, and reduce barriers for families who face heavy educational expenses.
+      </p>
+
+      <div class="cards">
+        <div class="card">
+          <div class="icon">🎓</div>
+          <h3 data-en="For Middle & High School Students" data-zh="面向初中与高中学生">For Middle & High School Students</h3>
+          <p data-en="Academic excellence, consistent effort, and positive impact. Some awards may be issued immediately; certain high school awards can be released after graduation when students begin college."
+             data-zh="依据学业表现、长期努力与正向影响评定。部分奖学金可即时发放；部分高中奖学金可在高中毕业、进入大学后发放。">
+            Academic excellence, consistent effort, and positive impact. Some awards may be issued immediately; certain high school awards can be released after graduation when students begin college.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">🏛️</div>
+          <h3 data-en="For College & University Students" data-zh="面向大学学生">For College & University Students</h3>
+          <p data-en="Recognizing strong GPA, academic progress, leadership, research/service involvement, and persistence through challenges."
+             data-zh="重点考察 GPA、学业进步、领导力、科研/服务参与，以及面对挑战的持续投入与韧性。">
+            Recognizing strong GPA, academic progress, leadership, research/service involvement, and persistence through challenges.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">💛</div>
+          <h3 data-en="Need-Based Special Aid" data-zh="基于家庭经济的特别奖助">Need-Based Special Aid</h3>
+          <p data-en="For families under financial pressure, we offer special scholarships/grants to reduce tuition burdens and keep education accessible."
+             data-zh="针对低收入或学费负担压力较大的家庭，提供特别奖学金/助学金，帮助学生持续完成学业。">
+            For families under financial pressure, we offer special scholarships/grants to reduce tuition burdens and keep education accessible.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Zone B: Criteria -->
+  <section class="zone zone-b">
+    <div class="zone-inner">
+      <h2 data-en="Eligibility & Evaluation" data-zh="申请条件与评定标准">Eligibility & Evaluation</h2>
+      <p class="muted"
+         data-en="We emphasize authenticity and long-term development. Evaluation may include GPA/grades, growth trajectory, service/leadership, and the applicant’s educational goals."
+         data-zh="我们强调真实性与长期成长。评定可能包含 GPA/成绩、成长轨迹、服务与领导力、以及申请者的教育目标。">
+        We emphasize authenticity and long-term development. Evaluation may include GPA/grades, growth trajectory, service/leadership, and the applicant’s educational goals.
+      </p>
+
+      <div class="highlight">
+        <p class="muted" style="margin:0"
+           data-en="Typical criteria (varies by scholarship):"
+           data-zh="常见评定维度（不同奖项略有不同）：">
+          Typical criteria (varies by scholarship):
+        </p>
+        <ul class="bullet">
+          <li data-en="Academic performance (e.g., GPA, progress, course rigor)"
+              data-zh="学业表现（如 GPA、进步情况、课程挑战度）">
+            Academic performance (e.g., GPA, progress, course rigor)
+          </li>
+          <li data-en="Consistency & discipline (attendance, learning habits, long-term effort)"
+              data-zh="稳定性与自律（出勤、学习习惯、长期投入）">
+            Consistency & discipline (attendance, learning habits, long-term effort)
+          </li>
+          <li data-en="Leadership & service (school/community involvement)"
+              data-zh="领导力与服务（校园/社区参与）">
+            Leadership & service (school/community involvement)
+          </li>
+          <li data-en="Financial need (for special aid scholarships)"
+              data-zh="家庭经济情况（用于特别奖助学金评定）">
+            Financial need (for special aid scholarships)
+          </li>
+          <li data-en="Clear goals (education plan and motivation)"
+              data-zh="目标清晰（教育规划与学习动机）">
+            Clear goals (education plan and motivation)
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Zone C: How Awards Work -->
+  <section class="zone zone-c">
+    <div class="zone-inner">
+      <h2 data-en="How Scholarships Are Awarded" data-zh="奖学金如何发放">How Scholarships Are Awarded</h2>
+      <p class="muted"
+         data-en="Different awards may have different timelines. For high school students, some scholarships are awarded immediately; others are released after graduation when the student begins college."
+         data-zh="不同奖项可能采用不同的时间安排。针对高中学生：部分奖学金评定后即时发放；部分奖项可在高中毕业、进入大学后发放。">
+        Different awards may have different timelines. For high school students, some scholarships are awarded immediately; others are released after graduation when the student begins college.
+      </p>
+
+      <div class="cards">
+        <div class="card">
+          <div class="icon">⏱️</div>
+          <h3 data-en="Immediate Awards" data-zh="即时发放">Immediate Awards</h3>
+          <p data-en="Issued shortly after review to recognize current achievement and support ongoing learning."
+             data-zh="评定通过后尽快发放，用于认可当下成果并支持持续学习。">
+            Issued shortly after review to recognize current achievement and support ongoing learning.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">🎒</div>
+          <h3 data-en="College-Start Release" data-zh="入学后发放">College-Start Release</h3>
+          <p data-en="Some high school scholarships are reserved and released when the student officially begins college."
+             data-zh="部分高中奖学金将预留并在学生正式入学大学后发放。">
+            Some high school scholarships are reserved and released when the student officially begins college.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">📄</div>
+          <h3 data-en="Transparent & Documented" data-zh="透明可追踪">Transparent & Documented</h3>
+          <p data-en="We keep records and follow our nonprofit governance standards to ensure fairness, clarity, and accountability."
+             data-zh="我们遵循非营利治理规范，保留记录，确保公平、清晰与可追责。">
+            We keep records and follow our nonprofit governance standards to ensure fairness, clarity, and accountability.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Zone D: Support / Donate -->
+  <section class="zone zone-d">
+    <div class="zone-inner">
+      <div class="cta">
+        <h2 data-en="Support Student Scholarships" data-zh="支持学生奖学金">Support Student Scholarships</h2>
+
+        <p data-en="Every contribution helps us award scholarships to students. To donate via Zelle or check, please contact us. Donations of $50 or more may receive an Edunova logo gift (while supplies last)."
+           data-zh="每一笔捐助都会用于奖学金发放。若通过 Zelle 或支票捐款，请与我们联系。捐款 $50 或以上，可获 Edunova Logo 礼品（数量有限，送完为止）。">
+          Every contribution helps us award scholarships to students. To donate via Zelle or check, please contact us. Donations of $50 or more may receive an Edunova logo gift (while supplies last).
+        </p>
+
+        <div class="divider"></div>
+
+        <p class="muted" style="margin:0"
+           data-en="Contact: Phone 1 916-793-0676 (Text) • WeChat Leon_Song_PhD"
+           data-zh="联系：电话 1 916-793-0676（短信）• 微信 Leon_Song_PhD">
+          Contact: Phone 1 916-793-0676 (Text) • WeChat Leon_Song_PhD
+        </p>
+
+        <div class="cta-actions">
+          <a class="btn btn-primary" href="/donation.html"
+             data-en="Donate Now"
+             data-zh="立即捐助">
+            Donate Now
+          </a>
+          <a class="btn btn-secondary" href="/index.html#contact"
+             data-en="Contact Us"
+             data-zh="联系我们">
+            Contact Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer (reuse your site footer if you have one) -->
+   <!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+
+    <!-- Column 1 -->
+    <div class="footer-col">
+      <h4>Edunova</h4>
+      <a href="/apply.html" target="_blank"
+         data-en="Apply for Services"
+         data-zh="申请服务">
+        申请服务
+      </a>
+      <a href="/membership.html"
+         data-en="Membership"
+         data-zh="会员中心">
+        会员中心
+      </a>
+    </div>
+
+    <!-- Column 2 -->
+    <div class="footer-col">
+      <h4 data-en="Education & Fund" data-zh="教育与基金">
+        教育与基金
+      </h4>
+      <a href="#resources"
+         data-en="Resources"
+         data-zh="学习资源">
+        学习资源
+      </a>
+      <a href="https://www.lsfinova.com/aid" target="_blank"
+         data-en="Aid Calculator"
+         data-zh="教育资助计算器">
+        教育资助计算器
+      </a>
+    </div>
+
+    <!-- Column 3 -->
+    <div class="footer-col">
+      <h4 data-en="Contact" data-zh="联系我们">
+        联系我们
+      </h4>
+      <div class="muted"
+           data-en="Phone: 1-916-793-0676 (Text)"
+           data-zh="电话 / 短信：1-916-793-0676">
+        电话 / 短信：1-916-793-0676
+      </div>
+      <div class="muted"
+           data-en="WeChat: Leon_Song_PhD"
+           data-zh="微信：Leon_Song_PhD">
+        微信：Leon_Song_PhD
+      </div>
+    </div>
+
+    <!-- Column 4 -->
+    <div class="footer-col">
+      <h4 data-en="Legal" data-zh="法律信息">
+        法律信息
+      </h4>
+      <a href="/privacy.html"
+         data-en="Privacy Policy"
+         data-zh="隐私政策">
+        隐私政策
+      </a>
+      <a href="/terms.html"
+         data-en="Terms of Service"
+         data-zh="服务条款">
+        服务条款
+      </a>
+    </div>
+
+  </div>
+
+  <div class="footer-copy"
+       data-en="© 2025 Edunova Foundation. All rights reserved."
+       data-zh="© 2025 Edunova Foundation 版权所有">
+    © 2025 Edunova — LSFinova 版权所有
+  </div>
+</footer>
+</body>
+</html>
