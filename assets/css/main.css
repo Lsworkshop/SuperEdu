@@ -1616,3 +1616,80 @@ body.register-page .register-card {
 .apply-card:hover h3 span {
   color: #6E4BFF;
 }
+/* =========================================================
+   Tablet Touch Dropdown + Mid-width Drawer (NON-breaking)
+   Put at the VERY END of main.css
+========================================================= */
+
+/* 1) Touch-friendly dropdown: allow JS to open with .open */
+@media (min-width: 721px) {
+  .nav-item.dropdown.open .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+}
+
+/* 2) Mid-width breakpoint (tablet / narrow desktop):
+   switch to hamburger + drawer WITHOUT changing phone mode.
+   - Desktop: > 980px keep your current desktop menu
+   - Mid: 721px ~ 980px use drawer
+   - Phone: <= 720px keep your current phone mode
+*/
+@media (min-width: 721px) and (max-width: 980px) {
+  /* hide desktop menu */
+  nav#topNav .menu { display: none !important; }
+  nav#topNav .hamburger { display: block !important; }
+
+  /* Drawer: reuse your existing #mobileMenu */
+  #mobileMenu.mobile-menu {
+    /* IMPORTANT: do NOT change your transparency scheme; this is only for the panel */
+    position: fixed;
+    top: 64px; /* 如果你 nav 高度不是 64px，把这里改成你实际 nav 高度 */
+    right: 0;
+    width: min(360px, 92vw);
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+
+    margin: 0 !important;
+    padding: 14px 14px !important;
+
+    background: rgba(255,255,255,0.96);
+    backdrop-filter: blur(10px);
+    border-left: 1px solid rgba(0,0,0,0.06);
+    box-shadow: -18px 0 40px rgba(20,30,60,0.10);
+
+    display: block !important; /* panel always exists; aria-hidden controls visibility */
+    transform: translateX(110%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform .22s ease, opacity .18s ease;
+    border-radius: 16px 0 0 16px;
+  }
+
+  #mobileMenu.mobile-menu[aria-hidden="false"] {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* nicer tap targets */
+  #mobileMenu.mobile-menu a,
+  #mobileMenu.mobile-menu summary {
+    padding: 12px 10px;
+    border-radius: 12px;
+  }
+
+  #mobileMenu.mobile-menu a:hover {
+    background: rgba(59,130,246,0.08);
+  }
+
+  /* keep your mobile-actions comfortable */
+  #mobileMenu .mobile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 12px;
+  }
+}

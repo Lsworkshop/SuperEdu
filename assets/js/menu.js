@@ -225,3 +225,61 @@ async function syncAuthNav() {
 
 document.addEventListener("DOMContentLoaded", syncAuthNav);
 
+/* =========================================================
+   Touch Dropdown Support (iPad / touch devices)
+   Add to the END of /assets/js/menu.js
+========================================================= */
+(function () {
+  function closeAllDropdowns(exceptEl) {
+    document.querySelectorAll(".nav-item.dropdown.open").forEach((dd) => {
+      if (exceptEl && dd === exceptEl) return;
+      dd.classList.remove("open");
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const dropdowns = document.querySelectorAll(".nav-item.dropdown");
+
+    dropdowns.forEach((dd) => {
+      const toggle = dd.querySelector(".dropdown-toggle");
+      if (!toggle) return;
+
+      // Make sure it's focusable (you already have tabindex="0")
+      toggle.addEventListener("click", (e) => {
+        // On touch devices, click should toggle the dropdown.
+        // Prevent accidental text selection / weird focus behavior.
+        e.preventDefault();
+        e.stopPropagation();
+
+        const isOpen = dd.classList.contains("open");
+        closeAllDropdowns(dd);
+        dd.classList.toggle("open", !isOpen);
+      });
+
+      // Keyboard support (Enter / Space)
+      toggle.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          const isOpen = dd.classList.contains("open");
+          closeAllDropdowns(dd);
+          dd.classList.toggle("open", !isOpen);
+        }
+        if (e.key === "Escape") {
+          dd.classList.remove("open");
+        }
+      });
+
+      // Clicking items should close dropdown
+      dd.querySelectorAll(".dropdown-menu a").forEach((a) => {
+        a.addEventListener("click", () => dd.classList.remove("open"));
+      });
+    });
+
+    // Click outside closes
+    document.addEventListener("click", () => closeAllDropdowns());
+
+    // Scroll / resize closes (prevents “stuck open”)
+    window.addEventListener("scroll", () => closeAllDropdowns(), { passive: true });
+    window.addEventListener("resize", () => closeAllDropdowns());
+  });
+})();
