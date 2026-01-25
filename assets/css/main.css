@@ -573,48 +573,6 @@ nav#topNav.nav--solid {
 }
 
 
-/* ===== Global Nav (Minimal, Non-Intrusive) ===== */
-#topNav{
-  position:sticky;
-  top:0;
-  z-index:100;
-  background:#fff;
-  border-bottom:1px solid rgba(0,0,0,0.06);
-}
-
-.nav-inner{
-  max-width:1100px;
-  margin:0 auto;
-  padding:12px 16px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.logo img{display:block}
-
-.nav-links{
-  display:flex;
-  gap:22px;
-}
-
-.nav-links a{
-  text-decoration:none;
-  color:#333;
-  font-weight:500;
-}
-
-.nav-links a.active{
-  color:var(--brand-green);
-}
-
-.nav-actions{
-  display:flex;
-  gap:8px;
-}
-
-
-
 /* ============================
    Mobile (narrow) spacing tune
    ============================ */
@@ -1657,4 +1615,72 @@ body.register-page .register-card {
 
 .apply-card:hover h3 span {
   color: #6E4BFF;
+}
+
+
+/* =========================================================
+   NAV — iPad/Surface Portrait FIX (FINAL OVERRIDE)
+   Put this at the VERY END of main.css
+========================================================= */
+
+/* 1) Keep consistent positioning behavior */
+nav#topNav{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 60;
+}
+
+/* 2) Prevent desktop menu wrapping that pushes nav-right out */
+nav#topNav .nav-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap: nowrap;
+}
+
+/* Ensure menu doesn't force overflow */
+nav#topNav .menu{
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
+}
+
+/* Keep right controls visible */
+nav#topNav .nav-right{
+  flex: 0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+/* 3) Tablet breakpoint: treat iPad/Surface portrait as mobile */
+@media (max-width: 1024px){
+  nav#topNav .menu{ display:none !important; }
+  nav#topNav .hamburger{ display:inline-flex !important; }
+
+  /* Mobile menu container */
+  #mobileMenu.mobile-menu[aria-hidden="false"]{
+    display:block !important;
+    opacity:1;
+    transform: translateY(0);
+    pointer-events:auto;
+  }
+
+  /* Tighter nav padding */
+  nav#topNav .nav-inner{ padding: 12px 14px; }
+
+  /* Optional: hide brand text on narrower tablets to save space */
+  .brand-text{ display:none; }
+}
+
+/* 4) Touch devices: disable hover-open dropdown to avoid sticky hover */
+@media (hover: none){
+  .nav-item.dropdown:hover .dropdown-menu{
+    opacity:0 !important;
+    visibility:hidden !important;
+    pointer-events:none !important;
+  }
 }
