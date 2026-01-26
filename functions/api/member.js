@@ -113,7 +113,7 @@ async function sendVerificationEmail({
       您好，<strong>${firstName} ${lastName}</strong>：
     </p>
     <p>
-      感谢您注册 <strong>超能教育（Edunova Education）</strong>。
+      感谢您注册 <strong>超能教育（Edunova Foundation）</strong>。
     </p>
     <p>
       请点击下方按钮完成邮箱验证，以正式激活您的账户：
@@ -141,7 +141,7 @@ async function sendVerificationEmail({
       如有任何问题，欢迎直接回复本邮件：<strong>team@edunovafdn.org</strong>
     </p>
     <p style="margin-top: 24px;">
-          ——<strong>超能教育 · Edunova Education</strong>
+          ——<strong>超能教育 · Edunova Foundation</strong>
     </p>
   </div>
   `
