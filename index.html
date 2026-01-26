@@ -930,6 +930,18 @@
       <script>
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("registerForm");
+
+  // ✅ 强制关闭浏览器原生校验气泡（否则会出现“老样子”的邮箱提示）
+form.setAttribute("novalidate", "novalidate");
+
+// 可选：如果你的 email input 是 type="email"，某些浏览器仍会弹原生提示
+const emailEl = document.getElementById("r-email");
+if (emailEl) {
+  emailEl.addEventListener("invalid", (ev) => {
+    ev.preventDefault(); // 阻止原生气泡
+  }, true);
+}
+
   if (!form) return;
 
   const submitBtn = form.querySelector("button[type='submit']");
