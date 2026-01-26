@@ -236,7 +236,7 @@
           Enter your name and email to unlock access to the Education Center.
         </div>
 
-        <form id="quickUnlockForm" class="quick-form" autocomplete="off">
+        <form id="quickUnlockForm" class="quick-form" novalidate autocomplete="off">
           <label for="q-first" data-en="First name" data-zh="名">First name</label>
           <input id="q-first" name="firstName" type="text" required placeholder="e.g. John / 例如：小明" />
 
@@ -260,119 +260,299 @@
 
   <!-- Inline JS: form handling + token set (keeps behavior same as index) -->
   <script>
-    // keep same email pattern as backend
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+/* =====================================================
+   Quick Unlock (Standalone Page) — Toast Upgrade
+   - Keep ALL original logic
+   - Replace statusEl/alert with bilingual Toast
+   - Language follows localStorage.superedu-lang (zh/en)
+===================================================== */
 
-    // Elements
-    const form = document.getElementById('quickUnlockForm');
-    const statusEl = document.getElementById('quickStatus');
-    const enterBtn = document.getElementById('enterEduBtn');
+(() => {
+  // keep same email pattern as backend
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    // If token exists, show Enter button
-    function checkLocalToken(){
-      const t = JSON.parse(localStorage.getItem('edu_unlocked_token') || 'null');
-      if(t && t.email){
-        enterBtn.style.display = 'inline-block';
-      } else {
-        enterBtn.style.display = 'none';
-      }
+  // Elements
+  const form = document.getElementById("quickUnlockForm");
+  const statusEl = document.getElementById("quickStatus"); // 保留但不再用于提示
+  const enterBtn = document.getElementById("enterEduBtn");
+
+  /* =========================
+     i18n helper
+  ========================= */
+  function getLang() {
+    return (localStorage.getItem("superedu-lang") || "en").toLowerCase();
+  }
+
+  const MSG = {
+    needUnlock: {
+      en: "Please unlock access first.",
+      zh: "请先解锁教育中心。"
+    },
+    fillRequired: {
+      en: "Please fill all required fields.",
+      zh: "请填写所有必填项。"
+    },
+    invalidEmail: {
+      en: "Please enter a valid email.",
+      zh: "请输入有效邮箱。"
+    },
+    submitting: {
+      en: "Submitting…",
+      zh: "提交中…"
+    },
+    alreadyUnlocked: {
+      en: "Already unlocked — you may enter the Education Center.",
+      zh: "已解锁 — 您现在可以进入教育中心。"
+    },
+    unlockedRedirecting: {
+      en: "Unlocked — redirecting…",
+      zh: "解锁成功！正在跳转…"
+    },
+    submitFailed: {
+      en: "Submission failed.",
+      zh: "提交失败。"
+    },
+    submitFailedRetry: {
+      en: "Submission failed — please try again.",
+      zh: "提交失败，请重试。"
     }
-    checkLocalToken();
+  };
 
-    // Enter Education Center behaviour
-    enterBtn?.addEventListener('click', ()=>{
-      const token = JSON.parse(localStorage.getItem('edu_unlocked_token') || 'null');
-      if(!token){ alert(localStorage.getItem('superedu-lang')==='zh' ? '请先解锁教育中心' : 'Please unlock access first'); return; }
-      window.location = '/education.html';
-    });
-
-    // Form submit
-    form?.addEventListener('submit', async function(e){
-      e.preventDefault();
-      statusEl.style.color = ''; statusEl.innerText = '';
-
-      const firstName = document.getElementById('q-first').value.trim();
-      const lastName = document.getElementById('q-last').value.trim();
-      const email = document.getElementById('q-email').value.trim();
-
-      if(!firstName || !lastName || !email){
-        statusEl.style.color = 'crimson';
-        statusEl.innerText = localStorage.getItem('superedu-lang')==='zh' ? '请填写所有必填项' : 'Please fill all required fields';
-        return;
+  /* =========================
+     Toast (minimal, modern)
+  ========================= */
+  function ensureToastStyles() {
+    if (document.getElementById("superedu-toast-style")) return;
+    const style = document.createElement("style");
+    style.id = "superedu-toast-style";
+    style.textContent = `
+      .se-toast-wrap{
+        position:fixed;
+        left:50%;
+        transform:translateX(-50%);
+        bottom:20px;
+        z-index:99999;
+        display:flex;
+        flex-direction:column;
+        gap:10px;
+        pointer-events:none;
+        padding:0 12px;
+        width:min(520px, calc(100vw - 24px));
       }
-      if(!emailPattern.test(email)){
-        statusEl.style.color = 'crimson';
-        statusEl.innerText = localStorage.getItem('superedu-lang')==='zh' ? '请输入有效邮箱' : 'Please enter a valid email';
-        return;
+      .se-toast{
+        pointer-events:auto;
+        display:flex;
+        align-items:flex-start;
+        gap:10px;
+        padding:12px 14px;
+        border-radius:14px;
+        background:rgba(255,255,255,0.92);
+        border:1px solid rgba(0,0,0,0.08);
+        box-shadow:0 18px 46px rgba(20,30,60,0.18);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        color:#1f2937;
+        animation: seToastIn .18s ease-out;
       }
+      .se-toast__dot{
+        width:10px;height:10px;border-radius:999px;margin-top:4px;flex:0 0 auto;
+        background:#3b82f6;
+      }
+      .se-toast--ok .se-toast__dot{ background:#22c55e; }
+      .se-toast--warn .se-toast__dot{ background:#f59e0b; }
+      .se-toast--err .se-toast__dot{ background:#ef4444; }
+      .se-toast__msg{ font-size:14.5px; line-height:1.35; }
+      .se-toast__x{
+        margin-left:auto;
+        background:transparent;border:0;cursor:pointer;
+        color:#6b7280;font-size:16px;line-height:1;
+        padding:2px 6px;border-radius:8px;
+      }
+      .se-toast__x:hover{ background:rgba(0,0,0,0.06); }
+      @keyframes seToastIn{
+        from{ transform:translateY(6px); opacity:0; }
+        to{ transform:translateY(0); opacity:1; }
+      }
+      @media (max-width: 640px){
+        .se-toast-wrap{ bottom:14px; }
+        .se-toast{ padding:12px 12px; }
+        .se-toast__msg{ font-size:14px; }
+      }
+    `;
+    document.head.appendChild(style);
+  }
 
-      statusEl.style.color = ''; statusEl.innerText = localStorage.getItem('superedu-lang')==='zh' ? '提交中...' : 'Submitting...';
+  function getToastWrap() {
+    ensureToastStyles();
+    let wrap = document.querySelector(".se-toast-wrap");
+    if (!wrap) {
+      wrap = document.createElement("div");
+      wrap.className = "se-toast-wrap";
+      document.body.appendChild(wrap);
+    }
+    return wrap;
+  }
 
+  function toast(message, type = "info", durationMs) {
+    const wrap = getToastWrap();
+    const lang = getLang();
+    const isMobile = window.matchMedia("(max-width: 640px)").matches;
+
+    // 默认：移动端更久，避免看不完
+    const ttl =
+      typeof durationMs === "number"
+        ? durationMs
+        : (isMobile ? 4800 : 3200);
+
+    const el = document.createElement("div");
+    el.className = `se-toast se-toast--${type}`;
+
+    el.innerHTML = `
+      <span class="se-toast__dot" aria-hidden="true"></span>
+      <div class="se-toast__msg">${message}</div>
+      <button class="se-toast__x" aria-label="${lang === "zh" ? "关闭" : "Close"}">✕</button>
+    `;
+
+    const close = () => {
+      el.style.opacity = "0";
+      el.style.transform = "translateY(6px)";
+      setTimeout(() => el.remove(), 160);
+    };
+
+    el.querySelector(".se-toast__x").addEventListener("click", close);
+    wrap.appendChild(el);
+
+    setTimeout(close, ttl);
+  }
+
+  // 小工具：隐藏旧 statusEl，避免重复 UI
+  function clearLegacyStatus() {
+    if (!statusEl) return;
+    statusEl.innerText = "";
+    statusEl.style.color = "";
+    statusEl.style.display = "none"; // 可选：直接隐藏旧文本区域
+  }
+
+  /* =========================
+     If token exists, show Enter button
+  ========================= */
+  function checkLocalToken() {
+    const t = JSON.parse(localStorage.getItem("edu_unlocked_token") || "null");
+    if (t && t.email) {
+      enterBtn.style.display = "inline-block";
+    } else {
+      enterBtn.style.display = "none";
+    }
+  }
+
+  clearLegacyStatus();
+  checkLocalToken();
+
+  /* =========================
+     Enter Education Center behaviour
+  ========================= */
+  enterBtn?.addEventListener("click", () => {
+    const token = JSON.parse(localStorage.getItem("edu_unlocked_token") || "null");
+    if (!token) {
+      const lang = getLang();
+      toast(lang === "zh" ? MSG.needUnlock.zh : MSG.needUnlock.en, "warn");
+      return;
+    }
+    window.location = "/education.html";
+  });
+
+  /* =========================
+     Form submit
+  ========================= */
+  form?.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    clearLegacyStatus();
+
+    const lang = getLang();
+
+    const firstName = document.getElementById("q-first")?.value.trim();
+    const lastName  = document.getElementById("q-last")?.value.trim();
+    const email     = document.getElementById("q-email")?.value.trim();
+
+    if (!firstName || !lastName || !email) {
+      toast(lang === "zh" ? MSG.fillRequired.zh : MSG.fillRequired.en, "err");
+      return;
+    }
+    if (!emailPattern.test(email)) {
+      toast(lang === "zh" ? MSG.invalidEmail.zh : MSG.invalidEmail.en, "err");
+      return;
+    }
+
+    toast(lang === "zh" ? MSG.submitting.zh : MSG.submitting.en, "info", 1400);
+
+    try {
+      // 1) Optional: check-auth
+      let already = false;
       try {
-        // 1) Optional: check-auth to see if already unlocked (if you have this API)
-        let already = false;
-        try {
-          const chk = await fetch('/api/check-auth', {
-            method:'POST', headers:{'Content-Type':'application/json'},
-            body: JSON.stringify({ email })
-          });
-          if(chk.ok){
-            const j = await chk.json();
-            if(j.exists) {
-              already = true;
-              // set local token if backend returns one
-              const token = j.token || JSON.stringify({ email, ts: Date.now() });
-              localStorage.setItem('edu_unlocked_token', JSON.stringify({ email, ts: Date.now() }));
-              localStorage.setItem("snovaRole", "quick");
-              statusEl.style.color = 'green';
-              statusEl.innerText = localStorage.getItem('superedu-lang')==='zh' ? '已解锁 — 您现在可以进入教育中心' : 'Already unlocked — you may enter the Education Center';
-              enterBtn.style.display = 'inline-block';
-            }
-          }
-        } catch(err){
-          // ignore — check-auth is optional
-          // console.warn('check-auth failed', err);
-        }
-
-        if(already) return;
-
-        // 2) call /api/unlock to persist
-        const res = await fetch('/api/unlock', {
-          method:'POST', headers:{'Content-Type':'application/json'},
-          body: JSON.stringify({ firstName, lastName, email })
+        const chk = await fetch("/api/check-auth", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
         });
+        if (chk.ok) {
+          const j = await chk.json();
+          if (j.exists) {
+            already = true;
 
-        const out = await res.json();
+            // set local token
+            localStorage.setItem("edu_unlocked_token", JSON.stringify({ email, ts: Date.now() }));
+            localStorage.setItem("snovaRole", "quick");
 
-        if(!res.ok){
-          statusEl.style.color = 'crimson';
-          statusEl.innerText = out.error || out.message || (localStorage.getItem('superedu-lang')==='zh' ? '提交失败' : 'Submission failed');
-          return;
+            toast(lang === "zh" ? MSG.alreadyUnlocked.zh : MSG.alreadyUnlocked.en, "ok", 2400);
+            enterBtn.style.display = "inline-block";
+          }
         }
-
-        // success -> set token locally
-        localStorage.setItem('edu_unlocked_token', JSON.stringify({ email, ts: Date.now() }));
-        localStorage.setItem("snovaRole", "quick");
-
-        statusEl.style.color = 'green';
-        statusEl.innerText = localStorage.getItem('superedu-lang')==='zh' ? '解锁成功！正在跳转…' : 'Unlocked — redirecting…';
-        enterBtn.style.display = 'inline-block';
-
-        // small delay then go to Education Center
-        setTimeout(()=> window.location.assign('/education.html'), 900);
-      } catch(err){
-        console.error(err);
-        statusEl.style.color = 'crimson';
-        statusEl.innerText = localStorage.getItem('superedu-lang')==='zh' ? '提交失败，请重试' : 'Submission failed — please try again';
+      } catch (err) {
+        // optional check-auth failure ignored
       }
-    });
 
-    // ensure mobile menu buttons that exist behave same as homepage
-    document.getElementById('mobileRegister')?.addEventListener('click', ()=> location.href = '/membership.html');
-    document.getElementById('mobileUnlock')?.addEventListener('click', ()=> { /* we're already on quick-unlock */ });
+      if (already) return;
 
-    // ensure nav underline/menu highlight handled in CSS/JS elsewhere (menu.js)
-  </script>
+      // 2) call /api/unlock to persist
+      const res = await fetch("/api/unlock", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ firstName, lastName, email }),
+      });
+
+      const out = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        const msg = out.error || out.message || (lang === "zh" ? MSG.submitFailed.zh : MSG.submitFailed.en);
+        toast(msg, "err", 4200);
+        return;
+      }
+
+      // success -> set token locally
+      localStorage.setItem("edu_unlocked_token", JSON.stringify({ email, ts: Date.now() }));
+      localStorage.setItem("snovaRole", "quick");
+
+      toast(lang === "zh" ? MSG.unlockedRedirecting.zh : MSG.unlockedRedirecting.en, "ok", 2200);
+      enterBtn.style.display = "inline-block";
+
+      // small delay then go to Education Center
+      setTimeout(() => window.location.assign("/education.html"), 900);
+    } catch (err) {
+      console.error(err);
+      toast(lang === "zh" ? MSG.submitFailedRetry.zh : MSG.submitFailedRetry.en, "err", 4500);
+    }
+  });
+
+  /* =========================
+     Keep your original mobile menu button behaviors
+  ========================= */
+  document.getElementById("mobileRegister")?.addEventListener("click", () => (location.href = "/membership.html"));
+  document.getElementById("mobileUnlock")?.addEventListener("click", () => {
+    /* we're already on quick-unlock */
+  });
+})();
+</script>  
+      
   <!-- Footer (reuse your site footer if you have one) -->
    <!-- FOOTER -->
 <footer>
