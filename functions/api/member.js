@@ -75,7 +75,7 @@ async function sendVerificationEmail({
     </p>
 
     <p>
-      Thank you for registering with <strong>Edunova Education</strong>.
+      Thank you for registering with <strong>Edunova Foundation</strong>.
     </p>
 
     <p>
@@ -106,7 +106,7 @@ async function sendVerificationEmail({
       <strong>team@edunovafdn.org</strong>
     </p>
     <p style="margin-top: 24px;">
-          ——<strong>超能教育 · Edunova Education</strong>
+          ——<strong>超能教育 · Edunova Foundation</strong>
     </p>
     <hr style="margin: 32px 0; border: none; border-top: 1px solid #e5e7eb;" />
     <p>

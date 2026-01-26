@@ -12,6 +12,7 @@
 <link rel="icon" href="/assets/icons/favicon.ico">
 
 <link rel="stylesheet" href="/assets/css/main.css">
+<script src="/assets/js/toast.js" defer></script>
 <script src="/assets/js/menu.js" defer></script>
 <script src="/assets/js/lang.js" defer></script>
 
@@ -495,7 +496,7 @@ body.welcome-page {
       </p>
     </div>
 
-    <form class="login-form" id="loginForm" autocomplete="off">
+    <form class="login-form" id="loginForm" novalidate autocomplete="off">
 
       <label for="login-email" data-en="Email" data-zh="邮箱">Email</label>
       <input id="login-email" type="email" required placeholder="you@email.com">
@@ -534,115 +535,187 @@ body.welcome-page {
   </div>
 </div>
 </div>
-<!-- LOGIN LOGIC -->
+
 <script>
-document.getElementById("loginForm").addEventListener("submit", function(e) {
-  e.preventDefault();
+document.addEventListener("DOMContentLoaded", () => {
 
-  const email = document.getElementById("login-email").value.trim();
-  const password = document.getElementById("login-password").value;
+  /* =========================
+     Toast helpers (bilingual)
+  ========================= */
+  function lang() {
+    return localStorage.getItem("superedu-lang") === "zh" ? "zh" : "en";
+  }
+  function t(en, zh) {
+    return lang() === "zh" ? zh : en;
+  }
+  function toast(msg, type = "info", opts = {}) {
+    if (typeof window.showToast === "function") {
+      window.showToast(msg, type, opts);
+    } else {
+      alert(msg);
+    }
+  }
+
+  /* =========================
+     Elements & Regex
+  ========================= */
+  const form = document.getElementById("loginForm");
+  if (!form) return;
+
+  const emailInput = document.getElementById("login-email");
+  const passwordInput = document.getElementById("login-password");
+  const togglePassword = document.getElementById("toggleLoginPassword");
+
+  // Optional status elements (keep compatibility)
   const status = document.getElementById("loginStatus");
+  const emailStatus = document.getElementById("emailStatus");
 
-  if (!email || !password) {
-  status.textContent = "Please enter email and password.";
-  status.style.color = "#b45309";
-  return;
-}
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-if (!emailRegex.test(email)) {
-  status.textContent = "Invalid email format.";
-  status.style.color = "#dc2626";
-  return;
-}
+  /* =========================
+     Email real-time validation
+  ========================= */
+  emailInput?.addEventListener("input", () => {
+    const val = emailInput.value.trim();
+    if (!emailStatus) return;
 
-});
-
-
-
-const emailInput = document.getElementById("login-email");
-const emailStatus = document.getElementById("emailStatus");
-const passwordInput = document.getElementById("login-password");
-const togglePassword = document.getElementById("toggleLoginPassword");
-
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-/* Email real-time validation */
-emailInput.addEventListener("input", () => {
-  const val = emailInput.value.trim();
-
-  if (!val) {
-    emailStatus.textContent = "";
-    return;
-  }
-
-  if (!emailRegex.test(val)) {
-    emailStatus.textContent = "❌ Invalid email format";
-    emailStatus.style.color = "#dc2626";
-  } else {
-    emailStatus.textContent = "";
-  }
-});
-
-/* Toggle password visibility */
-togglePassword.addEventListener("click", () => {
-  const isHidden = passwordInput.type === "password";
-  passwordInput.type = isHidden ? "text" : "password";
-  togglePassword.textContent = isHidden ? "🙈" : "👁";
-});
-
-
-document.getElementById("loginForm").addEventListener("submit", async function (e) {
-  e.preventDefault();
-
-  const email = document.getElementById("login-email").value.trim();
-  const password = document.getElementById("login-password").value;
-  const status = document.getElementById("loginStatus");
-
-  if (!email || !password) {
-    status.textContent = "Please enter email and password.";
-    status.style.color = "#b45309";
-    return;
-  }
-
-  if (!emailRegex.test(email)) {
-    status.textContent = "Invalid email format.";
-    status.style.color = "#dc2626";
-    return;
-  }
-
-  status.textContent = "Logging in…";
-  status.style.color = "#374151";
-
-  try {
-    const res = await fetch("/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include", // ⭐ 非常关键
-      body: JSON.stringify({ email, password })
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      status.textContent = data.error || "Login failed.";
-      status.style.color = "#dc2626";
+    if (!val) {
+      emailStatus.textContent = "";
       return;
     }
 
-    status.textContent = "Login successful. Redirecting…";
-    status.style.color = "#15803d";
+    if (!emailRegex.test(val)) {
+      emailStatus.textContent = t("❌ Invalid email format", "❌ 邮箱格式不正确");
+      emailStatus.style.color = "#dc2626";
+    } else {
+      emailStatus.textContent = "";
+    }
+  });
 
-    setTimeout(() => {
-      window.location.href = "/dashboard.html";
-    }, 800);
+  /* =========================
+     Toggle password visibility
+  ========================= */
+  togglePassword?.addEventListener("click", () => {
+    const isHidden = passwordInput.type === "password";
+    passwordInput.type = isHidden ? "text" : "password";
+    togglePassword.textContent = isHidden ? "🙈" : "👁";
+  });
 
-  } catch (err) {
-    status.textContent = "Network error. Please try again.";
-    status.style.color = "#dc2626";
-  }
+  /* =========================
+     Submit (single handler only)
+  ========================= */
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    // Keep status area clean (optional)
+    if (status) {
+      status.textContent = "";
+      status.style.color = "";
+    }
+
+    if (!email || !password) {
+      toast(
+        t("Please enter email and password.", "请输入邮箱和密码。"),
+        "error",
+        { duration: 3800 }
+      );
+      if (status) {
+        status.textContent = t("Please enter email and password.", "请输入邮箱和密码。");
+        status.style.color = "#b45309";
+      }
+      return;
+    }
+
+    if (!emailRegex.test(email)) {
+      toast(
+        t("Invalid email format.", "邮箱格式不正确。"),
+        "error",
+        { duration: 3800 }
+      );
+      if (status) {
+        status.textContent = t("Invalid email format.", "邮箱格式不正确。");
+        status.style.color = "#dc2626";
+      }
+      return;
+    }
+
+    toast(t("Logging in…", "正在登录…"), "info", { duration: 1600 });
+    if (status) {
+      status.textContent = t("Logging in…", "正在登录…");
+      status.style.color = "#374151";
+    }
+
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include", // ⭐ 非常关键
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        const msg = data?.error || data?.message || "Login failed.";
+        toast(
+          lang() === "zh"
+            ? (msg === "Login failed." ? "登录失败，请检查账号或密码。" : msg)
+            : msg,
+          "error",
+          { duration: 4200 }
+        );
+
+        if (status) {
+          status.textContent = lang() === "zh"
+            ? "登录失败，请检查账号或密码。"
+            : (data?.error || "Login failed.");
+          status.style.color = "#dc2626";
+        }
+        return;
+      }
+
+      toast(t("Login successful. Redirecting…", "登录成功，正在跳转…"), "success", { duration: 1800 });
+      if (status) {
+        status.textContent = t("Login successful. Redirecting…", "登录成功，正在跳转…");
+        status.style.color = "#15803d";
+      }
+
+      setTimeout(() => {
+        window.location.href = "/dashboard.html";
+      }, 800);
+
+    } catch (err) {
+      toast(
+        t("Network error. Please try again.", "网络错误，请稍后再试。"),
+        "error",
+        { duration: 4200 }
+      );
+      if (status) {
+        status.textContent = t("Network error. Please try again.", "网络错误，请稍后再试。");
+        status.style.color = "#dc2626";
+      }
+    }
+  });
+
+  /* =========================
+     Auto-redirect if already logged in
+  ========================= */
+  (async function(){
+    try{
+      const res = await fetch("/api/me", { credentials:"include" });
+      const data = await res.json().catch(() => ({}));
+      if(res.ok && data.success){
+        location.replace("/dashboard.html");
+      }
+    }catch(e){}
+  })();
+
 });
-
 </script>
+
 <script src="/assets/js/auth-nav.js" defer></script>
 <script src="/assets/js/access.js" defer></script>
 <!-- Footer (reuse your site footer if you have one) -->
