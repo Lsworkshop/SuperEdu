@@ -323,46 +323,62 @@
 }
 
 /* =========================
-   Scholarship HERO – Column Lock Fix
-   解决：桌面/Surface 两列没展开，内容都挤左
+   Scholarship HERO – FULL WIDTH FIX
+   解决：Desktop/iPad/Surface Hero 被外层容器卡成 704px
 ========================= */
 
-/* 1) 再次声明 grid（防止被全站样式覆盖成 flex/block） */
-header.hero .hero-split{
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 42px;
-  align-items: center;
+/* 让 hero 自己先“撑满屏幕”，不受任何 container/max-width 限制 */
+.page-scholarship header.hero,
+.page-scholarship .hero {
+  width: 100%;
+  max-width: none !important;
+  margin: 0 !important;
 }
 
-/* 2) 关键：锁定列位置，防止两个都跑到第1列 */
-header.hero .hero-media{ grid-column: 1; }
-header.hero .hero-content{ grid-column: 2; }
+/* 关键：用 100vw 强制满屏，再用 auto 居中内容 */
+.page-scholarship .hero-split{
+  width: min(1100px, calc(100vw - 40px)) !important; /* ✅ 桌面 1100，窄屏贴边 */
+  max-width: 1100px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
 
-/* 3) 右侧图片必须吃满右列 */
-header.hero .hero-media,
-header.hero .hero-media img{
+/* 确保两列都能拉伸占位 */
+.page-scholarship .hero-content,
+.page-scholarship .hero-media{
+  min-width: 0;
+  justify-self: stretch;
+}
+
+.page-scholarship .hero-media img{
   width: 100%;
-  max-width: 100%;
   display: block;
 }
 
-/* 4) 手机：恢复单列（不影响你现在手机正常的表现） */
-@media (max-width: 980px){
-  header.hero .hero-split{
-    grid-template-columns: 1fr;
-    text-align: center;
+/* Hero 按钮间距（你说的“挨太近”） */
+.page-scholarship .hero-actions{
+  display: flex;
+  gap: 12px;              /* ✅ 按钮间距 */
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+/* Mobile：保持你现在正常的样子 */
+@media (max-width: 860px){
+  .page-scholarship .hero-split{
+    width: calc(100vw - 32px) !important;
   }
-  header.hero .hero-media,
-  header.hero .hero-content{
-    grid-column: auto;
+  .page-scholarship .hero-actions{
+    justify-content: center;
   }
 }
+
 
   </style>
 </head>
 
-<body>
+<body class="page-scholarship">
+
   <!-- NAV (keep your existing nav from other pages) -->
   <html class="nav-preload"></html>
   <!-- 你已有统一导航，这里直接复用你当前项目的 nav 代码块即可 -->
