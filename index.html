@@ -1587,7 +1587,7 @@ Under adult supervision, the students also play a leading role in managing donat
 
   <div class="contact-form-wrapper">
 
-<form id="consultForm" novalidate autocomplete="off">
+<form id="consultForm" autocomplete="off">
 
 
       <input
@@ -1736,393 +1736,155 @@ Under adult supervision, the students also play a leading role in managing donat
   </div>
 </footer>
 
-<script>
-/* =====================================================
-   Home Page Forms — Production (Toast + Bilingual)
-   Covers:
-   - CTA scroll
-   - Register form (#registerForm)
-   - Quick Unlock (#unlockBtn / #enterEduBtn)
-   - Consultation form (#consultForm)
-   Notes:
-   - Reads language from localStorage 'superedu-lang' (zh/en)
-   - No alert(); all feedback via Toast
-===================================================== */
+<!-- scripts (lang + menu + inline behaviors) -->
+  <script src="/assets/js/lang.js"></script>
+  <script src="/assets/js/menu.js"></script>
+    
+  <script>
 
-(function () {
-  /* -------------------------
-     Language helper
-  ------------------------- */
-  function getLang() {
-    const l = (localStorage.getItem("superedu-lang") || "en").toLowerCase();
-    return l.startsWith("zh") ? "zh" : "en";
-  }
+        // Inline behaviors for register/unlock forms and anchors (kept from original)
+    function scrollToEl(id){ const el = document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth', block:'center'}); }
 
-  function t(zhText, enText) {
-    return getLang() === "zh" ? zhText : enText;
-  }
+    // CTA buttons -> scroll to appropriate section
+    document.getElementById('ctaRegister')?.addEventListener('click', ()=> scrollToEl('registrationCard'));
+    document.getElementById('ctaUnlock')?.addEventListener('click', ()=> scrollToEl('unlockCard'));
 
-  /* -------------------------
-     Email validator
-  ------------------------- */
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // mobile menu actions (buttons in mobile menu)
+    document.getElementById('mobileRegister')?.addEventListener('click', ()=> { document.getElementById('hamburger')?.click(); scrollToEl('registrationCard'); });
+    document.getElementById('mobileUnlock')?.addEventListener('click', ()=> { document.getElementById('hamburger')?.click(); scrollToEl('unlockCard'); });
 
-  /* =====================================================
-     Toast (Mobile-friendly duration)
-     - duration: mobile longer to read
-  ====================================================== */
-  function isMobile() {
-    return window.matchMedia("(max-width: 640px)").matches;
-  }
-
-  function ensureToastHost() {
-    if (document.getElementById("edunovaToastHost")) return;
-
-    const style = document.createElement("style");
-    style.id = "edunovaToastStyle";
-    style.textContent = `
-      #edunovaToastHost{
-        position: fixed;
-        left: 50%;
-        bottom: 18px;
-        transform: translateX(-50%);
-        z-index: 99999;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        width: min(92vw, 520px);
-        pointer-events: none;
-      }
-      .edunova-toast{
-        pointer-events: auto;
-        display:flex;
-        align-items:flex-start;
-        gap:10px;
-        padding: 12px 14px;
-        border-radius: 14px;
-        background: rgba(255,255,255,0.92);
-        border: 1px solid rgba(0,0,0,0.06);
-        box-shadow: 0 14px 34px rgba(20,30,60,0.16);
-        backdrop-filter: blur(10px);
-        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
-          Roboto, "Helvetica Neue", Arial, "PingFang SC", "HarmonyOS Sans SC",
-          "Noto Sans SC", "Microsoft YaHei UI", sans-serif;
-        color:#1f2937;
-        animation: edunovaToastIn .18s ease-out both;
-      }
-      .edunova-toast__dot{
-        width:10px;height:10px;border-radius:999px;flex:0 0 auto;margin-top:5px;
-        background: #3b82f6;
-      }
-      .edunova-toast--success .edunova-toast__dot{ background:#22c55e; }
-      .edunova-toast--error .edunova-toast__dot{ background:#ef4444; }
-      .edunova-toast--warn .edunova-toast__dot{ background:#f59e0b; }
-      .edunova-toast__msg{
-        line-height: 1.45;
-        font-size: 14.5px;
-        font-weight: 500;
-      }
-      .edunova-toast__close{
-        margin-left:auto;
-        border:0;
-        background: transparent;
-        color:#6b7280;
-        font-size: 18px;
-        line-height: 1;
-        cursor: pointer;
-        padding: 0 4px;
-      }
-      @keyframes edunovaToastIn{
-        from{ transform: translateY(8px); opacity:0; }
-        to{ transform: translateY(0); opacity:1; }
-      }
-      @keyframes edunovaToastOut{
-        from{ transform: translateY(0); opacity:1; }
-        to{ transform: translateY(8px); opacity:0; }
-      }
-    `;
-    document.head.appendChild(style);
-
-    const host = document.createElement("div");
-    host.id = "edunovaToastHost";
-    document.body.appendChild(host);
-  }
-
-  function toast(message, type = "info", opts = {}) {
-    ensureToastHost();
-    const host = document.getElementById("edunovaToastHost");
-    if (!host) return;
-
-    const duration =
-      typeof opts.duration === "number"
-        ? opts.duration
-        : (isMobile() ? 4200 : 2600); // ⭐手机更久，桌面稍短
-
-    const el = document.createElement("div");
-    el.className = `edunova-toast edunova-toast--${type}`;
-
-    el.innerHTML = `
-      <div class="edunova-toast__dot"></div>
-      <div class="edunova-toast__msg"></div>
-      <button class="edunova-toast__close" aria-label="Close">×</button>
-    `;
-
-    el.querySelector(".edunova-toast__msg").textContent = message;
-
-    const closeBtn = el.querySelector(".edunova-toast__close");
-    const close = () => {
-      el.style.animation = "edunovaToastOut .16s ease-in both";
-      setTimeout(() => el.remove(), 160);
-    };
-    closeBtn.addEventListener("click", close);
-
-    host.appendChild(el);
-
-    // auto close
-    setTimeout(close, duration);
-  }
-
-  /* =====================================================
-     Scroll helpers
-  ====================================================== */
-  function scrollToEl(id) {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
-  }
-
-  /* =====================================================
-     Main init
-  ====================================================== */
-  document.addEventListener("DOMContentLoaded", () => {
-    /* -------------------------
-       CTA buttons -> scroll
-    ------------------------- */
-    document.getElementById("ctaRegister")?.addEventListener("click", () => scrollToEl("registrationCard"));
-    document.getElementById("ctaUnlock")?.addEventListener("click", () => scrollToEl("unlockCard"));
-
-    /* Mobile menu action buttons */
-    document.getElementById("mobileRegister")?.addEventListener("click", () => {
-      document.getElementById("hamburger")?.click();
-      scrollToEl("registrationCard");
-    });
-    document.getElementById("mobileUnlock")?.addEventListener("click", () => {
-      document.getElementById("hamburger")?.click();
-      scrollToEl("unlockCard");
-    });
-
-    /* =====================================================
-       REGISTER form (#registerForm)
-    ====================================================== */
-    const registerForm = document.getElementById("registerForm");
-    registerForm?.addEventListener("submit", async (e) => {
+    // REGISTER form submit (with email validation)
+    document.getElementById('registerForm')?.addEventListener('submit', async function(e){
       e.preventDefault();
+      const status = document.getElementById('regStatus');
+      const fname = document.getElementById('r-first').value.trim();
+      const lname = document.getElementById('r-last').value.trim();
+      const email = document.getElementById('r-email').value.trim();
+      const ref = document.getElementById('r-ref').value.trim();
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(!emailPattern.test(email)){ status.innerText = (localStorage.getItem('superedu-lang')==='zh') ? '请输入有效邮箱' : 'Please enter a valid email'; return; }
+      status.innerText = (localStorage.getItem('superedu-lang')==='zh') ? '提交中...' : 'Submitting...';
 
-      const fname = document.getElementById("r-first")?.value.trim() || "";
-      const lname = document.getElementById("r-last")?.value.trim() || "";
-      const email = document.getElementById("r-email")?.value.trim() || "";
-      const ref   = document.getElementById("r-ref")?.value.trim() || "";
-
-      if (!fname || !lname || !email) {
-        toast(t("请填写所有必填项", "Please fill all required fields."), "warn");
-        return;
-      }
-      if (!emailPattern.test(email)) {
-        toast(t("请输入正确的邮箱地址", "Please enter a valid email address."), "error");
-        return;
-      }
-
-      toast(t("提交中…", "Submitting…"), "info", { duration: isMobile() ? 1800 : 1400 });
-
-      try {
-        const payload = {
-          firstName: fname,
-          lastName: lname,
-          email,
-          referralCode: ref,
-          source: "index_register",
-          created_at: new Date().toISOString()
-        };
-
-        const res = await fetch("/api/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-
-        const j = await res.json().catch(() => ({}));
-
-        if (!res.ok) {
-          toast(
-            (j.message || j.error || t("提交失败，请稍后重试", "Submission failed. Please try again.")),
-            "error"
-          );
-          return;
-        }
-
-        // ✅ 加入名单：一般对应 lead
-        localStorage.setItem("snovaRole", "lead");
-
-        toast(
-          j.message ||
-          t("加入成功！您已进入名单（Join List）。", "Success! You are on the Join List."),
-          "success"
-        );
-
-      } catch (err) {
+      try{
+        const payload = { firstName: fname, lastName: lname, email, referralCode: ref, source:'index_register', created_at: new Date().toISOString() };
+        const res = await fetch('/api/register', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+        const j = await res.json();
+        status.innerText = j.message || ((localStorage.getItem('superedu-lang')==='zh') ? '您已成功加入名单，创建账户以访问全部服务' : 'You’re on the list. Create an account to unlock full access.');
+      }catch(err){
         console.error(err);
-        toast(t("提交失败，请稍后重试", "Submission failed. Please try again later."), "error");
+        status.innerText = (localStorage.getItem('superedu-lang')==='zh') ? '提交失败' : 'Submission failed';
       }
     });
 
-    /* =====================================================
-       QUICK UNLOCK (homepage)
-       (#unlockBtn / #enterEduBtn)
-    ====================================================== */
-    const unlockBtn = document.getElementById("unlockBtn");
-    const enterBtn  = document.getElementById("enterEduBtn");
-    const firstU = document.getElementById("u-first");
-    const lastU  = document.getElementById("u-last");
-    const emailU = document.getElementById("u-email");
+    // QUICK UNLOCK
+    document.getElementById('unlockBtn')?.addEventListener('click', async function(){
+      const st = document.getElementById('unlockStatus');
+      const f = document.getElementById('u-first').value.trim();
+      const l = document.getElementById('u-last').value.trim();
+      const email = document.getElementById('u-email').value.trim();
+      if(!f||!l||!email){ st.innerText = (localStorage.getItem('superedu-lang')==='zh') ? '请填写姓名与邮箱' : 'Please fill first name, last name and email'; return; }
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(!emailPattern.test(email)){ st.innerText = (localStorage.getItem('superedu-lang')==='zh') ? '请输入有效邮箱' : 'Please enter a valid email'; return; }
+      st.innerText = (localStorage.getItem('superedu-lang')==='zh') ? '提交中...' : 'Submitting...';
 
-    // Page load: already unlocked?
-    const role = localStorage.getItem("snovaRole") || sessionStorage.getItem("snovaRole") || "visitor";
-    if (["quick", "lead", "member"].includes(role)) {
-      if (unlockBtn) unlockBtn.style.display = "none";
-      if (enterBtn)  enterBtn.style.display = "inline-flex";
-    }
-
-    unlockBtn?.addEventListener("click", async () => {
-      const f = firstU?.value.trim() || "";
-      const l = lastU?.value.trim() || "";
-      const email = emailU?.value.trim() || "";
-
-      if (!f || !l || !email) {
-        toast(t("请填写姓名与邮箱", "Please fill first name, last name and email."), "warn");
-        return;
-      }
-      if (!emailPattern.test(email)) {
-        toast(t("请输入正确的邮箱地址", "Please enter a valid email address."), "error");
-        return;
-      }
-
-      toast(t("提交中…", "Submitting…"), "info", { duration: isMobile() ? 1800 : 1400 });
-
-      try {
-        const payload = { firstName: f, lastName: l, email, source: "quick_unlock", created_at: new Date().toISOString() };
-        const res = await fetch("/api/unlock", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-        const j = await res.json().catch(() => ({}));
-
-        if (!res.ok) {
-          toast(j.message || j.error || t("提交失败，请稍后重试", "Submission failed. Please try again."), "error");
-          return;
-        }
-
-        // ✅ set local token + role
-        localStorage.setItem("snovaRole", "quick");
-        localStorage.setItem("edu_unlocked_token", JSON.stringify({ email, ts: Date.now() }));
-
-        toast(j.message || t("解锁成功！现在可以进入教育中心。", "Unlocked! You may enter the Education Center."), "success");
-
-        if (unlockBtn) unlockBtn.style.display = "none";
-        if (enterBtn)  enterBtn.style.display  = "inline-flex";
-
-        // 若你有语言刷新函数，可保留
-        if (window.refreshLang) window.refreshLang();
-
-      } catch (err) {
+      try{
+        const payload = { firstName:f, lastName:l, email, source:'quick_unlock', created_at: new Date().toISOString() };
+        const res = await fetch('/api/unlock', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
+        const j = await res.json();
+        st.innerText = j.message || ((localStorage.getItem('superedu-lang')==='zh') ? '已解锁，请点击进入' : 'Unlocked — click to enter');
+        document.getElementById('enterEduBtn').style.display = 'inline-block';
+        localStorage.setItem('edu_unlocked_token', JSON.stringify({email, ts: Date.now()}));
+      }catch(err){
         console.error(err);
-        toast(t("提交失败，请稍后重试", "Submission failed. Please try again later."), "error");
+        st.innerText = (localStorage.getItem('superedu-lang')==='zh') ? '提交失败' : 'Submission failed';
       }
     });
 
-    enterBtn?.addEventListener("click", () => {
-      const token = JSON.parse(localStorage.getItem("edu_unlocked_token") || "null");
-      if (!token) {
-        toast(t("请先解锁教育中心", "Please unlock access first."), "warn");
-        scrollToEl("unlockCard");
-        return;
-      }
-      window.location.href = "/education.html";
-    });
-
-    /* =====================================================
-       CONSULT form (#consultForm)
-       - Replaces old inline status strings with Toast
-       - Keeps backend call /api/consultation
-    ====================================================== */
-    const consultForm = document.getElementById("consultForm");
-    consultForm?.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const firstName = document.getElementById("c-first")?.value.trim() || "";
-      const lastName  = document.getElementById("c-last")?.value.trim() || "";
-      const email     = document.getElementById("c-email")?.value.trim() || "";
-      const phone     = document.getElementById("c-phone")?.value.trim() || "";
-      const gradYear  = document.getElementById("c-grad")?.value.trim() || "";
-      const message   = document.getElementById("c-message")?.value.trim() || "";
-
-      if (!firstName || !lastName || !email) {
-        toast(t("请填写所有必填项", "Please fill all required fields."), "warn");
-        return;
-      }
-      if (!emailPattern.test(email)) {
-        toast(t("请输入正确的邮箱地址", "Please enter a valid email address."), "error");
-        return;
-      }
-
-      toast(t("提交中…", "Submitting…"), "info", { duration: isMobile() ? 1800 : 1400 });
-
-      try {
-        const res = await fetch("/api/consultation", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            firstName,
-            lastName,
-            email,
-            phone,
-            gradYear,
-            message,
-            source: "homepage"
-          })
-        });
-
-        const data = await res.json().catch(() => ({}));
-
-        if (!res.ok) {
-          throw new Error(data.message || data.error || "Submission failed");
-        }
-
-        toast(
-          t("提交成功！我们会尽快联系您。", "Thank you! We will contact you shortly."),
-          "success"
-        );
-
-        consultForm.reset();
-        // 你之前额外清空 textarea，这里也保留更稳
-        const tEl = document.getElementById("c-message");
-        if (tEl) tEl.value = "";
-
-      } catch (err) {
-        console.error(err);
-        toast(t("提交失败，请稍后再试", "Submission failed. Please try again later."), "error");
-      }
+    // ENTER Education Center (checks token)
+    document.getElementById('enterEduBtn')?.addEventListener('click', function(){
+      const token = JSON.parse(localStorage.getItem('edu_unlocked_token') || 'null');
+      if(!token){ alert(localStorage.getItem('superedu-lang')==='zh' ? '请先解锁教育中心' : 'Please unlock access first'); scrollToEl('unlockCard'); return; }
+      window.location = '/education.html';
     });
 
     // small accessibility improvement: add keyboard activation on service cards
-    document.querySelectorAll(".service-card").forEach((card) => {
-      card.setAttribute("tabindex", "0");
-      card.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") card.click();
-      });
+    document.querySelectorAll('.service-card').forEach(card=>{
+      card.setAttribute('tabindex','0');
+      card.addEventListener('keydown', (e)=> { if(e.key==='Enter') card.click(); });
     });
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("consultForm");
+  if (!form) return;
+
+  const statusEl = document.getElementById("consultStatus");
+
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    statusEl.textContent = "";
+
+    const firstName = document.getElementById("c-first").value.trim();
+    const lastName  = document.getElementById("c-last").value.trim();
+    const email     = document.getElementById("c-email").value.trim();
+    const phone     = document.getElementById("c-phone")?.value.trim() || "";
+    const gradYear  = document.getElementById("c-grad")?.value.trim() || "";
+    const message   = document.getElementById("c-message")?.value.trim() || "";
+
+    if (!firstName || !lastName || !email) {
+      statusEl.textContent = "Please fill all required fields.";
+      return;
+    }
+
+    if (!isValidEmail(email)) {
+      statusEl.textContent = "Please enter a valid email address.";
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/consultation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          phone,
+          gradYear,
+          message,
+          source: "homepage"
+        })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || data.error || "Submission failed");
+      }
+
+      statusEl.textContent = "Thank you! We will contact you shortly.";
+      form.reset();
+
+    } catch (err) {
+      console.error(err);
+      statusEl.textContent = "Submission failed. Please try again later.";
+    }
   });
-})();
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const t = document.getElementById("c-message");
+  if (t) t.value = '';
+});
+
+
 </script>
+
 
 </body>
 </html>
