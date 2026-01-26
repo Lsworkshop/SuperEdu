@@ -886,7 +886,7 @@
           Sign up with name & email — referral optional.
         </p>
 
-        <form id="registerForm" autocomplete="off">
+        <form id="registerForm" novalidate autocomplete="off">
           <label for="r-first" data-en="First name" data-zh="名">First name</label>
           <input id="r-first" name="firstName" type="text" required placeholder="e.g. John / 例如：小明" />
 
@@ -1242,33 +1242,137 @@ if (emailEl) {
     <div id="unlockStatus" class="form-status"></div>
   </div>
 </div>
-
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const unlockBtn = document.getElementById("unlockBtn");
   const enterBtn  = document.getElementById("enterEduBtn");
-  const statusEl  = document.getElementById("unlockStatus");
+  const statusEl  = document.getElementById("unlockStatus"); // 备用（可保留）
 
   const first = document.getElementById("u-first");
   const last  = document.getElementById("u-last");
   const email = document.getElementById("u-email");
 
+  if (!unlockBtn || !enterBtn || !first || !last || !email) return;
+
   // ✅ 与注册页一致的 Email 正则
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  /* =========================
+     Toast (Homepage style)
+  ========================= */
+  function getLang() {
+    return localStorage.getItem("superedu-lang")
+      || document.documentElement.lang
+      || "en";
+  }
+
+  function t(en, zh) {
+    return getLang() === "zh" ? zh : en;
+  }
+
+  function ensureToastHost() {
+    let host = document.getElementById("toastHost");
+    if (host) return host;
+
+    host = document.createElement("div");
+    host.id = "toastHost";
+    host.style.cssText = `
+      position: fixed;
+      left: 50%;
+      top: 18px;
+      transform: translateX(-50%);
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: min(92vw, 520px);
+      pointer-events: none;
+    `;
+    document.body.appendChild(host);
+    return host;
+  }
+
+  function toast(message, type = "info", msDesktop = 3200, msMobile = 4800) {
+    const host = ensureToastHost();
+
+    const el = document.createElement("div");
+    el.setAttribute("role", "status");
+    el.setAttribute("aria-live", "polite");
+
+    const isMobile = window.matchMedia("(max-width: 640px)").matches;
+    const duration = isMobile ? msMobile : msDesktop;
+
+    const stylesByType = {
+      success: {
+        bg: "linear-gradient(135deg, rgba(34,197,94,0.16), rgba(16,185,129,0.10))",
+        border: "rgba(34,197,94,0.30)",
+        fg: "#0f3d2a"
+      },
+      error: {
+        bg: "linear-gradient(135deg, rgba(239,68,68,0.16), rgba(244,63,94,0.10))",
+        border: "rgba(239,68,68,0.28)",
+        fg: "#4a0e12"
+      },
+      info: {
+        bg: "linear-gradient(135deg, rgba(59,130,246,0.14), rgba(139,92,246,0.10))",
+        border: "rgba(99,102,241,0.26)",
+        fg: "#111827"
+      }
+    };
+
+    const s = stylesByType[type] || stylesByType.info;
+
+    el.style.cssText = `
+      pointer-events: none;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid ${s.border};
+      background: ${s.bg};
+      color: ${s.fg};
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+      backdrop-filter: blur(10px);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+                   "PingFang SC", "HarmonyOS Sans", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      font-size: 14px;
+      line-height: 1.35;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: opacity .18s ease, transform .18s ease;
+    `;
+
+    el.textContent = message;
+    host.appendChild(el);
+
+    requestAnimationFrame(() => {
+      el.style.opacity = "1";
+      el.style.transform = "translateY(0)";
+    });
+
+    window.setTimeout(() => {
+      el.style.opacity = "0";
+      el.style.transform = "translateY(-6px)";
+      window.setTimeout(() => el.remove(), 220);
+    }, duration);
+  }
 
   /* ========= 页面加载：如果已解锁 ========= */
   const role =
     localStorage.getItem("snovaRole") ||
-    sessionStorage.getItem("snovaRole");
+    sessionStorage.getItem("snovaRole") ||
+    "visitor";
 
   if (["quick", "lead", "member"].includes(role)) {
     unlockBtn.style.display = "none";
     enterBtn.style.display  = "inline-flex";
+  } else {
+    unlockBtn.style.display = "inline-flex";
+    enterBtn.style.display  = "none";
   }
 
   /* ========= 点击 Unlock ========= */
   unlockBtn.addEventListener("click", () => {
-    statusEl.textContent = "";
+    // 兼容老逻辑：不再用文本提示，但保留清空
+    if (statusEl) statusEl.textContent = "";
 
     const firstVal = first.value.trim();
     const lastVal  = last.value.trim();
@@ -1276,41 +1380,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ① 必填校验
     if (!firstVal || !lastVal || !emailVal) {
-      statusEl.textContent =
-        document.documentElement.lang === "zh"
-          ? "请填写所有必填项"
-          : "Please fill all required fields.";
+      toast(
+        t("Please fill all required fields.", "请填写所有必填项"),
+        "error"
+      );
       return;
     }
 
-    // ② Email 全格式校验（关键修复）
+    // ② Email 全格式校验
     if (!emailPattern.test(emailVal)) {
-      statusEl.textContent =
-        document.documentElement.lang === "zh"
-          ? "请输入正确的邮箱地址"
-          : "Please enter a valid email address.";
+      toast(
+        t("Please enter a valid email address.", "请输入正确的邮箱地址"),
+        "error"
+      );
       return;
     }
 
     // ③ 授权成功
     localStorage.setItem("snovaRole", "quick");
-
     localStorage.setItem(
       "edu_unlocked_token",
       JSON.stringify({ email: emailVal, ts: Date.now() })
     );
 
-    statusEl.textContent =
-      document.documentElement.lang === "zh"
-        ? "解锁成功！可以进入教育中心"
-        : "Unlocked! You may enter the Education Center.";
+    toast(
+      t("Unlocked! You may enter the Education Center.", "解锁成功！可以进入教育中心"),
+      "success"
+    );
 
     // ⭐ 切换按钮（不新增，不挤布局）
     unlockBtn.style.display = "none";
     enterBtn.style.display  = "inline-flex";
 
-    // 通知语言系统刷新
+    // 通知语言系统刷新（如果你有）
     if (window.refreshLang) window.refreshLang();
+    if (typeof window.applyLanguage === "function") window.applyLanguage();
   });
 
   /* ========= Enter EduCenter ========= */
@@ -1319,6 +1423,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 </script>
+
 
       <!-- ③ Apply — clickable service-style card -->
       <div class="card tool-card apply-card clickable"
