@@ -938,6 +938,148 @@ document.addEventListener("DOMContentLoaded", () => {
   // ✅ 与 Quick Unlock / 注册页统一的 Email 正则
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+  /* =====================================================
+     Toast (Bilingual, Homepage-style)
+     - Reads localStorage superedu-lang (fallback snova-lang)
+     - Longer duration on mobile
+  ===================================================== */
+  function getLang() {
+    return (
+      localStorage.getItem("superedu-lang") ||
+      localStorage.getItem("snova-lang") ||
+      "en"
+    );
+  }
+
+  function isMobileLike() {
+    return window.matchMedia("(max-width: 768px)").matches || /iPhone|iPad|Android/i.test(navigator.userAgent);
+  }
+
+  function ensureToastHost() {
+    let host = document.getElementById("toastHost");
+    if (host) return host;
+
+    host = document.createElement("div");
+    host.id = "toastHost";
+    document.body.appendChild(host);
+
+    // Minimal CSS injection (不会影响 main.css)
+    const style = document.createElement("style");
+    style.textContent = `
+      #toastHost{
+        position: fixed;
+        left: 50%;
+        top: 18px;
+        transform: translateX(-50%);
+        z-index: 9999;
+        width: min(520px, calc(100vw - 24px));
+        pointer-events: none;
+      }
+      .toast{
+        pointer-events: auto;
+        display:flex;
+        gap:12px;
+        align-items:flex-start;
+        padding: 12px 14px;
+        border-radius: 16px;
+        margin: 10px auto 0;
+        background: rgba(255,255,255,0.92);
+        border: 1px solid rgba(0,0,0,0.06);
+        box-shadow: 0 18px 46px rgba(0,0,0,0.12);
+        backdrop-filter: blur(10px);
+        transform: translateY(-8px);
+        opacity: 0;
+        transition: opacity .18s ease, transform .18s ease;
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+          "PingFang SC","HarmonyOS Sans SC","Source Han Sans SC","Noto Sans CJK SC","Noto Sans SC","Microsoft YaHei UI",sans-serif;
+      }
+      .toast.show{ opacity:1; transform: translateY(0); }
+      .toast .dot{
+        width: 10px; height: 10px; border-radius: 999px;
+        margin-top: 6px; flex: 0 0 auto;
+      }
+      .toast .content{ flex: 1 1 auto; min-width: 0; }
+      .toast .title{
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 1.25;
+        margin: 0 0 2px;
+        color: #111827;
+      }
+      .toast .msg{
+        margin: 0;
+        font-size: 13.5px;
+        line-height: 1.35;
+        color: rgba(17,24,39,0.82);
+        word-break: break-word;
+      }
+      .toast .x{
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        padding: 4px;
+        margin-left: 4px;
+        border-radius: 10px;
+        color: rgba(17,24,39,0.55);
+      }
+      .toast .x:hover{
+        background: rgba(17,24,39,0.06);
+        color: rgba(17,24,39,0.75);
+      }
+      .toast.success .dot{ background: linear-gradient(135deg,#34d399,#22c55e); }
+      .toast.error   .dot{ background: linear-gradient(135deg,#fb7185,#ef4444); }
+      .toast.info    .dot{ background: linear-gradient(135deg,#60a5fa,#8b5cf6); }
+    `;
+    document.head.appendChild(style);
+
+    return host;
+  }
+
+  function toast({ type="info", titleEn="", titleZh="", msgEn="", msgZh="", durationMs } = {}) {
+    const lang = getLang();
+    const host = ensureToastHost();
+
+    const t = document.createElement("div");
+    t.className = `toast ${type}`;
+
+    const title = (lang === "zh") ? (titleZh || titleEn) : (titleEn || titleZh);
+    const msg   = (lang === "zh") ? (msgZh || msgEn) : (msgEn || msgZh);
+
+    t.innerHTML = `
+      <div class="dot"></div>
+      <div class="content">
+        <div class="title">${title || ""}</div>
+        <p class="msg">${msg || ""}</p>
+      </div>
+      <button class="x" aria-label="Close">✕</button>
+    `;
+
+    host.appendChild(t);
+
+    // show animation
+    requestAnimationFrame(() => t.classList.add("show"));
+
+    // duration: mobile longer
+    const ms = (typeof durationMs === "number")
+      ? durationMs
+      : (isMobileLike() ? 3600 : 2200);
+
+    const close = () => {
+      t.classList.remove("show");
+      setTimeout(() => t.remove(), 180);
+    };
+
+    t.querySelector(".x").addEventListener("click", close);
+
+    setTimeout(close, ms);
+  }
+
+  // Keep regStatus for accessibility (screen readers)
+  function setStatusText(text) {
+    if (!regStatus) return;
+    regStatus.textContent = text;
+  }
+
   /* ========= 工具函数：按钮切换为 EduCenter ========= */
   function setButtonToEduCenter() {
     submitBtn.type = "button";
@@ -946,11 +1088,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const icon  = submitBtn.querySelector("use");
     const label = submitBtn.querySelector(".btn-label");
 
-    icon.setAttribute("href", "#icon-edu");
+    if (icon) icon.setAttribute("href", "#icon-edu");
 
-    label.setAttribute("data-en", "Enter EduCenter");
-    label.setAttribute("data-zh", "进入教育中心");
-    label.textContent = "Enter EduCenter";
+    if (label) {
+      label.setAttribute("data-en", "Enter EduCenter");
+      label.setAttribute("data-zh", "进入教育中心");
+      label.textContent = "Enter EduCenter";
+    }
 
     submitBtn.onclick = () => {
       window.location.href = "/education.html";
@@ -958,6 +1102,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ⭐ 通知语言系统刷新
     if (window.refreshLang) window.refreshLang();
+    if (typeof window.applyLanguage === "function") window.applyLanguage();
   }
 
   /* ========= 页面加载：已有权限 ========= */
@@ -973,43 +1118,58 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ========= 表单提交（加入名单） ========= */
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    regStatus.textContent = "";
+    setStatusText("");
 
-    const first = document.getElementById("r-first").value.trim();
-    const last  = document.getElementById("r-last").value.trim();
-    const email = document.getElementById("r-email").value.trim();
+    const first = document.getElementById("r-first")?.value.trim();
+    const last  = document.getElementById("r-last")?.value.trim();
+    const email = document.getElementById("r-email")?.value.trim();
 
     // ① 必填校验
     if (!first || !last || !email) {
-      regStatus.textContent =
-        document.documentElement.lang === "zh"
-          ? "请填写所有必填项"
-          : "Please fill all required fields.";
+      setStatusText("Please fill all required fields.");
+      toast({
+        type: "error",
+        titleEn: "Missing information",
+        titleZh: "信息不完整",
+        msgEn: "Please fill all required fields before submitting.",
+        msgZh: "请先填写所有必填项后再提交。"
+      });
       return;
     }
 
-    // ② Email 全格式校验（关键修复点）
+    // ② Email 全格式校验
     if (!emailPattern.test(email)) {
-      regStatus.textContent =
-        document.documentElement.lang === "zh"
-          ? "请输入正确的邮箱地址"
-          : "Please enter a valid email address.";
+      setStatusText("Please enter a valid email address.");
+      toast({
+        type: "error",
+        titleEn: "Invalid email",
+        titleZh: "邮箱格式不正确",
+        msgEn: "Please enter a valid email address (e.g., name@example.com).",
+        msgZh: "请输入正确的邮箱地址（例如：name@example.com）。"
+      });
       return;
     }
 
     /* ✅ 加入名单成功 → 升级为 lead */
     localStorage.setItem("snovaRole", "lead");
 
-    regStatus.textContent =
-      document.documentElement.lang === "zh"
-        ? "加入成功！现在可以进入教育中心"
-        : "Successfully joined! You can now access EduCenter.";
+    setStatusText("Successfully joined! You can now access EduCenter.");
+
+    toast({
+      type: "success",
+      titleEn: "You’re on the list",
+      titleZh: "加入成功",
+      msgEn: "Successfully joined! You can now enter EduCenter.",
+      msgZh: "加入成功！现在可以进入 EduCenter。",
+      durationMs: isMobileLike() ? 4200 : 2600
+    });
 
     /* ✅ 复用原按钮 → 进入 EduCenter */
     setButtonToEduCenter();
   });
 });
 </script>
+
 
        <!-- ② Quick Unlock -->
 <div class="card tool-card unlock-card" id="unlockCard">
