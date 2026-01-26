@@ -323,56 +323,64 @@
 }
 
 /* =========================
-   Scholarship HERO – FULL WIDTH FIX
-   解决：Desktop/iPad/Surface Hero 被外层容器卡成 704px
+   Scholarship HERO – CENTER FIX (Hard Center)
+   解决：宽度对了但仍左偏
 ========================= */
 
-/* 让 hero 自己先“撑满屏幕”，不受任何 container/max-width 限制 */
+/* 让 hero 成为“真正居中容器”，不吃任何祖先布局影响 */
 .page-scholarship header.hero,
-.page-scholarship .hero {
-  width: 100%;
+.page-scholarship .hero{
+  width: 100% !important;
   max-width: none !important;
   margin: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+
+  /* ✅ 关键：用 flex 强制内部居中 */
+  display: flex !important;
+  justify-content: center !important;
 }
 
-/* 关键：用 100vw 强制满屏，再用 auto 居中内容 */
+/* hero-split 不再靠 margin auto，而是交给父级 flex 居中 */
 .page-scholarship .hero-split{
-  width: min(1100px, calc(100vw - 40px)) !important; /* ✅ 桌面 1100，窄屏贴边 */
+  width: min(1100px, calc(100vw - 40px)) !important;
   max-width: 1100px !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
+
+  margin: 0 !important;           /* 交给父级居中 */
+  padding: 28px 20px 26px !important;
+
+  box-sizing: border-box;
 }
 
-/* 确保两列都能拉伸占位 */
-.page-scholarship .hero-content,
-.page-scholarship .hero-media{
-  min-width: 0;
-  justify-self: stretch;
+/* 防止某些全局规则把它推走 */
+.page-scholarship .hero-split{
+  left: auto !important;
+  right: auto !important;
+  transform: none !important;
+  position: relative;
 }
 
-.page-scholarship .hero-media img{
-  width: 100%;
-  display: block;
-}
-
-/* Hero 按钮间距（你说的“挨太近”） */
+/* 按钮间距 */
 .page-scholarship .hero-actions{
-  display: flex;
-  gap: 12px;              /* ✅ 按钮间距 */
+  display:flex;
+  gap: 12px;
   flex-wrap: wrap;
   margin-top: 16px;
 }
 
-/* Mobile：保持你现在正常的样子 */
+/* Mobile 保持正常 */
 @media (max-width: 860px){
+  .page-scholarship .hero{
+    display:block !important;   /* 手机回到原本流式 */
+  }
   .page-scholarship .hero-split{
     width: calc(100vw - 32px) !important;
+    margin: 0 auto !important;
   }
   .page-scholarship .hero-actions{
-    justify-content: center;
+    justify-content:center;
   }
 }
-
 
   </style>
 </head>
