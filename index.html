@@ -1755,28 +1755,7 @@ Under adult supervision, the students also play a leading role in managing donat
     document.getElementById('mobileRegister')?.addEventListener('click', ()=> { document.getElementById('hamburger')?.click(); scrollToEl('registrationCard'); });
     document.getElementById('mobileUnlock')?.addEventListener('click', ()=> { document.getElementById('hamburger')?.click(); scrollToEl('unlockCard'); });
 
-    // REGISTER form submit (with email validation)
-    document.getElementById('registerForm')?.addEventListener('submit', async function(e){
-      e.preventDefault();
-      const status = document.getElementById('regStatus');
-      const fname = document.getElementById('r-first').value.trim();
-      const lname = document.getElementById('r-last').value.trim();
-      const email = document.getElementById('r-email').value.trim();
-      const ref = document.getElementById('r-ref').value.trim();
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if(!emailPattern.test(email)){ status.innerText = (localStorage.getItem('superedu-lang')==='zh') ? '请输入有效邮箱' : 'Please enter a valid email'; return; }
-      status.innerText = (localStorage.getItem('superedu-lang')==='zh') ? '提交中...' : 'Submitting...';
-
-      try{
-        const payload = { firstName: fname, lastName: lname, email, referralCode: ref, source:'index_register', created_at: new Date().toISOString() };
-        const res = await fetch('/api/register', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)});
-        const j = await res.json();
-        status.innerText = j.message || ((localStorage.getItem('superedu-lang')==='zh') ? '您已成功加入名单，创建账户以访问全部服务' : 'You’re on the list. Create an account to unlock full access.');
-      }catch(err){
-        console.error(err);
-        status.innerText = (localStorage.getItem('superedu-lang')==='zh') ? '提交失败' : 'Submission failed';
-      }
-    });
+  
 
     // QUICK UNLOCK
     document.getElementById('unlockBtn')?.addEventListener('click', async function(){
