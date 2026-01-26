@@ -13,6 +13,7 @@
 
 <!-- scripts -->
 <script src="/assets/js/menu.js" defer></script>
+<script src="/assets/js/toast.js" defer></script>
 <script src="/assets/js/lang.js" defer></script>
 <script src="/assets/js/access.js" defer></script>
 <script src="/assets/js/auth-nav.js" defer></script>
@@ -713,6 +714,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const confirmInput  = document.getElementById("confirmPassword");
   const confirmHint   = document.getElementById("confirmHint");
 
+  // ===== Toast helpers (bilingual) =====
+  function lang() {
+    return localStorage.getItem("superedu-lang") === "zh" ? "zh" : "en";
+  }
+  function t(en, zh) {
+    return lang() === "zh" ? zh : en;
+  }
+  function toast(msg, type = "info", opts = {}) {
+    if (typeof window.showToast === "function") {
+      window.showToast(msg, type, opts);
+    } else {
+      // fallback (just in case toast.js not loaded)
+      alert(msg);
+    }
+  }
+
   /* =========================
      Password Rule Definition
   ========================= */
@@ -770,9 +787,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (match) {
       icon.textContent = "✔ ";
-      text.textContent = text.dataset.en === "Passwords do not match"
-        ? "Passwords match"
-        : text.textContent;
       text.dataset.en = "Passwords match";
       text.dataset.zh = "两次输入的密码一致";
     } else {
@@ -780,6 +794,10 @@ document.addEventListener("DOMContentLoaded", () => {
       text.dataset.en = "Passwords do not match";
       text.dataset.zh = "两次输入的密码不一致";
     }
+
+    // 如果页面有语言系统，可刷新
+    if (typeof window.refreshLang === "function") window.refreshLang();
+    if (typeof window.applyLanguage === "function") window.applyLanguage();
   }
 
   confirmInput.addEventListener("input", checkConfirmPassword);
@@ -801,6 +819,8 @@ document.addEventListener("DOMContentLoaded", () => {
   ========================= */
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+
+    // 清空原 status（成功时我们仍然用它展示 Member ID）
     status.textContent = "";
     status.className = "form-status";
 
@@ -811,27 +831,47 @@ document.addEventListener("DOMContentLoaded", () => {
     const confirm       = confirmInput.value;
     const referral_code = document.getElementById("referral_code")?.value.trim() || null;
 
+    // ===== Required fields =====
     if (!first_name || !last_name || !email || !password || !confirm) {
-      status.textContent = "Please complete all required fields.";
+      toast(
+        t("Please complete all required fields.", "请填写所有必填项。"),
+        "error",
+        { duration: 3200 }
+      );
       status.className = "form-status error";
       return;
     }
 
+    // ===== Password rules =====
     if (!isValidPassword(password)) {
-      status.textContent =
-        "Password must be at least 8 characters and include letters and numbers.";
+      toast(
+        t(
+          "Password must be at least 8 characters and include letters and numbers.",
+          "密码至少 8 位，并且必须包含字母和数字。"
+        ),
+        "error",
+        { duration: 3800 }
+      );
       status.className = "form-status error";
       return;
     }
 
+    // ===== Confirm match =====
     if (password !== confirm) {
-      status.textContent = "Passwords do not match.";
+      toast(
+        t("Passwords do not match.", "两次输入的密码不一致。"),
+        "error",
+        { duration: 3200 }
+      );
       status.className = "form-status error";
       return;
     }
+
+    // ===== Submitting toast =====
+    toast(t("Creating your account…", "正在创建账户…"), "info", { duration: 1800 });
 
     try {
-      status.textContent = "Creating your account…";
+      status.textContent = t("Creating your account…", "正在创建账户…");
       status.className = "form-status loading";
 
       const res = await fetch("/api/member", {
@@ -846,36 +886,58 @@ document.addEventListener("DOMContentLoaded", () => {
         })
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        status.textContent = data.error || "Registration failed.";
+        const msg = data?.error || data?.message || "Registration failed.";
+        toast(
+          lang() === "zh"
+            ? (msg === "Registration failed." ? "注册失败，请稍后重试。" : msg)
+            : msg,
+          "error",
+          { duration: 4200 }
+        );
+
+        status.textContent = lang() === "zh" ? "注册失败。" : "Registration failed.";
         status.className = "form-status error";
         return;
       }
 
+      // ✅ 成功：Toast + 在 status 区域显示详细信息（Member ID、邮箱验证提示）
+      toast(
+        t("Account created! Please verify your email.", "创建成功！请前往邮箱完成验证。"),
+        "success",
+        { duration: 4200 }
+      );
+
       status.innerHTML = `
-        Account created successfully.<br>
-        <strong>Your Member ID:</strong> ${data.member_id}<br>
-        Redirecting…
+        ${t("Account created successfully.", "账户创建成功。")}<br>
+        <strong>${t("Your Member ID:", "您的会员编号：")}</strong> ${data.member_id}<br><br>
+        📧 ${t(
+          "Please check your email to verify your account before logging in.",
+          "请查收邮箱并完成验证后再登录。"
+        )}
       `;
       status.className = "form-status success";
 
-      status.innerHTML = `
-  Account created successfully.<br>
-  <strong>Your Member ID:</strong> ${data.member_id}<br><br>
-  📧 Please check your email to verify your account before logging in.
-`;
-status.className = "form-status success";
+      // 如果你后面还有“Redirecting…”逻辑（例如跳到 welcome.html），可以在这里加：
+      // setTimeout(() => window.location.href = "/welcome.html", 1200);
 
     } catch (err) {
-      status.textContent = "Network error. Please try again.";
+      console.error(err);
+      toast(
+        t("Network error. Please try again.", "网络错误，请稍后重试。"),
+        "error",
+        { duration: 4200 }
+      );
+      status.textContent = t("Network error. Please try again.", "网络错误，请稍后重试。");
       status.className = "form-status error";
     }
   });
 
 });
 </script>
+
 <!-- Footer (reuse your site footer if you have one) -->
    <!-- FOOTER -->
 <footer>
