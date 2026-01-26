@@ -1,193 +1,241 @@
 /* =====================================================
-   toast.js — Global Toast (EN/ZH) Production
-   - Auto language via localStorage("superedu-lang") or <html lang="">
-   - Mobile duration longer
-   - No dependency
+   SuperEdu Toast — Unified (White Card + Progress Bar)
+   - showToast(message, type, options)
+   - type: "info" | "success" | "error" | "warning"
+   - auto duration adapts on mobile
 ===================================================== */
 (function () {
   const DEFAULTS = {
-    durationDesktop: 3200,
-    durationMobile: 5200,
-    position: "top", // top | bottom
+    duration: 3200,      // desktop default
+    mobileDuration: 5200, // mobile default (longer to read)
+    position: "top-center", // "top-center" | "top-right" | "bottom-center"
+    maxWidth: 520,
+    closable: true,
   };
-
-  const DICT = {
-    required: {
-      en: "Please fill all required fields.",
-      zh: "请填写所有必填项。",
-    },
-    email_invalid: {
-      en: "Please enter a valid email address.",
-      zh: "请输入正确的邮箱地址。",
-    },
-    submitting: {
-      en: "Submitting...",
-      zh: "提交中…",
-    },
-    success: {
-      en: "Success!",
-      zh: "成功！",
-    },
-    failed_try_again: {
-      en: "Submission failed. Please try again.",
-      zh: "提交失败，请重试。",
-    },
-    login_required: {
-      en: "Please log in first.",
-      zh: "请先登录。",
-    },
-  };
-
-  function getLang() {
-    const ls = (localStorage.getItem("superedu-lang") || "").toLowerCase();
-    if (ls === "zh" || ls === "en") return ls;
-    const htmlLang = (document.documentElement.lang || "").toLowerCase();
-    if (htmlLang.startsWith("zh")) return "zh";
-    return "en";
-  }
 
   function isMobile() {
-    return window.matchMedia && window.matchMedia("(max-width: 768px)").matches;
+    return window.matchMedia && window.matchMedia("(max-width: 640px)").matches;
   }
 
-  function ensureHost() {
-    let host = document.getElementById("se-toast-host");
-    if (host) return host;
+  function ensureRoot(position) {
+    const id = "superedu-toast-root";
+    let root = document.getElementById(id);
 
-    host = document.createElement("div");
-    host.id = "se-toast-host";
-    host.style.position = "fixed";
-    host.style.left = "0";
-    host.style.right = "0";
-    host.style.zIndex = "9999";
-    host.style.pointerEvents = "none";
-    host.style.display = "flex";
-    host.style.justifyContent = "center";
-    host.style.padding = "12px 14px";
+    if (!root) {
+      root = document.createElement("div");
+      root.id = id;
+      document.body.appendChild(root);
+    }
 
-    // default top
-    host.style.top = "0";
+    // apply root styles every time (in case page CSS overrides)
+    root.style.position = "fixed";
+    root.style.zIndex = "99999";
+    root.style.pointerEvents = "none";
+    root.style.display = "flex";
+    root.style.flexDirection = "column";
+    root.style.gap = "10px";
+    root.style.padding = "12px";
+    root.style.width = "100%";
+    root.style.boxSizing = "border-box";
+    root.style.alignItems = "center";
 
-    document.body.appendChild(host);
-    return host;
-  }
-
-  function makeToastEl(message, type, position) {
-    const el = document.createElement("div");
-    el.setAttribute("role", "status");
-    el.setAttribute("aria-live", "polite");
-
-    // container position
-    const host = ensureHost();
-    if (position === "bottom") {
-      host.style.top = "";
-      host.style.bottom = "0";
+    if (position === "top-right") {
+      root.style.top = "12px";
+      root.style.right = "12px";
+      root.style.left = "auto";
+      root.style.bottom = "auto";
+      root.style.alignItems = "flex-end";
+      root.style.width = "auto";
+      root.style.maxWidth = "calc(100vw - 24px)";
+    } else if (position === "bottom-center") {
+      root.style.bottom = "12px";
+      root.style.left = "0";
+      root.style.right = "0";
+      root.style.top = "auto";
+      root.style.alignItems = "center";
     } else {
-      host.style.bottom = "";
-      host.style.top = "0";
+      // top-center default
+      root.style.top = "12px";
+      root.style.left = "0";
+      root.style.right = "0";
+      root.style.bottom = "auto";
+      root.style.alignItems = "center";
     }
 
-    el.style.pointerEvents = "auto";
-    el.style.maxWidth = "720px";
-    el.style.width = "fit-content";
-    el.style.margin = "0 auto";
-    el.style.padding = "10px 14px";
-    el.style.borderRadius = "999px";
-    el.style.fontSize = "14.5px";
-    el.style.fontWeight = "600";
-    el.style.lineHeight = "1.2";
-    el.style.backdropFilter = "blur(10px)";
-    el.style.boxShadow = "0 12px 30px rgba(20,30,60,0.18)";
-    el.style.transform = "translateY(-8px)";
-    el.style.opacity = "0";
-    el.style.transition = "opacity 180ms ease, transform 180ms ease";
-
-    // colors
-    if (type === "success") {
-      el.style.background = "rgba(34,197,94,0.12)";
-      el.style.border = "1px solid rgba(34,197,94,0.30)";
-      el.style.color = "#166534";
-    } else if (type === "error") {
-      el.style.background = "rgba(239,68,68,0.10)";
-      el.style.border = "1px solid rgba(239,68,68,0.25)";
-      el.style.color = "#991b1b";
-    } else if (type === "info") {
-      el.style.background = "rgba(59,130,246,0.12)";
-      el.style.border = "1px solid rgba(59,130,246,0.25)";
-      el.style.color = "#1e3a8a";
-    } else {
-      // default
-      el.style.background = "rgba(17,24,39,0.08)";
-      el.style.border = "1px solid rgba(17,24,39,0.12)";
-      el.style.color = "#111827";
-    }
-
-    el.textContent = message;
-
-    // close on click
-    el.addEventListener("click", () => {
-      el.style.opacity = "0";
-      el.style.transform = "translateY(-10px)";
-      setTimeout(() => el.remove(), 180);
-    });
-
-    return el;
+    return root;
   }
 
-  function resolveMessage(opts) {
-    const lang = getLang();
-
-    // 1) key from DICT
-    if (opts && opts.key && DICT[opts.key]) {
-      return DICT[opts.key][lang] || DICT[opts.key].en;
-    }
-
-    // 2) direct en/zh
-    if (opts && (opts.en || opts.zh)) {
-      return (lang === "zh" ? opts.zh : opts.en) || opts.en || opts.zh || "";
-    }
-
-    // 3) plain string
-    if (typeof opts === "string") return opts;
-
-    return "";
+  function iconFor(type) {
+    // simple unicode icons; can be replaced with svg later
+    if (type === "success") return "✅";
+    if (type === "error") return "⛔";
+    if (type === "warning") return "⚠️";
+    return "ℹ️";
   }
 
-  function showToast(opts) {
-    const message = resolveMessage(opts);
-    if (!message) return;
+  function accentColor(type) {
+    // progress bar color
+    if (type === "success") return "#22c55e";
+    if (type === "error") return "#ef4444";
+    if (type === "warning") return "#f59e0b";
+    return "#3b82f6";
+  }
 
-    const type = (opts && opts.type) || "info";
-    const position = (opts && opts.position) || DEFAULTS.position;
+  function makeToastEl(message, type, opts) {
+    const wrap = document.createElement("div");
+    wrap.className = "superedu-toast";
+    wrap.style.pointerEvents = "auto";
+    wrap.style.width = "min(" + (opts.maxWidth || DEFAULTS.maxWidth) + "px, calc(100vw - 24px))";
+    wrap.style.background = "rgba(255,255,255,0.92)";
+    wrap.style.backdropFilter = "blur(10px)";
+    wrap.style.border = "1px solid rgba(0,0,0,0.08)";
+    wrap.style.borderRadius = "14px";
+    wrap.style.boxShadow = "0 12px 30px rgba(15, 23, 42, 0.12)";
+    wrap.style.overflow = "hidden";
 
-    const host = ensureHost();
+    // entrance animation
+    wrap.style.transform = "translateY(-6px)";
+    wrap.style.opacity = "0";
+    wrap.style.transition = "transform 180ms ease, opacity 180ms ease";
 
-    // only keep 2 toasts max (avoid spam)
-    while (host.children.length >= 2) host.removeChild(host.firstChild);
+    const row = document.createElement("div");
+    row.style.display = "flex";
+    row.style.alignItems = "flex-start";
+    row.style.gap = "10px";
+    row.style.padding = "12px 12px 10px";
 
-    const el = makeToastEl(message, type, position);
-    host.appendChild(el);
+    const icon = document.createElement("div");
+    icon.textContent = iconFor(type);
+    icon.style.flex = "0 0 auto";
+    icon.style.width = "28px";
+    icon.style.height = "28px";
+    icon.style.display = "flex";
+    icon.style.alignItems = "center";
+    icon.style.justifyContent = "center";
+    icon.style.borderRadius = "10px";
+    icon.style.background = "rgba(0,0,0,0.04)";
 
-    // animate in
+    const text = document.createElement("div");
+    text.style.flex = "1";
+    text.style.fontSize = "14.5px";
+    text.style.lineHeight = "1.4";
+    text.style.color = "#111827";
+    text.style.wordBreak = "break-word";
+    text.textContent = String(message || "");
+
+    row.appendChild(icon);
+    row.appendChild(text);
+
+    if (opts.closable !== false) {
+      const close = document.createElement("button");
+      close.type = "button";
+      close.textContent = "×";
+      close.setAttribute("aria-label", "Close");
+      close.style.marginLeft = "6px";
+      close.style.flex = "0 0 auto";
+      close.style.border = "0";
+      close.style.background = "transparent";
+      close.style.cursor = "pointer";
+      close.style.fontSize = "18px";
+      close.style.lineHeight = "18px";
+      close.style.color = "rgba(17,24,39,0.55)";
+      close.style.padding = "4px 8px";
+      close.style.borderRadius = "10px";
+      close.addEventListener("mouseenter", () => {
+        close.style.background = "rgba(0,0,0,0.06)";
+        close.style.color = "rgba(17,24,39,0.85)";
+      });
+      close.addEventListener("mouseleave", () => {
+        close.style.background = "transparent";
+        close.style.color = "rgba(17,24,39,0.55)";
+      });
+      row.appendChild(close);
+
+      wrap.__closeBtn = close;
+    }
+
+    // progress bar
+    const bar = document.createElement("div");
+    bar.style.height = "3px";
+    bar.style.background = "rgba(0,0,0,0.06)";
+    bar.style.position = "relative";
+
+    const barFill = document.createElement("div");
+    barFill.style.height = "100%";
+    barFill.style.width = "100%";
+    barFill.style.background = accentColor(type);
+    barFill.style.transformOrigin = "left";
+    barFill.style.transform = "scaleX(1)";
+    barFill.style.transition = "transform linear";
+    bar.appendChild(barFill);
+
+    wrap.appendChild(row);
+    wrap.appendChild(bar);
+
+    wrap.__barFill = barFill;
+
+    return wrap;
+  }
+
+  function showToast(message, type = "info", options = {}) {
+    const opts = { ...DEFAULTS, ...(options || {}) };
+
+    // if user passes duration, respect it, but allow mobile override if not explicit
+    const explicitDuration = typeof options?.duration === "number";
+    const duration = explicitDuration ? options.duration : (isMobile() ? opts.mobileDuration : opts.duration);
+
+    const root = ensureRoot(opts.position);
+    const toast = makeToastEl(message, type, opts);
+
+    root.appendChild(toast);
+
+    // close handler
+    const close = () => {
+      toast.style.opacity = "0";
+      toast.style.transform = "translateY(-6px)";
+      setTimeout(() => {
+        toast.remove();
+      }, 180);
+    };
+
+    if (toast.__closeBtn) {
+      toast.__closeBtn.addEventListener("click", close);
+    }
+
+    // start animation next tick
     requestAnimationFrame(() => {
-      el.style.opacity = "1";
-      el.style.transform = "translateY(0)";
+      toast.style.opacity = "1";
+      toast.style.transform = "translateY(0)";
     });
 
-    const duration =
-      (opts && opts.duration) ||
-      (isMobile() ? DEFAULTS.durationMobile : DEFAULTS.durationDesktop);
+    // progress bar animation
+    if (toast.__barFill) {
+      toast.__barFill.style.transitionDuration = duration + "ms";
+      requestAnimationFrame(() => {
+        toast.__barFill.style.transform = "scaleX(0)";
+      });
+    }
 
-    // auto dismiss
-    setTimeout(() => {
-      if (!el.isConnected) return;
-      el.style.opacity = "0";
-      el.style.transform = "translateY(-10px)";
-      setTimeout(() => el.remove(), 200);
-    }, duration);
+    // auto close
+    const timer = setTimeout(close, duration);
+
+    // pause on hover (desktop nice-to-have)
+    toast.addEventListener("mouseenter", () => {
+      clearTimeout(timer);
+      // stop bar at current position by computing current scaleX
+      // (simple approach: just freeze by removing transition)
+      if (toast.__barFill) toast.__barFill.style.transitionDuration = "0ms";
+    });
+
+    // resume on leave: restart remaining time is complex; keep it simple: close after short delay
+    toast.addEventListener("mouseleave", () => {
+      // small extra time after hover
+      setTimeout(close, 900);
+    });
+
+    return { close };
   }
 
   // expose
   window.showToast = showToast;
-  window.__toastLang = getLang; // optional debug
 })();
