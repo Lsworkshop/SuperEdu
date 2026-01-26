@@ -1693,3 +1693,21 @@ body.register-page .register-card {
     padding-top: 12px;
   }
 }
+
+/* ===============================
+   Inline Field Hint (Email etc.)
+================================ */
+.field-hint{
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.4;
+  opacity: 0.9;
+}
+
+.field-hint.error{
+  color: #dc2626;
+}
+
+.field-hint.success{
+  color: #15803d;
+}
