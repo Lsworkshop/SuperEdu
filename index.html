@@ -1586,6 +1586,8 @@ Under adult supervision, the students also play a leading role in managing donat
   data-zh="电子邮箱"
 />
 
+<div id="cEmailStatus" class="field-hint"></div>
+
 <input
   id="c-phone"
   type="tel"
@@ -1738,11 +1740,15 @@ document.addEventListener("DOMContentLoaded", () => {
   if (form.dataset.bound === "1") return;
   form.dataset.bound = "1";
 
+  const lang = () => (localStorage.getItem("superedu-lang") === "zh" ? "zh" : "en");
+  const t = (en, zh) => (lang() === "zh" ? zh : en);
+
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const emailInput  = document.getElementById("c-email");
-  const emailStatus = document.getElementById("emailStatus");
+  const emailInput = document.getElementById("c-email");
+  const emailHint  = document.getElementById("cEmailStatus");
 
+  // 可选：提交按钮（loading/防连点）
   const submitBtn =
     form.querySelector("button[type='submit'], input[type='submit']");
 
@@ -1752,70 +1758,68 @@ document.addEventListener("DOMContentLoaded", () => {
     submitBtn.dataset.busy = isSubmitting ? "1" : "0";
   }
 
-  /* ===============================
-     Toast 安全调用（防止未加载）
-  =============================== */
-  function toastSafe(opts) {
-    if (window.showToast) {
-      window.showToast(opts);
-    } else {
-      console.warn("Toast not ready:", opts);
-      alert(opts.en || opts.zh || "Message");
+  /* =========================
+     Email 实时校验提示
+  ========================= */
+  function clearEmailHint() {
+    if (!emailHint) return;
+    emailHint.textContent = "";
+    emailHint.dataset.state = "";
+  }
+
+  function setEmailHintError(msg) {
+    if (!emailHint) return;
+    emailHint.textContent = msg;
+    emailHint.dataset.state = "error";
+  }
+
+  emailInput?.addEventListener("input", () => {
+    const v = (emailInput.value || "").trim();
+
+    if (!v) {
+      clearEmailHint();
+      return;
     }
-  }
 
-  /* ===============================
-     Email 实时校验
-  =============================== */
-  if (emailInput && emailStatus) {
-    emailInput.addEventListener("input", () => {
-      const val = emailInput.value.trim();
+    if (!emailPattern.test(v)) {
+      setEmailHintError(t("❌ Invalid email format", "❌ 邮箱格式不正确"));
+    } else {
+      clearEmailHint();
+    }
+  });
 
-      if (!val) {
-        emailStatus.textContent = "";
-        return;
-      }
-
-      if (!emailPattern.test(val)) {
-        emailStatus.textContent =
-          localStorage.getItem("superedu-lang") === "zh"
-            ? "请输入有效邮箱地址"
-            : "Please enter a valid email address.";
-        emailStatus.style.color = "#dc2626";
-      } else {
-        emailStatus.textContent = "";
-      }
-    });
-  }
-
-  /* ===============================
+  /* =========================
      Submit
-  =============================== */
+  ========================= */
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const firstName = (document.getElementById("c-first")?.value || "").trim();
     const lastName  = (document.getElementById("c-last")?.value || "").trim();
-    const email     = (emailInput?.value || "").trim();
+    const email     = (document.getElementById("c-email")?.value || "").trim();
     const phone     = (document.getElementById("c-phone")?.value || "").trim();
     const gradYear  = (document.getElementById("c-grad")?.value || "").trim();
     const message   = (document.getElementById("c-message")?.value || "").trim();
 
-    // ① 必填校验
+    // 必填
     if (!firstName || !lastName || !email) {
-      toastSafe({ key: "required", type: "error" });
+      window.showToast?.({
+        type: "error",
+        en: "Please fill all required fields.",
+        zh: "请填写所有必填项。"
+      });
       return;
     }
 
-    // ② Email 校验
+    // Email
     if (!emailPattern.test(email)) {
-      toastSafe({ key: "email_invalid", type: "error" });
+      setEmailHintError(t("❌ Invalid email format", "❌ 邮箱格式不正确"));
+      window.showToast?.({ key: "email_invalid", type: "error" });
       return;
     }
 
-    // ③ 提交
     setSubmitting(true);
-    toastSafe({ key: "submitting", type: "info", duration: 1600 });
+    window.showToast?.({ key: "submitting", type: "info", duration: 1600 });
 
     try {
       const res = await fetch("/api/consultation", {
@@ -1837,37 +1841,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!res.ok) {
         const msg = data.message || data.error || "";
-        toastSafe(
-          msg
-            ? { en: msg, zh: msg, type: "error" }
-            : { key: "failed_try_again", type: "error" }
-        );
+        if (msg) {
+          window.showToast?.({ en: msg, zh: msg, type: "error" });
+        } else {
+          window.showToast?.({ key: "failed_try_again", type: "error" });
+        }
         return;
       }
 
-      // ✅ 成功
-      toastSafe({
+      window.showToast?.({
+        type: "success",
         en: "Thank you! We will contact you shortly.",
         zh: "提交成功！我们将尽快与您联系。",
-        type: "success",
         duration: 3800
       });
 
       form.reset();
+      clearEmailHint();
 
-      if (emailStatus) emailStatus.textContent = "";
-
-      const t = document.getElementById("c-message");
-      if (t) t.value = "";
+      const msgEl = document.getElementById("c-message");
+      if (msgEl) msgEl.value = "";
 
     } catch (err) {
       console.error("Consult submit error:", err);
-      toastSafe({ key: "failed_try_again", type: "error" });
+      window.showToast?.({ key: "failed_try_again", type: "error" });
     } finally {
       setSubmitting(false);
     }
   });
 });
+
 
 </script>
 
