@@ -552,6 +552,7 @@ body.register-page {
         data-en="Email address"
         data-zh="电子邮箱"
       />
+      <div id="registerEmailStatus" class="field-hint"></div>
 
       <!-- Password -->
       <label for="password" data-en="Password*" data-zh="密码*">Password*</label>
@@ -713,6 +714,42 @@ document.addEventListener("DOMContentLoaded", () => {
   const passwordInput = document.getElementById("password");
   const confirmInput  = document.getElementById("confirmPassword");
   const confirmHint   = document.getElementById("confirmHint");
+  /* =========================
+     Email Live Validation (Register)
+  ========================= */
+  const emailInput = document.getElementById("email");
+  const emailHint  = document.getElementById("registerEmailStatus");
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function isZh() {
+    return (localStorage.getItem("superedu-lang") || "en") === "zh";
+  }
+
+  if (emailInput && emailHint) {
+    emailInput.addEventListener("input", () => {
+      const v = emailInput.value.trim();
+
+      // 空值：不提示
+      if (!v) {
+        emailHint.textContent = "";
+        emailHint.style.color = "";
+        return;
+      }
+
+      // 不合法：显示双语提示
+      if (!emailPattern.test(v)) {
+        emailHint.textContent = isZh()
+          ? "❌ 请输入正确的邮箱格式"
+          : "❌ Please enter a valid email format";
+        emailHint.style.color = "#dc2626";
+        return;
+      }
+
+      // 合法：清空（或者你也可以显示 ✅）
+      emailHint.textContent = "";
+      emailHint.style.color = "";
+    });
+  }
 
   // ===== Toast helpers (bilingual) =====
   function lang() {
