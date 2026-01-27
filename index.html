@@ -1248,264 +1248,150 @@ if (emailEl) {
 
 
 <script>
-/* =========================
-   Quick Unlock — Toast Upgrade (Bilingual)
-   Keeps original logic unchanged
-========================= */
+document.addEventListener("DOMContentLoaded", () => {
+  const unlockBtn = document.getElementById("unlockBtn");
+  const enterBtn  = document.getElementById("enterEduBtn");
 
-(function () {
+  const firstEl   = document.getElementById("u-first");
+  const lastEl    = document.getElementById("u-last");
+  const emailEl   = document.getElementById("u-email");
+
+  const emailHint = document.getElementById("uEmailStatus"); // 你新加的 div
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const form     = document.getElementById("quickUnlockForm");  // 可有可无
-  const enterBtn = document.getElementById("enterEduBtn");
+  if (!unlockBtn || !enterBtn || !firstEl || !lastEl || !emailEl) return;
 
-  const firstEl  = document.getElementById("q-first");
-  const lastEl   = document.getElementById("q-last");
-  const emailEl  = document.getElementById("q-email");
+  // 防止重复绑定（非常关键：避免两段脚本一起跑）
+  if (unlockBtn.dataset.bound === "1") return;
+  unlockBtn.dataset.bound = "1";
 
-  // 老的 status 文本（如果还在页面上，保留但不再作为主要提示）
-  const statusEl = document.getElementById("quickStatus");
-
-  // ✅ Email 实时提示（你页面里最好放一个：<div id="emailStatus" class="field-hint"></div>）
-  // 没有也没关系，不影响提交
-  const emailStatus = document.getElementById("emailStatus");
-
-  function getLang() {
+  function lang() {
     return (localStorage.getItem("superedu-lang") || "en") === "zh" ? "zh" : "en";
   }
 
-  // ✅ 兼容两种 toast.js：showToast("msg","type",{...}) 或 showToast({key/en/zh,type,...})
-  function toast(payload) {
-    if (typeof window.showToast !== "function") {
-      // fallback：如果你还想临时看到提示
-      console.warn("showToast not found. Did you include /assets/js/toast.js ?");
-      return;
-    }
-
-    // 1) 若 toast.js 支持对象模式（你现在大概率就是这个）
-    if (payload && typeof payload === "object" && !Array.isArray(payload)) {
-      try {
-        window.showToast(payload);
-        return;
-      } catch (e) {
-        // 继续走 fallback
-      }
-    }
-
-    // 2) fallback：兼容旧签名 showToast(message, type, options)
-    if (typeof payload === "string") {
-      window.showToast(payload);
-      return;
-    }
-
-    const lang = getLang();
-    const msg = (payload && (lang === "zh" ? payload.zh : payload.en)) || "";
-    const type = payload?.type || "info";
-    const options = {};
-    if (typeof payload?.duration === "number") options.duration = payload.duration;
-
-    window.showToast(msg, type, options);
+  function t(en, zh) {
+    return lang() === "zh" ? zh : en;
   }
 
-  function setStatusText(text) {
-    // 保留原 status 区域：不让它影响布局，但也不让它显示 object object
-    if (!statusEl) return;
-    statusEl.textContent = text || "";
-  }
-
-  function setSubmitting(isSubmitting) {
-    // 可选：防止连点（不改按钮文案，避免与 lang.js 冲突）
-    const submitBtn =
-      form?.querySelector("button[type='submit'], input[type='submit']") || null;
-
-    if (submitBtn) {
-      submitBtn.disabled = !!isSubmitting;
-      submitBtn.dataset.busy = isSubmitting ? "1" : "0";
-    }
-  }
-
-  // If token exists, show Enter button
-  function checkLocalToken() {
-    const t = JSON.parse(localStorage.getItem("edu_unlocked_token") || "null");
-    if (t && t.email) {
-      if (enterBtn) enterBtn.style.display = "inline-block";
-    } else {
-      if (enterBtn) enterBtn.style.display = "none";
-    }
-  }
-
-  // ✅ Enter Education Center behaviour
-  function bindEnterBtn() {
-    if (!enterBtn) return;
-
-    enterBtn.addEventListener("click", () => {
-      const token = JSON.parse(localStorage.getItem("edu_unlocked_token") || "null");
-      if (!token) {
-        toast({
-          key: "need_unlock",
-          en: "Please unlock access first.",
-          zh: "请先解锁教育中心。",
-          type: "warning",
-          duration: 4200
-        });
-        return;
-      }
-      window.location = "/education.html";
-    });
-  }
-
-  // ✅ Email realtime validation (bilingual)
-  function bindEmailRealtime() {
-    if (!emailEl || !emailStatus) return;
-
+  // ✅ Email 实时提示（双语）
+  if (emailHint) {
     emailEl.addEventListener("input", () => {
       const v = emailEl.value.trim();
-      const lang = getLang();
-
       if (!v) {
-        emailStatus.textContent = "";
-        emailStatus.style.color = "";
+        emailHint.textContent = "";
+        emailHint.style.color = "";
         return;
       }
-
       if (!emailPattern.test(v)) {
-        emailStatus.textContent = lang === "zh" ? "❌ 邮箱格式不正确" : "❌ Invalid email format";
-        emailStatus.style.color = "#dc2626";
+        emailHint.textContent = t("❌ Invalid email format", "❌ 邮箱格式不正确");
+        emailHint.style.color = "#dc2626";
       } else {
-        emailStatus.textContent = "";
-        emailStatus.style.color = "";
+        emailHint.textContent = "";
+        emailHint.style.color = "";
       }
     });
   }
 
-  // ✅ Core submit logic (kept)
-  async function handleSubmit() {
-    setStatusText(""); // 清空旧 status
-    const firstName = (firstEl?.value || "").trim();
-    const lastName  = (lastEl?.value || "").trim();
-    const email     = (emailEl?.value || "").trim();
+  // ✅ 页面加载：如果已解锁（quick/lead/member 或 token 存在）
+  const role =
+    localStorage.getItem("snovaRole") ||
+    sessionStorage.getItem("snovaRole") ||
+    "visitor";
 
-    if (!firstName || !lastName || !email) {
-      toast({ key: "required", type: "error" }); // 依赖 toast.js 的内置 key 文案（你之前已有）
+  const token = JSON.parse(localStorage.getItem("edu_unlocked_token") || "null");
+  const unlocked = ["quick", "lead", "member"].includes(role) || (token && token.email);
+
+  if (unlocked) {
+    unlockBtn.style.display = "none";
+    enterBtn.style.display  = "inline-flex";
+  }
+
+  // ✅ Unlock（Toast）
+  unlockBtn.addEventListener("click", async () => {
+    const firstVal = firstEl.value.trim();
+    const lastVal  = lastEl.value.trim();
+    const emailVal = emailEl.value.trim();
+
+    if (!firstVal || !lastVal || !emailVal) {
+      window.showToast?.({ key: "required", type: "error" });
       return;
     }
 
-    if (!emailPattern.test(email)) {
-      toast({ key: "email_invalid", type: "error" });
+    if (!emailPattern.test(emailVal)) {
+      window.showToast?.({ key: "email_invalid", type: "error" });
       return;
     }
 
-    toast({ key: "submitting", type: "info", duration: 1600 });
-    setSubmitting(true);
+    // 提交中
+    window.showToast?.({ key: "submitting", type: "info", duration: 1600 });
 
     try {
-      // 1) Optional: check-auth
-      let already = false;
+      const payload = {
+        firstName: firstVal,
+        lastName: lastVal,
+        email: emailVal,
+        source: "quick_unlock",
+        created_at: new Date().toISOString()
+      };
 
-      try {
-        const chk = await fetch("/api/check-auth", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email })
-        });
-
-        if (chk.ok) {
-          const j = await chk.json();
-          if (j.exists) {
-            already = true;
-
-            localStorage.setItem("edu_unlocked_token", JSON.stringify({ email, ts: Date.now() }));
-            localStorage.setItem("snovaRole", "quick");
-
-            if (enterBtn) enterBtn.style.display = "inline-block";
-
-            toast({
-              en: "Already unlocked — you may enter the Education Center.",
-              zh: "已解锁 — 现在可以进入教育中心。",
-              type: "success",
-              duration: 4200
-            });
-          }
-        }
-      } catch (err) {
-        // ignore — optional
-      }
-
-      if (already) return;
-
-      // 2) call /api/unlock
       const res = await fetch("/api/unlock", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ firstName, lastName, email })
+        body: JSON.stringify(payload)
       });
 
-      const out = await res.json().catch(() => ({}));
+      const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        const msg = out.error || out.message;
+        const msg = data.error || data.message;
         if (msg) {
-          toast({ en: msg, zh: msg, type: "error", duration: 5200 });
+          window.showToast?.({ en: msg, zh: msg, type: "error", duration: 5200 });
         } else {
-          toast({ key: "failed_try_again", type: "error" });
+          window.showToast?.({ key: "failed_try_again", type: "error" });
         }
         return;
       }
 
-      // success -> set token locally
-      localStorage.setItem("edu_unlocked_token", JSON.stringify({ email, ts: Date.now() }));
+      // 成功 -> 写入 token + role
       localStorage.setItem("snovaRole", "quick");
+      localStorage.setItem("edu_unlocked_token", JSON.stringify({ email: emailVal, ts: Date.now() }));
 
-      if (enterBtn) enterBtn.style.display = "inline-block";
-
-      toast({
-        en: "Unlocked — redirecting…",
-        zh: "解锁成功！正在跳转…",
+      window.showToast?.({
+        en: "Unlocked! You may enter the Education Center.",
+        zh: "解锁成功！现在可以进入教育中心。",
         type: "success",
-        duration: 2800
+        duration: 3600
       });
 
-      setTimeout(() => window.location.assign("/education.html"), 900);
+      // 切换按钮（不挤布局）
+      unlockBtn.style.display = "none";
+      enterBtn.style.display  = "inline-flex";
+
+      if (typeof window.refreshLang === "function") window.refreshLang();
+
     } catch (err) {
       console.error(err);
-      toast({ key: "failed_try_again", type: "error" });
-    } finally {
-      setSubmitting(false);
+      window.showToast?.({ key: "failed_try_again", type: "error" });
     }
-  }
-
-  // ✅ Bind on load
-  document.addEventListener("DOMContentLoaded", () => {
-    checkLocalToken();
-    bindEnterBtn();
-    bindEmailRealtime();
-
-    // 1) 如果有 form：走 submit
-    if (form) {
-      // 防止重复绑定
-      if (form.dataset.bound === "1") return;
-      form.dataset.bound = "1";
-
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        handleSubmit();
-      });
-    } else {
-      // 2) 如果没有 form：尝试找按钮触发（你若有按钮 id，可在这里接）
-      // 例如：<button id="quickUnlockBtn">Unlock</button>
-      const btn = document.getElementById("quickUnlockBtn");
-      btn?.addEventListener("click", (e) => {
-        e.preventDefault();
-        handleSubmit();
-      });
-    }
-
-    // mobile menu buttons (保持原行为)
-    document.getElementById("mobileRegister")?.addEventListener("click", () => location.href = "/membership.html");
-    document.getElementById("mobileUnlock")?.addEventListener("click", () => { /* already on quick-unlock */ });
   });
-})();
+
+  // ✅ Enter EduCenter（Toast，无 alert）
+  enterBtn.addEventListener("click", () => {
+    const token = JSON.parse(localStorage.getItem("edu_unlocked_token") || "null");
+    if (!token) {
+      window.showToast?.({
+        en: "Please unlock access first.",
+        zh: "请先解锁教育中心。",
+        type: "warning",
+        duration: 4200
+      });
+      return;
+    }
+    window.location.href = "/education.html";
+  });
+});
 </script>
+
 
 
       <!-- ③ Apply — clickable service-style card -->
