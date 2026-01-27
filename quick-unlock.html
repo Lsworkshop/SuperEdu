@@ -463,6 +463,65 @@
     window.location = "/education.html";
   });
 
+/* =========================
+   Email Real-time Validation (Quick Unlock Page)
+   - uses #q-email + #emailStatus
+   - bilingual follows localStorage superedu-lang
+========================= */
+(function () {
+  const emailInput  = document.getElementById("q-email");
+  const emailStatus = document.getElementById("emailStatus");
+  if (!emailInput || !emailStatus) return;
+
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function getLang() {
+    return localStorage.getItem("superedu-lang") === "zh" ? "zh" : "en";
+  }
+
+  function setHint(msgKey, type) {
+    // type: "error" | "ok" | ""
+    if (!msgKey) {
+      emailStatus.textContent = "";
+      emailStatus.classList.remove("hint-error", "hint-ok");
+      return;
+    }
+
+    const zhMap = {
+      invalid: "❌ 邮箱格式不正确",
+      ok: "✅ 邮箱格式正确"
+    };
+    const enMap = {
+      invalid: "❌ Invalid email format",
+      ok: "✅ Email looks good"
+    };
+
+    const lang = getLang();
+    emailStatus.textContent = (lang === "zh" ? zhMap : enMap)[msgKey] || "";
+
+    emailStatus.classList.remove("hint-error", "hint-ok");
+    if (type === "error") emailStatus.classList.add("hint-error");
+    if (type === "ok") emailStatus.classList.add("hint-ok");
+  }
+
+  // realtime
+  emailInput.addEventListener("input", () => {
+    const v = emailInput.value.trim();
+    if (!v) return setHint("", "");
+    if (!emailPattern.test(v)) return setHint("invalid", "error");
+    return setHint("ok", "ok");
+  });
+
+  // on blur: if user leaves invalid, keep hint
+  emailInput.addEventListener("blur", () => {
+    const v = emailInput.value.trim();
+    if (!v) return setHint("", "");
+    if (!emailPattern.test(v)) return setHint("invalid", "error");
+    return setHint("ok", "ok");
+  });
+})();
+
+
   /* =========================
      Form submit
   ========================= */
