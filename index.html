@@ -904,6 +904,7 @@
   required
   placeholder="Email / 邮箱"
 />
+<div id="rEmailStatus" class="field-hint"></div>
 
 
           <label for="r-ref" data-en="Referral code (optional)" data-zh="推荐码（可选）">
@@ -932,170 +933,28 @@
       <script>
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("registerForm");
-
-  // ✅ 强制关闭浏览器原生校验气泡（否则会出现“老样子”的邮箱提示）
-form.setAttribute("novalidate", "novalidate");
-
-// 可选：如果你的 email input 是 type="email"，某些浏览器仍会弹原生提示
-const emailEl = document.getElementById("r-email");
-if (emailEl) {
-  emailEl.addEventListener("invalid", (ev) => {
-    ev.preventDefault(); // 阻止原生气泡
-  }, true);
-}
-
   if (!form) return;
 
-  const submitBtn = form.querySelector("button[type='submit']");
-  const regStatus = document.getElementById("regStatus");
+  // 防重复绑定（你未来合并脚本时不会重复触发）
+  if (form.dataset.bound === "1") return;
+  form.dataset.bound = "1";
 
-  // ✅ 与 Quick Unlock / 注册页统一的 Email 正则
+  const submitBtn = form.querySelector("button[type='submit']");
+  const regStatus = document.getElementById("regStatus"); // 仍保留，避免你页面结构依赖它
+  const emailHint = document.getElementById("rEmailStatus");
+
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  /* =====================================================
-     Toast (Bilingual, Homepage-style)
-     - Reads localStorage superedu-lang (fallback snova-lang)
-     - Longer duration on mobile
-  ===================================================== */
-  function getLang() {
-    return (
-      localStorage.getItem("superedu-lang") ||
-      localStorage.getItem("snova-lang") ||
-      "en"
-    );
-  }
+  const lang = () => (localStorage.getItem("superedu-lang") === "zh" ? "zh" : "en");
 
-  function isMobileLike() {
-    return window.matchMedia("(max-width: 768px)").matches || /iPhone|iPad|Android/i.test(navigator.userAgent);
-  }
-
-  function ensureToastHost() {
-    let host = document.getElementById("toastHost");
-    if (host) return host;
-
-    host = document.createElement("div");
-    host.id = "toastHost";
-    document.body.appendChild(host);
-
-    // Minimal CSS injection (不会影响 main.css)
-    const style = document.createElement("style");
-    style.textContent = `
-      #toastHost{
-        position: fixed;
-        left: 50%;
-        top: 18px;
-        transform: translateX(-50%);
-        z-index: 9999;
-        width: min(520px, calc(100vw - 24px));
-        pointer-events: none;
-      }
-      .toast{
-        pointer-events: auto;
-        display:flex;
-        gap:12px;
-        align-items:flex-start;
-        padding: 12px 14px;
-        border-radius: 16px;
-        margin: 10px auto 0;
-        background: rgba(255,255,255,0.92);
-        border: 1px solid rgba(0,0,0,0.06);
-        box-shadow: 0 18px 46px rgba(0,0,0,0.12);
-        backdrop-filter: blur(10px);
-        transform: translateY(-8px);
-        opacity: 0;
-        transition: opacity .18s ease, transform .18s ease;
-        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
-          "PingFang SC","HarmonyOS Sans SC","Source Han Sans SC","Noto Sans CJK SC","Noto Sans SC","Microsoft YaHei UI",sans-serif;
-      }
-      .toast.show{ opacity:1; transform: translateY(0); }
-      .toast .dot{
-        width: 10px; height: 10px; border-radius: 999px;
-        margin-top: 6px; flex: 0 0 auto;
-      }
-      .toast .content{ flex: 1 1 auto; min-width: 0; }
-      .toast .title{
-        font-weight: 700;
-        font-size: 14px;
-        line-height: 1.25;
-        margin: 0 0 2px;
-        color: #111827;
-      }
-      .toast .msg{
-        margin: 0;
-        font-size: 13.5px;
-        line-height: 1.35;
-        color: rgba(17,24,39,0.82);
-        word-break: break-word;
-      }
-      .toast .x{
-        border: 0;
-        background: transparent;
-        cursor: pointer;
-        padding: 4px;
-        margin-left: 4px;
-        border-radius: 10px;
-        color: rgba(17,24,39,0.55);
-      }
-      .toast .x:hover{
-        background: rgba(17,24,39,0.06);
-        color: rgba(17,24,39,0.75);
-      }
-      .toast.success .dot{ background: linear-gradient(135deg,#34d399,#22c55e); }
-      .toast.error   .dot{ background: linear-gradient(135deg,#fb7185,#ef4444); }
-      .toast.info    .dot{ background: linear-gradient(135deg,#60a5fa,#8b5cf6); }
-    `;
-    document.head.appendChild(style);
-
-    return host;
-  }
-
-  function toast({ type="info", titleEn="", titleZh="", msgEn="", msgZh="", durationMs } = {}) {
-    const lang = getLang();
-    const host = ensureToastHost();
-
-    const t = document.createElement("div");
-    t.className = `toast ${type}`;
-
-    const title = (lang === "zh") ? (titleZh || titleEn) : (titleEn || titleZh);
-    const msg   = (lang === "zh") ? (msgZh || msgEn) : (msgEn || msgZh);
-
-    t.innerHTML = `
-      <div class="dot"></div>
-      <div class="content">
-        <div class="title">${title || ""}</div>
-        <p class="msg">${msg || ""}</p>
-      </div>
-      <button class="x" aria-label="Close">✕</button>
-    `;
-
-    host.appendChild(t);
-
-    // show animation
-    requestAnimationFrame(() => t.classList.add("show"));
-
-    // duration: mobile longer
-    const ms = (typeof durationMs === "number")
-      ? durationMs
-      : (isMobileLike() ? 3600 : 2200);
-
-    const close = () => {
-      t.classList.remove("show");
-      setTimeout(() => t.remove(), 180);
-    };
-
-    t.querySelector(".x").addEventListener("click", close);
-
-    setTimeout(close, ms);
-  }
-
-  // Keep regStatus for accessibility (screen readers)
-  function setStatusText(text) {
-    if (!regStatus) return;
-    regStatus.textContent = text;
+  function t(en, zh) {
+    return lang() === "zh" ? zh : en;
   }
 
   /* ========= 工具函数：按钮切换为 EduCenter ========= */
   function setButtonToEduCenter() {
+    if (!submitBtn) return;
+
     submitBtn.type = "button";
     submitBtn.classList.add("btn-enter-edu");
 
@@ -1108,13 +967,16 @@ if (emailEl) {
       label.setAttribute("data-en", "Enter EduCenter");
       label.setAttribute("data-zh", "进入教育中心");
       label.textContent = "Enter EduCenter";
+    } else {
+      // 如果按钮没有 .btn-label，直接改按钮文案
+      submitBtn.textContent = t("Enter EduCenter", "进入教育中心");
     }
 
     submitBtn.onclick = () => {
       window.location.href = "/education.html";
     };
 
-    // ⭐ 通知语言系统刷新
+    // 通知语言系统刷新
     if (window.refreshLang) window.refreshLang();
     if (typeof window.applyLanguage === "function") window.applyLanguage();
   }
@@ -1129,61 +991,80 @@ if (emailEl) {
     setButtonToEduCenter();
   }
 
+  /* ========= Email 实时校验提示 ========= */
+  const emailInput = document.getElementById("r-email");
+
+  function setEmailHint(msg, ok) {
+    if (!emailHint) return;
+    emailHint.textContent = msg || "";
+    emailHint.style.color = ok ? "#15803d" : "#dc2626";
+  }
+
+  function validateEmailRealtime() {
+    if (!emailInput) return true;
+
+    const v = (emailInput.value || "").trim();
+
+    if (!v) {
+      setEmailHint("", true);
+      return false;
+    }
+
+    if (!emailPattern.test(v)) {
+      setEmailHint(
+        t("❌ Invalid email format", "❌ 邮箱格式不正确"),
+        false
+      );
+      return false;
+    }
+
+    setEmailHint(
+      t("✓ Email looks good", "✓ 邮箱格式正确"),
+      true
+    );
+    return true;
+  }
+
+  emailInput?.addEventListener("input", validateEmailRealtime);
+
   /* ========= 表单提交（加入名单） ========= */
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    setStatusText("");
+    if (regStatus) regStatus.textContent = ""; // 保留但不再依赖它
 
-    const first = document.getElementById("r-first")?.value.trim();
-    const last  = document.getElementById("r-last")?.value.trim();
-    const email = document.getElementById("r-email")?.value.trim();
+    const first = (document.getElementById("r-first")?.value || "").trim();
+    const last  = (document.getElementById("r-last")?.value || "").trim();
+    const email = (document.getElementById("r-email")?.value || "").trim();
 
     // ① 必填校验
     if (!first || !last || !email) {
-      setStatusText("Please fill all required fields.");
-      toast({
-        type: "error",
-        titleEn: "Missing information",
-        titleZh: "信息不完整",
-        msgEn: "Please fill all required fields before submitting.",
-        msgZh: "请先填写所有必填项后再提交。"
-      });
+      window.showToast?.({ key: "required", type: "error" });
       return;
     }
 
-    // ② Email 全格式校验
+    // ② Email 校验
     if (!emailPattern.test(email)) {
-      setStatusText("Please enter a valid email address.");
-      toast({
-        type: "error",
-        titleEn: "Invalid email",
-        titleZh: "邮箱格式不正确",
-        msgEn: "Please enter a valid email address (e.g., name@example.com).",
-        msgZh: "请输入正确的邮箱地址（例如：name@example.com）。"
-      });
+      // 同时点亮实时提示
+      setEmailHint(t("❌ Invalid email format", "❌ 邮箱格式不正确"), false);
+      window.showToast?.({ key: "email_invalid", type: "error" });
       return;
     }
 
-    /* ✅ 加入名单成功 → 升级为 lead */
+    // ✅ 加入名单成功 → 升级为 lead
     localStorage.setItem("snovaRole", "lead");
 
-    setStatusText("Successfully joined! You can now access EduCenter.");
-
-    toast({
+    window.showToast?.({
+      en: "Successfully joined! You can now enter EduCenter.",
+      zh: "加入成功！现在可以进入教育中心。",
       type: "success",
-      titleEn: "You’re on the list",
-      titleZh: "加入成功",
-      msgEn: "Successfully joined! You can now enter EduCenter.",
-      msgZh: "加入成功！现在可以进入 EduCenter。",
-      durationMs: isMobileLike() ? 4200 : 2600
+      duration: 3800
     });
 
-    /* ✅ 复用原按钮 → 进入 EduCenter */
+    // ✅ 复用原按钮 → 进入 EduCenter
     setButtonToEduCenter();
   });
 });
 </script>
-
 
        <!-- ② Quick Unlock -->
 <div class="card tool-card unlock-card" id="unlockCard">
