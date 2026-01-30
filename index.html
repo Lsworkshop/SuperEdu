@@ -930,7 +930,7 @@
         </form>
       </div>
 
-      <script>
+     <script>
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("registerForm");
   if (!form) return;
@@ -940,16 +940,13 @@ document.addEventListener("DOMContentLoaded", () => {
   form.dataset.bound = "1";
 
   const submitBtn = form.querySelector("button[type='submit']");
-  const regStatus = document.getElementById("regStatus"); // 仍保留，避免你页面结构依赖它
+  const regStatus = document.getElementById("regStatus"); // 保留但不再依赖它
   const emailHint = document.getElementById("rEmailStatus");
 
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const lang = () => (localStorage.getItem("superedu-lang") === "zh" ? "zh" : "en");
-
-  function t(en, zh) {
-    return lang() === "zh" ? zh : en;
-  }
+  function t(en, zh) { return lang() === "zh" ? zh : en; }
 
   /* ========= 工具函数：按钮切换为 EduCenter ========= */
   function setButtonToEduCenter() {
@@ -968,15 +965,11 @@ document.addEventListener("DOMContentLoaded", () => {
       label.setAttribute("data-zh", "进入教育中心");
       label.textContent = "Enter EduCenter";
     } else {
-      // 如果按钮没有 .btn-label，直接改按钮文案
       submitBtn.textContent = t("Enter EduCenter", "进入教育中心");
     }
 
-    submitBtn.onclick = () => {
-      window.location.href = "/education.html";
-    };
+    submitBtn.onclick = () => { window.location.href = "/education.html"; };
 
-    // 通知语言系统刷新
     if (window.refreshLang) window.refreshLang();
     if (typeof window.applyLanguage === "function") window.applyLanguage();
   }
@@ -1011,30 +1004,25 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (!emailPattern.test(v)) {
-      setEmailHint(
-        t("❌ Invalid email format", "❌ 邮箱格式不正确"),
-        false
-      );
+      setEmailHint(t("❌ Invalid email format", "❌ 邮箱格式不正确"), false);
       return false;
     }
 
-    setEmailHint(
-      t("✓ Email looks good", "✓ 邮箱格式正确"),
-      true
-    );
+    setEmailHint(t("✓ Email looks good", "✓ 邮箱格式正确"), true);
     return true;
   }
 
   emailInput?.addEventListener("input", validateEmailRealtime);
 
-  /* ========= 表单提交（加入名单） ========= */
-  form.addEventListener("submit", (e) => {
+  /* ========= 表单提交（加入名单）- ✅补齐后端写入 ========= */
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    if (regStatus) regStatus.textContent = ""; // 保留但不再依赖它
+    if (regStatus) regStatus.textContent = "";
 
     const first = (document.getElementById("r-first")?.value || "").trim();
     const last  = (document.getElementById("r-last")?.value || "").trim();
     const email = (document.getElementById("r-email")?.value || "").trim();
+    const ref   = (document.getElementById("r-ref")?.value || "").trim(); // 如果没有这个输入也没事
 
     // ① 必填校验
     if (!first || !last || !email) {
@@ -1044,27 +1032,90 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ② Email 校验
     if (!emailPattern.test(email)) {
-      // 同时点亮实时提示
       setEmailHint(t("❌ Invalid email format", "❌ 邮箱格式不正确"), false);
       window.showToast?.({ key: "email_invalid", type: "error" });
       return;
     }
 
-    // ✅ 加入名单成功 → 升级为 lead
-    localStorage.setItem("snovaRole", "lead");
+    // ③ 提交中：禁用按钮防连点
+    const oldDisabled = submitBtn?.disabled;
+    const oldText = submitBtn?.textContent;
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      // 不强行改文案（避免影响你的语言系统），但可以给状态文字
+    }
+    if (regStatus) regStatus.textContent = t("Submitting...", "提交中...");
 
-    window.showToast?.({
-      en: "Successfully joined! You can now enter EduCenter.",
-      zh: "加入成功！现在可以进入教育中心。",
-      type: "success",
-      duration: 3800
-    });
+    try {
+      // ★★★ 关键：写入后端（D1）
+      const payload = {
+        firstName: first,
+        lastName: last,
+        email,
+        referralCode: ref || null,
+        source: "index_register",
+        created_at: new Date().toISOString()
+      };
 
-    // ✅ 复用原按钮 → 进入 EduCenter
-    setButtonToEduCenter();
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      // 兼容后端返回 JSON / 非 JSON
+      let data = {};
+      const ct = res.headers.get("content-type") || "";
+      if (ct.includes("application/json")) data = await res.json();
+      else data = { error: await res.text() };
+
+      if (!res.ok || data?.success !== true) {
+        const msg = data?.error || t("Submission failed. Please try again.", "提交失败，请稍后再试。");
+        window.showToast?.({
+          en: typeof msg === "string" ? msg : "Submission failed. Please try again.",
+          zh: typeof msg === "string" ? msg : "提交失败，请稍后再试。",
+          type: "error",
+          duration: 4200
+        });
+        if (regStatus) regStatus.textContent = msg;
+        return;
+      }
+
+      // ✅ 只有后端写入成功才升级 lead + 成功提示
+      localStorage.setItem("snovaRole", "lead");
+
+      window.showToast?.({
+        en: "Successfully joined! You can now enter EduCenter.",
+        zh: "加入成功！现在可以进入教育中心。",
+        type: "success",
+        duration: 3800
+      });
+
+      if (regStatus) regStatus.textContent = t("Joined successfully.", "加入成功。");
+
+      // ✅ 复用原按钮 → 进入 EduCenter
+      setButtonToEduCenter();
+
+    } catch (err) {
+      console.error(err);
+      window.showToast?.({
+        en: "Network error. Please try again.",
+        zh: "网络错误，请稍后重试。",
+        type: "error",
+        duration: 4200
+      });
+      if (regStatus) regStatus.textContent = t("Network error.", "网络错误。");
+    } finally {
+      // 如果按钮已经切换到 EduCenter（type=button），就别恢复 submit 状态
+      if (submitBtn && submitBtn.type === "submit") {
+        submitBtn.disabled = !!oldDisabled;
+        if (typeof oldText === "string") submitBtn.textContent = oldText;
+      }
+    }
   });
 });
 </script>
+
 
        <!-- ② Quick Unlock -->
 <div class="card tool-card unlock-card" id="unlockCard">
