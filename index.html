@@ -935,57 +935,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("registerForm");
   if (!form) return;
 
-  // 防重复绑定（你未来合并脚本时不会重复触发）
+  // 防重复绑定
   if (form.dataset.bound === "1") return;
   form.dataset.bound = "1";
 
-  const submitBtn = form.querySelector("button[type='submit']");
-  const regStatus = document.getElementById("regStatus"); // 保留但不再依赖它
+  const submitBtn = form.querySelector("button[type='submit']") || form.querySelector("button");
+  const regStatus = document.getElementById("regStatus");
   const emailHint = document.getElementById("rEmailStatus");
 
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
   const lang = () => (localStorage.getItem("superedu-lang") === "zh" ? "zh" : "en");
-  function t(en, zh) { return lang() === "zh" ? zh : en; }
+  const t = (en, zh) => (lang() === "zh" ? zh : en);
 
-  /* ========= 工具函数：按钮切换为 EduCenter ========= */
-  function setButtonToEduCenter() {
-    if (!submitBtn) return;
-
-    submitBtn.type = "button";
-    submitBtn.classList.add("btn-enter-edu");
-
-    const icon  = submitBtn.querySelector("use");
-    const label = submitBtn.querySelector(".btn-label");
-
-    if (icon) icon.setAttribute("href", "#icon-edu");
-
-    if (label) {
-      label.setAttribute("data-en", "Enter EduCenter");
-      label.setAttribute("data-zh", "进入教育中心");
-      label.textContent = "Enter EduCenter";
+  // toast 兼容：没有全局 showToast 就退回 alert
+  function toastSafe({ en, zh, type="info", duration=3200, key } = {}) {
+    if (typeof window.showToast === "function") {
+      // 兼容你原来的 toast.js：key 或 文案两种都行
+      if (key) window.showToast({ key, type, duration });
+      else window.showToast({ en, zh, type, duration });
     } else {
-      submitBtn.textContent = t("Enter EduCenter", "进入教育中心");
+      // fallback（保证你至少看得到提示）
+      alert(t(en || "Done", zh || "完成"));
     }
-
-    submitBtn.onclick = () => { window.location.href = "/education.html"; };
-
-    if (window.refreshLang) window.refreshLang();
-    if (typeof window.applyLanguage === "function") window.applyLanguage();
   }
-
-  /* ========= 页面加载：已有权限 ========= */
-  const role =
-    localStorage.getItem("snovaRole") ||
-    sessionStorage.getItem("snovaRole") ||
-    "visitor";
-
-  if (role === "lead" || role === "member") {
-    setButtonToEduCenter();
-  }
-
-  /* ========= Email 实时校验提示 ========= */
-  const emailInput = document.getElementById("r-email");
 
   function setEmailHint(msg, ok) {
     if (!emailHint) return;
@@ -993,28 +965,48 @@ document.addEventListener("DOMContentLoaded", () => {
     emailHint.style.color = ok ? "#15803d" : "#dc2626";
   }
 
-  function validateEmailRealtime() {
-    if (!emailInput) return true;
-
+  const emailInput = document.getElementById("r-email");
+  emailInput?.addEventListener("input", () => {
     const v = (emailInput.value || "").trim();
-
-    if (!v) {
-      setEmailHint("", true);
-      return false;
-    }
-
-    if (!emailPattern.test(v)) {
-      setEmailHint(t("❌ Invalid email format", "❌ 邮箱格式不正确"), false);
-      return false;
-    }
-
+    if (!v) return setEmailHint("", true);
+    if (!emailPattern.test(v)) return setEmailHint(t("❌ Invalid email format", "❌ 邮箱格式不正确"), false);
     setEmailHint(t("✓ Email looks good", "✓ 邮箱格式正确"), true);
-    return true;
+  });
+
+  function setButtonToEduCenter() {
+    if (!submitBtn) return;
+
+    submitBtn.disabled = false;
+    submitBtn.type = "button";
+    submitBtn.classList.add("btn-enter-edu");
+
+    // 这两项经常不存在：必须做空值保护
+    const iconUse = submitBtn.querySelector("use");
+    if (iconUse) iconUse.setAttribute("href", "#icon-edu");
+
+    const label = submitBtn.querySelector(".btn-label");
+    if (label) {
+      label.setAttribute("data-en", "Enter EduCenter");
+      label.setAttribute("data-zh", "进入教育中心");
+      label.textContent = t("Enter EduCenter", "进入教育中心");
+    } else {
+      submitBtn.textContent = t("Enter EduCenter", "进入教育中心");
+    }
+
+    submitBtn.onclick = () => { window.location.href = "/education.html"; };
+
+    // 语言系统兼容
+    try {
+      if (window.refreshLang) window.refreshLang();
+      if (typeof window.applyLanguage === "function") window.applyLanguage();
+    } catch (e) {}
   }
 
-  emailInput?.addEventListener("input", validateEmailRealtime);
+  // 页面加载：已有权限则切按钮
+  const role = localStorage.getItem("snovaRole") || sessionStorage.getItem("snovaRole") || "visitor";
+  if (role === "lead" || role === "member") setButtonToEduCenter();
 
-  /* ========= 表单提交（加入名单）- ✅补齐后端写入 ========= */
+  // ✅ 提交：先写后端，成功才升级 lead + 切按钮
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (regStatus) regStatus.textContent = "";
@@ -1022,94 +1014,67 @@ document.addEventListener("DOMContentLoaded", () => {
     const first = (document.getElementById("r-first")?.value || "").trim();
     const last  = (document.getElementById("r-last")?.value || "").trim();
     const email = (document.getElementById("r-email")?.value || "").trim();
-    const ref   = (document.getElementById("r-ref")?.value || "").trim(); // 如果没有这个输入也没事
+    const ref   = (document.getElementById("r-ref")?.value || "").trim(); // 可有可无
 
-    // ① 必填校验
     if (!first || !last || !email) {
-      window.showToast?.({ key: "required", type: "error" });
+      toastSafe({ key: "required", type: "error", en: "Please fill all required fields.", zh: "请填写所有必填项。" });
       return;
     }
-
-    // ② Email 校验
     if (!emailPattern.test(email)) {
       setEmailHint(t("❌ Invalid email format", "❌ 邮箱格式不正确"), false);
-      window.showToast?.({ key: "email_invalid", type: "error" });
+      toastSafe({ key: "email_invalid", type: "error", en: "Invalid email format.", zh: "邮箱格式不正确。" });
       return;
     }
 
-    // ③ 提交中：禁用按钮防连点
-    const oldDisabled = submitBtn?.disabled;
+    // 提交中
     const oldText = submitBtn?.textContent;
     if (submitBtn) {
       submitBtn.disabled = true;
-      // 不强行改文案（避免影响你的语言系统），但可以给状态文字
+      submitBtn.textContent = t("Submitting...", "提交中...");
     }
     if (regStatus) regStatus.textContent = t("Submitting...", "提交中...");
 
     try {
-      // ★★★ 关键：写入后端（D1）
-      const payload = {
-        firstName: first,
-        lastName: last,
-        email,
-        referralCode: ref || null,
-        source: "index_register",
-        created_at: new Date().toISOString()
-      };
-
+      const payload = { firstName: first, lastName: last, email, referralCode: ref || null };
       const res = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
 
-      // 兼容后端返回 JSON / 非 JSON
-      let data = {};
-      const ct = res.headers.get("content-type") || "";
-      if (ct.includes("application/json")) data = await res.json();
-      else data = { error: await res.text() };
+      // 你的后端：成功 {success:true}，失败 {error:"..."}
+      const j = await res.json().catch(() => ({}));
 
-      if (!res.ok || data?.success !== true) {
-        const msg = data?.error || t("Submission failed. Please try again.", "提交失败，请稍后再试。");
-        window.showToast?.({
-          en: typeof msg === "string" ? msg : "Submission failed. Please try again.",
-          zh: typeof msg === "string" ? msg : "提交失败，请稍后再试。",
-          type: "error",
-          duration: 4200
-        });
+      if (!res.ok || j.success !== true) {
+        const msg = j.error || t("Submission failed. Please try again.", "提交失败，请稍后再试。");
+        toastSafe({ type: "error", en: msg, zh: msg });
         if (regStatus) regStatus.textContent = msg;
         return;
       }
 
-      // ✅ 只有后端写入成功才升级 lead + 成功提示
+      // ✅ 后端成功才升级
       localStorage.setItem("snovaRole", "lead");
 
-      window.showToast?.({
+      toastSafe({
+        type: "success",
         en: "Successfully joined! You can now enter EduCenter.",
         zh: "加入成功！现在可以进入教育中心。",
-        type: "success",
         duration: 3800
       });
 
       if (regStatus) regStatus.textContent = t("Joined successfully.", "加入成功。");
 
-      // ✅ 复用原按钮 → 进入 EduCenter
       setButtonToEduCenter();
 
     } catch (err) {
       console.error(err);
-      window.showToast?.({
-        en: "Network error. Please try again.",
-        zh: "网络错误，请稍后重试。",
-        type: "error",
-        duration: 4200
-      });
+      toastSafe({ type: "error", en: "Network error. Please try again.", zh: "网络错误，请稍后重试。" });
       if (regStatus) regStatus.textContent = t("Network error.", "网络错误。");
     } finally {
-      // 如果按钮已经切换到 EduCenter（type=button），就别恢复 submit 状态
+      // 如果没切成 EduCenter（仍是 submit），恢复按钮
       if (submitBtn && submitBtn.type === "submit") {
-        submitBtn.disabled = !!oldDisabled;
-        if (typeof oldText === "string") submitBtn.textContent = oldText;
+        submitBtn.disabled = false;
+        if (oldText) submitBtn.textContent = oldText;
       }
     }
   });
