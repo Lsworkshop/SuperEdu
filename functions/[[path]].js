@@ -1,16 +1,19 @@
 export async function onRequest(context) {
   const url = new URL(context.request.url);
 
-  // 只处理 /nsxxxx 或 /nsxxxx/... 这种路径
+  // 只处理 /nsxxxx 或 /nsxxxx/... 
   const m = url.pathname.match(/^\/(ns[0-9A-Za-z_-]+)(\/.*)?$/);
-  if (!m) return context.next(); // 非 ns 路径交回静态资源/其他函数
+  if (!m) return context.next();
 
   const rest = m[2] || "/";
 
-  // /ns12345/ 映射到 /index.html
+  // 映射到真实静态文件
   url.pathname = (rest === "/" || rest === "") ? "/index.html" : rest;
 
-  // 用 ASSETS.fetch 取真正静态文件（/apply.html 等）
+  // 取静态资源：成功就返回，不成功就交回给 Pages 默认处理
   const req = new Request(url.toString(), context.request);
-  return context.env.ASSETS.fetch(req);
+  const resp = await context.env.ASSETS.fetch(req);
+
+  if (resp.status === 404) return context.next();
+  return resp;
 }
