@@ -283,3 +283,6 @@ document.addEventListener("DOMContentLoaded", syncAuthNav);
     window.addEventListener("resize", () => closeAllDropdowns());
   });
 })();
+
+
+<script src="/assets/js/ns-links.js"></script>
