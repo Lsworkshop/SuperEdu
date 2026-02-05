@@ -8,7 +8,7 @@ export async function onRequest(context) {
   const rest = m[2] || "/";
 
   // 映射到真实静态文件
-  url.pathname = (rest === "/" || rest === "") ? "/index.html" : rest;
+url.pathname = (rest === "/" || rest === "") ? "/home.html" : rest;
 
   // 取静态资源：成功就返回，不成功就交回给 Pages 默认处理
   const req = new Request(url.toString(), context.request);
