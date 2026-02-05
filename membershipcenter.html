@@ -1,101 +1,258 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>EduCommunity — SuperEdu</title>
+<title>Member Login — SnovaEdu</title>
+
+<!-- Icons -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/favicon-16.png">
+<link rel="icon" href="/assets/icons/favicon.ico">
 
 <link rel="stylesheet" href="/assets/css/main.css">
+<script src="/assets/js/toast.js" defer></script>
 <script src="/assets/js/menu.js" defer></script>
 <script src="/assets/js/lang.js" defer></script>
-<script src="/assets/js/access.js" defer></script>
 
 <style>
-body {
+/* =========================
+   Base
+========================= */
+
+body.welcome-page {
+  font-family: Inter, Arial, sans-serif;
   margin: 0;
-  padding-top: 96px;
-  background: #f7f8fa;
-  font-family: Inter, system-ui, Arial;
-  color: #333;
 }
 
-.community-container {
-  max-width: 1000px;
-  margin: 40px auto;
-  padding: 0 16px;
+/* =========================
+   Main Layout
+========================= */
+
+.welcome-layout {
+  max-width: 1100px;
+  margin: 120px auto 140px;
+  padding: 0 24px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  gap: 48px;
+
+  align-items: stretch; /* ⭐ 关键：等高 */
 }
 
-.community-header {
+/* =========================
+   Card Shared
+========================= */
+
+.welcome-card {
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #fbf7ef 55%,
+    #f3ebdd 100%
+  );
+  border-radius: 16px;
+  border: 1px solid rgba(160,140,110,0.25);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.12);
+
+  padding: 36px 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================
+   Welcome Card
+========================= */
+
+.welcome-card {
+  justify-content: center;          /* 内容视觉居中 */
+}
+
+.welcome-title {
   text-align: center;
   margin-bottom: 28px;
 }
 
-.community-header h1 {
+.welcome-title h1 {
   margin: 0;
-  font-size: 26px;
-  color: #1e7033;
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--brand-2);
 }
 
-.community-header p {
-  margin-top: 8px;
-  color: #666;
+.welcome-title p {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #555;
+}
+
+.benefits {
+  margin-top: 24px;
+}
+
+.benefits h2 {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 14px;
+  color: #333;
+}
+
+.benefits ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.benefits li {
   font-size: 15px;
-}
-
-.community-card {
-  background: #fff;
-  border-radius: 14px;
-  padding: 22px;
-  margin-bottom: 18px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-  border: 1px solid rgba(0,0,0,0.04);
-}
-
-.community-card h3 {
-  margin-top: 0;
-  color: #2c9c47;
+  color: #444;
+  padding: 8px 0;
   display: flex;
-  align-items: center;
-  gap: 8px;
+  gap: 10px;
+  line-height: 1.6;
 }
 
-.badge {
-  font-size: 12px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: #e9f6ef;
-  color: #2c9c47;
+.benefits li::before {
+  content: "✔";
+  color: #15803d;
+  font-weight: 600;
+  margin-top: 2px;
 }
 
-.community-list {
-  padding-left: 18px;
-  margin: 10px 0 0;
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 768px) {
+
+  .welcome-layout {
+    grid-template-columns: 1fr;   /* 上下 */
+    gap: 32px;
+    margin: 80px auto 120px;
+  }
+
+  .welcome-card {
+    padding: 28px;
+  }
 }
 
-.community-list li {
-  margin-bottom: 8px;
-}
 
-.muted {
-  color: #777;
-  font-size: 14px;
-}
 
-.upgrade-box {
+/* =========================
+   Card Shared
+========================= */
+
+.welcome-card2 {
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #fbf7ef 55%,
+    #f3ebdd 100%
+  );
+  border-radius: 16px;
+  border: 1px solid rgba(160,140,110,0.25);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.12);
+
+  padding: 36px 40px;
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  flex-direction: column;
 }
 
-.upgrade-box a {
-  white-space: nowrap;
+/* =========================
+   Welcome Card
+========================= */
+
+.welcome-card2 {
+  justify-content: center;          /* 内容视觉居中 */
 }
+
+.welcome-title2 {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.welcome-title2 h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 500;
+  color: var(--brand-2);
+}
+
+.welcome-title2 p {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #555;
+}
+
+.benefits2 {
+  margin-top: 24px;
+}
+
+.benefits2 h2 {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 14px;
+  color: #333;
+}
+
+.benefits2 ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.benefits2 li {
+  font-size: 15px;
+  color: #444;
+  padding: 8px 0;
+  display: flex;
+  gap: 10px;
+  line-height: 1.6;
+}
+
+.benefits2 li::before {
+  content: "✔";
+  color: #15803d;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 768px) {
+
+ 
+  .welcome-card2 {
+    padding: 28px;
+  }
+}
+
+.welcome-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 20px 48px rgba(0,0,0,0.16),
+      0 0 0 1px rgba(176,140,80,0.35); /* 品牌亮线 */
+    border-color: rgba(176,140,80,0.6);
+  }
+
+.welcome-card2:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 20px 48px rgba(0,0,0,0.16),
+      0 0 0 1px rgba(176,140,80,0.35); /* 品牌亮线 */
+    border-color: rgba(176,140,80,0.6);
+  }
+
 </style>
 </head>
 
-<body class="page-community" data-page="lead-required">
+<body class="login-page">
 
 <!-- NAV -->
 
@@ -275,86 +432,100 @@ body {
   </div>
 </nav>
 
+<div class="welcome-layout">
+<!-- MAIN 2 -->
+<div class="welcome-wrap">
 
-<main class="community-container">
+  <!-- Welcome -->
+  <div class="welcome-card">
+    <div class="welcome-title">
+      <h1 data-en="Welcome to SnovaEdu!" data-zh="欢迎加入 Edunova！">
+        Welcome to SnovaEdu!
+      </h1>
+      <h2 data-en="You are an Edunova Senior Member with full, top-level access privileges on this website."
+         data-zh="您是Edunova高级会员，享有本网站的最高权限。">
+         Your account has been successfully created. Thank you for trusting us.
+    </h2>
+    </div>
 
-  <!-- Header -->
-  <div class="community-header">
-    <h1 data-en="EduCommunity" data-zh="教育社区">EduCommunity</h1>
-    <p
-      data-en="A curated knowledge & discussion space for U.S. education planning."
-      data-zh="为美式教育规划家庭与学生打造的精选知识与交流空间。">
-      A curated knowledge & discussion space for U.S. education planning.
-    </p>
-  </div>
+    <div class="benefits">
+      <h2 data-en="As a Edunnova Member, you can now:"
+          data-zh="作为 Edunova 会员，您现在可以：">
+          As a SnovaEdu Member, you can now:
+      </h2>
 
-  <!-- Intro -->
-  <div class="community-card">
-    <h3>
-      <span data-en="Welcome" data-zh="欢迎来到社区">Welcome</span>
-      <span class="badge" data-en="Read Only" data-zh="只读访问">Read Only</span>
-    </h3>
-    <p
-      data-en="EduCommunity is designed for families and students who have joined our interest list. You can freely read expert insights, case discussions, and important updates."
-      data-zh="EduCommunity 面向已加入俱乐部名单的家庭与学生开放。您可以自由阅读专家观点、案例解析与重要更新内容。">
-      EduCommunity is designed for families and students who have joined our interest list.
-    </p>
-    <p class="muted"
-      data-en="Posting, commenting, and Q&A are available to Members only."
-      data-zh="发帖、评论与专家问答仅对会员开放。">
-      Posting, commenting, and Q&A are available to Members only.
-    </p>
-  </div>
+      <ul>
+        <li data-en="Access curated education resources"
+            data-zh="访问精选教育资源">
+            Access curated education resources
+        </li>
+        <li data-en="Join exclusive learning programs"
+            data-zh="参与专属学习项目">
+            Join exclusive learning programs
+        </li>
+        <li data-en="Become part of EduCommunity"
+            data-zh="加入 EduCommunity 教育社区">
+            Become part of EduCommunity
+        </li>
 
-  <!-- Topics -->
-  <div class="community-card">
-    <h3 data-en="Popular Topics" data-zh="热门话题">Popular Topics</h3>
-    <ul class="community-list">
-      <li data-en="When should families start planning for U.S. college admissions?"
-          data-zh="家庭应该从什么时候开始规划美国大学申请？">
-        When should families start planning for U.S. college admissions?
-      </li>
-      <li data-en="AP vs IB — how do U.S. universities really view them?"
-          data-zh="AP 与 IB：美国大学究竟如何看待？">
-        AP vs IB — how do U.S. universities really view them?
-      </li>
-      <li data-en="Recent FAFSA & CSS Profile changes explained"
-          data-zh="最新 FAFSA 与 CSS Profile 改动解析">
-        Recent FAFSA & CSS Profile changes explained
-      </li>
-    </ul>
-  </div>
-
-  <!-- Expert -->
-  <div class="community-card">
-    <h3 data-en="Expert Insights" data-zh="专家精选">Expert Insights</h3>
-    <p
-      data-en="Our advisors regularly share insights on admissions trends, financial aid strategies, and real case studies from U.S. schools."
-      data-zh="我们的顾问团队会定期分享美国大学录取趋势、助学金策略以及真实案例分析。">
-      Our advisors regularly share insights on admissions trends, financial aid strategies.
-    </p>
-  </div>
-
-  <!-- Upgrade -->
-  <div class="community-card">
-    <h3 data-en="Become a Member" data-zh="升级为会员">Become a Member</h3>
-    <div class="upgrade-box">
-      <p class="muted"
-         data-en="Members can participate in discussions, ask questions, and access advanced content."
-         data-zh="会员可参与讨论、向专家提问，并解锁进阶内容。">
-        Members can participate in discussions, ask questions, and access advanced content.
-      </p>
-      <a href="/membershipcenter.html"
-         class="btn btn-primary"
-         data-en="View Membership"
-         data-zh="查看会员权益">
-        View Membership
-      </a>
+        <li data-en="Unlock member-only insights. Visit the Edunova forum and join the discussion."
+            data-zh="解锁会员专属内容，访问Edunova论坛并参与讨论">
+            Unlock member-only insights
+        </li>
+        
+      </ul>
     </div>
   </div>
+</div>
+<!-- MAIN -->
+<div class="welcome-wrap2">
 
-</main>
+  <!-- Welcome -->
+  <div class="welcome-card2">
+    <div class="welcome-title2">
+      <h1 data-en="We welcome you to explore Edunova further!" data-zh="欢迎您进一步了解Edunova！">
+        We welcome you to explore Edunova further!"
+      </h1>
+      <h2 data-en="We look forward to welcoming you as an Edunova volunteer."
+         data-zh="我们期待并热烈欢迎您能够成为Edunova志愿者。">
+         We look forward to welcoming you as an Edunova volunteer.
+    </h2>
+    </div>
+
+    <div class="benefits2">
+      <h2 data-en="We warmly welcome and sincerely appreciate donations to the Edunova Foundation—no matter the amount, even just one dollar!"
+          data-zh="我们期待并热烈欢迎您能够为Edunova基金会捐款，哪怕是一元钱！">
+          We warmly welcome and sincerely appreciate donations to the Edunova Foundation—no matter the amount, even just one dollar!
+      </h2>
+
+      <ul>
+        <li data-en="We welcome you to join us as a tutor."
+            data-zh="欢迎您成为我们的Tutor">
+            We welcome you to join us as a tutor.
+        </li>
+        <li data-en="We welcome you to attend our free online courses and lectures."
+            data-zh="欢迎您来听我们的线上免费课程与讲座">
+           We welcome you to attend our free online courses and lectures.
+        </li>
+        <li data-en="We invite you to participate in the review and evaluation of volunteer certificates and student scholarships."
+            data-zh="欢迎您参与我们的志愿者Certificate与学生的Scholarship评定">
+            We invite you to participate in the review and evaluation of volunteer certificates and student scholarships.
+        </li>
+        <li data-en="We warmly invite you to support the Foundation through donations and to take part in the management of funds and the awarding of scholarships."
+            data-zh="热烈欢迎您为基金会捐款并参与其管理与奖学金发放">
+            Visit the Edunova forum and join the discussion.
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+
 <script src="/assets/js/auth-nav.js" defer></script>
+<script src="/assets/js/access.js" defer></script>
 <!-- Footer (reuse your site footer if you have one) -->
    <!-- FOOTER -->
 <footer>

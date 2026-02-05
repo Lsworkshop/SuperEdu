@@ -26,6 +26,10 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+function normalizeEmail(email) {
+  return typeof email === "string" ? email.trim().toLowerCase() : email;
+}
+
 function generateMemberId() {
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const l1 = letters[Math.floor(Math.random() * 26)];
@@ -33,6 +37,7 @@ function generateMemberId() {
   const num = Math.floor(1000 + Math.random() * 9000);
   return `EDU-${l1}${l2}${num}`;
 }
+
 
 function generateVerificationToken() {
   const arr = new Uint8Array(32);
@@ -51,7 +56,7 @@ async function sendVerificationEmail({
   lastName
 }) {
 
-  const baseUrl = "https://edu.lsfinova.com";
+  const baseUrl = "https://edunovafdn.org";
   const verifyLink =
     `${baseUrl}/api/verify-email?token=${token}`;
 
@@ -183,6 +188,9 @@ export async function onRequestPost({ request, env }) {
       referral_code
     } = body;
 
+    const normalizedEmail = normalizeEmail(email);
+
+
     if (!first_name || !last_name || !email || !password) {
       return new Response(
         JSON.stringify({ error: "Missing required fields." }),
@@ -190,7 +198,7 @@ export async function onRequestPost({ request, env }) {
       );
     }
 
-    if (!isValidEmail(email)) {
+    if (!isValidEmail(normalizedEmail)) {
       return new Response(
         JSON.stringify({ error: "Invalid email format." }),
         { status: 400 }
@@ -209,7 +217,7 @@ export async function onRequestPost({ request, env }) {
 
     const emailExists = await env.DB
       .prepare("SELECT 1 FROM members WHERE email = ?")
-      .bind(email)
+      .bind(normalizedEmail)
       .first();
 
     if (emailExists) {
@@ -249,7 +257,7 @@ export async function onRequestPost({ request, env }) {
     `).bind(
       first_name,
       last_name,
-      email,
+      normalizedEmail,
       member_id,
       password_hash,
       referral_code || null,
@@ -273,18 +281,19 @@ export async function onRequestPost({ request, env }) {
       ) VALUES (?, ?, ?, ?)
     `).bind(
       member_id,
-      email,
+      normalizedEmail,
       token,
       expiresAt
     ).run();
 
     await sendVerificationEmail({
   env,
-  email,
+  email: normalizedEmail,   // ✅ 关键修复
   token,
   firstName: first_name,
   lastName: last_name
 });
+
 
 
     return new Response(
