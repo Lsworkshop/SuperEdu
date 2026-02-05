@@ -285,4 +285,3 @@ document.addEventListener("DOMContentLoaded", syncAuthNav);
 })();
 
 
-<script src="/assets/js/ns-links.js"></script>
