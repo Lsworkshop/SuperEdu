@@ -555,11 +555,15 @@
           <span>Quick Unlock → Education</span>
         </button>
 
-       <a class="btn btn-link hero-cta" href="#" id="ctaApply" target="_self"
-   data-en="Apply for Services" data-zh="申请服务"
-   onclick="event.preventDefault(); nsNav('apply.html');">
+     <a class="btn btn-link hero-cta"
+   href="javascript:void(0)"
+   id="ctaApply"
+   target="_self"
+   data-en="Apply for Services"
+   data-zh="申请服务">
   Apply for Services
 </a>
+
 
       </div>
 
@@ -1785,20 +1789,33 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-  function nsNav(page) {
-    // 取当前 ns（例如 /ns12345/）
+(function () {
+  function getNs() {
     const m = window.location.pathname.match(/^\/(ns[0-9A-Za-z_-]+)(\/|$)/);
-    const ns = m ? m[1] : null;
+    return m ? m[1] : null;
+  }
 
-    // 统一拼成 /xxx.html
+  function goWithNs(page) {
+    const ns = getNs();
     const p = page.startsWith("/") ? page : ("/" + page);
-
-    // 有 ns 就带 ns，没有就走普通路径
     const target = ns ? ("/" + ns + p) : p;
-
     window.location.assign(target);
   }
+
+  // ✅ 捕获阶段 + stopImmediatePropagation：强制抢到点击事件
+  document.addEventListener("click", function (e) {
+    const a = e.target.closest && e.target.closest("#ctaApply");
+    if (!a) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+
+    goWithNs("apply.html");
+  }, true);
+})();
 </script>
+
 
 </body>
 </html>
