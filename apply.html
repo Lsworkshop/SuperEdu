@@ -216,9 +216,6 @@
 <script src="/assets/js/menu.js" defer></script>
 <script src="/assets/js/lang.js" defer></script>
 <script src="/assets/js/access.js" defer></script>
-<script src="/assets/js/ns-links.js"></script>
-
-
 
 </head>
 
@@ -453,22 +450,27 @@
 ================================ */
 
 const serviceItems = [
-  {
-    id: 's1',
-    order: '1',
-    en: '🎓 Education Affordability & Funding Support',
-    zh: '🎓 教育可负担性与资助支持',
-    subs_en: [
-      'Financial Aid (FAFSA / CSS)',
-      'Scholarships & Grants',
-      'Education Savings & Funding Strategy'
-    ],
-    subs_zh: [
-      '助学金（FAFSA / CSS）',
-      '奖学金与资助项目',
-      '教育储蓄与资金规划'
-    ]
-  },
+ 
+{
+  id: 's1',
+  order: '1',
+  en: '🎓 Education Affordability & Funding Support',
+  zh: '🎓 教育可负担性与资助支持',
+  subs_en: [
+    'Financial Aid (FAFSA / CSS)',
+    'Scholarships & Grants',
+    'Education Savings & Funding Strategy'
+  ],
+  subs_zh: [
+    '助学金（FAFSA / CSS）',
+    '奖学金与资助项目',
+    '教育储蓄与资金规划'
+  ],
+  price_en: '💰 Service price: $300–$2800; NS Members free',
+  price_zh: '💰 服务价格 $300~2800；NS Members 免费'
+},
+
+
   {
     id: 's2',
     order: '2',
@@ -802,5 +804,7 @@ document.getElementById('applyForm').addEventListener('submit', async e =>{
     © 2025 Edunova — LSFinova 版权所有
   </div>
 </footer>
+
+<script src="/assets/js/ns-links.js"></script>
 </body>
 </html>
