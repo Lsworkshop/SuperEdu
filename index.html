@@ -555,9 +555,12 @@
           <span>Quick Unlock → Education</span>
         </button>
 
-        <a class="btn btn-link hero-cta" href="apply.html" id="ctaApply" target="_self" data-en="Apply for Services" data-zh="申请服务">
-          Apply for Services
-        </a>
+       <a class="btn btn-link hero-cta" href="#" id="ctaApply" target="_self"
+   data-en="Apply for Services" data-zh="申请服务"
+   onclick="event.preventDefault(); nsNav('apply.html');">
+  Apply for Services
+</a>
+
       </div>
 
       <div class="hero-subitems">
@@ -1782,8 +1785,20 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-</script>
+  function nsNav(page) {
+    // 取当前 ns（例如 /ns12345/）
+    const m = window.location.pathname.match(/^\/(ns[0-9A-Za-z_-]+)(\/|$)/);
+    const ns = m ? m[1] : null;
 
+    // 统一拼成 /xxx.html
+    const p = page.startsWith("/") ? page : ("/" + page);
+
+    // 有 ns 就带 ns，没有就走普通路径
+    const target = ns ? ("/" + ns + p) : p;
+
+    window.location.assign(target);
+  }
+</script>
 
 </body>
 </html>
