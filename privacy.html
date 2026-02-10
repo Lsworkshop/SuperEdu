@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Privacy Policy | 隐私政策</title>
 
-
   <!-- icons (same as index.html) -->
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/favicon-32.png">
@@ -22,12 +21,36 @@
 <script src="/assets/js/ns-links.js"></script>
 <script src="/assets/js/auth-nav.js" defer></script>
 
+
   <style>
-    /* 只做“最小补齐”，不抢你现有主题（颜色/背景尽量用 CSS 变量/继承） */
     :root{
       --page-max: 1100px;
+      /* ✅ 1) 整体下移：给主菜单预留空间（你可按实际菜单高度微调） */
+      --nav-space: 88px;
+
+      /* ✅ 2) 四个区域背景色（按你给的） */
+      --zone-a: #FFFFFF;
+      --zone-b: #E8EEFF;
+      --zone-c: #EFE4FF;
+      --zone-d: #F8F9F6;
+
+      /* ✅ 3) 卡片淡浅棕黄色渐变（尽量“柔”） */
+      --card-grad: linear-gradient(135deg,
+        rgba(255, 246, 223, 0.92),
+        rgba(250, 238, 212, 0.88),
+        rgba(246, 232, 202, 0.86)
+      );
+      --card-border: rgba(0,0,0,0.08);
     }
+
     body{ margin:0; }
+
+    /* 四区容器 */
+    .zone{ width: 100%; }
+    .zone-a{ background: var(--zone-a); }
+    .zone-b{ background: var(--zone-b); }
+    .zone-c{ background: var(--zone-c); }
+    .zone-d{ background: var(--zone-d); }
 
     .page-wrap{
       max-width: var(--page-max);
@@ -35,9 +58,12 @@
       padding: 28px 18px 64px;
     }
 
-    .policy-hero{
-      padding: 10px 0 18px;
+    /* ✅ 1) 整体下移：只让主内容下移，菜单保持你自己的布局 */
+    .main-offset{
+      padding-top: var(--nav-space);
     }
+
+    .policy-hero{ padding: 10px 0 18px; }
 
     .policy-title{
       margin: 0;
@@ -63,13 +89,26 @@
       font-size: 13.5px;
     }
 
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,0.10);
+      background: rgba(255,255,255,0.55);
+      font-size: 13.5px;
+      opacity: 0.92;
+    }
+
+    /* ✅ 3) 卡片淡浅棕黄色渐变 */
     .card{
       margin-top: 18px;
       border-radius: 18px;
       padding: 18px 18px;
-      /* 不指定颜色，尽量跟随你现有主题；如果你主题有卡片类可替换掉 */
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(0,0,0,0.08);
+      background: var(--card-grad);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 18px 46px rgba(0,0,0,0.08);
       backdrop-filter: blur(10px);
     }
 
@@ -79,13 +118,11 @@
     }
     .toc a{
       text-decoration: none;
-      opacity: 0.9;
+      opacity: 0.92;
     }
     .toc a:hover{ opacity: 1; text-decoration: underline; }
 
-    .section{
-      margin-top: 18px;
-    }
+    .section{ margin-top: 18px; }
     .section h2{
       margin: 0 0 8px;
       font-size: 18px;
@@ -104,18 +141,6 @@
     }
     .section li{ margin: 6px 0; }
 
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(0,0,0,0.10);
-      background: rgba(255,255,255,0.06);
-      font-size: 13.5px;
-      opacity: 0.92;
-    }
-
     .toplink{
       margin-top: 18px;
       display: inline-flex;
@@ -126,21 +151,17 @@
     }
     .toplink:hover{ opacity: 1; text-decoration: underline; }
 
-    /* 空行（如果你用 subs_en 里插 '' 的风格）也不会占太大 */
-    .spacer{ height: 8px; }
-
-    /* 如果你全局是暗色背景，这个边框/背景也能自然工作；需要更贴合的话可删掉本段 */
-    @media (prefers-color-scheme: dark){
-      .card{ border-color: rgba(255,255,255,0.10); background: rgba(255,255,255,0.05); }
+    @media (max-width: 768px){
+      :root{ --nav-space: 72px; } /* 移动端菜单一般更矮 */
+      .page-wrap{ padding: 22px 14px 56px; }
     }
   </style>
 </head>
 
 <body>
-      
+ 
   <div id="siteNav">
-
-<!-- NAV -->
+    <!-- NAV -->
 
 <nav id="topNav" class="nav--transparent">
   <div class="nav-inner">
@@ -318,169 +339,190 @@
     </div>
   </div>
 </nav>
+  </div>
+
+  <!-- ✅ 1) 主体整体下移（给主菜单留空间） -->
+  <div class="main-offset" id="top">
+
+    <!-- ✅ 2) 四个区域：zone-a/b/c/d -->
+    <!-- zone-a：标题与简介 -->
+    <section class="zone zone-a">
+      <main class="page-wrap">
+        <header class="policy-hero">
+          <h1 class="policy-title" data-en="Privacy Policy" data-zh="隐私政策">Privacy Policy</h1>
+          <p class="policy-subtitle"
+             data-en="This Privacy Policy explains how we collect, use, and protect your information when you use our website and services."
+             data-zh="本隐私政策说明当您使用我们的网站与服务时，我们如何收集、使用并保护您的信息。">
+            This Privacy Policy explains how we collect, use, and protect your information when you use our website and services.
+          </p>
+
+          <div class="meta-row">
+            <span class="pill" data-en="Effective date:" data-zh="生效日期：">Effective date:</span>
+            <span class="pill" id="effectiveDate">2026-02-08</span>
+            <span class="pill" data-en="Contact: team@edunovafdn.org" data-zh="联系邮箱：team@edunovafdn.org">Contact: team@edunovafdn.org</span>
+          </div>
+        </header>
+      </main>
+    </section>
+
+    <!-- zone-b：目录 -->
+    <section class="zone zone-b">
+      <main class="page-wrap">
+        <section class="card">
+          <div class="section" style="margin-top:0;">
+            <h2 data-en="Contents" data-zh="目录">Contents</h2>
+            <div class="toc">
+              <a href="#info-we-collect" data-en="1. Information We Collect" data-zh="1. 我们收集的信息">1. Information We Collect</a>
+              <a href="#how-we-use" data-en="2. How We Use Information" data-zh="2. 信息的使用方式">2. How We Use Information</a>
+              <a href="#cookies" data-en="3. Cookies & Similar Technologies" data-zh="3. Cookie 与类似技术">3. Cookies & Similar Technologies</a>
+              <a href="#sharing" data-en="4. Sharing & Disclosure" data-zh="4. 信息共享与披露">4. Sharing & Disclosure</a>
+              <a href="#security" data-en="5. Data Security" data-zh="5. 数据安全">5. Data Security</a>
+              <a href="#retention" data-en="6. Data Retention" data-zh="6. 数据保留期限">6. Data Retention</a>
+              <a href="#your-rights" data-en="7. Your Rights & Choices" data-zh="7. 您的权利与选择">7. Your Rights & Choices</a>
+              <a href="#children" data-en="8. Children’s Privacy" data-zh="8. 儿童隐私">8. Children’s Privacy</a>
+              <a href="#changes" data-en="9. Changes to This Policy" data-zh="9. 政策更新">9. Changes to This Policy</a>
+            </div>
+          </div>
+        </section>
+      </main>
+    </section>
+
+    <!-- zone-c：主体条款（主要内容） -->
+    <section class="zone zone-c">
+      <main class="page-wrap">
+
+        <section class="card section" id="info-we-collect">
+          <h2 data-en="1. Information We Collect" data-zh="1. 我们收集的信息">1. Information We Collect</h2>
+          <p data-en="We collect information you provide directly, such as your name, email address, and any details you submit through forms."
+             data-zh="我们会收集您主动提供的信息，例如姓名、邮箱地址，以及您通过表单提交的内容。">
+            We collect information you provide directly, such as your name, email address, and any details you submit through forms.
+          </p>
+          <p data-en="We may also collect basic technical information when you access the site, such as browser type, device information, and approximate location (e.g., country/region), mainly for security and analytics."
+             data-zh="当您访问网站时，我们也可能收集基础技术信息，例如浏览器类型、设备信息、粗略位置（国家/地区级别），主要用于安全与统计分析。">
+            We may also collect basic technical information when you access the site, such as browser type, device information, and approximate location (e.g., country/region), mainly for security and analytics.
+          </p>
+          <ul>
+            <li data-en="Account data (if you create an account): email, password hash, verification status."
+                data-zh="账户数据（如您创建账户）：邮箱、密码哈希、验证状态。">
+              Account data (if you create an account): email, password hash, verification status.
+            </li>
+            <li data-en="Form submissions: any information you enter into registration or contact forms."
+                data-zh="表单提交：您在注册/联系表单中填写的信息。">
+              Form submissions: any information you enter into registration or contact forms.
+            </li>
+          </ul>
+        </section>
+
+        <section class="card section" id="how-we-use">
+          <h2 data-en="2. How We Use Information" data-zh="2. 信息的使用方式">2. How We Use Information</h2>
+          <ul>
+            <li data-en="To provide and improve our services, including responding to requests and delivering content."
+                data-zh="用于提供与改进服务，包括响应请求与交付内容。">
+              To provide and improve our services, including responding to requests and delivering content.
+            </li>
+            <li data-en="To maintain account security (e.g., email verification, session management)."
+                data-zh="用于账户安全（如邮箱验证、会话管理）。">
+              To maintain account security (e.g., email verification, session management).
+            </li>
+            <li data-en="To send service-related emails (verification, updates, important notices)."
+                data-zh="发送与服务相关的邮件（验证、更新、重要通知）。">
+              To send service-related emails (verification, updates, important notices).
+            </li>
+          </ul>
+        </section>
+
+        <section class="card section" id="cookies">
+          <h2 data-en="3. Cookies & Similar Technologies" data-zh="3. Cookie 与类似技术">3. Cookies & Similar Technologies</h2>
+          <p data-en="We may use cookies or similar technologies to keep you signed in, remember preferences (such as language), and improve site performance."
+             data-zh="我们可能使用 Cookie 或类似技术用于保持登录状态、记住偏好（如语言）、提升网站性能。">
+            We may use cookies or similar technologies to keep you signed in, remember preferences (such as language), and improve site performance.
+          </p>
+          <p data-en="You can control cookies through your browser settings. Disabling cookies may affect certain features (e.g., login)."
+             data-zh="您可以通过浏览器设置管理 Cookie。禁用 Cookie 可能影响部分功能（如登录）。">
+            You can control cookies through your browser settings. Disabling cookies may affect certain features (e.g., login).
+          </p>
+        </section>
+
+        <section class="card section" id="sharing">
+          <h2 data-en="4. Sharing & Disclosure" data-zh="4. 信息共享与披露">4. Sharing & Disclosure</h2>
+          <p data-en="We do not sell your personal information. We may share limited information with service providers (e.g., email delivery) strictly to operate our services."
+             data-zh="我们不会出售您的个人信息。我们可能会与服务提供商（如邮件发送）共享有限信息，且仅用于服务运行。">
+            We do not sell your personal information. We may share limited information with service providers (e.g., email delivery) strictly to operate our services.
+          </p>
+          <p data-en="We may also disclose information when required by law, or to protect the security and integrity of our services."
+             data-zh="在法律要求或为保护服务安全与完整性时，我们也可能披露相关信息。">
+            We may also disclose information when required by law, or to protect the security and integrity of our services.
+          </p>
+        </section>
+
+        <section class="card section" id="security">
+          <h2 data-en="5. Data Security" data-zh="5. 数据安全">5. Data Security</h2>
+          <p data-en="We take reasonable measures to protect your data, including encryption in transit (HTTPS) and access controls. No method of transmission is 100% secure."
+             data-zh="我们采取合理措施保护您的数据，包括传输加密（HTTPS）与访问控制。但任何传输方式都无法保证 100% 安全。">
+            We take reasonable measures to protect your data, including encryption in transit (HTTPS) and access controls. No method of transmission is 100% secure.
+          </p>
+        </section>
+
+        <section class="card section" id="retention">
+          <h2 data-en="6. Data Retention" data-zh="6. 数据保留期限">6. Data Retention</h2>
+          <p data-en="We retain personal information only as long as necessary to provide services, comply with legal obligations, and resolve disputes."
+             data-zh="我们仅在提供服务、遵守法律义务与解决争议所必需的期限内保留个人信息。">
+            We retain personal information only as long as necessary to provide services, comply with legal obligations, and resolve disputes.
+          </p>
+        </section>
+
+        <section class="card section" id="your-rights">
+          <h2 data-en="7. Your Rights & Choices" data-zh="7. 您的权利与选择">7. Your Rights & Choices</h2>
+          <ul>
+            <li data-en="Access, update, or correct your personal information (where applicable)."
+                data-zh="访问、更新或更正您的个人信息（如适用）。">
+              Access, update, or correct your personal information (where applicable).
+            </li>
+            <li data-en="Request deletion of your account data, subject to legal or operational requirements."
+                data-zh="在法律或运营要求允许的范围内，申请删除账户数据。">
+              Request deletion of your account data, subject to legal or operational requirements.
+            </li>
+            <li data-en="Opt out of non-essential communications where available."
+                data-zh="在可用时，选择退出非必要通信。">
+              Opt out of non-essential communications where available.
+            </li>
+          </ul>
+          <p data-en="To make a request, contact us at team@edunovafdn.org."
+             data-zh="如需提出请求，请联系 team@edunovafdn.org。">
+            To make a request, contact us at team@edunovafdn.org.
+          </p>
+        </section>
+
+        <section class="card section" id="children">
+          <h2 data-en="8. Children’s Privacy" data-zh="8. 儿童隐私">8. Children’s Privacy</h2>
+          <p data-en="Our services are not directed to children under 13. If you believe a child has provided personal information, please contact us."
+             data-zh="我们的服务不面向 13 岁以下儿童。如您认为儿童提供了个人信息，请联系我们。">
+            Our services are not directed to children under 13. If you believe a child has provided personal information, please contact us.
+          </p>
+        </section>
+
+      </main>
+    </section>
+
+    <!-- zone-d：结尾与返回顶部 -->
+    <section class="zone zone-d">
+      <main class="page-wrap">
+        <section class="card section" id="changes" style="margin-top:0;">
+          <h2 data-en="9. Changes to This Policy" data-zh="9. 政策更新">9. Changes to This Policy</h2>
+          <p data-en="We may update this policy from time to time. We will post the updated version on this page and update the effective date."
+             data-zh="我们可能会不时更新本政策。更新版本将发布在本页面，并同步更新生效日期。">
+            We may update this policy from time to time. We will post the updated version on this page and update the effective date.
+          </p>
+          <a class="toplink" href="#top" data-en="↑ Back to top" data-zh="↑ 返回顶部">↑ Back to top</a>
+        </section>
+      </main>
+    </section>
 
   </div>
 
-  <main class="page-wrap" id="top">
-    <header class="policy-hero">
-      <h1 class="policy-title" data-en="Privacy Policy" data-zh="隐私政策">Privacy Policy</h1>
-      <p class="policy-subtitle"
-         data-en="This Privacy Policy explains how we collect, use, and protect your information when you use our website and services."
-         data-zh="本隐私政策说明当您使用我们的网站与服务时，我们如何收集、使用并保护您的信息。">
-        This Privacy Policy explains how we collect, use, and protect your information when you use our website and services.
-      </p>
-
-      <div class="meta-row">
-        <span class="pill" data-en="Effective date: " data-zh="生效日期：">Effective date: </span>
-        <span class="pill" id="effectiveDate">2026-02-08</span>
-        <span class="pill" data-en="Contact: team@edunovafdn.org" data-zh="联系邮箱：team@edunovafdn.org">Contact: team@edunovafdn.org</span>
-      </div>
-    </header>
-
-    <!-- TOC -->
-    <section class="card">
-      <div class="section" style="margin-top:0;">
-        <h2 data-en="Contents" data-zh="目录">Contents</h2>
-        <div class="toc">
-          <a href="#info-we-collect" data-en="1. Information We Collect" data-zh="1. 我们收集的信息">1. Information We Collect</a>
-          <a href="#how-we-use" data-en="2. How We Use Information" data-zh="2. 信息的使用方式">2. How We Use Information</a>
-          <a href="#cookies" data-en="3. Cookies & Similar Technologies" data-zh="3. Cookie 与类似技术">3. Cookies & Similar Technologies</a>
-          <a href="#sharing" data-en="4. Sharing & Disclosure" data-zh="4. 信息共享与披露">4. Sharing & Disclosure</a>
-          <a href="#security" data-en="5. Data Security" data-zh="5. 数据安全">5. Data Security</a>
-          <a href="#retention" data-en="6. Data Retention" data-zh="6. 数据保留期限">6. Data Retention</a>
-          <a href="#your-rights" data-en="7. Your Rights & Choices" data-zh="7. 您的权利与选择">7. Your Rights & Choices</a>
-          <a href="#children" data-en="8. Children’s Privacy" data-zh="8. 儿童隐私">8. Children’s Privacy</a>
-          <a href="#changes" data-en="9. Changes to This Policy" data-zh="9. 政策更新">9. Changes to This Policy</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Sections -->
-    <section class="card section" id="info-we-collect">
-      <h2 data-en="1. Information We Collect" data-zh="1. 我们收集的信息">1. Information We Collect</h2>
-      <p data-en="We collect information you provide directly, such as your name, email address, and any details you submit through forms."
-         data-zh="我们会收集您主动提供的信息，例如姓名、邮箱地址，以及您通过表单提交的内容。">
-        We collect information you provide directly, such as your name, email address, and any details you submit through forms.
-      </p>
-      <p data-en="We may also collect basic technical information when you access the site, such as browser type, device information, and approximate location (e.g., country/region), mainly for security and analytics."
-         data-zh="当您访问网站时，我们也可能收集基础技术信息，例如浏览器类型、设备信息、粗略位置（国家/地区级别），主要用于安全与统计分析。">
-        We may also collect basic technical information when you access the site, such as browser type, device information, and approximate location (e.g., country/region), mainly for security and analytics.
-      </p>
-      <ul>
-        <li data-en="Account data (if you create an account): email, password hash, verification status."
-            data-zh="账户数据（如您创建账户）：邮箱、密码哈希、验证状态。">
-          Account data (if you create an account): email, password hash, verification status.
-        </li>
-        <li data-en="Form submissions: any information you enter into registration or contact forms."
-            data-zh="表单提交：您在注册/联系表单中填写的信息。">
-          Form submissions: any information you enter into registration or contact forms.
-        </li>
-      </ul>
-    </section>
-
-    <section class="card section" id="how-we-use">
-      <h2 data-en="2. How We Use Information" data-zh="2. 信息的使用方式">2. How We Use Information</h2>
-      <ul>
-        <li data-en="To provide and improve our services, including responding to requests and delivering content."
-            data-zh="用于提供与改进服务，包括响应请求与交付内容。">
-          To provide and improve our services, including responding to requests and delivering content.
-        </li>
-        <li data-en="To maintain account security (e.g., email verification, session management)."
-            data-zh="用于账户安全（如邮箱验证、会话管理）。">
-          To maintain account security (e.g., email verification, session management).
-        </li>
-        <li data-en="To send service-related emails (verification, updates, important notices)."
-            data-zh="发送与服务相关的邮件（验证、更新、重要通知）。">
-          To send service-related emails (verification, updates, important notices).
-        </li>
-      </ul>
-    </section>
-
-    <section class="card section" id="cookies">
-      <h2 data-en="3. Cookies & Similar Technologies" data-zh="3. Cookie 与类似技术">3. Cookies & Similar Technologies</h2>
-      <p data-en="We may use cookies or similar technologies to keep you signed in, remember preferences (such as language), and improve site performance."
-         data-zh="我们可能使用 Cookie 或类似技术用于保持登录状态、记住偏好（如语言）、提升网站性能。">
-        We may use cookies or similar technologies to keep you signed in, remember preferences (such as language), and improve site performance.
-      </p>
-      <p data-en="You can control cookies through your browser settings. Disabling cookies may affect certain features (e.g., login)."
-         data-zh="您可以通过浏览器设置管理 Cookie。禁用 Cookie 可能影响部分功能（如登录）。">
-        You can control cookies through your browser settings. Disabling cookies may affect certain features (e.g., login).
-      </p>
-    </section>
-
-    <section class="card section" id="sharing">
-      <h2 data-en="4. Sharing & Disclosure" data-zh="4. 信息共享与披露">4. Sharing & Disclosure</h2>
-      <p data-en="We do not sell your personal information. We may share limited information with service providers (e.g., email delivery) strictly to operate our services."
-         data-zh="我们不会出售您的个人信息。我们可能会与服务提供商（如邮件发送）共享有限信息，且仅用于服务运行。">
-        We do not sell your personal information. We may share limited information with service providers (e.g., email delivery) strictly to operate our services.
-      </p>
-      <p data-en="We may also disclose information when required by law, or to protect the security and integrity of our services."
-         data-zh="在法律要求或为保护服务安全与完整性时，我们也可能披露相关信息。">
-        We may also disclose information when required by law, or to protect the security and integrity of our services.
-      </p>
-    </section>
-
-    <section class="card section" id="security">
-      <h2 data-en="5. Data Security" data-zh="5. 数据安全">5. Data Security</h2>
-      <p data-en="We take reasonable measures to protect your data, including encryption in transit (HTTPS) and access controls. No method of transmission is 100% secure."
-         data-zh="我们采取合理措施保护您的数据，包括传输加密（HTTPS）与访问控制。但任何传输方式都无法保证 100% 安全。">
-        We take reasonable measures to protect your data, including encryption in transit (HTTPS) and access controls. No method of transmission is 100% secure.
-      </p>
-    </section>
-
-    <section class="card section" id="retention">
-      <h2 data-en="6. Data Retention" data-zh="6. 数据保留期限">6. Data Retention</h2>
-      <p data-en="We retain personal information only as long as necessary to provide services, comply with legal obligations, and resolve disputes."
-         data-zh="我们仅在提供服务、遵守法律义务与解决争议所必需的期限内保留个人信息。">
-        We retain personal information only as long as necessary to provide services, comply with legal obligations, and resolve disputes.
-      </p>
-    </section>
-
-    <section class="card section" id="your-rights">
-      <h2 data-en="7. Your Rights & Choices" data-zh="7. 您的权利与选择">7. Your Rights & Choices</h2>
-      <ul>
-        <li data-en="Access, update, or correct your personal information (where applicable)."
-            data-zh="访问、更新或更正您的个人信息（如适用）。">
-          Access, update, or correct your personal information (where applicable).
-        </li>
-        <li data-en="Request deletion of your account data, subject to legal or operational requirements."
-            data-zh="在法律或运营要求允许的范围内，申请删除账户数据。">
-          Request deletion of your account data, subject to legal or operational requirements.
-        </li>
-        <li data-en="Opt out of non-essential communications where available."
-            data-zh="在可用时，选择退出非必要通信。">
-          Opt out of non-essential communications where available.
-        </li>
-      </ul>
-      <p data-en="To make a request, contact us at team@edunovafdn.org."
-         data-zh="如需提出请求，请联系 team@edunovafdn.org。">
-        To make a request, contact us at team@edunovafdn.org.
-      </p>
-    </section>
-
-    <section class="card section" id="children">
-      <h2 data-en="8. Children’s Privacy" data-zh="8. 儿童隐私">8. Children’s Privacy</h2>
-      <p data-en="Our services are not directed to children under 13. If you believe a child has provided personal information, please contact us."
-         data-zh="我们的服务不面向 13 岁以下儿童。如您认为儿童提供了个人信息，请联系我们。">
-        Our services are not directed to children under 13. If you believe a child has provided personal information, please contact us.
-      </p>
-    </section>
-
-    <section class="card section" id="changes">
-      <h2 data-en="9. Changes to This Policy" data-zh="9. 政策更新">9. Changes to This Policy</h2>
-      <p data-en="We may update this policy from time to time. We will post the updated version on this page and update the effective date."
-         data-zh="我们可能会不时更新本政策。更新版本将发布在本页面，并同步更新生效日期。">
-        We may update this policy from time to time. We will post the updated version on this page and update the effective date.
-      </p>
-      <a class="toplink" href="#top" data-en="↑ Back to top" data-zh="↑ 返回顶部">↑ Back to top</a>
-    </section>
-
-  </main>
-
 
   <div id="siteFooter">
-   
-<!-- Footer (reuse your site footer if you have one) -->
+   <!-- Footer (reuse your site footer if you have one) -->
    <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
@@ -562,18 +604,16 @@
   </div>
 
   <script>
-    // ✅ 与你现有语言系统兼容：如果页面已有 applyLanguage/refreshLang，会自动调用
+    // 与你现有语言系统兼容：如果页面已有 applyLanguage/refreshLang，会自动调用
     (function () {
       const lang = localStorage.getItem("superedu-lang") === "zh" ? "zh" : "en";
       document.documentElement.lang = lang;
 
-      // 如果你项目有自己的语言函数，就让它接管
       if (typeof window.applyLanguage === "function") {
         window.applyLanguage();
         return;
       }
 
-      // 否则做一个最小 fallback：扫描 data-en / data-zh
       const nodes = document.querySelectorAll("[data-en][data-zh]");
       nodes.forEach(el => {
         el.textContent = (lang === "zh") ? el.getAttribute("data-zh") : el.getAttribute("data-en");
