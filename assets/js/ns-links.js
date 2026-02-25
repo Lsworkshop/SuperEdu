@@ -1,98 +1,71 @@
 (function () {
-  "use strict";
-
-  const STORAGE_KEY = "finova_ns";
-
-  // ===============================
-  // 1️⃣ 读取当前 NS
-  // ===============================
-  function getNsFromPath() {
-    const match = window.location.pathname.match(/^\/(ns[0-9a-z_-]+)(\/|$)/i);
-    if (!match) return null;
-    return match[1].toLowerCase();
-  }
-
-  function saveNs(ns) {
-    if (ns) {
-      sessionStorage.setItem(STORAGE_KEY, ns);
+  // 获取当前 NS ID
+  function getNs() {
+    // 从 URL path 提取 /nsxxxx
+    const m = location.pathname.match(/^\/(ns[0-9A-Za-z_-]+)(\/|$)/);
+    if (m) {
+      sessionStorage.setItem("finova_ns", m[1]);
+      return m[1];
     }
+    // 从 sessionStorage 取
+    return sessionStorage.getItem("finova_ns");
   }
 
-  function getSavedNs() {
-    return sessionStorage.getItem(STORAGE_KEY);
+  // 保存默认演示 NS
+  const DEFAULT_NS = "ns12345";
+
+  // 返回有效的 NS（演示或真实会员）
+  function getValidNs() {
+    return getNs() || DEFAULT_NS;
   }
 
-  // ===============================
-  // 2️⃣ ?ref 启动器 → 强制转成 /nsXXXX/
-  // ===============================
-  function handleRefRedirect() {
-    const params = new URLSearchParams(window.location.search);
-    const ref = params.get("ref");
-    if (!ref) return;
-
-    const ns = ref.toLowerCase();
-    const currentPath = window.location.pathname.toLowerCase();
-
-    // 如果当前路径不是 /nsXXXX/，则跳转
-    if (!currentPath.startsWith(`/${ns}`)) {
-      window.location.replace(`/${ns}/`);
-    }
+  // 给 path 增加 NS 前缀
+  function addNsToPath(path, ns) {
+    if (!ns) return path;
+    if (!path.startsWith("/")) path = "/" + path;
+    if (path === `/${ns}` || path.startsWith(`/${ns}/`)) return path;
+    // 排除接口路径
+    if (path.startsWith("/functions/") || path.startsWith("/api/")) return path;
+    return `/${ns}${path}`;
   }
 
-  // ===============================
-  // 3️⃣ 统一小写路径
-  // ===============================
-  function normalizeCase() {
-    const currentNs = getNsFromPath();
-    if (!currentNs) return;
+  // 重写页面所有 <a href> 和 <form action>
+  function rewriteLinks() {
+    const ns = getValidNs();
 
-    const correctPath = `/${currentNs}/`;
-    if (!window.location.pathname.startsWith(correctPath)) {
-      window.location.replace(correctPath);
-    }
-  }
-
-  // ===============================
-  // 4️⃣ 重写链接
-  // ===============================
-  function shouldSkip(href) {
-    if (!href) return true;
-    if (/^(https?:)?\/\//i.test(href)) return true;
-    if (/^(#|mailto:|tel:)/i.test(href)) return true;
-    if (href.startsWith("/api/") || href.startsWith("/functions/")) return true;
-    return false;
-  }
-
-  function rewriteLinks(ns) {
+    // <a href>
     document.querySelectorAll("a[href]").forEach(a => {
-      const href = a.getAttribute("href");
-      if (shouldSkip(href)) return;
+      let href = a.getAttribute("href");
+      if (!href) return;
+      if (href.startsWith("http://") || href.startsWith("https://")) return;
+      if (href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) return;
+      if (href.startsWith("/functions/") || href.startsWith("/api/")) return;
 
-      let path = href.startsWith("/") ? href : "/" + href;
+      const newHref = addNsToPath(href, ns);
+      if (newHref !== href) a.setAttribute("href", newHref);
+    });
 
-      if (path === `/${ns}` || path.startsWith(`/${ns}/`)) return;
+    // <form action>
+    document.querySelectorAll("form[action]").forEach(f => {
+      let action = f.getAttribute("action");
+      if (!action) return;
+      if (action.startsWith("http://") || action.startsWith("https://")) return;
+      if (action.startsWith("/functions/") || action.startsWith("/api/")) return;
 
-      a.setAttribute("href", `/${ns}${path}`);
+      const newAction = addNsToPath(action, ns);
+      if (newAction !== action) f.setAttribute("action", newAction);
     });
   }
 
-  function rewriteForms(ns) {
-    document.querySelectorAll("form[action]").forEach(form => {
-      const action = form.getAttribute("action");
-      if (shouldSkip(action)) return;
-
-      let path = action.startsWith("/") ? action : "/" + action;
-
-      if (path === `/${ns}` || path.startsWith(`/${ns}/`)) return;
-
-      form.setAttribute("action", `/${ns}${path}`);
-    });
+  // 裸访问 / 时默认跳转到演示 NS
+  function handleRootPath() {
+    if (window.location.pathname === "/" && !getNs()) {
+      window.location.replace(`/${DEFAULT_NS}/`);
+    }
   }
 
-  // ===============================
-  // 5️⃣ 捕获点击（防止动态生成链接丢失 ns）
-  // ===============================
-  function attachClickInterceptor(ns) {
+  // 捕获点击，拦截所有 a，动态处理 NS
+  function captureClicks() {
     document.addEventListener(
       "click",
       function (e) {
@@ -100,39 +73,26 @@
         if (!a) return;
 
         const href = a.getAttribute("href");
-        if (shouldSkip(href)) return;
+        if (!href) return;
+        if (href.startsWith("http://") || href.startsWith("https://")) return;
+        if (href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) return;
 
-        let path = href.startsWith("/") ? href : "/" + href;
+        const ns = getValidNs();
+        const path = href.startsWith("/") ? href : "/" + href;
+        const newPath = addNsToPath(path, ns);
 
-        if (path === `/${ns}` || path.startsWith(`/${ns}/`)) return;
-
-        e.preventDefault();
-        window.location.assign(`/${ns}${path}`);
+        if (newPath !== path) {
+          e.preventDefault();
+          window.location.assign(newPath);
+        }
       },
       true
     );
   }
 
-  // ===============================
-  // 6️⃣ 初始化
-  // ===============================
-  function init() {
-    handleRefRedirect(); // 优先处理 ?ref
-
-    const nsFromPath = getNsFromPath();
-    if (nsFromPath) {
-      saveNs(nsFromPath);
-    }
-
-    const ns = getSavedNs();
-    if (!ns) return;
-
-    normalizeCase();
-
-    rewriteLinks(ns);
-    rewriteForms(ns);
-    attachClickInterceptor(ns);
-  }
-
-  document.addEventListener("DOMContentLoaded", init);
+  document.addEventListener("DOMContentLoaded", () => {
+    handleRootPath();
+    rewriteLinks();
+    captureClicks();
+  });
 })();
