@@ -1,23 +1,18 @@
 (function () {
   const DEFAULT_NS = "ns12345";
 
-  // 从 URL path 或 query 获取 NS
   function getNsFromUrl() {
-    // query string ?ref=NSxxxx
     const urlParams = new URLSearchParams(window.location.search);
     const ref = urlParams.get("ref");
     if (ref && /^ns[0-9A-Za-z_-]+$/.test(ref)) return ref.toLowerCase();
 
-    // path /nsxxxx/
     const m = location.pathname.match(/^\/(ns[0-9A-Za-z_-]+)(\/|$)/);
     if (m) return m[1].toLowerCase();
 
     return null;
   }
 
-  // 获取当前有效 NS
   function getValidNs() {
-    // 优先 sessionStorage
     const stored = sessionStorage.getItem("finova_ns");
     if (stored) return stored;
 
@@ -27,12 +22,10 @@
       return ns;
     }
 
-    // 默认演示 NS
     sessionStorage.setItem("finova_ns", DEFAULT_NS);
     return DEFAULT_NS;
   }
 
-  // 给 path 增加 NS 前缀
   function addNsToPath(path, ns) {
     if (!ns) return path;
     if (!path.startsWith("/")) path = "/" + path;
@@ -41,7 +34,15 @@
     return `/${ns}${path}`;
   }
 
-  // 重写 <a href> 和 <form action>
+  function addNsToQuery(href, ns) {
+    if (!ns) return href;
+    const url = new URL(href, window.location.origin);
+    if (!url.searchParams.get("ref")) {
+      url.searchParams.set("ref", ns.toUpperCase());
+    }
+    return url.pathname + url.search + url.hash;
+  }
+
   function rewriteLinks() {
     const ns = getValidNs();
 
@@ -52,7 +53,7 @@
       if (href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) return;
       if (href.startsWith("/functions/") || href.startsWith("/api/")) return;
 
-      const newHref = addNsToPath(href, ns);
+      const newHref = addNsToQuery(addNsToPath(href, ns), ns);
       if (newHref !== href) a.setAttribute("href", newHref);
     });
 
@@ -62,12 +63,11 @@
       if (action.startsWith("http://") || action.startsWith("https://")) return;
       if (action.startsWith("/functions/") || action.startsWith("/api/")) return;
 
-      const newAction = addNsToPath(action, ns);
+      const newAction = addNsToQuery(addNsToPath(action, ns), ns);
       if (newAction !== action) f.setAttribute("action", newAction);
     });
   }
 
-  // 捕获点击，动态处理 NS
   function captureClicks() {
     document.addEventListener(
       "click",
@@ -82,7 +82,7 @@
 
         const ns = getValidNs();
         const path = href.startsWith("/") ? href : "/" + href;
-        const newPath = addNsToPath(path, ns);
+        const newPath = addNsToQuery(addNsToPath(path, ns), ns);
 
         if (newPath !== path) {
           e.preventDefault();
@@ -93,11 +93,11 @@
     );
   }
 
-  // 根路径处理：默认演示 NS
   function handleRootPath() {
     const ns = getValidNs();
     if (window.location.pathname === "/" && ns === DEFAULT_NS) {
-      window.history.replaceState({}, "", `/${DEFAULT_NS}/`);
+      const newUrl = `/${DEFAULT_NS}/?ref=${ns.toUpperCase()}`;
+      window.history.replaceState({}, "", newUrl);
     }
   }
 
