@@ -1,79 +1,74 @@
 (function () {
-  "use strict";
+  const DEFAULT_NS = "ns12345";
 
-  const STORAGE_KEY = "finova_ns";
+  // 从 URL path 或 query 获取 NS
+  function getNsFromUrl() {
+    // query string ?ref=NSxxxx
+    const urlParams = new URLSearchParams(window.location.search);
+    const ref = urlParams.get("ref");
+    if (ref && /^ns[0-9A-Za-z_-]+$/.test(ref)) return ref.toLowerCase();
 
-  // ============================
-  // 🔥 0️⃣ 最先执行：处理 ?ref
-  // ============================
-  (function handleRefImmediately() {
-    const params = new URLSearchParams(window.location.search);
-    const ref = params.get("ref");
-    if (!ref) return;
+    // path /nsxxxx/
+    const m = location.pathname.match(/^\/(ns[0-9A-Za-z_-]+)(\/|$)/);
+    if (m) return m[1].toLowerCase();
 
-    const ns = ref.toLowerCase();
-    const currentPath = window.location.pathname.toLowerCase();
+    return null;
+  }
 
-    if (!currentPath.startsWith(`/${ns}`)) {
-      window.location.replace(`/${ns}/`);
+  // 获取当前有效 NS
+  function getValidNs() {
+    // 优先 sessionStorage
+    const stored = sessionStorage.getItem("finova_ns");
+    if (stored) return stored;
+
+    const ns = getNsFromUrl();
+    if (ns) {
+      sessionStorage.setItem("finova_ns", ns);
+      return ns;
     }
-  })();
 
-  // ============================
-  // 1️⃣ 读取 ns
-  // ============================
-  function getNsFromPath() {
-    const match = window.location.pathname.match(/^\/(ns[0-9a-z_-]+)(\/|$)/i);
-    if (!match) return null;
-    return match[1].toLowerCase();
+    // 默认演示 NS
+    sessionStorage.setItem("finova_ns", DEFAULT_NS);
+    return DEFAULT_NS;
   }
 
-  function saveNs(ns) {
-    if (ns) sessionStorage.setItem(STORAGE_KEY, ns);
+  // 给 path 增加 NS 前缀
+  function addNsToPath(path, ns) {
+    if (!ns) return path;
+    if (!path.startsWith("/")) path = "/" + path;
+    if (path === `/${ns}` || path.startsWith(`/${ns}/`)) return path;
+    if (path.startsWith("/functions/") || path.startsWith("/api/")) return path;
+    return `/${ns}${path}`;
   }
 
-  function getSavedNs() {
-    return sessionStorage.getItem(STORAGE_KEY);
-  }
+  // 重写 <a href> 和 <form action>
+  function rewriteLinks() {
+    const ns = getValidNs();
 
-  // ============================
-  // 2️⃣ rewrite 逻辑
-  // ============================
-  function shouldSkip(href) {
-    if (!href) return true;
-    if (/^(https?:)?\/\//i.test(href)) return true;
-    if (/^(#|mailto:|tel:)/i.test(href)) return true;
-    if (href.startsWith("/api/") || href.startsWith("/functions/")) return true;
-    return false;
-  }
-
-  function rewriteLinks(ns) {
     document.querySelectorAll("a[href]").forEach(a => {
-      const href = a.getAttribute("href");
-      if (shouldSkip(href)) return;
+      let href = a.getAttribute("href");
+      if (!href) return;
+      if (href.startsWith("http://") || href.startsWith("https://")) return;
+      if (href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) return;
+      if (href.startsWith("/functions/") || href.startsWith("/api/")) return;
 
-      let path = href.startsWith("/") ? href : "/" + href;
+      const newHref = addNsToPath(href, ns);
+      if (newHref !== href) a.setAttribute("href", newHref);
+    });
 
-      if (path === `/${ns}` || path.startsWith(`/${ns}/`)) return;
+    document.querySelectorAll("form[action]").forEach(f => {
+      let action = f.getAttribute("action");
+      if (!action) return;
+      if (action.startsWith("http://") || action.startsWith("https://")) return;
+      if (action.startsWith("/functions/") || action.startsWith("/api/")) return;
 
-      a.setAttribute("href", `/${ns}${path}`);
+      const newAction = addNsToPath(action, ns);
+      if (newAction !== action) f.setAttribute("action", newAction);
     });
   }
 
-  function rewriteForms(ns) {
-    document.querySelectorAll("form[action]").forEach(form => {
-      const action = form.getAttribute("action");
-      if (shouldSkip(action)) return;
-
-      let path = action.startsWith("/") ? action : "/" + action;
-
-      if (path === `/${ns}` || path.startsWith(`/${ns}/`)) return;
-
-      form.setAttribute("action", `/${ns}${path}`);
-    });
-  }
-
-  function attachClickInterceptor(ns) {
+  // 捕获点击，动态处理 NS
+  function captureClicks() {
     document.addEventListener(
       "click",
       function (e) {
@@ -81,33 +76,34 @@
         if (!a) return;
 
         const href = a.getAttribute("href");
-        if (shouldSkip(href)) return;
+        if (!href) return;
+        if (href.startsWith("http://") || href.startsWith("https://")) return;
+        if (href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) return;
 
-        let path = href.startsWith("/") ? href : "/" + href;
+        const ns = getValidNs();
+        const path = href.startsWith("/") ? href : "/" + href;
+        const newPath = addNsToPath(path, ns);
 
-        if (path === `/${ns}` || path.startsWith(`/${ns}/`)) return;
-
-        e.preventDefault();
-        window.location.assign(`/${ns}${path}`);
+        if (newPath !== path) {
+          e.preventDefault();
+          window.location.assign(newPath);
+        }
       },
       true
     );
   }
 
-  // ============================
-  // 3️⃣ 初始化
-  // ============================
-  function init() {
-    const nsFromPath = getNsFromPath();
-    if (nsFromPath) saveNs(nsFromPath);
-
-    const ns = getSavedNs();
-    if (!ns) return;
-
-    rewriteLinks(ns);
-    rewriteForms(ns);
-    attachClickInterceptor(ns);
+  // 根路径处理：默认演示 NS
+  function handleRootPath() {
+    const ns = getValidNs();
+    if (window.location.pathname === "/" && ns === DEFAULT_NS) {
+      window.history.replaceState({}, "", `/${DEFAULT_NS}/`);
+    }
   }
 
-  document.addEventListener("DOMContentLoaded", init);
+  document.addEventListener("DOMContentLoaded", () => {
+    handleRootPath();
+    rewriteLinks();
+    captureClicks();
+  });
 })();
