@@ -1,9 +1,12 @@
-# 默认访问 / 或 /home.html → 保留演示 ns12345
-/ /ns12345/home.html 302
-/home.html /ns12345/home.html 302
+# 默认访问 / 或 /home.html → 演示 ns12345
+/ /home.html 302
 
-# 确保 /ns12345 自动访问 home.html
-/ns12345 /ns12345/home.html 200
+# 静态页面直接映射
+/home.html  /home.html 200
+/scholarship  /scholarship 200
+/apply  /apply 200
+/membership.html  /membership.html 200
+/privacy.html  /privacy.html 200
+/donation.html  /donation.html 200
 
-# 静态页面匹配规则，保持 ns12345 路径
-/ns12345/* /ns12345/:splat 200
+# 不再强制 /ns12345 路径
