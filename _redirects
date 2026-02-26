@@ -1,12 +1,4 @@
 # 默认访问 / 或 /home.html → 演示 ns12345
 / /home.html 302
 
-# 静态页面直接映射
-/home.html  /home.html 200
-/scholarship  /scholarship 200
-/apply  /apply 200
-/membership.html  /membership.html 200
-/privacy.html  /privacy.html 200
-/donation.html  /donation.html 200
-
 # 不再强制 /ns12345 路径
