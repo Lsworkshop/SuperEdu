@@ -1,34 +1,56 @@
 (function () {
-  const DEFAULT_NS = "NS12345";
+  "use strict";
 
+  const DEFAULT_NS = "NS12345";
+  const STORAGE_KEY = "finova_ns";
+
+  // ===============================
+  // 1️⃣ 读取 URL 中的 ?ref=NSxxxx
+  // ===============================
   function getNsFromUrl() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const ref = urlParams.get("ref");
-    if (ref && /^NS[0-9A-Za-z_-]+$/i.test(ref)) return ref.toUpperCase();
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get("ref");
+    if (ref && /^NS[0-9A-Za-z_-]+$/i.test(ref)) {
+      return ref.toUpperCase();
+    }
     return null;
   }
 
-  function getStoredNs() {
+  // ===============================
+  // 2️⃣ 获取当前有效 NS
+  // 优先级：
+  // URL > sessionStorage > 默认演示
+  // ===============================
+  function getCurrentNs() {
     const fromUrl = getNsFromUrl();
+
     if (fromUrl) {
-      sessionStorage.setItem("finova_ns", fromUrl);
+      sessionStorage.setItem(STORAGE_KEY, fromUrl);
       return fromUrl;
     }
 
-    const stored = sessionStorage.getItem("finova_ns");
-    if (stored) return stored.toUpperCase();
+    const stored = sessionStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      return stored.toUpperCase();
+    }
 
-    sessionStorage.setItem("finova_ns", DEFAULT_NS);
+    sessionStorage.setItem(STORAGE_KEY, DEFAULT_NS);
     return DEFAULT_NS;
   }
 
-  function addNsToUrl(href, ns) {
-    if (!ns) return href;
+  // ===============================
+  // 3️⃣ 给链接添加 ?ref=NSxxxx
+  // 保留 hash (#home)
+  // 不覆盖已有 ref
+  // ===============================
+  function addRefToUrl(href, ns) {
+    if (!href) return href;
 
-    // 如果 href 是完整 URL
+    // 忽略外部链接
+    if (/^(https?:|mailto:|tel:)/i.test(href)) return href;
+
     const url = new URL(href, window.location.origin);
 
-    // 已有 ref 就不覆盖
     if (!url.searchParams.get("ref")) {
       url.searchParams.set("ref", ns);
     }
@@ -36,47 +58,87 @@
     return url.pathname + url.search + url.hash;
   }
 
-  function rewriteLinksAndForms() {
-    const ns = getStoredNs();
+  // ===============================
+  // 4️⃣ 重写所有内部链接和表单
+  // ===============================
+  function rewriteAllLinks() {
+    const ns = getCurrentNs();
 
-    document.querySelectorAll("a[href]").forEach(a => {
-      const href = a.getAttribute("href");
-      if (!href) return;
-      if (/^(http|mailto|tel)/.test(href)) return;
+    // 处理 <a>
+    document.querySelectorAll("a[href]").forEach((a) => {
+      const original = a.getAttribute("href");
+      if (!original) return;
 
-      a.setAttribute("href", addNsToUrl(href, ns));
+      const updated = addRefToUrl(original, ns);
+      if (updated !== original) {
+        a.setAttribute("href", updated);
+      }
     });
 
-    document.querySelectorAll("form[action]").forEach(f => {
-      const action = f.getAttribute("action");
-      if (!action) return;
-      if (/^(http|mailto|tel)/.test(action)) return;
+    // 处理 <form>
+    document.querySelectorAll("form[action]").forEach((form) => {
+      const original = form.getAttribute("action");
+      if (!original) return;
 
-      f.setAttribute("action", addNsToUrl(action, ns));
+      const updated = addRefToUrl(original, ns);
+      if (updated !== original) {
+        form.setAttribute("action", updated);
+      }
     });
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    rewriteLinksAndForms();
-
+  // ===============================
+  // 5️⃣ 捕获点击，防止跳转丢 ref
+  // ===============================
+  function enableClickInterceptor() {
     document.addEventListener(
       "click",
-      e => {
-        const a = e.target.closest && e.target.closest("a");
-        if (!a) return;
+      function (e) {
+        const link = e.target.closest("a");
+        if (!link) return;
 
-        const href = a.getAttribute("href");
+        const href = link.getAttribute("href");
         if (!href) return;
-        if (/^(http|mailto|tel)/.test(href)) return;
+        if (/^(https?:|mailto:|tel:)/i.test(href)) return;
 
-        const ns = getStoredNs();
-        const newHref = addNsToUrl(href, ns);
-        if (newHref !== href) {
+        const ns = getCurrentNs();
+        const updated = addRefToUrl(href, ns);
+
+        if (updated !== href) {
           e.preventDefault();
-          window.location.assign(newHref);
+          window.location.assign(updated);
         }
       },
       true
     );
+  }
+
+  // ===============================
+  // 6️⃣ 如果首页没有 ?ref
+  // 自动补上（演示或真实）
+  // ===============================
+  function ensureRefInAddressBar() {
+    const ns = getCurrentNs();
+    const params = new URLSearchParams(window.location.search);
+
+    if (!params.get("ref")) {
+      params.set("ref", ns);
+      const newUrl =
+        window.location.pathname +
+        "?" +
+        params.toString() +
+        window.location.hash;
+
+      window.history.replaceState({}, "", newUrl);
+    }
+  }
+
+  // ===============================
+  // 7️⃣ 初始化
+  // ===============================
+  document.addEventListener("DOMContentLoaded", function () {
+    ensureRefInAddressBar();
+    rewriteAllLinks();
+    enableClickInterceptor();
   });
 })();
