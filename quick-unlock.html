@@ -532,87 +532,85 @@
      Form submit
   ========================= */
   form?.addEventListener("submit", async function (e) {
-  e.preventDefault();
-  clearLegacyStatus();
+    e.preventDefault();
+    clearLegacyStatus();
 
-  const lang = getLang();
+    const lang = getLang();
 
-  const firstName = document.getElementById("q-first")?.value.trim();
-  const lastName  = document.getElementById("q-last")?.value.trim();
-  const email     = document.getElementById("q-email")?.value.trim();
+    const firstName = document.getElementById("q-first")?.value.trim();
+    const lastName  = document.getElementById("q-last")?.value.trim();
+    const email     = document.getElementById("q-email")?.value.trim();
+    const referral_code =  document.getElementById("referral_code")?.value.trim() || null;
 
-  if (!firstName || !lastName || !email) {
-    toast(lang === "zh" ? MSG.fillRequired.zh : MSG.fillRequired.en, "err");
-    return;
-  }
-  if (!emailPattern.test(email)) {
-    toast(lang === "zh" ? MSG.invalidEmail.zh : MSG.invalidEmail.en, "err");
-    return;
-  }
-
-  // 这里获取 referral_code：优先用用户填写的 input.value，如果为空则用 sessionStorage 的真实会员ID
-  const referralInput = document.getElementById("referral_code");
-  let referral_code = referralInput?.value.trim();
-  if (!referral_code) {
-    referral_code = sessionStorage.getItem("finova_ns") || "ns12345";
-  }
-
-  toast(lang === "zh" ? MSG.submitting.zh : MSG.submitting.en, "info", 1400);
-
-  try {
-    // 1) Optional: check-auth
-    let already = false;
-    try {
-      const chk = await fetch("/api/check-auth", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      if (chk.ok) {
-        const j = await chk.json();
-        if (j.exists) {
-          already = true;
-          localStorage.setItem("edu_unlocked_token", JSON.stringify({ email, ts: Date.now() }));
-          localStorage.setItem("snovaRole", "quick");
-          toast(lang === "zh" ? MSG.alreadyUnlocked.zh : MSG.alreadyUnlocked.en, "ok", 2400);
-          enterBtn.style.display = "inline-block";
-        }
-      }
-    } catch (err) {
-      // optional check-auth failure ignored
+    if (!firstName || !lastName || !email) {
+      toast(lang === "zh" ? MSG.fillRequired.zh : MSG.fillRequired.en, "err");
+      return;
     }
-
-    if (already) return;
-
-    // 2) call /api/unlock to persist
-    const res = await fetch("/api/unlock", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ firstName, lastName, email, referral_code }),
-    });
-
-    const out = await res.json().catch(() => ({}));
-
-    if (!res.ok) {
-      const msg = out.error || out.message || (lang === "zh" ? MSG.submitFailed.zh : MSG.submitFailed.en);
-      toast(msg, "err", 4200);
+    if (!emailPattern.test(email)) {
+      toast(lang === "zh" ? MSG.invalidEmail.zh : MSG.invalidEmail.en, "err");
       return;
     }
 
-    // success -> set token locally
-    localStorage.setItem("edu_unlocked_token", JSON.stringify({ email, ts: Date.now() }));
-    localStorage.setItem("snovaRole", "quick");
+    toast(lang === "zh" ? MSG.submitting.zh : MSG.submitting.en, "info", 1400);
 
-    toast(lang === "zh" ? MSG.unlockedRedirecting.zh : MSG.unlockedRedirecting.en, "ok", 2200);
-    enterBtn.style.display = "inline-block";
+    try {
+      // 1) Optional: check-auth
+      let already = false;
+      try {
+        const chk = await fetch("/api/check-auth", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+        if (chk.ok) {
+          const j = await chk.json();
+          if (j.exists) {
+            already = true;
 
-    setTimeout(() => window.location.assign("/education.html"), 900);
+            // set local token
+            localStorage.setItem("edu_unlocked_token", JSON.stringify({ email, ts: Date.now() }));
+            localStorage.setItem("snovaRole", "quick");
 
-  } catch (err) {
-    console.error(err);
-    toast(lang === "zh" ? MSG.submitFailedRetry.zh : MSG.submitFailedRetry.en, "err", 4500);
-  }
-});
+            toast(lang === "zh" ? MSG.alreadyUnlocked.zh : MSG.alreadyUnlocked.en, "ok", 2400);
+            enterBtn.style.display = "inline-block";
+          }
+        }
+      } catch (err) {
+        // optional check-auth failure ignored
+      }
+
+      if (already) return;
+
+      // 2) call /api/unlock to persist
+      const res = await fetch("/api/unlock", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ firstName, lastName, email, referral_code: document.getElementById("referral_code")?.value.trim() || null }),
+      });
+
+      const out = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        const msg = out.error || out.message || (lang === "zh" ? MSG.submitFailed.zh : MSG.submitFailed.en);
+        toast(msg, "err", 4200);
+        return;
+      }
+
+      // success -> set token locally
+      localStorage.setItem("edu_unlocked_token", JSON.stringify({ email, ts: Date.now() }));
+      localStorage.setItem("snovaRole", "quick");
+
+      toast(lang === "zh" ? MSG.unlockedRedirecting.zh : MSG.unlockedRedirecting.en, "ok", 2200);
+      enterBtn.style.display = "inline-block";
+
+      // small delay then go to Education Center
+      setTimeout(() => window.location.assign("/education.html"), 900);
+    } catch (err) {
+      console.error(err);
+      toast(lang === "zh" ? MSG.submitFailedRetry.zh : MSG.submitFailedRetry.en, "err", 4500);
+    }
+  });
+
   /* =========================
      Keep your original mobile menu button behaviors
   ========================= */

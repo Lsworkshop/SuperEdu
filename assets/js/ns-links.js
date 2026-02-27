@@ -150,108 +150,28 @@
 })();
 
 
-(function () {
-  // ---------------------------
-  // 获取当前 NS
-  // ---------------------------
-  function getNs() {
-    const m = location.pathname.match(/^\/(ns[0-9A-Za-z_-]+)(\/|$)/);
-    if (m) {
-      sessionStorage.setItem("finova_ns", m[1]);
-      return m[1];
-    }
-    return sessionStorage.getItem("finova_ns");
-  }
-
-  // ---------------------------
-  // 给所有内部链接和表单增加 NS 路径
-  // ---------------------------
-  function addNsToPath(path, ns) {
-    if (!ns) return path;
-    if (!path.startsWith("/")) return path;
-    if (path === `/${ns}` || path.startsWith(`/${ns}/`)) return path;
-    // 排除接口路径
-    if (path.startsWith("/functions/") || path.startsWith("/api/")) return path;
-    return `/${ns}${path}`;
-  }
-
-  function rewriteLinks() {
-    const ns = getNs();
-    if (!ns) return;
-
-    // 修改 <a href>
-    document.querySelectorAll("a[href]").forEach(a => {
-      const href = a.getAttribute("href");
-      if (!href) return;
-      if (href.startsWith("http://") || href.startsWith("https://")) return;
-      if (href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) return;
-
-      const path = href.startsWith("/") ? href : "/" + href;
-      if (path === `/${ns}` || path.startsWith(`/${ns}/`)) return;
-      if (path.startsWith("/functions/") || path.startsWith("/api/")) return;
-
-      a.setAttribute("href", addNsToPath(path, ns));
-    });
-
-    // 修改 <form action>
-    document.querySelectorAll("form[action]").forEach(f => {
-      const action = f.getAttribute("action");
-      if (!action) return;
-      if (action.startsWith("http://") || action.startsWith("https://")) return;
-
-      const path = action.startsWith("/") ? action : "/" + action;
-      if (path.startsWith(`/${ns}/`) || path === `/${ns}`) return;
-      if (path.startsWith("/functions/") || path.startsWith("/api/")) return;
-
-      f.setAttribute("action", addNsToPath(path, ns));
-    });
-  }
-
-  // 捕获 a 点击，支持动态生成的链接
-  document.addEventListener(
-    "click",
-    function (e) {
-      const a = e.target.closest && e.target.closest("a");
-      if (!a) return;
-
-      const href = a.getAttribute("href");
-      if (!href) return;
-      if (href.startsWith("http://") || href.startsWith("https://")) return;
-      if (href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) return;
-
-      const ns = getNs();
-      if (!ns) return;
-
-      const path = href.startsWith("/") ? href : "/" + href;
-      const newPath = addNsToPath(path, ns);
-      if (newPath !== path) {
-        e.preventDefault();
-        window.location.assign(newPath);
-      }
-    },
-    true
-  );
-
-  document.addEventListener("DOMContentLoaded", rewriteLinks);
-})();
-
 // =========================================================
-// 替换表单中 Promotion Code / Referral Code 显示
+// 自动把表单中显示的 Promotion Code / Referral Code 替换成真实会员ID
 // =========================================================
 document.addEventListener("DOMContentLoaded", () => {
+  // 获取真实会员ID
   const nsId = (function() {
     const m = location.pathname.match(/^\/(ns[0-9A-Za-z_-]+)/);
     if (m) return m[1];
     return sessionStorage.getItem("finova_ns") || "ns12345";
   })();
 
-  // 1️⃣ 修改 placeholder / data-en / data-zh，**不覆盖用户输入**
-  document.querySelectorAll('input[name="ref"], input[placeholder*="NS12345"], input[name="referral_code"]').forEach(input => {
-    // placeholder 替换
+  // 1️⃣ 替换所有 input placeholder / value 中的虚拟推荐码 NS12345
+  document.querySelectorAll('input[name="referralCode"], input[placeholder*="NS12345"]').forEach(input => {
+    // 如果用户还没输入任何内容，就显示真实会员ID
+    if (!input.value) {
+      input.value = nsId;           // 设置实际显示的 value
+    }
+    // 替换 placeholder 里的 NS12345
     if (input.placeholder.includes("NS12345")) {
       input.placeholder = input.placeholder.replace("NS12345", nsId);
     }
-    // data-en / data-zh 替换
+    // 如果有 data-en / data-zh 属性也替换
     if (input.dataset.en && input.dataset.en.includes("NS12345")) {
       input.dataset.en = input.dataset.en.replace("NS12345", nsId);
     }
@@ -260,7 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 2️⃣ 修改 <label> 显示文本
+  // 2️⃣ 可选：替换 <label> 中显示的 NS12345
   document.querySelectorAll('label[data-en][data-zh]').forEach(label => {
     if (label.dataset.en.includes("NS12345")) {
       label.dataset.en = label.dataset.en.replace("NS12345", nsId);
