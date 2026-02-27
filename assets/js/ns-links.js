@@ -162,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
   })();
 
   // 1️⃣ 替换所有 input placeholder / value 中的虚拟推荐码 NS12345
-  document.querySelectorAll('input[name="ref"], input[placeholder*="NS12345"]').forEach(input => {
+  document.querySelectorAll('input[name="referral_code"], input[placeholder*="NS12345"]').forEach(input => {
     // 如果用户还没输入任何内容，就显示真实会员ID
     if (!input.value) {
       input.value = nsId;           // 设置实际显示的 value
