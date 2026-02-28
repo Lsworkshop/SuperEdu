@@ -531,6 +531,8 @@
   /* =========================
      Form submit
   ========================= */
+  console.log("Submitting referral_code:", referral_code);
+
   form?.addEventListener("submit", async function (e) {
     e.preventDefault();
     clearLegacyStatus();
@@ -585,7 +587,7 @@
       const res = await fetch("/api/unlock", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ firstName, lastName, email, referral_code: document.getElementById("referral_code")?.value.trim() || null }),
+        body: JSON.stringify({ firstName, lastName, email, referral_code }),
       });
 
       const out = await res.json().catch(() => ({}));
