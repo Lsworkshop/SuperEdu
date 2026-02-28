@@ -1727,6 +1727,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const firstName = (document.getElementById("c-first")?.value || "").trim();
     const lastName  = (document.getElementById("c-last")?.value || "").trim();
     const email     = (document.getElementById("c-email")?.value || "").trim();
+    const refcode   = (document.getElementById("c-code")?.value || "").trim();
     const phone     = (document.getElementById("c-phone")?.value || "").trim();
     const gradYear  = (document.getElementById("c-grad")?.value || "").trim();
     const message   = (document.getElementById("c-message")?.value || "").trim();
@@ -1760,6 +1761,7 @@ document.addEventListener("DOMContentLoaded", () => {
           firstName,
           lastName,
           email,
+          refcode,
           phone,
           gradYear,
           message,
