@@ -1145,7 +1145,7 @@ document.addEventListener("DOMContentLoaded", () => {
   required
   placeholder="Email / 邮箱"
 />
-  <input id="r-ref" name="ref" type="text" placeholder="Promotion Code/优惠码 NS12345" />
+  <input id="r-referral_code" name="referral_code" type="text" placeholder="Promotion Code/优惠码 NS12345" />
 <div id="uEmailStatus" class="field-hint"></div>
 
 
@@ -1175,6 +1175,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const firstEl   = document.getElementById("u-first");
   const lastEl    = document.getElementById("u-last");
   const emailEl   = document.getElementById("u-email");
+  const referral_code =  document.getElementById("referral_code")?.value.trim() || null;
 
   const emailHint = document.getElementById("uEmailStatus"); // 你新加的 div
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -1250,7 +1251,7 @@ document.addEventListener("DOMContentLoaded", () => {
         firstName: firstVal,
         lastName: lastVal,
         email: emailVal,
-        source: "quick_unlock",
+        referral_code,
         created_at: new Date().toISOString()
       };
 
