@@ -190,3 +190,37 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+// =========================================================
+// 3️⃣ 自动记录 NS 点击（解耦表单提交）
+// =========================================================
+document.addEventListener("DOMContentLoaded", () => {
+  // 获取真实会员ID
+  const nsId = (function() {
+    const m = location.pathname.match(/^\/(ns[0-9A-Za-z_-]+)/);
+    if (m) return m[1];
+    return sessionStorage.getItem("finova_ns") || "ns12345";
+  })();
+
+  if (!nsId) return;
+
+  // 捕获当前来源（可以是 URL 参数或默认）
+  const urlParams = new URLSearchParams(window.location.search);
+  const source = urlParams.get("source") || "ns_partner";
+
+  // 立即发送到 /api/ns-click 记录
+  fetch("/api/ns-click", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      ns_id: nsId,
+      source,
+      timestamp: new Date().toISOString(),
+      user_agent: navigator.userAgent,
+      page_path: window.location.pathname
+    })
+  })
+  .then(res => res.json())
+  .then(data => console.log("NS click recorded:", data))
+  .catch(err => console.error("NS click record failed:", err));
+});
