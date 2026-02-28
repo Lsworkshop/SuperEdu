@@ -912,10 +912,10 @@
 <div id="rEmailStatus" class="field-hint"></div>
 
 
-          <label for="refVal" data-en="Promotion Code (optional)" data-zh="优惠码（可选）">
+          <label for="referralCode" data-en="Promotion Code (optional)" data-zh="优惠码（可选）">
             Referral code (optional)
           </label>
-          <input id="refVal" name="referralCode" type="text" placeholder="NS12345" />
+          <input id="referralCode" name="referralCode" type="text" placeholder="NS12345" />
           <div class="form-actions">
             
             <button type="submit" class="btn btn-primary join-btn">
@@ -1062,6 +1062,7 @@ document.addEventListener("DOMContentLoaded", () => {
         lastName: last,
         email: email,
         referralCode: refVal,
+        createdAt: new Date().toISOString()
       };
 
       fetch("/api/register", {
@@ -1254,7 +1255,7 @@ document.addEventListener("DOMContentLoaded", () => {
         lastName: lastVal,
         email: emailVal,
         referral_code: referralVal,   // ✅ 用最新值
-        created_at: new Date().toISOString()
+        created_At: new Date().toISOString()
       };
 
       const res = await fetch("/api/unlock", {
