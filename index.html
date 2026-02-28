@@ -915,7 +915,7 @@
           <label for="r-ref" data-en="Promotion Code (optional)" data-zh="优惠码（可选）">
             Referral code (optional)
           </label>
-          <input id="r-ref" name="ref" type="text" placeholder="NS12345" />
+          <input id="refVal" name="referralCode" type="text" placeholder="NS12345" />
           <div class="form-actions">
             
             <button type="submit" class="btn btn-primary join-btn">
@@ -1039,6 +1039,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const first = (document.getElementById("r-first")?.value || "").trim();
     const last  = (document.getElementById("r-last")?.value || "").trim();
     const email = (document.getElementById("r-email")?.value || "").trim();
+    const refVal = document.getElementById("referral_code")?.value.trim() || null;
 
     // ① 必填校验
     if (!first || !last || !email) {
@@ -1060,7 +1061,7 @@ document.addEventListener("DOMContentLoaded", () => {
         firstName: first,
         lastName: last,
         email: email,
-        referralCode: null
+        referralCode: refVal,
       };
 
       fetch("/api/register", {
@@ -1145,7 +1146,7 @@ document.addEventListener("DOMContentLoaded", () => {
   required
   placeholder="Email / 邮箱"
 />
-  <input id="referral_code" name="referral_code" type="text" placeholder="Promotion Code/优惠码 NS12345" />
+  <input id="referralVal" name="referral_code" type="text" placeholder="Promotion Code/优惠码 NS12345" />
 <div id="uEmailStatus" class="field-hint"></div>
 
 
