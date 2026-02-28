@@ -1175,7 +1175,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const firstEl   = document.getElementById("u-first");
   const lastEl    = document.getElementById("u-last");
   const emailEl   = document.getElementById("u-email");
-  const referral_code =  document.getElementById("referral_code")?.value.trim() || null;
 
   const emailHint = document.getElementById("uEmailStatus"); // 你新加的 div
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -1232,6 +1231,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const firstVal = firstEl.value.trim();
     const lastVal  = lastEl.value.trim();
     const emailVal = emailEl.value.trim();
+ // 👇 在这里读取最新值
+    const referralVal = document.getElementById("referral_code")?.value.trim() || null;
 
     if (!firstVal || !lastVal || !emailVal) {
       window.showToast?.({ key: "required", type: "error" });
@@ -1251,7 +1252,7 @@ document.addEventListener("DOMContentLoaded", () => {
         firstName: firstVal,
         lastName: lastVal,
         email: emailVal,
-        referral_code,
+        referral_code: referralVal,   // ✅ 用最新值
         created_at: new Date().toISOString()
       };
 
