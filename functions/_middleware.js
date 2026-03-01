@@ -8,7 +8,7 @@ export async function onRequest(context) {
   // 防止已在 app 域名上时重复跳转
   if (isMobile && !url.hostname.includes("cfsapp")) {
     const redirectUrl = new URL(url.toString());
-    redirectUrl.hostname = "cfsapp.lsfinova.com";
+    redirectUrl.hostname = "cfsapp.finovawm.com";
 
     return Response.redirect(redirectUrl.toString(), 302);
   }
